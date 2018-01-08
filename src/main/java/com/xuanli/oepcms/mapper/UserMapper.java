@@ -1,7 +1,9 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -20,4 +22,17 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user")
     List<User> find();
+    
+    
+    
+    @Select("SELECT * FROM xl_user")
+    List<User> findUser(String username,String password);
+    
+    @Insert("INSERT INTO xl_user (id,`username`,`school_id`,`clas_id`,`mobile`,`captcha`,`password`,`create_date`," + 
+    		"			`update_date`,`create_id`,`update_id`)" + 
+    		"		VALUES(" + 
+    		"		#{id},#{username},#{school_id},#{clas_id},#{mobile},#{captcha},#{password},#{create_date}," + 
+    		"			#{update_date},#{create_id},#{update_id})")
+    int insert(User user);
+    
 }

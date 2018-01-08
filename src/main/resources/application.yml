@@ -26,6 +26,7 @@ jdbc:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
 
+
 # 日志输出
 logging:
   level: 

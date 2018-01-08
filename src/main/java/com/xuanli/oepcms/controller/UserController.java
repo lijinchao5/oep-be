@@ -33,4 +33,17 @@ public class UserController extends BaseController {
     public RestResult<User> findByName(@RequestParam("name") String name) {
         return ok(userService.findByName(name));
     }
+    
+    /**保存用户信息*/
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public RestResult<Integer> insert(User user){
+    	return new RestResult<>();
+    }
+    
+    /**用户登录*/
+    @RequestMapping(value = "findUser", method = RequestMethod.GET)
+    public RestResult<List<User>> findUser(String username,String password) {
+        return ok(userService.findUser(username, password));
+    }
+    
 }
