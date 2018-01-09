@@ -12,7 +12,7 @@ public class User implements Serializable {
 	
     private static final long serialVersionUID = 1L;
     
-    private long id;
+    private Integer id;
     /**用户名*/
     private String username;
     private String password;
@@ -20,23 +20,25 @@ public class User implements Serializable {
     /**性别*/
     private String gender;
     /**校区id*/
-    private String school_id;
+    private String schoolId;
     /**班级id*/
-    private String clas_id;
+    private String clasId;
     /**手机号*/
     private String mobile;
+    /**盐值*/
+    private String salt;
     /**验证码*/
     private String captcha;
     /**新增用户*/
-	private String create_id;
+	private String createId;
 	/**新增时间*/
-	private Date create_date;
+	private Date createDate;
 	/**更新用户*/
-	private String update_id;
+	private String updateId;
 	/**更新时间*/
-	private Date update_date;
+	private Date updateDate;
 	/**状态*/
-	private String enable_falg;
+	private String enableFlag;
 	
     public User() {
     }
@@ -48,30 +50,32 @@ public class User implements Serializable {
         this.password = user.getPassword();
         this.desc = user.getDesc();
         this.gender = user.getGender();
-        this.school_id = user.getSchool_id();
-        this.clas_id = user.getClas_id();
+        this.schoolId = user.getSchoolId();
+        this.clasId = user.getClasId();
         this.mobile = user.getMobile();
+        this.salt = user.getSalt();
         this.captcha = user.getCaptcha();
-        this.create_id = user.getCreate_id();
-        this.create_date = user.getCreate_date();
-        this.update_id = user.getCreate_id();
-        this.update_date = user.getUpdate_date();
-        this.enable_falg = user.getEnable_falg();
+        this.createId = user.getCreateId();
+        this.createDate = user.getCreateDate();
+        this.updateId = user.getCreateId();
+        this.updateDate = user.getUpdateDate();
+        this.enableFlag = user.getEnableFlag();
     }
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", desc=" + desc + ", gender="
-				+ gender + ", school_id=" + school_id + ", clas_id=" + clas_id + ", mobile=" + mobile + ", captcha="
-				+ captcha + ", create_id=" + create_id + ", create_date=" + create_date + ", update_id=" + update_id
-				+ ", update_date=" + update_date + ", enable_falg=" + enable_falg + "]";
+				+ gender + ", schoolId=" + schoolId + ", clasId=" + clasId + ", mobile=" + mobile + ", salt=" + salt
+				+ ", captcha=" + captcha + ", createId=" + createId + ", createDate=" + createDate + ", updateId="
+				+ updateId + ", updateDate=" + updateDate + ", enableFlag=" + enableFlag + "]";
 	}
+
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -84,7 +88,10 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

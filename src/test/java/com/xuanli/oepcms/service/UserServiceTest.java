@@ -26,6 +26,7 @@ public class UserServiceTest extends BaseTest {
         user.setUsername("test" + UUID.randomUUID().toString());
         user.setDesc("test desc");
         user.setPassword("password");
+        user.setMobile("18011111111");
         userService.add(user);
 
         User addedUser = userService.findByName(user.getUsername());
@@ -40,31 +41,23 @@ public class UserServiceTest extends BaseTest {
     
     @Test
     public void save() {
- 
+    	
     	User user = new User();
-    	user.setId(2);
+    	user.setId(9);
     	user.setUsername("lisi");
-    	user.setSchool_id("1111");
-    	user.setClas_id("1.1");
+    	user.setSchoolId("1111");
+    	user.setClasId("11");
     	user.setMobile("18611111111");
     	user.setCaptcha("6666");
     	user.setPassword("123");
-    	user.setCreate_id("1");
-    	user.setUpdate_id("1");
+    	user.setCreateId("1");
+    	user.setUpdateId("1");
+    	userService.saveUser(user, "5");
     	System.out.println(user);
         
-        assertThat(user.getId(), notNullValue());
-        assertThat(user.getUsername(), notNullValue());
-    }
-    
-//    @Test
-//    public void findUser() {
-//    	User user = new User();
-//    	List<User> list = userService.findUser(user.setUsername("zhangsan"), user.setPassword("123456"));
-//    	System.out.println(list);
-//    	
 //        assertThat(user.getId(), notNullValue());
 //        assertThat(user.getUsername(), notNullValue());
-//    }
+    }
     
+
 }

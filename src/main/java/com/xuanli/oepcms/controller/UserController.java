@@ -25,25 +25,22 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public RestResult<User> findById(@PathVariable long id) {
+    public RestResult<User> findById(@PathVariable Integer id) {
         return ok(userService.findById(id));
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public RestResult<User> findByName(@RequestParam("name") String name) {
+    public RestResult<User> findByName(@RequestParam("username") String name) {
         return ok(userService.findByName(name));
     }
     
     /**保存用户信息*/
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public RestResult<Integer> insert(User user){
-    	return new RestResult<>();
+    public RestResult<User> doSave(User user,String roleIds){
+    	userService.saveUser(user);
+    	return new RestResult<User>();
     }
     
-    /**用户登录*/
-    @RequestMapping(value = "findUser", method = RequestMethod.GET)
-    public RestResult<List<User>> findUser(String username,String password) {
-        return ok(userService.findUser(username, password));
-    }
+    
     
 }
