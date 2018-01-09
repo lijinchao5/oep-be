@@ -41,7 +41,7 @@ public class UserService {
     public List<User> findUser(String username,String password){
     	User user = new User();
 		//1.验证用户名和密码
-		if(username.equals(user.getUsername())==false||password.equals(user.getPassword())==false){
+		if(!username.equals(user.getUsername())||!password.equals(user.getPassword())){
 			throw new ServiceException("用户名或密码不正确");
 		}
 		//2.查找数据
