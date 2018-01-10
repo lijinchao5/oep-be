@@ -1,88 +1,34 @@
 package com.xuanli.oepcms.service;
 
 import java.util.List;
-import java.util.UUID;
-
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.Map;
 
 import com.xuanli.oepcms.entity.User;
-import com.xuanli.oepcms.exception.ServiceException;
-import com.xuanli.oepcms.mapper.UserMapper;
-import com.xuanli.oepcms.mapper.UserRoleMapper;
-import com.xuanli.oepcms.util.PasswordUtil;
 
-
-
-@Service
-public class UserService {
-    @Autowired
-    private UserMapper userMapper;
-    
-    @Autowired
-    private UserRoleMapper userRoleMapper;
-    
-    public void add(User user) {
-        // 需要对密码加密，但不想修改传递过来的user参数，所以拷贝一份
-        User copyedUser = new User(user);
-        copyedUser.setPassword(PasswordUtil.generate(copyedUser.getPassword()));
-
-        userMapper.add(copyedUser);
-    }
-
-    public User findById(Integer id) {
-        return userMapper.findById(id);
-    }
-
-    public User findByName(String name) {
-        return userMapper.findByName(name);
-    }
-
-    public List<User> find() {
-        return userMapper.find();
-    }
-    
-    
-    /** 保存用户信息，先保存用户，再保存用户角色关系*/
-    @Transactional
-	public int saveUser(User user) {
-		if(user==null){
-			throw new ServiceException("保存用户信息，用户对象不能为空！");
-		}
-        // 需要对密码加密，但不想修改传递过来的user参数，所以拷贝一份
-        User copyedUser = new User(user);
-        copyedUser.setPassword(PasswordUtil.generate(copyedUser.getPassword()));
-		System.out.println(copyedUser);
-		//保存用户信息
-		int count = userMapper.insert(copyedUser);
-		System.out.println(count);
-		if(count==-1)
-		throw new ServiceException("保存用户信息失败！");
-//		//保存用户角色信息
-//		String[] roleIdArray=roleIds.split(",");
-//		int counts = userRoleMapper.insertUser(user.getId(),roleIdArray);
-//		if(counts!=roleIdArray.length)
-//		throw new ServiceException("保存用户角色失败！");
-		return count;
-	}
-    
-	public static void main(String[] args) {
-		UserService u = new UserService();
-    	User user = new User();
-    	user.setId(9);
-    	user.setUsername("lisi");
-    	user.setSchoolId("1111");
-    	user.setClasId("11");
-    	user.setMobile("18611111111");
-    	user.setCaptcha("6666");
-    	user.setPassword("123");
-    	user.setCreateId("1");
-    	user.setUpdateId("1");
-    	System.out.println(user);
-    	int i =u.saveUser(user);
-    	System.out.println(i);
-	}
+public interface UserService {
+	/**分页查询*/
+	Map<String, Object> findByPage(String username, 
+			Integer currentPage);
+	
+	/**保存数据*/
+	void saveUser(User user,String roleIds);
+	
+	/**根据id查询用户*/
+	Map<String,Object> findUserById(Integer userId);
+	
+	/**修改用户*/
+	void updateUser(User user,String roleIds);
+	
+	/**用户状态*/
+	void validById(Integer userId, Integer valid);
+	
+	/**查询用户权限*/
+	List<String> findUserPermission(Integer userId);
+	
+	/**查询用户菜单*/
+	List<Map<String,Object>> findUserMenu(Integer userId);
+	
+	/**查询角色*/
+	List<Map<String, Object>> findRole();
+	
 }

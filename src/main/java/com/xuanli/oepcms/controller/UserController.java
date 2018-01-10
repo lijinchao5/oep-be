@@ -18,27 +18,27 @@ import com.xuanli.oepcms.vo.RestResult;
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
-
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public RestResult<List<User>> find() {
-        return ok(userService.find());
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public RestResult<User> findById(@PathVariable Integer id) {
-        return ok(userService.findById(id));
-    }
-
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public RestResult<User> findByName(@RequestParam("username") String name) {
-        return ok(userService.findByName(name));
-    }
     
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public RestResult<List<User>> find() {
+//        return ok(userService.find());
+//    }
+//
+//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//    public RestResult<User> findById(@PathVariable Integer id) {
+//        return ok(userService.findById(id));
+//    }
+//
+//    @RequestMapping(value = "/search", method = RequestMethod.GET)
+//    public RestResult<User> findByName(@RequestParam("username") String name) {
+//        return ok(userService.findByName(name));
+//    }
+//    
     /**保存用户信息*/
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public RestResult<User> doSave(User user,String roleIds){
-    	userService.saveUser(user);
-    	return new RestResult<User>();
+    public RestResult<Integer> doSave(User user,String roleIds){
+    	userService.saveUser(user, roleIds);
+    	return new RestResult<Integer>();
     }
     
     

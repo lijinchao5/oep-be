@@ -3,54 +3,39 @@ package com.xuanli.oepcms.mapper;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
+import com.xuanli.oepcms.common.BaseDao;
 import com.xuanli.oepcms.entity.User;
 
 @Mapper
-public interface UserMapper {
-    @Select("INSERT INTO xl_user (username, `desc`, `password`,`mobile`) VALUES (#{username}, #{desc}, #{password}, #{mobile})")
-    void add(User user);
-    
-    /**根据id查询用户信息*/
-    @Select("SELECT id, username, `desc`, `password` FROM xl_user WHERE id = #{id}")
-    User findById(Integer id);
-    
-    @Select("SELECT id, `username`, `desc`, `password` FROM xl_user WHERE username = #{username}")
-    User findByName(String username);
-    
-    /**根据手机号查询用户信息*/
-    @Select("SELECT id, username, `password`,`mobile` FROM xl_user WHERE mobile = #{mobile}")
-    User findByMobile(String mobile);
-    
-    /**获取用户列表*/
-    @Select("SELECT * FROM xl_user")
-    List<User> find();
-    
-    /**根据角色保存用户,角色id暂时先不传入*/
-    int saveUser(User user);
-    
-    /**登陆*/
-    @Select("SELECT `mobile`,`password` FROM xl_user WHERE mobile=#{mobile} AND password=#{password}")
-    public List<User> findByNameAndPassword(String mobile,String password);
-    
-    
-    /**插入数据*/
-    @Select("INSERT INTO xl_user (id,`username`,`school_id`,`clas_id`,`mobile`,`captcha`,`password`,`create_date`, " + 
-    		"			`update_date`,`create_id`,`update_id`)" + 
-    		"		VALUES(" + 
-    		"		#{id},#{username},#{schoolId},#{clasId},#{mobile},#{captcha},#{password},#{createDate}, " + 
-    		"			#{updateDate},#{createId},#{updateId})")
-    public int insert(User user);
-    
-    /**查询用户的权限*/
-    @Select("		SELECT m.permission " + 
-    		"		FROM xl_user_role ur,xl_role_menu rm ,xl_menu m " + 
-    		"		WHERE ur.role_id = rm.role_id " + 
-    		"		AND rm.menu_id = m.id AND ur.user_id = #{userId} ")
+public interface UserMapper extends BaseDao<User>{
+//    @Select("INSERT INTO xl_user (username, `desc`, `password`,`mobile`) VALUES (#{username}, #{desc}, #{password}, #{mobile})")
+//    void add(User user);
+    /**分页查询*/
+	List<User> findByPage(
+			@Param("username")String username,
+			@Param("startIndex")Integer startIndex,
+			@Param("pageSize") Integer pageSize);
+	
+	/**获取分页的行数*/
+	int getRowCount(@Param("username")String username);
+	
+	/**根据id查询用户信息*/
+	User findUserById(Integer id);
+	
+	/**状态*/
+	int validById(@Param("id")Integer id,@Param("valid")Integer valid);
+	
+	/**根据用户名查询用户信息*/
+	User findUserByName(String username);
+	
+	/**
+	 * 查询用户得权限
+	 * @param userId
+	 */
 	List<String> findUserPermissions(Integer userId);
-    
 	List<Map<String,Object>> findUserMenus(Integer userId);
+	
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanli.oepcms.mapper.UserMapper">
+	<!-- 分页查询 -->
+	<select id="find" 
+	    resultType="com.xuanli.oepcms.entity.User">
+		select id,username,mobile,
+		from xl_user
+		<where>
+			<if test="username!=null and username!=''">
+				username LIKE CONCAT('%',#{username},'%')
+			</if>
+		</where>
+		 LIMIT #{startIndex},#{pageSize}
+	</select>
+	<!-- 保存用户信息 -->
+	<insert id="insert" 
+	 parameterType="com.xuanli.oepcms.entity.User"
+	 useGeneratedKeys="true" 
+	 keyProperty="id">
+		insert into xl_user
+			(username,school_id,clas_id,mobile,captcha,password,create_date,update_date,create_id,update_id)
+		values
+			(#{username},#{schoolId},#{clasId},#{mobile},#{captcha},#{password},#{createDate},
+			#{updateDate},#{createId},#{updateId})
+	</insert>
+		<!-- 根据用户名查询用户信息 -->
+	<select id="findUserByName" 
+	    parameterType="java.lang.String" 
+	    resultType="com.xuanli.oepcms.entity.User">
+		select
+			id,username,password,mobile
+		from xl_user
+		where username = #{username}
+	</select>
+</mapper>

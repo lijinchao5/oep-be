@@ -53,7 +53,7 @@ public class ShiroUserRealm extends AuthorizingRealm{
 		//2. 从 UsernamePasswordToken 中来获取 username
 		String username = upToken.getUsername();
 		//判断用户名是否存在，若存在，返回user对象
-		User user =userMapper.findByName(username);
+		User user =userMapper.findUserByName(username);
 		//盐值. 
 		ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());
 		//自动完成密码比对   - 密码的比对:

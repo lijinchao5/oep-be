@@ -9,15 +9,15 @@ public class RestResult<T> {
     private int code;
     private String message;
     private T result;
-
+    
     public static <T> RestResult<T> ok(T result) {
-        RestResult<T> okResult = new RestResult<>();
+        RestResult<T> okResult = new RestResult<T>();
         okResult.setResult(result);
         return okResult;
     }
 
     public static <T> RestResult<T> failed(int code, String message, T result) {
-        RestResult<T> failedResult = new RestResult<>();
+        RestResult<T> failedResult = new RestResult<T>();
         failedResult.setCode(code);
         failedResult.setMessage(message);
         failedResult.setResult(result);
