@@ -1,6 +1,6 @@
 package com.xuanli.oepcms.common;
 
 public interface BaseDao<T> {
-	int insert(T entity);
-	int update(T entity);
+	int insertUser(T entity);
+	int updateUser(T entity);
 }

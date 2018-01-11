@@ -3,6 +3,8 @@ package com.xuanli.oepcms.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +27,15 @@ public class User implements Serializable {
     private String clasId;
     /**手机号*/
     private String mobile;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthDate;
+    /**学段*/
+    private String studySection;
+    /**年级*/
+    private String grade;
+    /**教材版本*/
+    private String bookEdition;
     /**盐值*/
     private String salt;
     /**验证码*/
@@ -32,10 +43,12 @@ public class User implements Serializable {
     /**新增用户*/
 	private String createId;
 	/**新增时间*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 	/**更新用户*/
 	private String updateId;
 	/**更新时间*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
 	/**状态*/
 	private String enableFlag;
@@ -53,6 +66,10 @@ public class User implements Serializable {
         this.schoolId = user.getSchoolId();
         this.clasId = user.getClasId();
         this.mobile = user.getMobile();
+        this.birthDate = user.getBirthDate();
+        this.studySection = user.getStudySection();
+        this.grade = user.getGrade();
+        this.bookEdition = user.getBookEdition();
         this.salt = user.getSalt();
         this.captcha = user.getCaptcha();
         this.createId = user.getCreateId();
@@ -61,15 +78,6 @@ public class User implements Serializable {
         this.updateDate = user.getUpdateDate();
         this.enableFlag = user.getEnableFlag();
     }
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", desc=" + desc + ", gender="
-				+ gender + ", schoolId=" + schoolId + ", clasId=" + clasId + ", mobile=" + mobile + ", salt=" + salt
-				+ ", captcha=" + captcha + ", createId=" + createId + ", createDate=" + createDate + ", updateId="
-				+ updateId + ", updateDate=" + updateDate + ", enableFlag=" + enableFlag + "]";
-	}
-
 
 	@Override
 	public int hashCode() {
@@ -94,6 +102,16 @@ public class User implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", desc=" + desc + ", gender="
+				+ gender + ", schoolId=" + schoolId + ", clasId=" + clasId + ", mobile=" + mobile + ", birthDate="
+				+ birthDate + ", studySection=" + studySection + ", grade=" + grade + ", bookEdition=" + bookEdition
+				+ ", salt=" + salt + ", captcha=" + captcha + ", createId=" + createId + ", createDate=" + createDate
+				+ ", updateId=" + updateId + ", updateDate=" + updateDate + ", enableFlag=" + enableFlag + "]";
 	}
 
 }

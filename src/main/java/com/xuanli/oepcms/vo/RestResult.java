@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestResult<T> {
+	
     private int code;
     private String message;
     private T result;
@@ -14,6 +15,13 @@ public class RestResult<T> {
         RestResult<T> okResult = new RestResult<T>();
         okResult.setResult(result);
         return okResult;
+    }
+
+    public static <T> RestResult<T> failed(int code, String message) {
+        RestResult<T> failedResult = new RestResult<T>();
+        failedResult.setCode(code);
+        failedResult.setMessage(message);
+        return failedResult;
     }
 
     public static <T> RestResult<T> failed(int code, String message, T result) {

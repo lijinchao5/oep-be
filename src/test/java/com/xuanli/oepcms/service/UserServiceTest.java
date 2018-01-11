@@ -16,12 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xuanli.oepcms.BaseTest;
 import com.xuanli.oepcms.entity.User;
+import com.xuanli.oepcms.mapper.UserMapper;
 import com.xuanli.oepcms.util.PasswordUtil;
 
-public class UserSeTest extends BaseTest {
+public class UserServiceTest extends BaseTest {
     @Autowired
     private UserService userService;
-
+    
 
 //    @Test
 //    public void shouldAddUser() {
@@ -43,10 +44,9 @@ public class UserSeTest extends BaseTest {
 //    }
     
     @Test
-    public void save() {
+    public void saveUser() {
     	
     	User user = new User();
-    	user.setUsername("李四" + UUID.randomUUID().toString());
     	user.setSchoolId("1111ab");
     	user.setClasId("1122");
     	user.setMobile("18600000000");
@@ -54,18 +54,38 @@ public class UserSeTest extends BaseTest {
     	user.setPassword("123456");
     	user.setCreateId("1");
     	user.setUpdateId("1");
-    	userService.saveUser(user, "5");
-    	System.out.println(user);
+    	userService.saveUser(user,"1");
+    	System.out.println("saveUser:"+user);
         
         assertThat(user.getId(), notNullValue());
         assertThat(user.getUsername(), notNullValue());
         assertThat(user, notNullValue());
         assertThat(user.getId(), notNullValue());
-//        assertThat(user.getId().longValue(), greaterThan(0L));
+        assertThat(user.getId().intValue(), greaterThan(0));
         assertThat(user.getUsername(), is(user.getUsername()));
         assertThat(user.getMobile(), is(user.getMobile()));
-//        assertThat(user.getPassword(), is(not(user.getPassword())));
-//        assertThat(PasswordUtil.verify(user.getPassword(), user.getPassword()), is(true));
     }
+    
+    @Test
+    public void updateUser() {
+    	User newUser = userService.findById(69);
+    	System.out.println("newUser:"+newUser);
+    	newUser.setUsername("李四" + UUID.randomUUID().toString());
+    	newUser.setGender("男");
+    	newUser.setStudySection("小学");
+    	newUser.setGrade("一年级");
+    	newUser.setBookEdition("1.1.1");
+    	userService.updateUser(newUser,"1");
+    	System.out.println("updateUser:"+newUser);
+    	
+    	User u = userService.findById(69);
+
+        assertThat(u.getId(), notNullValue());
+        assertThat(newUser.getUsername(), is(u.getUsername()));
+        assertThat(newUser.getStudySection(), is("小学"));
+        assertThat(newUser.getGender(), is("男"));
+        assertThat(newUser.getBookEdition(), is("1.1.1"));
+    }
+    
 
 }

@@ -11,13 +11,13 @@ import lombok.Setter;
 public class Role implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private Long id;
-	private Long roleId;
+	private Integer id;
+	private Integer roleId;
 	private String name;
 	private String roleSign;
 	private String schoolId;
 	private String clasId;
-	private List<Long> menuIds;
+	private List<Integer> menuIds;
 	private String createId;
 	private Date createDate;
 	private String updateId;

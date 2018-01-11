@@ -14,12 +14,11 @@ import com.xuanli.oepcms.vo.RestResult;
 
 
 @RestController
-@RequestMapping(value = "/users")
 public class LoginController extends BaseController{
 	@Autowired
 	private SysShiroService loginService;
 	/**登陆*/
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public RestResult<List<User>> login(@RequestParam("username")String username,@RequestParam("password")String password){
 		loginService.login(username, password);
 		return new RestResult<List<User>>();
