@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class RanNumUtil {
 	
-    public static StringBuilder createRandomNum(int num) {  
+    public static String createRandomNum(int num) {  
         StringBuilder code = new StringBuilder();  
         Random random = new Random();  
         // 6位验证码  
@@ -12,7 +12,7 @@ public class RanNumUtil {
             code.append(String.valueOf(random.nextInt(10)));  
         }  
         System.out.println(code);
-        return code;
+        return code.toString();
     }
 //    public static void main(String[] args) {
 //		RanNumUtil.createRandomNum(6);

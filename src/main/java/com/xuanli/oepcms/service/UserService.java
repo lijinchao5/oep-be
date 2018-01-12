@@ -48,6 +48,10 @@ public class UserService {
     public List<User> find() {
         return userMapper.find();
     }
+    /**数量查询*/
+	public int count(Map<String, Object> map) {
+		return userMapper.count(map);
+	}
     
 	/**保存用户信息*/
 	public void saveUser(User user,String roleIds) {
@@ -59,12 +63,12 @@ public class UserService {
 		user.setPassword(PasswordUtil.generate(user.getPassword()));
 		
 		//保存用户信息
-		int i = userMapper.insertUser(user);
+		int i = userMapper.insert(user);
 		if(i==-1)
 		throw new ServiceException("保存用户信息失败！");
 		//保存用户角色信息
 		String[] roleIdArray=roleIds.split(",");
-		int counts = userRoleMapper.insert(user.getId(),roleIdArray);
+		int counts = userRoleMapper.insertRole(user.getId(),roleIdArray);
 		if(counts!=roleIdArray.length)
 		throw new ServiceException("保存用户角色失败！");
 	}
@@ -77,7 +81,7 @@ public class UserService {
 //		user.setSalt(saltStr);	
 //		user.setPassword(PasswordUtil.generate(user.getPassword()));
 		//更新用户信息
-		int i = userMapper.updateUser(user);
+		int i = userMapper.update(user);
 		System.out.println("user:"+user);
 		if(i!=1)
 		throw new ServiceException("修改更新用户信息失败！");
@@ -86,11 +90,18 @@ public class UserService {
 		int counts =userRoleMapper.deleteUserRoles(user.getId());
 		if(counts<1)
 		throw new RuntimeException("更新用户角色信息失败！");
-		int rows = userRoleMapper.insert(user.getId(),roleArrayIds);
+		int rows = userRoleMapper.insertRole(user.getId(),roleArrayIds);
 		if(rows!=roleArrayIds.length)
 		throw new ServiceException("更新用户角色失败！");
 	}
-
+	
+	/**修改密码*/
+	public void updatePwd(Integer id) {
+		if(id==null) {
+			
+		}
+	}
+	
 	/** 根据id查询用户信息*/
 	public Map<String,Object> findUserById(Integer userId) {
 		if(userId==null)

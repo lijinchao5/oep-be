@@ -52,6 +52,12 @@ public class User implements Serializable {
 	private Date updateDate;
 	/**状态*/
 	private String enableFlag;
+	/**省份*/
+	private String province;
+	/**所在城市*/
+	private String city;
+	/**所在地区*/
+	private String district;
 	
     public User() {
     }
@@ -77,6 +83,9 @@ public class User implements Serializable {
         this.updateId = user.getCreateId();
         this.updateDate = user.getUpdateDate();
         this.enableFlag = user.getEnableFlag();
+        this.province = user.getProvince();
+        this.city = user.getCity();
+        this.district = user.getDistrict();
     }
 
 	@Override
@@ -104,14 +113,14 @@ public class User implements Serializable {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", desc=" + desc + ", gender="
 				+ gender + ", schoolId=" + schoolId + ", clasId=" + clasId + ", mobile=" + mobile + ", birthDate="
 				+ birthDate + ", studySection=" + studySection + ", grade=" + grade + ", bookEdition=" + bookEdition
 				+ ", salt=" + salt + ", captcha=" + captcha + ", createId=" + createId + ", createDate=" + createDate
-				+ ", updateId=" + updateId + ", updateDate=" + updateDate + ", enableFlag=" + enableFlag + "]";
+				+ ", updateId=" + updateId + ", updateDate=" + updateDate + ", enableFlag=" + enableFlag + ", province="
+				+ province + ", city=" + city + ", district=" + district + "]";
 	}
 
 }

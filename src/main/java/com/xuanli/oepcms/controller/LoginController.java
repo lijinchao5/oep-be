@@ -23,6 +23,4 @@ public class LoginController extends BaseController{
 		loginService.login(username, password);
 		return new RestResult<List<User>>();
 	}
-
-
 }

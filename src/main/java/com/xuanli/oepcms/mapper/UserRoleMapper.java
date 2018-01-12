@@ -10,7 +10,7 @@ public interface UserRoleMapper {
 	
 	int isUsedByUser(@Param("roleId")Integer roleId);
 	
-	int insert(@Param("userId")Integer userId,
+	int insertRole(@Param("userId")Integer userId,
 			@Param("roleIds")String[] roleIds);
 	
 	int deleteUserRoles(Integer userId);

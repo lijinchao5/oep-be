@@ -19,10 +19,10 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
     
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public RestResult<List<User>> find() {
-//        return ok(userService.find());
-//    }
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public RestResult<List<User>> find() {
+        return ok(userService.find());
+    }
 //
 //    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
 //    public RestResult<User> findById(@PathVariable Integer id) {
@@ -40,7 +40,6 @@ public class UserController extends BaseController {
     	userService.saveUser(user, roleIds);
     	return new RestResult<Integer>();
     }
-    
     
     
 }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 异常处理器
@@ -20,11 +21,21 @@ public class BDExceptionHandler {
 	 */
 	@ExceptionHandler(ServiceException.class)
 	public Result handleBDException(ServiceException e) {
+		e.printStackTrace();
 		Result r = new Result();
 		r.put("code", e.getCode());
 		r.put("msg", e.getMessage());
 
 		return r;
+	}
+	
+	@ExceptionHandler(RuntimeException.class)
+	public ModelAndView  handleRuntimeException(RuntimeException e) {
+		e.printStackTrace();
+		System.out.println("handleRuntimeException");
+		ModelAndView mv=new ModelAndView("error");
+		mv.addObject("exp", e.getMessage());
+		return mv;
 	}
 
 	@ExceptionHandler(DuplicateKeyException.class)

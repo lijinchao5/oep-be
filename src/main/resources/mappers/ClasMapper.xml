@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanli.oepcms.mapper.ClasMapper">
+	<!-- 根据用户名查询用户信息 -->
+	<select id="count" resultType="int">
+		SELECT clas_id,count(clas_id) AS s
+		FROM xl_clas
+		GROUP BY clas_id
+	</select>
+	<!-- 保存班级信息 -->
+	<insert id="insert" 
+	 parameterType="com.xuanli.oepcms.entity.Clas"
+	 useGeneratedKeys="true" 
+	 keyProperty="id">
+		INSERT into xl_clas
+		(`username`,`password`,`desc`,`gender`,`mobile`,`birth_date`,`school_id`,`clas_id`,`salt`,`captcha`,`study_section`,`grade`,`book_edition`,`province`,
+			`district`,`city`,`create_id`,`create_date`,`update_id`,`update_date`,`enable_flag`)
+		VALUES
+			(#{username},#{password},#{desc},#{gender},#{mobile},#{birthDate},#{schoolId},#{clasId},#{salt},#{captcha},#{studySection},#{grade},#{bookEdition},#{province},
+			#{district},#{city},#{createId},now(),#{updateId},now(),#{enableFlag})
+	</insert>
+</mapper>

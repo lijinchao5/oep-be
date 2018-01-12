@@ -6,11 +6,13 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.converters.CalendarConverter;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,6 +49,7 @@ public class UserServiceTest extends BaseTest {
     public void saveUser() {
     	
     	User user = new User();
+    	user.setUsername("wangwu");
     	user.setSchoolId("1111ab");
     	user.setClasId("1122");
     	user.setMobile("18600000000");
@@ -57,20 +60,17 @@ public class UserServiceTest extends BaseTest {
     	userService.saveUser(user,"1");
     	System.out.println("saveUser:"+user);
         
+    	User u = userService.findById(user.getId());
         assertThat(user.getId(), notNullValue());
-        assertThat(user.getUsername(), notNullValue());
-        assertThat(user, notNullValue());
-        assertThat(user.getId(), notNullValue());
-        assertThat(user.getId().intValue(), greaterThan(0));
-        assertThat(user.getUsername(), is(user.getUsername()));
-        assertThat(user.getMobile(), is(user.getMobile()));
+        assertThat(user.getSchoolId(), is("1111ab"));
+        assertThat(user.getMobile(), is("18600000000"));
     }
     
     @Test
     public void updateUser() {
-    	User newUser = userService.findById(69);
+    	User newUser = userService.findById(1);
     	System.out.println("newUser:"+newUser);
-    	newUser.setUsername("李四" + UUID.randomUUID().toString());
+    	newUser.setUsername("lisi" + UUID.randomUUID().toString());
     	newUser.setGender("男");
     	newUser.setStudySection("小学");
     	newUser.setGrade("一年级");
@@ -78,8 +78,7 @@ public class UserServiceTest extends BaseTest {
     	userService.updateUser(newUser,"1");
     	System.out.println("updateUser:"+newUser);
     	
-    	User u = userService.findById(69);
-
+    	User u = userService.findById(1);
         assertThat(u.getId(), notNullValue());
         assertThat(newUser.getUsername(), is(u.getUsername()));
         assertThat(newUser.getStudySection(), is("小学"));
@@ -87,5 +86,43 @@ public class UserServiceTest extends BaseTest {
         assertThat(newUser.getBookEdition(), is("1.1.1"));
     }
     
+    //测试修改信息动态sql
+    @Test
+    public void update() {
+    	Calendar c = Calendar.getInstance();
+    	User user = userService.findById(1);
+    	user.setUsername("zhangsan");
+    	user.setPassword(PasswordUtil.generate("123456"));
+    	user.setDesc("1");
+    	user.setGender("女");
+    	user.setMobile("18688888888");
+    	user.setBirthDate(c.getTime());
+    	user.setSchoolId("1234AB");
+    	user.setClasId("1.1");
+    	user.setSalt("1");
+    	user.setCaptcha("666666");
+    	user.setStudySection("初中");
+    	user.setGrade("二年级");
+    	user.setBookEdition("1.1.2");
+    	user.setProvince("河北省");
+    	user.setCity("石家庄");
+    	user.setDistrict("藁城区");
+    	user.setCreateId("lisi");
+    	user.setCreateDate(c.getTime());
+    	user.setUpdateId("lisi");
+    	user.setUpdateDate(c.getTime());
+    	user.setEnableFlag("启用");
+    	userService.updateUser(user, "5");
+    	System.out.println(user);
+    }
+    
+    @Test
+    public void find() {
+    	User user = new User();
+    	List<User> users = userService.find();
+    	for(User u:users) {
+    		System.out.println(u);
+    	}
+    }
 
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.zip.DataFormatException;
 
 /**
- * 日期转换,application.yml已配置，可以不用
+ * 日期转换
  */
 @Configuration
 public class DateConverConfig {

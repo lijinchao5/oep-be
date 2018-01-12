@@ -6,11 +6,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.xuanli.oepcms.common.BaseDao;
+import com.xuanli.oepcms.common.BaseMapper;
 import com.xuanli.oepcms.entity.User;
 
 @Mapper
-public interface UserMapper extends BaseDao<User>{
+public interface UserMapper extends BaseMapper<User>{
 
 	
 
@@ -26,9 +26,13 @@ public interface UserMapper extends BaseDao<User>{
 	/**查询所有用户列表*/
 	List<User> find();
 	
+	int count(Map<String,Object> map);
+	
+	/**批量删除*/
+	int batchremove(Integer[] userIds);
+	
 	/**状态*/
 	int validById(@Param("id")Integer id,@Param("valid")Integer valid);
-	
 	
 	/**
 	 * 查询用户得权限
