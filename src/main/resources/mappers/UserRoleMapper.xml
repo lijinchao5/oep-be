@@ -10,7 +10,7 @@
 		where role_id = #{roleId}
 	</select>
 	<!-- 保存用户角色关系 -->
-	<insert id="insert">
+	<insert id="insertRole">
 		insert into xl_user_role(user_id,role_id)
 		values
 		<foreach collection="roleIds" separator="," item="item">

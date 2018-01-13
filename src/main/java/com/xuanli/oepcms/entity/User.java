@@ -51,7 +51,7 @@ public class User implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
 	/**状态*/
-	private String enableFlag;
+	private Integer enableFlag;
 	/**省份*/
 	private String province;
 	/**所在城市*/

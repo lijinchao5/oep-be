@@ -9,14 +9,13 @@
 	</select>
 	<!-- 保存班级信息 -->
 	<insert id="insert" 
-	 parameterType="com.xuanli.oepcms.entity.Clas"
-	 useGeneratedKeys="true" 
-	 keyProperty="id">
-		INSERT into xl_clas
-		(`username`,`password`,`desc`,`gender`,`mobile`,`birth_date`,`school_id`,`clas_id`,`salt`,`captcha`,`study_section`,`grade`,`book_edition`,`province`,
-			`district`,`city`,`create_id`,`create_date`,`update_id`,`update_date`,`enable_flag`)
-		VALUES
-			(#{username},#{password},#{desc},#{gender},#{mobile},#{birthDate},#{schoolId},#{clasId},#{salt},#{captcha},#{studySection},#{grade},#{bookEdition},#{province},
-			#{district},#{city},#{createId},now(),#{updateId},now(),#{enableFlag})
+	 parameterType="com.xuanli.oepcms.entity.Clas">
+	insert into xl_clas (id, stu_name, school_id, 
+      clas_id, homework, simulation, 
+      Unified, proposition, paper, 
+      create_id, create_date, update_id, 
+      update_date, enable_flag)
+    values (#{id}, #{stuName}, #{schoolId}, #{clasId}, #{homework}, #{simulation}, #{unified}, #{proposition}, #{paper}, 
+      #{createId}, #{createDate}, #{updateId}, #{updateDate}, #{enableFlag})
 	</insert>
 </mapper>

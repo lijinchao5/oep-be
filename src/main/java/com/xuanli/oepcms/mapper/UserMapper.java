@@ -12,7 +12,7 @@ import com.xuanli.oepcms.entity.User;
 @Mapper
 public interface UserMapper extends BaseMapper<User>{
 
-	
+	List<User> list(Map<String,Object> map);
 
 	/**添加用户*/
 	void add(User user);

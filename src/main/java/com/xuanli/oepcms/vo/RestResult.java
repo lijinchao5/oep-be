@@ -6,9 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestResult<T> {
-	
+	/**状态*/
     private int code;
+    /**对应状态的消息*/
     private String message;
+	/**具体业务数据*/
     private T result;
     
     public static <T> RestResult<T> ok(T result) {

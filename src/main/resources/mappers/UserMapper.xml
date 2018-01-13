@@ -45,7 +45,7 @@
 	</select>
 	
 	<!-- 保存用户信息 -->
-	<insert id="insertUser" 
+	<insert id="insert" 
 	 parameterType="com.xuanli.oepcms.entity.User"
 	 useGeneratedKeys="true" 
 	 keyProperty="id">
@@ -57,7 +57,7 @@
 			#{district},#{city},#{createId},now(),#{updateId},now(),#{enableFlag})
 	</insert>
 	<!-- 修改更新用户信息 -->
-		<update id="updateUser" parameterType="com.xuanli.oepcms.entity.User">
+		<update id="update" parameterType="com.xuanli.oepcms.entity.User">
 		update xl_user 
 		<set>
 			<if test="username != null">`username` = #{username}, </if>

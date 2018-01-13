@@ -10,4 +10,7 @@ public abstract class BaseController {
     public <T> RestResult<T> failed(int code, String message, T result) {
         return RestResult.failed(code, message, result);
     }
+    public <T> RestResult<T> failed(int code, String message) {
+        return RestResult.failed(code, message);
+    }
 }

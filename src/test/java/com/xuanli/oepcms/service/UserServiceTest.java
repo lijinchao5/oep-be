@@ -19,12 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.xuanli.oepcms.BaseTest;
 import com.xuanli.oepcms.entity.User;
 import com.xuanli.oepcms.mapper.UserMapper;
+import com.xuanli.oepcms.shiro.SysShiroService;
 import com.xuanli.oepcms.util.PasswordUtil;
 
 public class UserServiceTest extends BaseTest {
     @Autowired
     private UserService userService;
-    
+	@Autowired
+	private SysShiroService loginService;
 
 //    @Test
 //    public void shouldAddUser() {
@@ -68,7 +70,7 @@ public class UserServiceTest extends BaseTest {
     
     @Test
     public void updateUser() {
-    	User newUser = userService.findById(1);
+    	User newUser = userService.findById(5);
     	System.out.println("newUser:"+newUser);
     	newUser.setUsername("lisi" + UUID.randomUUID().toString());
     	newUser.setGender("男");
@@ -78,7 +80,7 @@ public class UserServiceTest extends BaseTest {
     	userService.updateUser(newUser,"1");
     	System.out.println("updateUser:"+newUser);
     	
-    	User u = userService.findById(1);
+    	User u = userService.findById(5);
         assertThat(u.getId(), notNullValue());
         assertThat(newUser.getUsername(), is(u.getUsername()));
         assertThat(newUser.getStudySection(), is("小学"));
@@ -111,7 +113,7 @@ public class UserServiceTest extends BaseTest {
     	user.setCreateDate(c.getTime());
     	user.setUpdateId("lisi");
     	user.setUpdateDate(c.getTime());
-    	user.setEnableFlag("启用");
+    	user.setEnableFlag(0);
     	userService.updateUser(user, "5");
     	System.out.println(user);
     }
@@ -123,6 +125,12 @@ public class UserServiceTest extends BaseTest {
     	for(User u:users) {
     		System.out.println(u);
     	}
+    }
+    
+    @Test
+    public void login() {
+//    	User user = new User();
+    	loginService.login("wangwu", "123456");
     }
 
 }
