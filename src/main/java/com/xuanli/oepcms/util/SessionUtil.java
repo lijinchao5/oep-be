@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.xuanli.oepcms.contents.SystemContents;
-import com.xuanli.oepcms.entity.User;
+import com.xuanli.oepcms.entity.UserEntity;
 
 /**
  * @author QiaoYu
@@ -24,7 +24,16 @@ public class SessionUtil {
 		return obj;
 	}
 
-	public static void setSessionUser(HttpServletRequest request, User user) {
-		request.getSession().setAttribute(SystemContents.CURRENT_USER, user);
+	public static void setSessionUser(HttpServletRequest request, UserEntity userEntity) {
+		request.getSession().setAttribute(SystemContents.CURRENT_USER, userEntity);
+	}
+	
+	public static Object getRandomNum(HttpServletRequest request) {
+		Object obj = request.getSession().getAttribute(SystemContents.CURRENT_USER);
+		return obj;
+	}
+
+	public static void setRandomNum(HttpServletRequest request, String num) {
+		request.getSession().setAttribute(SystemContents.CURRENT_USER, num);
 	}
 }

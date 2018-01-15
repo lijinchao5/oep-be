@@ -25,7 +25,7 @@ public class UserEntity {
 
     private String nameNum;
 
-    private String desc;
+    private String remark;
 
     private String createId;
 
@@ -125,15 +125,21 @@ public class UserEntity {
         this.nameNum = nameNum == null ? null : nameNum.trim();
     }
 
-    public String getDesc() {
-        return desc;
-    }
+    /** 
+	 * @return 返回 remark 
+	 */
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
+	/** 
+	 * @setParam 设置remark
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public String getCreateId() {
+	public String getCreateId() {
         return createId;
     }
 

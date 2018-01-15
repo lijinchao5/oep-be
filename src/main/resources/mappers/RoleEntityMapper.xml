@@ -13,25 +13,17 @@
   <sql id="Base_Column_List" >
     role_id, role_name, create_id, create_date, update_id, update_date, enable_flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_role
     where role_id = #{roleId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteRoleEntity" parameterType="java.lang.Long" >
     delete from xl_role
     where role_id = #{roleId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.RoleEntity" >
-    insert into xl_role (role_id, role_name, create_id, 
-      create_date, update_id, update_date, 
-      enable_flag)
-    values (#{roleId,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{enableFlag,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.RoleEntity" >
+  <insert id="insertRoleEntity" parameterType="com.xuanli.oepcms.entity.RoleEntity" >
     insert into xl_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="roleId != null" >
@@ -80,7 +72,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.RoleEntity" >
+  <update id="updateRoleEntity" parameterType="com.xuanli.oepcms.entity.RoleEntity" >
     update xl_role
     <set >
       <if test="roleName != null" >
@@ -102,16 +94,6 @@
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
     </set>
-    where role_id = #{roleId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.RoleEntity" >
-    update xl_role
-    set role_name = #{roleName,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      enable_flag = #{enableFlag,jdbcType=VARCHAR}
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
 </mapper>

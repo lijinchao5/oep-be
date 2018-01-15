@@ -18,27 +18,17 @@
     id, school_id, name, address_province, address_city, address_area, create_id, create_date, 
     update_id, update_date, enable_flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_school
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteSchoolEntity" parameterType="java.lang.Long" >
     delete from xl_school
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
-    insert into xl_school (id, school_id, name, 
-      address_province, address_city, address_area, 
-      create_id, create_date, update_id, 
-      update_date, enable_flag)
-    values (#{id,jdbcType=BIGINT}, #{schoolId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{addressProvince,jdbcType=VARCHAR}, #{addressCity,jdbcType=VARCHAR}, #{addressArea,jdbcType=VARCHAR}, 
-      #{createId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=INTEGER}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
+  <insert id="insertSelectiveSchoolEntity" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
     insert into xl_school
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -111,7 +101,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
+  <update id="updateSchoolEntity" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
     update xl_school
     <set >
       <if test="schoolId != null" >
@@ -145,20 +135,6 @@
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
-    update xl_school
-    set school_id = #{schoolId,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      address_province = #{addressProvince,jdbcType=VARCHAR},
-      address_city = #{addressCity,jdbcType=VARCHAR},
-      address_area = #{addressArea,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=INTEGER},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      enable_flag = #{enableFlag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
