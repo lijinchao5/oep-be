@@ -6,7 +6,7 @@ server:
 jdbc:
   datasource:
     name: test
-    url: jdbc:mysql://39.104.76.67:3086/oep
+    url: jdbc:mysql://39.104.76.67:3086/oep?characterEncoding=utf8&useSSL=false
     username: test
     password: 09)(poPO
     # 使用druid数据源

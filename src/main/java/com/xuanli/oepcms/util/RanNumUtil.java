@@ -14,7 +14,7 @@ public class RanNumUtil {
         System.out.println(code);
         return code.toString();
     }
-//    public static void main(String[] args) {
-//		RanNumUtil.createRandomNum(6);
-//	}
+    public static void main(String[] args) {
+		RanNumUtil.createRandomNum(6);
+	}
 }

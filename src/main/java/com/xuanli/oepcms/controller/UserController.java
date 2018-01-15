@@ -1,49 +1,89 @@
 package com.xuanli.oepcms.controller;
 
-import java.util.List;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xuanli.oepcms.entity.User;
+import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.UserService;
+import com.xuanli.oepcms.util.PasswordUtil;
+import com.xuanli.oepcms.util.SessionUtil;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 @RestController
-@RequestMapping(value = "/users", method = RequestMethod.POST)
+@RequestMapping(value = "/user")
 public class UserController extends BaseController {
-    @Autowired
-    private UserService userService;
-    
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public RestResult<List<User>> find() {
-//        try {
-//			return ok(userService.find());
-//		} catch (Exception e) {
-//			return failed(code, message)
-//		}
-//    }
-////
-////    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-////    public RestResult<User> findById(@PathVariable Integer id) {
-////        return ok(userService.findById(id));
-////    }
-////
-////    @RequestMapping(value = "/search", method = RequestMethod.GET)
-////    public RestResult<User> findByName(@RequestParam("username") String name) {
-////        return ok(userService.findByName(name));
-////    }
-////    
-//    /**保存用户信息*/
-//    @RequestMapping(value = "/insert", method = RequestMethod.POST)
-//    public RestResult<Integer> doSave(User user,String roleIds){
-//    	userService.saveUser(user, roleIds);
-//    	return new RestResult<Integer>();
-//    }
-    
-    
+	@Autowired
+	private UserService userService;
+
+	@RequestMapping(value = "/insert")
+	public RestResult<String> saveUser(UserEntity user) {
+		try {
+			try {
+				user.setCreateId(getCurrentUser().getId().intValue() + "");
+			} catch (Exception e) {
+				logger.error("保存用户-->设置创建人失败!");
+			}
+			user.setPassword(PasswordUtil.generate(user.getPassword()));
+			int result = userService.saveUser(user);
+			if (result > 0) {
+				return ok("增加用户成功");
+			} else {
+				return failed(2000, "增加用户失败.");
+			}
+		} catch (Exception e) {
+			logger.error("增加用户失败!", e);
+			e.printStackTrace();
+			return failed(2000, "增加用户失败.");
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/teacher_regist")
+	public RestResult<String> teacher_regist(String schoolId,String mobile,String randomStr,String password,String mobileRandomStr) {
+		
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
+			
+			if (StringUtil.isEmpty(schoolId)) {
+				return failed(1002, "校区ID不能为空.");
+			}
+			if (StringUtil.isEmpty(mobile)) {
+				return failed(1002, "手机号码不能为空.");
+			}
+			if (StringUtil.isEmpty(mobileRandomStr)) {
+				return failed(1002, "手机验证码不能为空.");
+			}
+			if (StringUtil.isEmpty(password)) {
+				return failed(1002, "密码不能为空.");
+			}
+			logger.debug("对比手机短信验证码:"+mobileRandomStr+"==="+SessionUtil.getMobileMessageRandomNum(request));
+			if (!mobileRandomStr.equalsIgnoreCase(SessionUtil.getMobileMessageRandomNum(request))) {
+				return failed(1002, "手机短信验证码错误.");
+			}
+			String result = userService.teacherRegist(schoolId,mobile,password);
+			if (result.equals("0")) {
+				return ok("注册成功.");
+			}else if(result.equals("1")) {
+				return failed(1002, "校区ID错误.");
+			}else if(result.equals("2")) {
+				return failed(1002, "手机号码已经注册.");
+			}else {
+				return failed(99999, "未知错误,请联系管理员.");
+			}
+		} else {
+			return failed(1001, "验证码错误.");
+		}
+	}
+
 }

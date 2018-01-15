@@ -1,6 +1,8 @@
 package com.xuanli.oepcms.util;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 	public static boolean isNotEmpty(String str) {
@@ -38,4 +40,23 @@ public class StringUtil {
 	public static String getUUID() {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
+
+	public static boolean isMobile(String mobile) {
+		if (isEmpty(mobile)) {
+			return false;
+		}
+		Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");  
+		Matcher m = p.matcher(mobile);
+		return m.matches();
+	}
+
+	public static boolean isEmaile(String email) {
+		if (isEmpty(email)) {
+			return false;
+		}
+		Pattern p = Pattern.compile("^\\\\w+((-\\\\w+)|(\\\\.\\\\w+))*\\\\@[A-Za-z0-9]+((\\\\.|-)[A-Za-z0-9]+)*\\\\.[A-Za-z0-9]+$");
+		Matcher m = p.matcher(email);
+		return m.matches();
+	}
+
 }

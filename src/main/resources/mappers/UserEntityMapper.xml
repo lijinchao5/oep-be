@@ -55,7 +55,7 @@
     delete from xl_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertUserEntity" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+  <insert id="insertUserEntity" parameterType="com.xuanli.oepcms.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -218,4 +218,19 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  
+  
+  
+  <!-- 保存教师和学校的关系 -->
+  <insert id="insertUserSchool" parameterType="com.xuanli.oepcms.entity.UserSchoolEntity">
+	<selectKey keyProperty="allSize" resultType="int" order="BEFORE">
+	  select count(*) id from xl_user_school where user_id=#{userId,jdbcType=BIGINT} and school_id=#{schoolId,jdbcType=BIGINT}
+	</selectKey>
+	<if test="allSize==0">
+	 insert into xl_user_school(user_id,school_id) values(#{userId,jdbcType=BIGINT}, #{schoolId,jdbcType=BIGINT})
+	</if>
+  </insert>
+  
 </mapper>

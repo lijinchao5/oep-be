@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.SchoolEntity;
@@ -29,4 +31,10 @@ public interface SchoolEntityMapper {
      * @CreateDate:  2018年1月15日 下午2:09:28
      */
     int updateSchoolEntity(SchoolEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月15日 下午5:16:05
+	 */
+	List<SchoolEntity> selectSchoolEntity(SchoolEntity schoolEntity);
 }

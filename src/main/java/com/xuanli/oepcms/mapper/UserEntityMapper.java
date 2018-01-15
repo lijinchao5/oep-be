@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.UserEntity;
+import com.xuanli.oepcms.entity.UserSchoolEntity;
 @Mapper
 public interface UserEntityMapper {
     /**
@@ -43,4 +44,10 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年1月15日 下午2:25:09
 	 */
 	List<UserEntity> login(UserEntity userEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月15日 下午5:11:32
+	 */
+	int insertUserSchool(UserSchoolEntity userSchoolEntity);
 }

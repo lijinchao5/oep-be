@@ -29,11 +29,33 @@ public class SessionUtil {
 	}
 	
 	public static Object getRandomNum(HttpServletRequest request) {
-		Object obj = request.getSession().getAttribute(SystemContents.CURRENT_USER);
+		Object obj = request.getSession().getAttribute(SystemContents.RANDOM_NUM);
 		return obj;
 	}
 
 	public static void setRandomNum(HttpServletRequest request, String num) {
-		request.getSession().setAttribute(SystemContents.CURRENT_USER, num);
+		request.getSession().setAttribute(SystemContents.RANDOM_NUM, num);
+	}
+	
+	
+	public static Object getMobileRandomNum(HttpServletRequest request) {
+		Object obj = request.getSession().getAttribute(SystemContents.MOBILE_RANDOM_NUM);
+		return obj;
+	}
+
+	public static void setMobileRandomNum(HttpServletRequest request, String num) {
+		request.getSession().setAttribute(SystemContents.MOBILE_RANDOM_NUM, num);
+	}
+	public static String getMobileMessageRandomNum(HttpServletRequest request) {
+		Object obj = request.getSession().getAttribute(SystemContents.MOBILE_MESSAGE_RANDOM_NUM);
+		if (null == obj) {
+			return "";
+		}else {
+			return (String)obj;
+		}
+	}
+	
+	public static void setMobileMessageRandomNum(HttpServletRequest request, String num) {
+		request.getSession().setAttribute(SystemContents.MOBILE_MESSAGE_RANDOM_NUM, num);
 	}
 }
