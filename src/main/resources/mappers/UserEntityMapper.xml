@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuanli.oepcms.mapper.UserEntityMapper" >
+  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.UserEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birth_date" property="birthDate" jdbcType="DATE" />
+    <result column="study_section_id" property="studySectionId" jdbcType="INTEGER" />
+    <result column="grade__level_id" property="gradeLevelId" jdbcType="INTEGER" />
+    <result column="book_version_id" property="bookVersionId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="name_num" property="nameNum" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, mobile, password, sex, birth_date, study_section_id, grade__level_id, book_version_id, 
+    role_id, name_num, desc, create_id, create_date, update_id, update_date, enable_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xl_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xl_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    insert into xl_user (id, name, mobile, 
+      password, sex, birth_date, 
+      study_section_id, grade__level_id, book_version_id, 
+      role_id, name_num, desc, 
+      create_id, create_date, update_id, 
+      update_date, enable_flag)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, 
+      #{studySectionId,jdbcType=INTEGER}, #{gradeLevelId,jdbcType=INTEGER}, #{bookVersionId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=INTEGER}, #{nameNum,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+      #{createId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    insert into xl_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthDate != null" >
+        birth_date,
+      </if>
+      <if test="studySectionId != null" >
+        study_section_id,
+      </if>
+      <if test="gradeLevelId != null" >
+        grade__level_id,
+      </if>
+      <if test="bookVersionId != null" >
+        book_version_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="nameNum != null" >
+        name_num,
+      </if>
+      <if test="desc != null" >
+        desc,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null" >
+        #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="studySectionId != null" >
+        #{studySectionId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeLevelId != null" >
+        #{gradeLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="bookVersionId != null" >
+        #{bookVersionId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="nameNum != null" >
+        #{nameNum,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    update xl_user
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null" >
+        birth_date = #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="studySectionId != null" >
+        study_section_id = #{studySectionId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeLevelId != null" >
+        grade__level_id = #{gradeLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="bookVersionId != null" >
+        book_version_id = #{bookVersionId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="nameNum != null" >
+        name_num = #{nameNum,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    update xl_user
+    set name = #{name,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=DATE},
+      study_section_id = #{studySectionId,jdbcType=INTEGER},
+      grade__level_id = #{gradeLevelId,jdbcType=INTEGER},
+      book_version_id = #{bookVersionId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=INTEGER},
+      name_num = #{nameNum,jdbcType=VARCHAR},
+      desc = #{desc,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      enable_flag = #{enableFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
