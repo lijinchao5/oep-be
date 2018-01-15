@@ -15,27 +15,18 @@
   <sql id="Base_Column_List" >
     id, clas_id, name, school_id, create_id, create_date, update_id, update_date, enable_flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_clas
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteById" parameterType="java.lang.Long" >
     delete from xl_clas
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
-    insert into xl_clas (id, clas_id, name, 
-      school_id, create_id, create_date, 
-      update_id, update_date, enable_flag
-      )
-    values (#{id,jdbcType=BIGINT}, #{clasId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{schoolId,jdbcType=INTEGER}, #{createId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+
+  <insert id="insertClasEntity" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
     insert into xl_clas
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -96,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+  <update id="updateById" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
     update xl_clas
     <set >
       <if test="clasId != null" >
@@ -126,16 +117,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
-    update xl_clas
-    set clas_id = #{clasId,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      school_id = #{schoolId,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      enable_flag = #{enableFlag,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>

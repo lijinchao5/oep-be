@@ -19,27 +19,18 @@
     id, parent_id, name, url, type, sort, icon, create_id, create_date, update_id, update_date, 
     enable_flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from xl_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from xl_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
-    insert into xl_menu (id, parent_id, name, 
-      url, type, sort, icon, 
-      create_id, create_date, update_id, 
-      update_date, enable_flag)
-    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
-      #{createId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
+
+  <insert id="insertMenuEntity" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
     insert into xl_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
+  <update id="updateById" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
     update xl_menu
     <set >
       <if test="parentId != null" >
@@ -155,21 +146,6 @@
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
-    update xl_menu
-    set parent_id = #{parentId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      sort = #{sort,jdbcType=INTEGER},
-      icon = #{icon,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      enable_flag = #{enableFlag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

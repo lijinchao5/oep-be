@@ -9,23 +9,18 @@
   <sql id="Base_Column_List" >
     id, type, type_name
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from xl_dic
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from xl_dic
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.DicEntity" >
-    insert into xl_dic (id, type, type_name
-      )
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.DicEntity" >
+
+  <insert id="insertDicEntity" parameterType="com.xuanli.oepcms.entity.DicEntity" >
     insert into xl_dic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -50,7 +45,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.DicEntity" >
+  <update id="updateById" parameterType="com.xuanli.oepcms.entity.DicEntity" >
     update xl_dic
     <set >
       <if test="type != null" >
@@ -60,12 +55,6 @@
         type_name = #{typeName,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.DicEntity" >
-    update xl_dic
-    set type = #{type,jdbcType=VARCHAR},
-      type_name = #{typeName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

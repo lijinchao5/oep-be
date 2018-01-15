@@ -5,15 +5,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.xuanli.oepcms.entity.MenuEntity;
 @Mapper
 public interface MenuEntityMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteById(Integer id);
 
-    int insert(MenuEntity record);
+    int insertMenuEntity(MenuEntity record);
 
-    int insertSelective(MenuEntity record);
+    MenuEntity selectById(Integer id);
 
-    MenuEntity selectByPrimaryKey(Integer id);
+    int updateById(MenuEntity record);
 
-    int updateByPrimaryKeySelective(MenuEntity record);
-
-    int updateByPrimaryKey(MenuEntity record);
 }

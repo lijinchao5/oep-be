@@ -5,15 +5,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.xuanli.oepcms.entity.DicEntity;
 @Mapper
 public interface DicEntityMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteById(Integer id);
 
-    int insert(DicEntity record);
+    int insertDicEntity(DicEntity record);
 
-    int insertSelective(DicEntity record);
+    DicEntity selectById(Integer id);
 
-    DicEntity selectByPrimaryKey(Integer id);
+    int updateById(DicEntity record);
 
-    int updateByPrimaryKeySelective(DicEntity record);
-
-    int updateByPrimaryKey(DicEntity record);
 }

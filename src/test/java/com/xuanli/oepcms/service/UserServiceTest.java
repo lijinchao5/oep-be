@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xuanli.oepcms.BaseTest;
 import com.xuanli.oepcms.entity.User;
-import com.xuanli.oepcms.mapper.UserMapper;
-import com.xuanli.oepcms.shiro.SysShiroService;
 import com.xuanli.oepcms.util.PasswordUtil;
 
 public class UserServiceTest extends BaseTest {
@@ -56,7 +54,7 @@ public class UserServiceTest extends BaseTest {
     	user.setPassword("123456");
     	user.setCreateId("1");
     	user.setUpdateId("1");
-    	userService.saveUser(user,"1");
+    	
     	System.out.println("saveUser:"+user);
         
     	User u = userService.findById(user.getId());
