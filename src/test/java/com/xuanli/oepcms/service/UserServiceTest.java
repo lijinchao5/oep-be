@@ -25,9 +25,6 @@ import com.xuanli.oepcms.util.PasswordUtil;
 public class UserServiceTest extends BaseTest {
     @Autowired
     private UserService userService;
-	@Autowired
-	private SysShiroService loginService;
-
 //    @Test
 //    public void shouldAddUser() {
 //        User user = new User();
@@ -129,7 +126,6 @@ public class UserServiceTest extends BaseTest {
     
     @Test
     public void login() {
-//    	User user = new User();
     	loginService.login("wangwu", "123456");
     }
 

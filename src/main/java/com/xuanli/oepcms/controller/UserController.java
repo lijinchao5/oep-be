@@ -14,32 +14,36 @@ import com.xuanli.oepcms.service.UserService;
 import com.xuanli.oepcms.vo.RestResult;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/users", method = RequestMethod.POST)
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
     
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public RestResult<List<User>> find() {
-        return ok(userService.find());
-    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    public RestResult<User> findById(@PathVariable Integer id) {
-//        return ok(userService.findById(id));
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public RestResult<List<User>> find() {
+//        try {
+//			return ok(userService.find());
+//		} catch (Exception e) {
+//			return failed(code, message)
+//		}
 //    }
-//
-//    @RequestMapping(value = "/search", method = RequestMethod.GET)
-//    public RestResult<User> findByName(@RequestParam("username") String name) {
-//        return ok(userService.findByName(name));
+////
+////    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+////    public RestResult<User> findById(@PathVariable Integer id) {
+////        return ok(userService.findById(id));
+////    }
+////
+////    @RequestMapping(value = "/search", method = RequestMethod.GET)
+////    public RestResult<User> findByName(@RequestParam("username") String name) {
+////        return ok(userService.findByName(name));
+////    }
+////    
+//    /**保存用户信息*/
+//    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+//    public RestResult<Integer> doSave(User user,String roleIds){
+//    	userService.saveUser(user, roleIds);
+//    	return new RestResult<Integer>();
 //    }
-//    
-    /**保存用户信息*/
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public RestResult<Integer> doSave(User user,String roleIds){
-    	userService.saveUser(user, roleIds);
-    	return new RestResult<Integer>();
-    }
     
     
 }

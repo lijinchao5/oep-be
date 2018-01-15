@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.vo;
 
+import com.xuanli.oepcms.contents.ExceptionCode;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,7 @@ public class RestResult<T> {
     public static <T> RestResult<T> ok(T result) {
         RestResult<T> okResult = new RestResult<T>();
         okResult.setResult(result);
+        okResult.setCode(ExceptionCode.SUCCESS_CODE);
         return okResult;
     }
 
