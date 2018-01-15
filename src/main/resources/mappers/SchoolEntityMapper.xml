@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xuanli.oepcms.mapper.SchoolEntityMapper" >
   <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.SchoolEntity" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="BIGINT" />
     <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="address_province" property="addressProvince" jdbcType="VARCHAR" />
@@ -18,22 +18,22 @@
     id, school_id, name, address_province, address_city, address_area, create_id, create_date, 
     update_id, update_date, enable_flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_school
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from xl_school
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
     insert into xl_school (id, school_id, name, 
       address_province, address_city, address_area, 
       create_id, create_date, update_id, 
       update_date, enable_flag)
-    values (#{id,jdbcType=INTEGER}, #{schoolId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{schoolId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{addressProvince,jdbcType=VARCHAR}, #{addressCity,jdbcType=VARCHAR}, #{addressArea,jdbcType=VARCHAR}, 
       #{createId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=INTEGER}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=VARCHAR})
@@ -77,7 +77,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="schoolId != null" >
         #{schoolId,jdbcType=VARCHAR},
@@ -145,7 +145,7 @@
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
     update xl_school
@@ -159,6 +159,6 @@
       update_id = #{updateId,jdbcType=INTEGER},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       enable_flag = #{enableFlag,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

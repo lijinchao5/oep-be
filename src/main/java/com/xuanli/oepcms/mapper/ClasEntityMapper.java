@@ -5,13 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 import com.xuanli.oepcms.entity.ClasEntity;
 @Mapper
 public interface ClasEntityMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(ClasEntity record);
 
     int insertSelective(ClasEntity record);
 
-    ClasEntity selectByPrimaryKey(Integer id);
+    ClasEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(ClasEntity record);
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xuanli.oepcms.mapper.UserEntityMapper" >
   <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.UserEntity" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -24,15 +24,15 @@
     id, name, mobile, password, sex, birth_date, study_section_id, grade__level_id, book_version_id, 
     role_id, name_num, desc, create_id, create_date, update_id, update_date, enable_flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from xl_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.xuanli.oepcms.entity.UserEntity" >
     insert into xl_user (id, name, mobile, 
@@ -41,7 +41,7 @@
       role_id, name_num, desc, 
       create_id, create_date, update_id, 
       update_date, enable_flag)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, 
       #{studySectionId,jdbcType=INTEGER}, #{gradeLevelId,jdbcType=INTEGER}, #{bookVersionId,jdbcType=INTEGER}, 
       #{roleId,jdbcType=INTEGER}, #{nameNum,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
@@ -105,7 +105,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -209,7 +209,7 @@
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.UserEntity" >
     update xl_user
@@ -229,6 +229,6 @@
       update_id = #{updateId,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       enable_flag = #{enableFlag,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

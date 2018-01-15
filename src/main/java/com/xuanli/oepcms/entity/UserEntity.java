@@ -3,7 +3,7 @@ package com.xuanli.oepcms.entity;
 import java.util.Date;
 
 public class UserEntity {
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -37,11 +37,11 @@ public class UserEntity {
 
     private String enableFlag;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

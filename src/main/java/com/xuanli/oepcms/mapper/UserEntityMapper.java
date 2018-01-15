@@ -5,13 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 import com.xuanli.oepcms.entity.UserEntity;
 @Mapper
 public interface UserEntityMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(UserEntity record);
 
     int insertSelective(UserEntity record);
 
-    UserEntity selectByPrimaryKey(Integer id);
+    UserEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(UserEntity record);
 
