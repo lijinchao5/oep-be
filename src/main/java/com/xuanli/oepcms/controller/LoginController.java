@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.util.StringUtils;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.service.UserService;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
@@ -38,25 +39,25 @@ public class LoginController extends BaseController {
 				// 验证通过
 				String result = userService.login(username, password, request);
 				if (StringUtil.isEmpty(result)) {
-					return failed(99999, "未知错误,请联系管理员.");
+					return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
 				} else {
 					if (result.equals("1")) {
 						logger.debug("登陆成功.");
 						return ok("登陆成功.");
 					} else if (result.equals("2")) {
 						// 用户名//或者密码错误
-						return failed(1002, "用户名或者密码错误.");
+						return failed(ExceptionCode.USERINFO_ERROR_CODE, "用户名或者密码错误.");
 					} else {
-						return failed(99999, "未知错误,请联系管理员.");
+						return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
 					}
 				}
 			} else {
-				return failed(1001, "登陆--->验证码错误.");
+				return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "登陆--->验证码错误.");
 			}
 		} catch (Exception e) {
 			logger.error("登陆异常,请联系管理员.", e);
 			e.printStackTrace();
-			return failed(99999, e.getMessage());
+			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
 

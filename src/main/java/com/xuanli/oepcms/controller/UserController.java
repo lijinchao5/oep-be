@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.UserService;
 import com.xuanli.oepcms.util.PasswordUtil;
@@ -39,12 +40,12 @@ public class UserController extends BaseController {
 			if (result > 0) {
 				return ok("增加用户成功");
 			} else {
-				return failed(2000, "增加用户失败.");
+				return failed(ExceptionCode.ADDUSER_ERROR_CODE, "增加用户失败.");
 			}
 		} catch (Exception e) {
 			logger.error("增加用户失败!", e);
 			e.printStackTrace();
-			return failed(2000, "增加用户失败.");
+			return failed(ExceptionCode.ADDUSER_ERROR_CODE, "增加用户失败.");
 		}
 	}
 	
@@ -56,33 +57,33 @@ public class UserController extends BaseController {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
 			
 			if (StringUtil.isEmpty(schoolId)) {
-				return failed(1002, "校区ID不能为空.");
+				return failed(ExceptionCode.USERINFO_ERROR_CODE, "校区ID不能为空.");
 			}
 			if (StringUtil.isEmpty(mobile)) {
-				return failed(1002, "手机号码不能为空.");
+				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码不能为空.");
 			}
 			if (StringUtil.isEmpty(mobileRandomStr)) {
-				return failed(1002, "手机验证码不能为空.");
+				return failed(ExceptionCode.MSG_CAPTCHA_ERROR_CODE, "手机验证码不能为空.");
 			}
 			if (StringUtil.isEmpty(password)) {
-				return failed(1002, "密码不能为空.");
+				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
 			}
 			logger.debug("对比手机短信验证码:"+mobileRandomStr+"==="+SessionUtil.getMobileMessageRandomNum(request));
 			if (!mobileRandomStr.equalsIgnoreCase(SessionUtil.getMobileMessageRandomNum(request))) {
-				return failed(1002, "手机短信验证码错误.");
+				return failed(ExceptionCode.MSG_CAPTCHA_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.teacherRegist(schoolId,mobile,password);
 			if (result.equals("0")) {
 				return ok("注册成功.");
 			}else if(result.equals("1")) {
-				return failed(1002, "校区ID错误.");
+				return failed(ExceptionCode.USERINFO_ERROR_CODE, "校区ID错误.");
 			}else if(result.equals("2")) {
-				return failed(1002, "手机号码已经注册.");
+				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码已经注册.");
 			}else {
-				return failed(99999, "未知错误,请联系管理员.");
+				return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
 			}
 		} else {
-			return failed(1001, "验证码错误.");
+			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
 		}
 	}
 
