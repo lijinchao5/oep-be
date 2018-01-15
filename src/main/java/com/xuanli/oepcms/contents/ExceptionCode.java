@@ -24,7 +24,7 @@ public class ExceptionCode {
 	public static final Integer ADDUSER_ERROR_CODE = 2000;
 
 	/**短信验证码错误*/
-	public static final Integer MSG_CAPTCHA_ERROR_CODE = 9001;
+	public static final Integer MOBILE_MESSAGE_ERROR_CODE = 9001;
 	/**发送短信错误*/
 	public static final Integer SENDMSG_ERROR_CODE = 9002;
 	/**手机号码错误*/

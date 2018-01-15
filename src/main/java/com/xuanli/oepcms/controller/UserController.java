@@ -63,14 +63,14 @@ public class UserController extends BaseController {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码不能为空.");
 			}
 			if (StringUtil.isEmpty(mobileRandomStr)) {
-				return failed(ExceptionCode.MSG_CAPTCHA_ERROR_CODE, "手机验证码不能为空.");
+				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机验证码不能为空.");
 			}
 			if (StringUtil.isEmpty(password)) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
 			}
 			logger.debug("对比手机短信验证码:"+mobileRandomStr+"==="+SessionUtil.getMobileMessageRandomNum(request));
 			if (!mobileRandomStr.equalsIgnoreCase(SessionUtil.getMobileMessageRandomNum(request))) {
-				return failed(ExceptionCode.MSG_CAPTCHA_ERROR_CODE, "手机短信验证码错误.");
+				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.teacherRegist(schoolId,mobile,password);
 			if (result.equals("0")) {
