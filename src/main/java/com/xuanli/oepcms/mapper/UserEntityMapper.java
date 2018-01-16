@@ -57,4 +57,28 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年1月16日 上午9:42:23
 	 */
 	int inserUserClas(UserClasEntity userClasEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:13:43
+	 */
+	int findStudentByPageTotal(UserEntity userEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:13:49
+	 */
+	List<UserEntity> findStudentByPage(UserEntity userEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:44:24
+	 */
+	void deleteUserClas(UserClasEntity userClasEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:56:22
+	 */
+	int getClasStudentsByTeacher(Long teacherId);
 }

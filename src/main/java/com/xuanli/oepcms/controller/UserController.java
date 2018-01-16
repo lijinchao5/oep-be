@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
+import com.xuanli.oepcms.entity.UserClasEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.UserService;
 import com.xuanli.oepcms.util.PageBean;
@@ -88,7 +89,6 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/student_regist")
 	public RestResult<String> student_regist(String classId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
-			
 			if (StringUtil.isEmpty(classId)) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "班级ID不能为空.");
 			}
@@ -125,10 +125,48 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:45:14
 	 */
-	@RequestMapping(value = "/findByPage")
-	public RestResult<PageBean> findByPage(UserEntity userEntity, Integer rows, Integer page) {
+	@RequestMapping(value = "/findStudentByPage")
+	public RestResult<PageBean> findStudentByPage(UserEntity userEntity, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
-		//apartmentService.findByPage(apartmentBean, pageBean);
+		//保证这个班是这个老师创建的
+		userEntity.setClasCreateId(getCurrentUser().getId());
+		userService.findStudentByPage(userEntity,pageBean);
 		return ok(pageBean);
 	}
+	
+	/**
+	 * @Description:  TODO 删除该班级中的这个学生
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:34:20
+	 */
+	@RequestMapping(value = "/deleteStudent")
+	public RestResult<String> deleteStudent(UserClasEntity userClasEntity,String clasId) {
+		try {
+			userService.deleteStudent(userClasEntity);
+			return ok("操作成功.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("删除班级学生出现错误.");
+			return failed(ExceptionCode.DELETE_STUDENT_ERROR, "删除班级学生出现错误.");
+		}
+	}
+	/**
+	 * @Description:  TODO 重置学生密码
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:34:20
+	 */
+	@RequestMapping(value = "/resetStudentPassword")
+	public RestResult<String> resetStudentPassword(UserEntity userEntity) {
+		try {
+			userService.resetStudentPassword(userEntity);
+			return ok("操作成功.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("重置学生密码出现错误.");
+			return failed(ExceptionCode.REST_STUDENT_PASSWORD_ERROR, "重置学生密码出现错误.");
+		}
+	}
+	
+	
+	
 }

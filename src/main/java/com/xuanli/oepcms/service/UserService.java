@@ -15,6 +15,7 @@ import com.xuanli.oepcms.entity.UserClasEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.entity.UserSchoolEntity;
 import com.xuanli.oepcms.mapper.UserEntityMapper;
+import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.SessionUtil;
 
@@ -160,6 +161,39 @@ public class UserService {
 		} else {
 			return "1";
 		}
+	}
+
+	/**
+	 * @Description:  TODO 学生的分页操作
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:05:25
+	 */
+	public void findStudentByPage(UserEntity userEntity, PageBean pageBean) {
+		int total = userDao.findStudentByPageTotal(userEntity);
+		pageBean.setTotal(total);
+		userEntity.setStart(pageBean.getRowFrom());
+		userEntity.setEnd(pageBean.getPageSize());
+		List<UserEntity> userEntities = userDao.findStudentByPage(userEntity);
+		pageBean.setRows(userEntities);
+	}
+
+	/**
+	 * @Description:  TODO 删除班级学生
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:42:05
+	 */
+	public void deleteStudent(UserClasEntity userClasEntity) {
+		userDao.deleteUserClas(userClasEntity);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午2:50:20
+	 */
+	public void resetStudentPassword(UserEntity userEntity) {
+		userEntity.setPassword(PasswordUtil.generate(userEntity.getPassword()));
+		userDao.updateUserEntity(userEntity);
 	}
 
 }

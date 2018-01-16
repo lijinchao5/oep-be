@@ -242,4 +242,41 @@
 	</if>
   </insert>
   
+  
+  
+  <select id="findStudentByPageTotal" parameterType="com.xuanli.oepcms.entity.UserEntity" resultType="java.lang.Integer">
+	  select
+			count(*)
+		FROM
+			xl_user where id in (
+				SELECT
+					id
+				FROM
+					xl_user_clas
+				WHERE
+					clas_id = #{clasId,jdbcType=VARCHAR} and clas_id in (
+						select id from xl_clas where create_id=#{clasCreateId}
+					)
+			)
+  </select>
+  <select id="findStudentByPage" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    	select 
+    		<include refid="Base_Column_List" />
+		FROM
+			xl_user where id in (
+				SELECT
+					id
+				FROM
+					xl_user_clas
+				WHERE
+					clas_id = #{clasId,jdbcType=VARCHAR} and clas_id in (
+						select id from xl_clas where create_id=#{clasCreateId}
+					)
+			)
+  </select>
+  
+  <delete id="deleteUserClas" parameterType="com.xuanli.oepcms.entity.UserClasEntity">
+  	delete from xl_user_clas where user_id=#{userId,jdbcType=BIGINT} and clas_id=#{clasId,jdbcType=BIGINT}
+  </delete>
+  
 </mapper>

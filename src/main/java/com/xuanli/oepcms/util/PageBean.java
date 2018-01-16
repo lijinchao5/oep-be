@@ -10,8 +10,10 @@ public class PageBean {
 	private int pageSize;
 	private Integer total;
 	public PageBean(Integer page, Integer pageSize) {
-		if (pageSize > 1) {
+		if (null!= pageSize && pageSize > 1) {
 			this.pageSize = pageSize;
+		}else {
+			this.pageSize = 10;
 		}
 		this.page = page;
 	}

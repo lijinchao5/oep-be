@@ -2,7 +2,9 @@ package com.xuanli.oepcms.entity;
 
 import java.util.Date;
 
-public class UserEntity {
+import com.xuanli.oepcms.util.BasePageBean;
+
+public class UserEntity extends BasePageBean{
     private Long id;
 
     private String name;
@@ -36,8 +38,44 @@ public class UserEntity {
     private Date updateDate;
 
     private String enableFlag;
+    
+    
+    
+    //下面几个字段只用于查询
+    private String clasId;
+    private Long clasCreateId;
+    
+    
 
-    public Long getId() {
+    /** 
+	 * @return 返回 clasCreateId 
+	 */
+	public Long getClasCreateId() {
+		return clasCreateId;
+	}
+
+	/** 
+	 * @setParam 设置clasCreateId
+	 */
+	public void setClasCreateId(Long clasCreateId) {
+		this.clasCreateId = clasCreateId;
+	}
+
+	/** 
+	 * @return 返回 clasId 
+	 */
+	public String getClasId() {
+		return clasId;
+	}
+
+	/** 
+	 * @setParam 设置clasId
+	 */
+	public void setClasId(String clasId) {
+		this.clasId = clasId;
+	}
+
+	public Long getId() {
         return id;
     }
 
