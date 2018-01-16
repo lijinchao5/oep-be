@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +19,12 @@ import com.xuanli.oepcms.mapper.UserEntityMapper;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.SessionUtil;
+import com.xuanli.oepcms.util.StringUtil;
 
 @Service
 @Transactional
 public class UserService {
-
+	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private UserEntityMapper userDao;
 	@Autowired
@@ -203,6 +205,39 @@ public class UserService {
 	 */
 	public List<UserSchoolEntity> getUserSchool(Long userId) {
 		return userDao.getUserSchool(userId);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午4:08:24
+	 */
+	public int addClasStudentBatch(int size, Long clasId,Long userId) {
+		int j=0;
+		for (int i = 0; i < size; i++) {
+			try {
+				UserEntity userEntity = new UserEntity();
+				userEntity.setCreateDate(new Date());
+				userEntity.setCreateId(userId.longValue() + "");
+				userEntity.setRoleId(new Integer(4));
+				userEntity.setEnableFlag("T");
+				userEntity.setPassword(PasswordUtil.generate("888888"));
+				userDao.insertUserEntity(userEntity);
+				UserClasEntity userClasEntity = new UserClasEntity();
+				userClasEntity.setClasId(clasId);
+				userClasEntity.setUserId(userEntity.getId());
+				userDao.inserUserClas(userClasEntity);
+				UserEntity userEntity2 = new UserEntity();
+				userEntity2.setId(userEntity.getId());
+				userEntity2.setNameNum(userEntity.getId().longValue() + StringUtil.getRandomZM(2));
+				userDao.updateUserEntity(userEntity2);
+				j++;
+			} catch (Exception e) {
+				logger.error("批量添加用户出现错误.");
+				e.printStackTrace();
+			}
+		}
+		return j;
 	}
 
 }

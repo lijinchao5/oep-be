@@ -167,6 +167,19 @@ public class UserController extends BaseController {
 		}
 	}
 	
+	@RequestMapping(value = "/addClasStudentBatch")
+	public RestResult<String> addClasStudentBatch(int size,Long clasId){
+		try {
+			Long userId = getCurrentUser().getId();
+			int successSize = userService.addClasStudentBatch(size,clasId,userId);
+			return ok(successSize+"");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("重置学生密码出现错误.");
+			return failed(ExceptionCode.REST_STUDENT_PASSWORD_ERROR, "重置学生密码出现错误.");
+		}
+	}
+	
 	
 	
 }
