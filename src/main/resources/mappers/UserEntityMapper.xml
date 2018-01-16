@@ -229,7 +229,16 @@
 	  select count(*) id from xl_user_school where user_id=#{userId,jdbcType=BIGINT} and school_id=#{schoolId,jdbcType=BIGINT}
 	</selectKey>
 	<if test="allSize==0">
-	 insert into xl_user_school(user_id,school_id) values(#{userId,jdbcType=BIGINT}, #{schoolId,jdbcType=BIGINT})
+	  insert into xl_user_school(user_id,school_id) values(#{userId,jdbcType=BIGINT}, #{schoolId,jdbcType=BIGINT})
+	</if>
+  </insert>
+  <!-- 保存学生和班级的关系 -->
+  <insert id="inserUserClas" parameterType="com.xuanli.oepcms.entity.UserClasEntity">
+	<selectKey keyProperty="allSize" resultType="int" order="BEFORE">
+	  select count(*) id from xl_user_clas where user_id=#{userId,jdbcType=BIGINT} and clas_id=#{clasId,jdbcType=BIGINT}
+	</selectKey>
+	<if test="allSize==0">
+	  insert into xl_user_clas(user_id,clas_id) values(#{userId,jdbcType=BIGINT}, #{clasId,jdbcType=BIGINT})
 	</if>
   </insert>
   

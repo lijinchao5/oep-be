@@ -1,16 +1,7 @@
 package com.xuanli.oepcms.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
@@ -77,6 +68,40 @@ public class UserController extends BaseController {
 				return ok("注册成功.");
 			}else if(result.equals("1")) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "校区ID错误.");
+			}else if(result.equals("2")) {
+				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码已经注册.");
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
+			}
+		} else {
+			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
+		}
+	}
+	@RequestMapping(value = "/student_regist")
+	public RestResult<String> student_regist(String classId,String mobile,String randomStr,String password,String mobileRandomStr) {
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
+			
+			if (StringUtil.isEmpty(classId)) {
+				return failed(ExceptionCode.USERINFO_ERROR_CODE, "班级ID不能为空.");
+			}
+			if (StringUtil.isEmpty(mobile)) {
+				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码不能为空.");
+			}
+			if (StringUtil.isEmpty(mobileRandomStr)) {
+				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机验证码不能为空.");
+			}
+			if (StringUtil.isEmpty(password)) {
+				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
+			}
+			logger.debug("对比手机短信验证码:"+mobileRandomStr+"==="+SessionUtil.getMobileMessageRandomNum(request));
+			if (!mobileRandomStr.equalsIgnoreCase(SessionUtil.getMobileMessageRandomNum(request))) {
+				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
+			}
+			String result = userService.studentRegist(classId,mobile,password);
+			if (result.equals("0")) {
+				return ok("注册成功.");
+			}else if(result.equals("1")) {
+				return failed(ExceptionCode.USERINFO_ERROR_CODE, "班级ID错误.");
 			}else if(result.equals("2")) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码已经注册.");
 			}else {

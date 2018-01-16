@@ -6,8 +6,29 @@ public class UserClasEntity {
     private Long userId;
 
     private Long clasId;
+    
+    /**
+     * 没有实际意义
+     */
+    private Integer allSize;
+    
+    
 
-    public Long getId() {
+    /** 
+	 * @return 返回 allSize 
+	 */
+	public Integer getAllSize() {
+		return allSize;
+	}
+
+	/** 
+	 * @setParam 设置allSize
+	 */
+	public void setAllSize(Integer allSize) {
+		this.allSize = allSize;
+	}
+
+	public Long getId() {
         return id;
     }
 

@@ -67,9 +67,32 @@ public class MobileMessageController extends BaseController {
 	 */
 	@RequestMapping(value = "/forgetPassword")
 	public RestResult<String> forgetPassword(String mobile,String randomStr){
-		
-		
-		return null;
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
+			if (!StringUtil.isMobile(mobile)) {
+				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码错误.");
+			}
+			try {
+				String randomNum = RanNumUtil.createRandomNum(6);
+				String result = mobileMessageService.forgetPassword(mobile,randomNum);
+				if (StringUtil.isEmpty(result) || result.equals("1")) {
+					//发送短信成功
+					SessionUtil.setMobileMessageRandomNum(request, randomNum);
+					return ok("发送短信成功!");
+				}else if(result.equals("2")) {
+					//手机号码已经存在
+					return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码不存在.");
+				}else {
+					return failed(ExceptionCode.UNKNOW_CODE, "发送短信未知错误.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("发送短信异常.",e);
+				return failed(ExceptionCode.SENDMSG_ERROR_CODE, "发送短信异常.");
+			}
+		}else {
+			logger.error("发送短信--->验证码错误.");
+			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
+		}
 	}
 	/**
 	 * @Description:  TODO 使用手机号登陆

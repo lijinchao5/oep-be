@@ -21,6 +21,15 @@
     from xl_clas
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectClasEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+    select 
+    <include refid="Base_Column_List" />
+    from xl_clas
+    where enable_flag='T'
+      <if test="clasId != null" >
+        and clas_id = #{clasId,jdbcType=VARCHAR}
+      </if>
+  </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from xl_clas
     where id = #{id,jdbcType=BIGINT}

@@ -29,4 +29,6 @@ public class ExceptionCode {
 	public static final Integer SENDMSG_ERROR_CODE = 9002;
 	/**手机号码错误*/
 	public static final Integer MOBILE_ERROR_CODE = 9003;
+	/**用户被禁用**/
+	public static final int USERINFO_NOUSE_ERROR = 9004;
 }

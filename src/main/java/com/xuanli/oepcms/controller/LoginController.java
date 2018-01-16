@@ -5,9 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.druid.util.StringUtils;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.service.UserService;
@@ -47,6 +44,9 @@ public class LoginController extends BaseController {
 					} else if (result.equals("2")) {
 						// 用户名//或者密码错误
 						return failed(ExceptionCode.USERINFO_ERROR_CODE, "用户名或者密码错误.");
+					} else if (result.equals("3")) {
+						// 用户名//或者密码错误
+						return failed(ExceptionCode.USERINFO_NOUSE_ERROR, "用户被禁用,请联系管理员.");
 					} else {
 						return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
 					}
@@ -67,8 +67,6 @@ public class LoginController extends BaseController {
 		try {
 			// 生产验证码字符串并保存到session中
 			String createText = kaptcha.createText();
-
-
 			BufferedImage challenge = kaptcha.createImage(createText);
 			ImageIO.write(challenge, "jpg", os);
 			if (StringUtil.isEmpty(type) || type.equals("1")) {
