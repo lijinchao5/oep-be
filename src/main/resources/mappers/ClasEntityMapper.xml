@@ -11,9 +11,10 @@
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, clas_id, name, school_id, create_id, create_date, update_id, update_date, enable_flag
+    id, clas_id, name, school_id, create_id, create_date, update_id, update_date, enable_flag,grade
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -65,6 +66,9 @@
       <if test="enableFlag != null" >
         enable_flag,
       </if>
+      <if test="grade != null" >
+        grade,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -94,6 +98,9 @@
       <if test="enableFlag != null" >
         #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateById" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
@@ -122,6 +129,9 @@
       </if>
       <if test="enableFlag != null" >
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

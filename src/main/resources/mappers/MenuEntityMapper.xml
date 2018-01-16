@@ -148,4 +148,14 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getUserMenu" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.MenuEntity" >
+    select 
+    <include refid="Base_Column_List" />
+    from xl_menu
+    where enable_flag = 'T'
+    <if test="type != null" >
+        and type = #{type,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

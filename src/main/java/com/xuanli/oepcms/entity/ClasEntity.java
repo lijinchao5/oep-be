@@ -20,8 +20,24 @@ public class ClasEntity {
     private Date updateDate;
 
     private String enableFlag;
+    
+    private String grade;
+    
+    /** 
+	 * @return 返回 grade 
+	 */
+	public String getGrade() {
+		return grade;
+	}
 
-    public Long getId() {
+	/** 
+	 * @setParam 设置grade
+	 */
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public Long getId() {
         return id;
     }
 

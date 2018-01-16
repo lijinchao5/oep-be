@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xuanli.oepcms.entity.UserEntity;
+import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
@@ -56,5 +57,16 @@ public abstract class BaseController {
 				return null;
 			}
 		}
+	}
+	
+	protected PageBean initPageBean(Integer page,Integer rows){
+		if (null == page || page.intValue() == 0) {
+			page = 1;
+		}
+		if (null == rows || rows.intValue() == 0) {
+			rows = 1;
+		}
+		PageBean pageBean = new PageBean(page, rows);
+		return pageBean;
 	}
 }

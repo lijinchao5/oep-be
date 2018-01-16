@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.UserService;
+import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
@@ -39,9 +40,11 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.ADDUSER_ERROR_CODE, "增加用户失败.");
 		}
 	}
-	
-	
-	
+	/**
+	 * @Description:  TODO 教师注册
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午1:38:00
+	 */
 	@RequestMapping(value = "/teacher_regist")
 	public RestResult<String> teacher_regist(String schoolId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		
@@ -77,6 +80,11 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
 		}
 	}
+	/**
+	 * @Description:  TODO 学生注册
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午1:38:08
+	 */
 	@RequestMapping(value = "/student_regist")
 	public RestResult<String> student_regist(String classId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
@@ -111,5 +119,16 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
 		}
 	}
-
+	
+	/**
+	 * @Description:  TODO 获取该班级中用户信息---->分页
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午1:45:14
+	 */
+	@RequestMapping(value = "/findByPage")
+	public RestResult<PageBean> findByPage(UserEntity userEntity, Integer rows, Integer page) {
+		PageBean pageBean = initPageBean(page, rows);
+		//apartmentService.findByPage(apartmentBean, pageBean);
+		return ok(pageBean);
+	}
 }
