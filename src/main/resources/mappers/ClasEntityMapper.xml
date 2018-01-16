@@ -36,7 +36,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertClasEntity" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+  <insert id="insertClasEntity" parameterType="com.xuanli.oepcms.entity.ClasEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_clas
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

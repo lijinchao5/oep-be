@@ -196,4 +196,13 @@ public class UserService {
 		userDao.updateUserEntity(userEntity);
 	}
 
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午3:26:01
+	 */
+	public List<UserSchoolEntity> getUserSchool(Long userId) {
+		return userDao.getUserSchool(userId);
+	}
+
 }

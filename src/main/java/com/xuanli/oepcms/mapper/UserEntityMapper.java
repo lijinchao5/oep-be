@@ -81,4 +81,10 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年1月16日 下午2:56:22
 	 */
 	int getClasStudentsByTeacher(Long teacherId);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午3:26:25
+	 */
+	List<UserSchoolEntity> getUserSchool(Long userId);
 }

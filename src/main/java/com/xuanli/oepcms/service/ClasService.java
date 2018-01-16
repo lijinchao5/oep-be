@@ -1,5 +1,6 @@
 package com.xuanli.oepcms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xuanli.oepcms.entity.ClasEntity;
+import com.xuanli.oepcms.entity.UserSchoolEntity;
 import com.xuanli.oepcms.mapper.ClasEntityMapper;
+import com.xuanli.oepcms.util.StringUtil;
 
 
 @Service
@@ -15,7 +18,9 @@ import com.xuanli.oepcms.mapper.ClasEntityMapper;
 public class ClasService {
 	@Autowired
 	private ClasEntityMapper clasDao;
-
+	@Autowired
+	private UserService userService;
+	
 	/**
 	 * @Description:  TODO
 	 * @CreateName:  QiaoYu 
@@ -24,6 +29,25 @@ public class ClasService {
 	public List<ClasEntity> selectClasEntity(ClasEntity clasEntity) {
 		return clasDao.selectClasEntity(clasEntity);
 	}
-	
-
+	/**
+	 * @Description:  TODO 增加班级
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月16日 下午3:15:02
+	 */
+	public void saveClas(ClasEntity clasEntity, Long userId) {
+		//获取学校id
+		List<UserSchoolEntity> userSchoolEntities = userService.getUserSchool(userId);
+		Integer schoolId = userSchoolEntities.get(0).getSchoolId().intValue();
+		clasEntity.setEnableFlag("T");
+		clasEntity.setCreateId(userId.toString());
+		clasEntity.setCreateDate(new Date());
+		clasEntity.setSchoolId(schoolId);
+		//增加班级
+		clasDao.insertClasEntity(clasEntity);
+		//更新班级编号
+		ClasEntity clasEntity2 = new ClasEntity();
+		clasEntity2.setId(clasEntity.getId());
+		clasEntity2.setClasId(clasEntity.getId().longValue()+StringUtil.getRandomZM(2));
+		clasDao.updateById(clasEntity2);
+	}
 }
