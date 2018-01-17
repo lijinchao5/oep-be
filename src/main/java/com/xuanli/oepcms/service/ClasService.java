@@ -50,4 +50,12 @@ public class ClasService {
 		clasEntity2.setClasId(clasEntity.getId().longValue()+StringUtil.getRandomZM(2));
 		clasDao.updateById(clasEntity2);
 	}
+	/**删除班级,只解除老师与班级绑定关系，create_id设置为null*/
+	public void updateClas(Long clasId) {
+		clasDao.updateClas(clasId);
+	}
+	
+	public ClasEntity selectById(Long clasId) {
+		return clasDao.selectById(clasId);
+	}
 }

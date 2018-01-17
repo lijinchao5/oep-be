@@ -1,13 +1,21 @@
 package com.xuanli.oepcms.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.UserClasEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.UserService;
+import com.xuanli.oepcms.util.ExcelUtil;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.SessionUtil;
@@ -15,12 +23,12 @@ import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/user/**.do")
 public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/insert")
+	@RequestMapping(value = "insert")
 	public RestResult<String> saveUser(UserEntity user) {
 		try {
 			try {
@@ -46,7 +54,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:38:00
 	 */
-	@RequestMapping(value = "/teacher_regist")
+	@RequestMapping(value = "teacher_regist")
 	public RestResult<String> teacher_regist(String schoolId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
@@ -86,7 +94,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:38:08
 	 */
-	@RequestMapping(value = "/student_regist")
+	@RequestMapping(value = "student_regist")
 	public RestResult<String> student_regist(String classId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
 			if (StringUtil.isEmpty(classId)) {
@@ -125,7 +133,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:45:14
 	 */
-	@RequestMapping(value = "/findStudentByPage")
+	@RequestMapping(value = "findStudentByPage")
 	public RestResult<PageBean> findStudentByPage(UserEntity userEntity, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		//保证这个班是这个老师创建的
@@ -139,7 +147,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午2:34:20
 	 */
-	@RequestMapping(value = "/deleteStudent")
+	@RequestMapping(value = "deleteStudent")
 	public RestResult<String> deleteStudent(UserClasEntity userClasEntity,String clasId) {
 		try {
 			userService.deleteStudent(userClasEntity);
@@ -155,7 +163,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午2:34:20
 	 */
-	@RequestMapping(value = "/resetStudentPassword")
+	@RequestMapping(value = "resetStudentPassword")
 	public RestResult<String> resetStudentPassword(UserEntity userEntity) {
 		try {
 			userService.resetStudentPassword(userEntity);
@@ -167,7 +175,7 @@ public class UserController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(value = "/addClasStudentBatch")
+	@RequestMapping(value = "addClasStudentBatch")
 	public RestResult<String> addClasStudentBatch(int size,Long clasId){
 		try {
 			Long userId = getCurrentUser().getId();
@@ -180,6 +188,15 @@ public class UserController extends BaseController {
 		}
 	}
 	
+	
+	@RequestMapping(value = "exportClasStudent")
+    public void partExport(HttpServletResponse response,Long clasId){
+        List<UserEntity> userEntities = userService.exportNameNum(clasId);
+		//JSONArray ja = ptmpOrderService.selectStatExport();//获取业务数据集
+        Map<String,String> headMap = new HashMap<String,String>();//获取属性-列头
+        String title = "班级学生导出";
+       // ExcelUtil.downloadExcelFile(title,headMap,ja,response);
+    }
 	
 	
 }

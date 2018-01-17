@@ -87,4 +87,10 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年1月16日 下午3:26:25
 	 */
 	List<UserSchoolEntity> getUserSchool(Long userId);
+	/**
+	 * @Description:  TODO 导出列表信息
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月17日 上午10:02:26
+	 */
+	List<UserEntity> exportNameNum(UserEntity userEntity);
 }

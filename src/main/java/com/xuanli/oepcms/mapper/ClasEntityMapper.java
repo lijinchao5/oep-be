@@ -22,4 +22,7 @@ public interface ClasEntityMapper {
 	 */
 	List<ClasEntity> selectClasEntity(ClasEntity clasEntity);
     
+	
+	/**删除班级,只取消老师与班级绑定关系*/
+	int updateClas(Long userId);
 }

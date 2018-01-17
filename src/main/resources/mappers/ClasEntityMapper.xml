@@ -136,5 +136,9 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-
+  <update id="updateClas" parameterType="java.lang.Long" >
+    update xl_clas
+    set create_id = null
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

@@ -240,4 +240,15 @@ public class UserService {
 		return j;
 	}
 
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月17日 上午10:01:20
+	 */
+	public List<UserEntity> exportNameNum(Long clasId) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.setClasId(clasId.longValue()+"");
+		return userDao.exportNameNum(userEntity);
+	}
+
 }

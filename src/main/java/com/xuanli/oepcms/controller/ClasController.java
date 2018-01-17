@@ -20,14 +20,14 @@ import com.xuanli.oepcms.vo.RestResult;
  */
 @RestController()
 //@RequestMapping(value = "/class", method = RequestMethod.POST)
-@RequestMapping(value = "/class")
+@RequestMapping(value = "/class/")
 public class ClasController extends BaseController{
 	@Autowired
 	ClasService clasService;
 	
 	
 	
-	@RequestMapping(value = "/addClas")
+	@RequestMapping(value = "addClas.do")
 	public RestResult<String> addClas(ClasEntity clasEntity){
 		try {
 			Long userId = getCurrentUser().getId();
@@ -37,6 +37,24 @@ public class ClasController extends BaseController{
 			e.printStackTrace();
 			logger.error("添加班级异常,请联系管理员.", e);
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
+		}
+	}
+	
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月17日 上午9:57:58
+	 */
+	@RequestMapping(value = "updateClas.do")
+	public RestResult<String> deleteClas(Long clasId){
+		try {
+			clasId = getCurrentUser().getId();
+			clasService.updateClas(clasId);
+			return ok("删除班级成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("删除班级异常,请联系管理员",e);
+			return failed(ExceptionCode.UNKNOW_CODE,e.getMessage());
 		}
 	}
 }

@@ -282,5 +282,12 @@
   <delete id="deleteUserClas" parameterType="com.xuanli.oepcms.entity.UserClasEntity">
   	delete from xl_user_clas where user_id=#{userId,jdbcType=BIGINT} and clas_id=#{clasId,jdbcType=BIGINT}
   </delete>
-  
+  <select id="exportNameNum" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity">
+		SELECT
+			xu.name_num name_num
+		FROM
+			xl_user_clas xuc LEFT JOIN xl_user xu ON xuc.user_id = xu.id
+			WHERE
+		xuc.clas_id = #{clasId} AND xu.name_num is NOT NULL AND xu.name_num != ''
+	</select>
 </mapper>

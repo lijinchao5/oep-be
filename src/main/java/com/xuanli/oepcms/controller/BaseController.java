@@ -4,12 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.vo.RestResult;
-
 public abstract class BaseController {
 	@Autowired
 	protected HttpServletRequest request;
