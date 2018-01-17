@@ -56,8 +56,8 @@ public abstract class BaseController {
 			}
 		}
 	}
-
-	protected PageBean initPageBean(Integer page, Integer rows) {
+	
+	protected PageBean initPageBean(Integer page,Integer rows){
 		if (null == page || page.intValue() == 0) {
 			page = 1;
 		}
