@@ -23,7 +23,7 @@ import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 @RestController
-@RequestMapping(value = "/user/**.do")
+@RequestMapping(value = "/user/")
 public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;

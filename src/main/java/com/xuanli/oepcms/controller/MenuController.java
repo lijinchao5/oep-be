@@ -31,7 +31,7 @@ public class MenuController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:38:34
 	 */
-	@RequestMapping(value = "/getUserMenu.do")
+	@RequestMapping(value = "getUserMenu.do")
 	public RestResult<List<TreeObject>> getMenu() {
 		UserEntity userEntity = getCurrentUser();
 		List<TreeObject> trees = menuService.getUserMenu(userEntity);

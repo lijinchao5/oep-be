@@ -22,7 +22,7 @@ import com.xuanli.oepcms.vo.RestResult;
 
 @RestController()
 // @RequestMapping(value = "/", method = RequestMethod.POST)
-@RequestMapping(value = "/**.do")
+@RequestMapping(value = "/")
 public class LoginController extends BaseController {
 	@Autowired
 	UserService userService;
