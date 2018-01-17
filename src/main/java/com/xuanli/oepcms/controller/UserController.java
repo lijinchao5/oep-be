@@ -215,4 +215,20 @@ public class UserController extends BaseController {
 		String title = "班级学生导出";
 		ExcelUtil.downloadExcelFile(title, headMap,  JSONArray.parseArray(JSON.toJSONString(userEntities)), response);
 	}
+	/**
+	 * @Description:  TODO 查看账号使用状态
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月17日 上午11:02:35
+	 */
+	@RequestMapping(value = "getClassStudentUseStatus.do")
+	public RestResult<List<UserEntity>> getClassStudentUseStatus(Long clasId) {
+		try {
+			List<UserEntity> userEntities = userService.exportNameNum(clasId);
+			return ok(userEntities);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("批量添加出现错误.");
+			return failed(ExceptionCode.UNKNOW_CODE, "位置错误.");
+		}
+	}
 }
