@@ -45,6 +45,10 @@ public class UserService {
 			UserEntity result = userEntities.get(0);
 			if (result.getEnableFlag().equalsIgnoreCase("T")) {
 				if (PasswordUtil.verify(password, result.getPassword())) {
+					UserEntity up = new UserEntity();
+					up.setUpdateDate(new Date());
+					up.setId(result.getId());
+					userDao.updateUserEntity(up);
 					// 登陆成功
 					SessionUtil.setSessionUser(request, result);
 					return "1";
@@ -213,6 +217,12 @@ public class UserService {
 	 * @CreateDate:  2018年1月16日 下午4:08:24
 	 */
 	public int addClasStudentBatch(int size, Long clasId,Long userId) {
+		UserEntity userEntity1 = new UserEntity();
+		userEntity1.setClasId(clasId.longValue()+"");
+		List<UserEntity> userEntities = userDao.exportNameNum(userEntity1);
+		if (null!= userEntities && userEntities.size()>0) {
+			return -1;
+		}
 		int j=0;
 		for (int i = 0; i < size; i++) {
 			try {

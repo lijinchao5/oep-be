@@ -288,6 +288,6 @@
 		FROM
 			xl_user_clas xuc LEFT JOIN xl_user xu ON xuc.user_id = xu.id
 			WHERE
-		xuc.clas_id = #{clasId} AND xu.name_num is NOT NULL AND xu.name_num != ''
+		xuc.clas_id = #{clasId} AND xu.name_num is NOT NULL AND xu.name_num != '' and update_date is null
 	</select>
 </mapper>

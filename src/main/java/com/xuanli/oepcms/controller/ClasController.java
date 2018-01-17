@@ -48,7 +48,7 @@ public class ClasController extends BaseController{
 	@RequestMapping(value = "updateClas.do")
 	public RestResult<String> deleteClas(Long clasId){
 		try {
-			clasId = getCurrentUser().getId();
+			//clasId = getCurrentUser().getId();
 			clasService.updateClas(clasId);
 			return ok("删除班级成功!");
 		} catch (Exception e) {

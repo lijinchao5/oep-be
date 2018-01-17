@@ -27,7 +27,12 @@ public class ExceptionCode {
 	public static final Integer DELETE_STUDENT_ERROR = 1005;
 	/**重置学生密码失败**/
 	public static final int REST_STUDENT_PASSWORD_ERROR = 1006;
-	
+	/**批量添加出现错误**/
+	public static final int ADD_BATCH_ERROR = 1007;
+	/**已经批量添加过了**/
+	public static final int NOT_AGING_ADD_ERROR = 1008;
+	/**批量添加数量不能超过100**/
+	public static final int ADD_BATCH_SIZE_ERROR = 1008;
 
 	/**短信验证码错误*/
 	public static final Integer MOBILE_MESSAGE_ERROR_CODE = 9001;
@@ -35,6 +40,7 @@ public class ExceptionCode {
 	public static final Integer SENDMSG_ERROR_CODE = 9002;
 	/**手机号码错误*/
 	public static final Integer MOBILE_ERROR_CODE = 9003;
+	
 	
 	
 	
