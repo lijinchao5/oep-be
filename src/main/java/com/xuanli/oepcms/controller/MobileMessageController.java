@@ -21,7 +21,7 @@ import com.xuanli.oepcms.vo.RestResult;
  * @author QiaoYu
  */
 @RestController
-@RequestMapping(value = "/mobileMessage")
+@RequestMapping(value = "/mobileMessage/")
 public class MobileMessageController extends BaseController {
 	@Autowired
 	MobileMessageService mobileMessageService;
@@ -66,7 +66,7 @@ public class MobileMessageController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月15日 下午3:56:23
 	 */
-	@RequestMapping(value = "forgetPassword")
+	@RequestMapping(value = "forgetPassword.do")
 	public RestResult<String> forgetPassword(String mobile, String randomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
 			if (!StringUtil.isMobile(mobile)) {
@@ -101,7 +101,7 @@ public class MobileMessageController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月15日 下午3:56:14
 	 */
-	@RequestMapping(value = "loginMsg")
+	@RequestMapping(value = "loginMsg.do")
 	public RestResult<String> loginMsg(String mobile, String randomStr) {
 
 		return null;

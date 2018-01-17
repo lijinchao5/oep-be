@@ -21,7 +21,7 @@ import com.xuanli.oepcms.vo.RestResult;
  * @author  QiaoYu 
  */
 @RestController
-@RequestMapping(value = "/menu")
+@RequestMapping(value = "/menu/")
 public class MenuController extends BaseController{
 	@Autowired
 	MenuService menuService;
@@ -31,7 +31,7 @@ public class MenuController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:38:34
 	 */
-	@RequestMapping(value = "/getUserMenu")
+	@RequestMapping(value = "/getUserMenu.do")
 	public RestResult<List<TreeObject>> getMenu() {
 		UserEntity userEntity = getCurrentUser();
 		List<TreeObject> trees = menuService.getUserMenu(userEntity);

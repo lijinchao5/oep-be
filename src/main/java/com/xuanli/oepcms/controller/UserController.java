@@ -28,7 +28,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "insert")
+	@RequestMapping(value = "insert.do")
 	public RestResult<String> saveUser(UserEntity user) {
 		try {
 			try {
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:38:00
 	 */
-	@RequestMapping(value = "teacher_regist")
+	@RequestMapping(value = "teacher_regist.do")
 	public RestResult<String> teacher_regist(String schoolId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
@@ -94,7 +94,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:38:08
 	 */
-	@RequestMapping(value = "student_regist")
+	@RequestMapping(value = "student_regist.do")
 	public RestResult<String> student_regist(String classId,String mobile,String randomStr,String password,String mobileRandomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
 			if (StringUtil.isEmpty(classId)) {
@@ -133,7 +133,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:45:14
 	 */
-	@RequestMapping(value = "findStudentByPage")
+	@RequestMapping(value = "findStudentByPage.do")
 	public RestResult<PageBean> findStudentByPage(UserEntity userEntity, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		//保证这个班是这个老师创建的
@@ -147,7 +147,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午2:34:20
 	 */
-	@RequestMapping(value = "deleteStudent")
+	@RequestMapping(value = "deleteStudent.do")
 	public RestResult<String> deleteStudent(UserClasEntity userClasEntity,String clasId) {
 		try {
 			userService.deleteStudent(userClasEntity);
@@ -163,7 +163,7 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午2:34:20
 	 */
-	@RequestMapping(value = "resetStudentPassword")
+	@RequestMapping(value = "resetStudentPassword.do")
 	public RestResult<String> resetStudentPassword(UserEntity userEntity) {
 		try {
 			userService.resetStudentPassword(userEntity);
@@ -175,7 +175,7 @@ public class UserController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(value = "addClasStudentBatch")
+	@RequestMapping(value = "addClasStudentBatch.do")
 	public RestResult<String> addClasStudentBatch(int size,Long clasId){
 		try {
 			Long userId = getCurrentUser().getId();
@@ -189,7 +189,7 @@ public class UserController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "exportClasStudent")
+	@RequestMapping(value = "exportClasStudent.do")
     public void partExport(HttpServletResponse response,Long clasId){
         List<UserEntity> userEntities = userService.exportNameNum(clasId);
 		//JSONArray ja = ptmpOrderService.selectStatExport();//获取业务数据集

@@ -29,7 +29,7 @@ public class LoginController extends BaseController {
 	@Autowired
 	DefaultKaptcha kaptcha;
 
-	@RequestMapping(value = "login")
+	@RequestMapping(value = "login.do")
 	public RestResult<String> login(String username, String password, String randomStr) {
 		try {
 			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
@@ -61,7 +61,7 @@ public class LoginController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "picture", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+	@RequestMapping(value = "picture.do", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public byte[] getCaptcha(HttpServletResponse response, String type) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
