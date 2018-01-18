@@ -149,7 +149,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <!-- 增加查看题目信息 -->
+  <!-- 增加查看题目信息  -->
   <select id="getSectionDetails" parameterType="com.xuanli.oepcms.entity.SectionDetail" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
