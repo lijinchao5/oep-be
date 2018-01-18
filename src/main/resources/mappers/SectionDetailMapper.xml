@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xl.gen.dao.SectionDetailMapper">
-  <resultMap id="BaseResultMap" type="com.xl.gen.entity.SectionDetail">
+<mapper namespace="com.xuanli.oepcms.mapper.SectionDetailMapper">
+  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.SectionDetail">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -30,7 +30,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertSectionDetail" parameterType="com.xl.gen.entity.SectionDetail">
+  <insert id="insertSectionDetail" parameterType="com.xuanli.oepcms.entity.SectionDetail">
     insert into xl_section_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -109,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateSectionDetail" parameterType="com.xl.gen.entity.SectionDetail">
+  <update id="updateSectionDetail" parameterType="com.xuanli.oepcms.entity.SectionDetail">
     update xl_section_detail
     <set>
       <if test="personName != null">
@@ -149,4 +149,17 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+  <!-- 增加查看题目信息 -->
+  <select id="getSectionDetails" parameterType="com.xuanli.oepcms.entity.SectionDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_section_detail
+    where enable_flag='T'
+    <if test="type != null">
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="sectionId != null">
+        and section_id = #{sectionId,jdbcType=VARCHAR}
+      </if>
+  </select>
 </mapper>
