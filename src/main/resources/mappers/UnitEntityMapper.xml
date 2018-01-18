@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xl.gen.dao.UnitEntityMapper">
-  <resultMap id="BaseResultMap" type="com.xl.gen.entity.UnitEntity">
+<mapper namespace="com.xuanli.oepcms.mapper.UnitEntityMapper">
+  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.UnitEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="book_id" jdbcType="VARCHAR" property="bookId" />
@@ -25,7 +25,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertUnitEntity" parameterType="com.xl.gen.entity.UnitEntity">
+  <insert id="insertUnitEntity" parameterType="com.xuanli.oepcms.entity.UnitEntity">
     insert into xl_unit
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -80,7 +80,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateUnitEntity" parameterType="com.xl.gen.entity.UnitEntity">
+  <update id="updateUnitEntity" parameterType="com.xuanli.oepcms.entity.UnitEntity">
     update xl_unit
     <set>
       <if test="name != null">
@@ -107,5 +107,16 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="getUnitEntity" parameterType="com.xuanli.oepcms.entity.UnitEntity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_unit
+    where enable_flag='T' 
+    <if test="bookId != null">
+      and book_id = #{bookId,jdbcType=VARCHAR}
+    </if>
+  </select>
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.BookEntity;
@@ -13,6 +15,12 @@ public interface BookEntityMapper {
     BookEntity selectById(Long id);
     /**更新方法*/
     int updateByBookEntity(BookEntity record);
+	/**
+	 * @Description:  TODO 获取书籍信息
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月18日 上午9:36:17
+	 */
+	List<BookEntity> getBookEntity(BookEntity bookEntity);
 
 
 }

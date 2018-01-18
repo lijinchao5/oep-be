@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.UnitEntity;
@@ -16,4 +18,11 @@ public interface UnitEntityMapper {
     
     /**更新方法*/
     int updateUnitEntity(UnitEntity record);
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月18日 上午9:52:11
+	 */
+	List<UnitEntity> getUnitEntity(UnitEntity unitEntity);
 }

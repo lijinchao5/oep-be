@@ -1,7 +1,11 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.SectionDetail;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.xuanli.oepcms.entity.SectionDetail;
+@Mapper
 public interface SectionDetailMapper {
 	/**删除方法，根据id删除*/
     int deleteSectionDetail(Long id);
@@ -14,4 +18,11 @@ public interface SectionDetailMapper {
     
     /**更新方法*/
     int updateSectionDetail(SectionDetail record);
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月18日 上午10:15:32
+	 */
+	List<SectionDetail> getSectionDetails(SectionDetail sectionDetail);
 }

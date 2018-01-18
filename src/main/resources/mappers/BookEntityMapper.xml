@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xl.gen.dao.BookEntityMapper">
-  <resultMap id="BaseResultMap" type="com.xl.gen.entity.BookEntity">
+<mapper namespace="com.xuanli.oepcms.mapper.BookEntityMapper">
+  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.BookEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="grade" jdbcType="VARCHAR" property="grade" />
@@ -26,7 +26,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertBookEntity" parameterType="com.xl.gen.entity.BookEntity">
+  <insert id="insertBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity">
     insert into xl_book
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateBookEntity" parameterType="com.xl.gen.entity.BookEntity">
+  <update id="updateBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity">
     update xl_book
     <set>
       <if test="name != null">
@@ -117,5 +117,23 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  
+  <!-- 查询书籍的信息 -->
+  <select id="getBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from xl_book
+    where 
+    	enable_flag='T'
+      <if test="grade != null">
+        and grade = #{grade,jdbcType=VARCHAR}
+      </if>
+      <if test="bookVolume != null">
+        and book_volume = #{bookVolume,jdbcType=VARCHAR}
+      </if>
+  </select>
+
 
 </mapper>
