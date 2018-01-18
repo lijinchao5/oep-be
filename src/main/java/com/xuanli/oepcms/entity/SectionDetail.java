@@ -25,7 +25,7 @@ public class SectionDetail {
 
     private Date updateDate;
 
-    private String enableFalg;
+    private String enableFlag;
 
     public Long getId() {
         return id;
@@ -115,11 +115,11 @@ public class SectionDetail {
         this.updateDate = updateDate;
     }
 
-    public String getEnableFalg() {
-        return enableFalg;
+    public String getEnableFlag() {
+        return enableFlag;
     }
 
-    public void setEnableFalg(String enableFalg) {
-        this.enableFalg = enableFalg;
+    public void setEnableFlag(String enableFlag) {
+        this.enableFlag = enableFlag;
     }
 }
