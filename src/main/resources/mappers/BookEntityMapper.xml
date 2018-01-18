@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xl.gen.dao.BookEntityMapper">
+  <resultMap id="BaseResultMap" type="com.xl.gen.entity.BookEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="book_volume" jdbcType="VARCHAR" property="bookVolume" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="update_date" jdbcType="DATE" property="updateDate" />
+    <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, grade, book_volume, create_id, create_date, update_id, update_date, enable_flag
+  </sql>
+  <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_book
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteBookEntity" parameterType="java.lang.Long">
+    delete from xl_book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertBookEntity" parameterType="com.xl.gen.entity.BookEntity">
+    insert into xl_book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="bookVolume != null">
+        book_volume,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="enableFlag != null">
+        enable_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="bookVolume != null">
+        #{bookVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="enableFlag != null">
+        #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateBookEntity" parameterType="com.xl.gen.entity.BookEntity">
+    update xl_book
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="bookVolume != null">
+        book_volume = #{bookVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>
