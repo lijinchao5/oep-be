@@ -28,7 +28,7 @@ public class MenuController extends BaseController{
 	
 	/**
 	 * @Description:  TODO 用户获取menu菜单信息
-	 * @CreateName:  QiaoYu 
+	 * @CreateName:  QiaoYu
 	 * @CreateDate:  2018年1月16日 下午1:38:34
 	 */
 	@RequestMapping(value = "getUserMenu.do")

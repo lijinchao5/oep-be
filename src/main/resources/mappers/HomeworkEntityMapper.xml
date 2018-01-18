@@ -15,27 +15,18 @@
   <sql id="Base_Column_List" >
     id, name, end_time, clas_id, remark, create_id, create_date, update_id, update_date
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_homework
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteHomeworkEntity" parameterType="java.lang.Long" >
     delete from xl_homework
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
-    insert into xl_homework (id, name, end_time, 
-      clas_id, remark, create_id, 
-      create_date, update_id, update_date
-      )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{clasId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=BIGINT}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
+
+  <insert id="insertHomeworkEntity" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
     insert into xl_homework
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -96,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
+  <update id="updateHomeworkEntity" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
     update xl_homework
     <set >
       <if test="name != null" >
@@ -126,16 +117,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
-    update xl_homework
-    set name = #{name,jdbcType=VARCHAR},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      clas_id = #{clasId,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=BIGINT},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>

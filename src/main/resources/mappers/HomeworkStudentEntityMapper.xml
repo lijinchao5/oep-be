@@ -16,27 +16,18 @@
     id, homework_id, student_id, remark, work_complate, create_id, create_date, update_id, 
     update_date
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_homework_student
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteHomeworkStudentEntity" parameterType="java.lang.Long" >
     delete from xl_homework_student
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
-    insert into xl_homework_student (id, homework_id, student_id, 
-      remark, work_complate, create_id, 
-      create_date, update_id, update_date
-      )
-    values (#{id,jdbcType=BIGINT}, #{homeworkId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT}, 
-      #{remark,jdbcType=VARCHAR}, #{workComplate,jdbcType=VARCHAR}, #{createId,jdbcType=BIGINT}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+
+  <insert id="insertHomeworkStudentEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
     insert into xl_homework_student
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -97,7 +88,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+  <update id="updateHomeworkStudentEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
     update xl_homework_student
     <set >
       <if test="homeworkId != null" >
@@ -127,16 +118,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
-    update xl_homework_student
-    set homework_id = #{homeworkId,jdbcType=BIGINT},
-      student_id = #{studentId,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR},
-      work_complate = #{workComplate,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=BIGINT},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>

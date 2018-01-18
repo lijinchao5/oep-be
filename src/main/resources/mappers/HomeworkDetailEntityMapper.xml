@@ -13,25 +13,18 @@
   <sql id="Base_Column_List" >
     id, homework_id, section_detail_id, create_id, create_date, update_id, update_date
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from xl_homework_detail
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteHomeworkDetailEntity" parameterType="java.lang.Long" >
     delete from xl_homework_detail
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
-    insert into xl_homework_detail (id, homework_id, section_detail_id, 
-      create_id, create_date, update_id, 
-      update_date)
-    values (#{id,jdbcType=BIGINT}, #{homeworkId,jdbcType=BIGINT}, #{sectionDetailId,jdbcType=BIGINT}, 
-      #{createId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=BIGINT}, 
-      #{updateDate,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
+
+  <insert id="insertHomeworkDetailEntity" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
     insert into xl_homework_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
+  <update id="updateHomeworkDetailEntity" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
     update xl_homework_detail
     <set >
       <if test="homeworkId != null" >
@@ -104,14 +97,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
-    update xl_homework_detail
-    set homework_id = #{homeworkId,jdbcType=BIGINT},
-      section_detail_id = #{sectionDetailId,jdbcType=BIGINT},
-      create_id = #{createId,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=BIGINT},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>
