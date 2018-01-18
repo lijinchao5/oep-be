@@ -26,7 +26,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertHomeworkEntity" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" >
+  <insert id="insertHomeworkEntity" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_homework
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

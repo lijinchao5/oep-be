@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.HomeworkDetailEntity;
@@ -13,5 +15,11 @@ public interface HomeworkDetailEntityMapper {
     HomeworkDetailEntity selectById(Long id);
     /**更新方法*/
     int updateHomeworkDetailEntity(HomeworkDetailEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月18日 下午4:06:02
+	 */
+	void inserHomeworkDetailBatch(List<HomeworkDetailEntity> homeworkDetailEntities);
 
 }

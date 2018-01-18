@@ -261,4 +261,13 @@ public class UserService {
 		return userDao.exportNameNum(userEntity);
 	}
 
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月18日 下午4:39:45
+	 */
+	public List<UserEntity> getClasUseStudent(UserEntity userEntity) {
+		return userDao.getClasUserStudent(userEntity);
+	}
+
 }

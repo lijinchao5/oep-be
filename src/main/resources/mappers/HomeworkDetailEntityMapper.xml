@@ -98,4 +98,12 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+
+	<insert id="inserHomeworkDetailBatch" parameterType="java.util.List">
+		insert into xl_homework_detail(homework_id,section_detail_id,create_id,create_date)values
+        <foreach collection ="list" item="hd" index= "index" separator =",">
+            (#{hd.homeworkId}, #{hd.sectionDetailId},#{hd.createId},#{hd.createDate})
+        </foreach >
+	</insert>
+
 </mapper>

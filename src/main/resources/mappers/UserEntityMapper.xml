@@ -291,6 +291,17 @@
 			WHERE
 		xuc.clas_id = #{clasId} AND xu.name_num is NOT NULL
 	</select>
+  <select id="getClasUserStudent" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity">
+		select 
+			xu.id, xu.name, xu.mobile, xu.password, xu.sex, xu.birth_date, xu.study_section_id, xu.grade__level_id, xu.book_version_id,xu.role_id,
+			xu.name_num, xu.remark, xu.create_id, xu.create_date, xu.update_id, xu.update_date, xu.enable_flag
+		from 
+			(select * from xl_user_clas where clas_id=#{clasId}) xuc 
+		LEFT JOIN 
+			xl_user xu ON xuc.user_id = xu.id 
+		where 
+			xu.name_num  is null or (xu.name_num is not null and xu.update_date is not null)
+	</select>
 	
 	
 	

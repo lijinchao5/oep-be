@@ -93,4 +93,10 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年1月17日 上午10:02:26
 	 */
 	List<UserEntity> exportNameNum(UserEntity userEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月18日 下午4:40:04
+	 */
+	List<UserEntity> getClasUserStudent(UserEntity userEntity);
 }
