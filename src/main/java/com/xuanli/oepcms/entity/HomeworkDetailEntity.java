@@ -9,6 +9,8 @@ public class HomeworkDetailEntity {
 
     private Long sectionDetailId;
 
+    private String homeworkType;
+
     private Long createId;
 
     private Date createDate;
@@ -39,6 +41,14 @@ public class HomeworkDetailEntity {
 
     public void setSectionDetailId(Long sectionDetailId) {
         this.sectionDetailId = sectionDetailId;
+    }
+
+    public String getHomeworkType() {
+        return homeworkType;
+    }
+
+    public void setHomeworkType(String homeworkType) {
+        this.homeworkType = homeworkType == null ? null : homeworkType.trim();
     }
 
     public Long getCreateId() {
