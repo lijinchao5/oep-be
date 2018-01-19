@@ -35,11 +35,11 @@ public class FileUtil {
 	 */
 	public String uploadFile(InputStream inputStream, String path, HttpServletRequest request) throws IOException {
 		String contextBasePath = request.getSession().getServletContext().getRealPath("/");
-		String basePath = contextBasePath + File.separator + "uploadFile";
-		String thisBasePath = basePath + File.separator + File.separator + path + File.separator;
+		String basePath = contextBasePath + "uploadFile";
+		String thisBasePath = basePath + File.separator + path + File.separator;
 		String fileName = UUID.randomUUID().toString().replace("-", "") + ".mp3";
 		String cdDir = FileUtil.getCdDir();
-		String savePath = thisBasePath + cdDir + File.separator;
+		String savePath = cdDir + File.separator;
 		String imagePath = thisBasePath + savePath + fileName;
 		String realPath = thisBasePath + savePath;
 		File savePathFile = new File(realPath);

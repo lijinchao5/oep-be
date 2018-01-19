@@ -128,6 +128,7 @@ public class HomeworkService {
 		scoreEntity.setCreateId(studentId);
 		scoreEntity.setSectionId(sectionId);
 		scoreEntity.setHomeworkId(homeworkId);
+		scoreEntity.setText(text);
 		homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
 		return "0";
 	}
