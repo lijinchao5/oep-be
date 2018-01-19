@@ -7,6 +7,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
+import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.service.HomeworkService;
 import com.xuanli.oepcms.vo.RestResult;
 
@@ -35,10 +37,10 @@ public class HomeworkController extends BaseController {
 	 * @CreateDate: 2018年1月18日 下午3:31:48
 	 */
 	@RequestMapping(value = "makeHomeWork.do")
-	public RestResult<String> makeHomeWork(String name, String clasId, Date endTime, String remark, String section) {
+	public RestResult<String> makeHomeWork(String name, String clasId, Date endTime, String remark, List<HomeworkBean> homeworkBeans) {
 		try {
 			Long createId = getCurrentUser().getId();
-			homeworkService.makeHomeWork(name, clasId, endTime, remark, section, createId);
+			homeworkService.makeHomeWork(name, clasId, endTime, remark, homeworkBeans, createId);
 			return ok("成功.");
 		} catch (Exception e) {
 			e.printStackTrace();

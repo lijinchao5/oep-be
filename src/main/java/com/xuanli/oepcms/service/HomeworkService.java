@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.entity.HomeworkDetailEntity;
 import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
@@ -53,7 +54,7 @@ public class HomeworkService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月18日 下午3:43:08
 	 */
-	public void makeHomeWork(String name, String clasId, Date endTime, String remark, String section, Long createId) {
+	public void makeHomeWork(String name, String clasId, Date endTime, String remark, List<HomeworkBean> homeworkBeans, Long createId) {
 		Date createDate = new Date();
 		// 获取所有的班级id--可能是多个班级
 		String[] clasIds = clasId.split(",");
@@ -86,17 +87,19 @@ public class HomeworkService {
 			if (null != homeworkStudentEntities && homeworkStudentEntities.size() > 0) {
 				homeworkStudentDao.insertHomeworkStudentEntityBatch(homeworkStudentEntities);
 			}
-
 			// 保存作业详细信息
 			List<HomeworkDetailEntity> homeworkDetailEntities = new ArrayList<HomeworkDetailEntity>();
-			String[] sections = section.split(",");
-			for (String sec : sections) {
-				HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
-				homeworkDetailEntity.setCreateId(createId);
-				homeworkDetailEntity.setCreateDate(createDate);
-				homeworkDetailEntity.setHomeworkId(homeworkId);
-				homeworkDetailEntity.setSectionDetailId(Long.parseLong(sec));
-				homeworkDetailEntities.add(homeworkDetailEntity);
+			for (HomeworkBean homeworkBean : homeworkBeans) {
+				String[] sections = homeworkBean.getSubjects().split(",");
+				for (String sec : sections) {
+					HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
+					homeworkDetailEntity.setCreateId(createId);
+					homeworkDetailEntity.setCreateDate(createDate);
+					homeworkDetailEntity.setHomeworkId(homeworkId);
+					homeworkDetailEntity.setHomeworkType(homeworkBean.getType() + "");
+					homeworkDetailEntity.setSectionDetailId(Long.parseLong(sec));
+					homeworkDetailEntities.add(homeworkDetailEntity);
+				}
 			}
 			if (null != homeworkDetailEntities && homeworkDetailEntities.size() > 0) {
 				homeworkDetailDao.inserHomeworkDetailBatch(homeworkDetailEntities);
@@ -105,16 +108,16 @@ public class HomeworkService {
 	}
 
 	/**
-	 * @Description:  TODO 做家庭作业
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月19日 上午9:41:12
+	 * @Description: TODO 做家庭作业
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月19日 上午9:41:12
 	 */
-	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, MultipartFile file, String text,HttpServletRequest request) {
+	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, MultipartFile file, String text, HttpServletRequest request) {
 		String filePath = null;
 		if (!file.isEmpty()) {
 			try {
 				InputStream inputStream = file.getInputStream();
-				filePath = fileUtil.uploadFile(inputStream,"student_homework_audio",request);
+				filePath = fileUtil.uploadFile(inputStream, "student_homework_audio", request);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("上传文件失败!");
@@ -132,8 +135,5 @@ public class HomeworkService {
 		homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
 		return "0";
 	}
-	
-	
-	
 
 }
