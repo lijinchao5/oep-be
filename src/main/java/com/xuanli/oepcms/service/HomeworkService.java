@@ -6,26 +6,35 @@
  */
 package com.xuanli.oepcms.service;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.entity.HomeworkDetailEntity;
 import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
+import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.HomeworkDetailEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
+import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
+import com.xuanli.oepcms.util.FileUtil;
 
 /**
  * @author QiaoYu
  */
 @Service
 public class HomeworkService {
+	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	HomeworkEntityMapper homeworkDao;
 	@Autowired
@@ -33,7 +42,11 @@ public class HomeworkService {
 	@Autowired
 	HomeworkStudentEntityMapper homeworkStudentDao;
 	@Autowired
+	HomeworkStudentScoreEntityMapper homeworkStudentScoreDao;
+	@Autowired
 	UserService userService;
+	@Autowired
+	FileUtil fileUtil;
 
 	/**
 	 * @Description: TODO
@@ -90,5 +103,36 @@ public class HomeworkService {
 			}
 		}
 	}
+
+	/**
+	 * @Description:  TODO 做家庭作业
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月19日 上午9:41:12
+	 */
+	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, MultipartFile file, String text,HttpServletRequest request) {
+		String filePath = null;
+		if (!file.isEmpty()) {
+			try {
+				InputStream inputStream = file.getInputStream();
+				filePath = fileUtil.uploadFile(inputStream,"student_homework_audio",request);
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("上传文件失败!");
+				filePath = null;
+				return "1";
+			}
+		}
+		HomeworkStudentScoreEntity scoreEntity = new HomeworkStudentScoreEntity();
+		scoreEntity.setAudioPath(filePath);
+		scoreEntity.setEnableFlag("T");
+		scoreEntity.setCreateId(studentId);
+		scoreEntity.setSectionId(sectionId);
+		scoreEntity.setHomeworkId(homeworkId);
+		homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
+		return "0";
+	}
+	
+	
+	
 
 }

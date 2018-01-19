@@ -20,7 +20,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 public class DatabaseConfig implements EnvironmentAware {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfig.class);
 
-    private RelaxedPropertyResolver propertyResolver;
+    public RelaxedPropertyResolver propertyResolver;
 
     /**
      * 初始化yml配置
