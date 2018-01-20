@@ -20,16 +20,25 @@ import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController()
-// @RequestMapping(value = "/", method = RequestMethod.POST)
 @RequestMapping(value = "/")
 public class LoginController extends BaseController {
 	@Autowired
 	UserService userService;
 	@Autowired
 	DefaultKaptcha kaptcha;
-
-	@RequestMapping(value = "login.do")
+	
+	@ApiOperation(value="登陆方法", notes="登陆方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "login.do", method = RequestMethod.POST)
 	public RestResult<String> login(String username, String password, String randomStr) {
 		try {
 			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
@@ -61,6 +70,10 @@ public class LoginController extends BaseController {
 		}
 	}
 
+	@ApiOperation(value="获取图片验证码", notes="获取图片验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "图片类型1:登陆注册2:手机图片验证码,默认为1", required = false, dataType = "String"),
+    })
 	@RequestMapping(value = "picture.do", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public byte[] getCaptcha(HttpServletResponse response, String type) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
