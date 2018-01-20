@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
@@ -22,6 +23,10 @@ import com.xuanli.oepcms.service.BookSectionService;
 import com.xuanli.oepcms.service.BookService;
 import com.xuanli.oepcms.service.BookUnitService;
 import com.xuanli.oepcms.vo.RestResult;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /** 
  * @author  QiaoYu 
@@ -44,9 +49,18 @@ public class BookController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月18日 上午9:50:50
 	 */
-	@RequestMapping(value = "getBooks.do")
-	public RestResult<List<BookEntity>> getBooks(BookEntity bookEntity){
+	
+	@ApiOperation(value="更换教材", notes="查询教材信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "bookVolume", value = "教材册别", required = true, dataType = "String"),
+    })
+	@RequestMapping(value = "getBooks.do", method = RequestMethod.POST)
+	public RestResult<List<BookEntity>> getBooks(String grade,String bookVolume){
 		try {
+			BookEntity bookEntity = new BookEntity();
+			bookEntity.setGrade(grade);
+			bookEntity.setBookVolume(bookVolume);
 			List<BookEntity> bookEntities = bookService.getBookEntity(bookEntity);
 			return ok(bookEntities);
 		} catch (Exception e) {
@@ -63,8 +77,14 @@ public class BookController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月18日 上午9:50:37
 	 */
-	@RequestMapping(value = "getUnits.do")
-	public RestResult<List<UnitEntity>> getUnits(UnitEntity unitEntity){
+	@ApiOperation(value="查询单元", notes="查询教材的单元信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "bookId", value = "教材Id", required = true, dataType = "String"),
+    })
+	@RequestMapping(value = "getUnits.do", method = RequestMethod.POST)
+	public RestResult<List<UnitEntity>> getUnits(String bookId){
+		UnitEntity unitEntity = new UnitEntity();
+		unitEntity.setBookId(bookId);
 		try {
 			List<UnitEntity> unitEntities = bookUnitService.getUnitEntity(unitEntity);
 			return ok(unitEntities);
@@ -80,9 +100,15 @@ public class BookController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月18日 上午9:50:37
 	 */
-	@RequestMapping(value = "getSections.do")
-	public RestResult<List<SectionEntity>> getSections(SectionEntity sectionEntity){
+	@ApiOperation(value="查询单元详情", notes="查询教材的单元信息的详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "unitId", value = "教材单元Id", required = true, dataType = "String"),
+    })
+	@RequestMapping(value = "getSections.do", method = RequestMethod.POST)
+	public RestResult<List<SectionEntity>> getSections(String unitId){
 		try {
+			SectionEntity sectionEntity = new SectionEntity();
+			sectionEntity.setUnitId(unitId);
 			List<SectionEntity> sectionEntities = bookSectionService.getSectionEntity(sectionEntity);
 			return ok(sectionEntities);
 		} catch (Exception e) {
@@ -97,9 +123,15 @@ public class BookController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月18日 上午10:16:41
 	 */
-	@RequestMapping(value = "getSectionDetail.do")
-	public RestResult<List<SectionDetail>> getSectionDetail(SectionDetail sectionDetail){
+	@ApiOperation(value="查询单元章节内容", notes="查询单元章节内容")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sectionId", value = "教材单元章节Id", required = true, dataType = "String"),
+    })
+	@RequestMapping(value = "getSectionDetail.do", method = RequestMethod.POST)
+	public RestResult<List<SectionDetail>> getSectionDetail(String sectionId){
 		try {
+			SectionDetail sectionDetail = new SectionDetail();
+			sectionDetail.setSectionId(sectionId);
 			List<SectionDetail> sectionDetails = bookSectionDetailService.getSectionDetail(sectionDetail);
 			return ok(sectionDetails);
 		} catch (Exception e) {

@@ -2,6 +2,8 @@ package com.xuanli.oepcms.entity;
 
 import java.util.Date;
 
+import io.swagger.annotations.ApiModel;
+@ApiModel
 public class HomeworkEntity {
     private Long id;
 

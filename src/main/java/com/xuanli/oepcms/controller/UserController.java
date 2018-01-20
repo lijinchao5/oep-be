@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -23,13 +24,19 @@ import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping(value = "/user/")
 public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(value = "insert.do")
+	
+	@ApiIgnore
+	@RequestMapping(value = "insert.do", method = RequestMethod.POST)
 	public RestResult<String> saveUser(UserEntity user) {
 		try {
 			try {
@@ -56,7 +63,15 @@ public class UserController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月16日 下午1:38:00
 	 */
-	@RequestMapping(value = "teacher_regist.do")
+	@ApiOperation(value="教师注册", notes="教师注册方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "schoolId", value = "校区id", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "mobile", value = "教师手机号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "teacher_regist.do", method = RequestMethod.POST)
 	public RestResult<String> teacher_regist(String schoolId, String mobile, String randomStr, String password, String mobileRandomStr) {
 
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
@@ -97,7 +112,15 @@ public class UserController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月16日 下午1:38:08
 	 */
-	@RequestMapping(value = "student_regist.do")
+	@ApiOperation(value="学生注册", notes="学生注册方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "mobile", value = "学生手机号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "student_regist.do", method = RequestMethod.POST)
 	public RestResult<String> student_regist(String classId, String mobile, String randomStr, String password, String mobileRandomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
 			if (StringUtil.isEmpty(classId)) {
@@ -136,8 +159,16 @@ public class UserController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月16日 下午1:45:14
 	 */
-	@RequestMapping(value = "findStudentByPage.do")
-	public RestResult<PageBean> findStudentByPage(UserEntity userEntity, Integer rows, Integer page) {
+	@ApiOperation(value="账号使用情况分页查询", notes="账号使用情况的分页查询方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "clasId", value = "用户id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "rows", value = "分页行数", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "page", value = "分页页数", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.POST)
+	public RestResult<PageBean> findStudentByPage(Long clasId, Integer rows, Integer page) {
+		UserEntity userEntity = new UserEntity();
+		
 		PageBean pageBean = initPageBean(page, rows);
 		// 保证这个班是这个老师创建的
 		userEntity.setClasCreateId(getCurrentUser().getId());
@@ -150,9 +181,18 @@ public class UserController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月16日 下午2:34:20
 	 */
-	@RequestMapping(value = "deleteStudent.do")
-	public RestResult<String> deleteStudent(UserClasEntity userClasEntity, String clasId) {
+	@ApiOperation(value="删除学生", notes="删除班级中学生的方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
+
+    })
+	@RequestMapping(value = "deleteStudent.do", method = RequestMethod.POST)
+	public RestResult<String> deleteStudent(Long userId, Long clasId) {
 		try {
+			UserClasEntity userClasEntity = new UserClasEntity();
+			userClasEntity.setUserId(userId);
+			userClasEntity.setClasId(clasId);
 			userService.deleteStudent(userClasEntity);
 			return ok("操作成功.");
 		} catch (Exception e) {
@@ -167,9 +207,15 @@ public class UserController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月16日 下午2:34:20
 	 */
-	@RequestMapping(value = "resetStudentPassword.do")
-	public RestResult<String> resetStudentPassword(UserEntity userEntity) {
+	@ApiOperation(value="重置密码", notes="重置用户密码方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "Long")
+    })
+	@RequestMapping(value = "resetStudentPassword.do", method = RequestMethod.POST)
+	public RestResult<String> resetStudentPassword(String password) {
 		try {
+			UserEntity userEntity = new UserEntity();
+			userEntity.setPassword(PasswordUtil.generate(password));
 			userService.resetStudentPassword(userEntity);
 			return ok("操作成功.");
 		} catch (Exception e) {
@@ -183,7 +229,12 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月17日 上午11:29:57
 	 */
-	@RequestMapping(value = "addClasStudentBatch.do")
+	@ApiOperation(value="批量添加学生", notes="批量添加学生方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "size", value = "创建学生数量", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
+    })
+	@RequestMapping(value = "addClasStudentBatch.do", method = RequestMethod.POST)
 	public RestResult<String> addClasStudentBatch(int size, Long clasId) {
 		try {
 			if (size>100) {
@@ -207,7 +258,11 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月17日 上午11:02:35
 	 */
-	@RequestMapping(value = "exportClasStudent.do")
+	@ApiOperation(value="导出学生账号", notes="导出学生账号方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
+    })
+	@RequestMapping(value = "exportClasStudent.do", method = RequestMethod.POST)
 	public void partExport(HttpServletResponse response, Long clasId) {
 		List<UserEntity> userEntities = userService.exportNameNum(clasId);
 		Map<String, String> headMap = new HashMap<String, String>();// 获取属性-列头
@@ -220,7 +275,11 @@ public class UserController extends BaseController {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月17日 上午11:02:35
 	 */
-	@RequestMapping(value = "getClassStudentUseStatus.do")
+	@ApiOperation(value="账号使用情况", notes="查看账号使用情况方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
+    })
+	@RequestMapping(value = "getClassStudentUseStatus.do", method = RequestMethod.POST)
 	public RestResult<List<UserEntity>> getClassStudentUseStatus(Long clasId) {
 		try {
 			List<UserEntity> userEntities = userService.exportNameNum(clasId);

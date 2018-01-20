@@ -21,9 +21,15 @@ import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.service.HomeworkService;
 import com.xuanli.oepcms.vo.RestResult;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author QiaoYu
  */
+
 @RestController()
 // @RequestMapping(value = "/homework", method = RequestMethod.POST)
 @RequestMapping(value = "/homework/")
@@ -36,7 +42,15 @@ public class HomeworkController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月18日 下午3:31:48
 	 */
-	@RequestMapping(value = "makeHomeWork.do")
+	@ApiOperation(value="布置作业", notes="老师布置作业方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "作业名称", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "endTime", value = "作业完成时间 格式 yyyy-MM-dd HH:mm:ss", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "remark", value = "", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "homeworkBeans", value = "作业列表", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "makeHomeWork.do", method = RequestMethod.POST)
 	public RestResult<String> makeHomeWork(String name, String clasId, Date endTime, String remark, List<HomeworkBean> homeworkBeans) {
 		try {
 			Long createId = getCurrentUser().getId();
@@ -56,6 +70,13 @@ public class HomeworkController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月19日 上午9:32:12
 	 */
+	@ApiOperation(value="学生做作业", notes="学生做作业方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sectionId", value = "作业详情id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "File"),
+            @ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"),
+    })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
 	public RestResult<String> doHomeWork(Long sectionId, Long homeworkId, @RequestParam("audioFile") MultipartFile file, String text) {
 		try {

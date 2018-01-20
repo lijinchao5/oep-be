@@ -8,12 +8,17 @@ package com.xuanli.oepcms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.service.ClasService;
 import com.xuanli.oepcms.vo.RestResult;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /** 
  * @author  QiaoYu 
@@ -26,9 +31,16 @@ public class ClasController extends BaseController{
 	ClasService clasService;
 	
 	
-	
-	@RequestMapping(value = "addClas.do")
-	public RestResult<String> addClas(ClasEntity clasEntity){
+	@ApiOperation(value="创建班级", notes="增加班级方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "name", value = "班级名称", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "addClas.do", method = RequestMethod.POST)
+	public RestResult<String> addClas(String grade,String name){
+		ClasEntity clasEntity = new ClasEntity();
+		clasEntity.setGrade(grade);
+		clasEntity.setName(name);
 		try {
 			Long userId = getCurrentUser().getId();
 			clasService.saveClas(clasEntity, userId);
@@ -45,7 +57,11 @@ public class ClasController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月17日 上午9:57:58
 	 */
-	@RequestMapping(value = "updateClas.do")
+	@ApiOperation(value="删除班级", notes="删除班级方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
+    })
+	@RequestMapping(value = "updateClas.do", method = RequestMethod.POST)
 	public RestResult<String> deleteClas(Long clasId){
 		try {
 			//clasId = getCurrentUser().getId();

@@ -8,6 +8,7 @@ package com.xuanli.oepcms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
@@ -16,6 +17,11 @@ import com.xuanli.oepcms.util.RanNumUtil;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author QiaoYu
@@ -31,7 +37,12 @@ public class MobileMessageController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月15日 下午3:56:32
 	 */
-	@RequestMapping(value = "registMsg.do")
+	@ApiOperation(value="发送手机短信", notes="注册时用户发送手机短信验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "registMsg.do", method = RequestMethod.POST)
 	public RestResult<String> registMsg(String mobile, String randomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
 			if (!StringUtil.isMobile(mobile)) {
@@ -66,7 +77,12 @@ public class MobileMessageController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月15日 下午3:56:23
 	 */
-	@RequestMapping(value = "forgetPassword.do")
+	@ApiOperation(value="忘记密码", notes="忘记密码时用户发送手机短信验证码重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "forgetPassword.do", method = RequestMethod.POST)
 	public RestResult<String> forgetPassword(String mobile, String randomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
 			if (!StringUtil.isMobile(mobile)) {
@@ -101,7 +117,8 @@ public class MobileMessageController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月15日 下午3:56:14
 	 */
-	@RequestMapping(value = "loginMsg.do")
+	@ApiIgnore
+	@RequestMapping(value = "loginMsg.do", method = RequestMethod.POST)
 	public RestResult<String> loginMsg(String mobile, String randomStr) {
 
 		return null;

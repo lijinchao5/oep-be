@@ -25,6 +25,15 @@
     <include refid="Base_Column_List" />
     from xl_homework_student_score
     where id = #{id,jdbcType=BIGINT}
+      <if test="studentId != null" >
+        and studentId = #{studentId,jdbcType=BIGINT}
+      </if>
+      <if test="sectionId != null" >
+        and sectionId = #{mobile,jdbcType=BIGINT}
+      </if>
+      <if test="homeworkId != null" >
+        and homeworkId = #{mobile,jdbcType=BIGINT}
+      </if>
   </select>
   <delete id="deleteHomeworkStudentScoreEntity" parameterType="java.lang.Long" >
     delete from xl_homework_student_score
