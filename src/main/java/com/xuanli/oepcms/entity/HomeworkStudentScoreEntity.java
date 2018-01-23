@@ -29,6 +29,12 @@ public class HomeworkStudentScoreEntity {
 
     private String enableFlag;
 
+    private Double integrity;
+
+    private Double pronunciation;
+
+    private Double fluency;
+
     public Long getId() {
         return id;
     }
@@ -131,5 +137,29 @@ public class HomeworkStudentScoreEntity {
 
     public void setEnableFlag(String enableFlag) {
         this.enableFlag = enableFlag == null ? null : enableFlag.trim();
+    }
+
+    public Double getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(Double integrity) {
+        this.integrity = integrity;
+    }
+
+    public Double getPronunciation() {
+        return pronunciation;
+    }
+
+    public void setPronunciation(Double pronunciation) {
+        this.pronunciation = pronunciation;
+    }
+
+    public Double getFluency() {
+        return fluency;
+    }
+
+    public void setFluency(Double fluency) {
+        this.fluency = fluency;
     }
 }

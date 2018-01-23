@@ -41,127 +41,154 @@
   </delete>
   <insert id="insertHomeworkStudentScoreEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreEntity" >
     insert into xl_homework_student_score
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="studentId != null" >
+      <if test="studentId != null">
         student_id,
       </if>
-      <if test="homeworkId != null" >
+      <if test="homeworkId != null">
         homework_id,
       </if>
-      <if test="sectionId != null" >
+      <if test="sectionId != null">
         section_id,
       </if>
-      <if test="audioPath != null" >
+      <if test="audioPath != null">
         audio_path,
       </if>
-      <if test="text != null" >
+      <if test="text != null">
         text,
       </if>
-      <if test="score != null" >
+      <if test="score != null">
         score,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="createId != null" >
+      <if test="createId != null">
         create_id,
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date,
       </if>
-      <if test="updateId != null" >
+      <if test="updateId != null">
         update_id,
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date,
       </if>
-      <if test="enableFlag != null" >
+      <if test="enableFlag != null">
         enable_flag,
       </if>
+      <if test="integrity != null">
+        integrity,
+      </if>
+      <if test="pronunciation != null">
+        pronunciation,
+      </if>
+      <if test="fluency != null">
+        fluency,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="studentId != null" >
+      <if test="studentId != null">
         #{studentId,jdbcType=BIGINT},
       </if>
-      <if test="homeworkId != null" >
+      <if test="homeworkId != null">
         #{homeworkId,jdbcType=BIGINT},
       </if>
-      <if test="sectionId != null" >
+      <if test="sectionId != null">
         #{sectionId,jdbcType=BIGINT},
       </if>
-      <if test="audioPath != null" >
+      <if test="audioPath != null">
         #{audioPath,jdbcType=VARCHAR},
       </if>
-      <if test="text != null" >
+      <if test="text != null">
         #{text,jdbcType=VARCHAR},
       </if>
-      <if test="score != null" >
+      <if test="score != null">
         #{score,jdbcType=DOUBLE},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createId != null" >
+      <if test="createId != null">
         #{createId,jdbcType=BIGINT},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateId != null" >
+      <if test="updateId != null">
         #{updateId,jdbcType=BIGINT},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="enableFlag != null" >
+      <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
       </if>
-    </trim>
+      <if test="integrity != null">
+        #{integrity,jdbcType=DOUBLE},
+      </if>
+      <if test="pronunciation != null">
+        #{pronunciation,jdbcType=DOUBLE},
+      </if>
+      <if test="fluency != null">
+        #{fluency,jdbcType=DOUBLE},
+      </if>
+     </trim>
   </insert>
   <update id="updateHomeworkStudentScoreEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreEntity" >
     update xl_homework_student_score
-    <set >
-      <if test="studentId != null" >
+    <set>
+      <if test="studentId != null">
         student_id = #{studentId,jdbcType=BIGINT},
       </if>
-      <if test="homeworkId != null" >
+      <if test="homeworkId != null">
         homework_id = #{homeworkId,jdbcType=BIGINT},
       </if>
-      <if test="sectionId != null" >
+      <if test="sectionId != null">
         section_id = #{sectionId,jdbcType=BIGINT},
       </if>
-      <if test="audioPath != null" >
+      <if test="audioPath != null">
         audio_path = #{audioPath,jdbcType=VARCHAR},
       </if>
-      <if test="text != null" >
+      <if test="text != null">
         text = #{text,jdbcType=VARCHAR},
       </if>
-      <if test="score != null" >
+      <if test="score != null">
         score = #{score,jdbcType=DOUBLE},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createId != null" >
+      <if test="createId != null">
         create_id = #{createId,jdbcType=BIGINT},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateId != null" >
+      <if test="updateId != null">
         update_id = #{updateId,jdbcType=BIGINT},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="enableFlag != null" >
+      <if test="enableFlag != null">
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="integrity != null">
+        integrity = #{integrity,jdbcType=DOUBLE},
+      </if>
+      <if test="pronunciation != null">
+        pronunciation = #{pronunciation,jdbcType=DOUBLE},
+      </if>
+      <if test="fluency != null">
+        fluency = #{fluency,jdbcType=DOUBLE},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

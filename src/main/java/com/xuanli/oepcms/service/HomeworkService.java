@@ -34,6 +34,7 @@ import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
+import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.FileUtil;
 
 /**
@@ -185,24 +186,41 @@ public class HomeworkService {
 		// 开始评分
 		for (HomeworkScoreBean result : homeworkScoreBeans) {
 			// 如果题型是听写的那么就不用让sdk评分了
+			HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
 			if (null != result.getHomeworkType() && result.getHomeworkType().intValue() == 5) {
 				if (result.getStanderText().trim().equalsIgnoreCase(result.getStudentText())) {
-					result.setStudentScore(new Double(100));
+					homeworkStudentScoreEntity.setScore(new Double(100));
 				} else {
-					result.setStudentScore(new Double(0));
+					homeworkStudentScoreEntity.setScore(new Double(0));
 				}
 			} else {
 				String json = yunZhiSDK.generatorStudentScore(result);
 				if (null == json || json.trim().equals("")) {
-					System.out.println(result.getId()+"---出现问题,不能计算");
-					
-				}else {
-					YunZhiBean yunZhiBean = JSONObject.parseObject(json,YunZhiBean.class);
-					System.out.println(json);
+					System.out.println(result.getId() + "---出现问题,不能计算");
+				} else {
+					YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
 					System.out.println(JSON.toJSONString(yunZhiBean));
-					System.out.println("-------------------------------");
+					// 开始分析作业分数并且更新到数据库中
+					homeworkStudentScoreEntity.setId(result.getId());
+					// 设置分数
+					homeworkStudentScoreEntity.setScore(yunZhiBean.getScore());
+					if (null != result.getHomeworkType() && result.getHomeworkType().intValue() != 1) {
+						// 这里有句子的流畅度完整度流利度
+						List<YunZhiline> yunZhilines = yunZhiBean.getLines();
+						if (null != yunZhilines && yunZhilines.size() > 0) {
+							YunZhiline yunZhiline = yunZhilines.get(0);
+							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
+							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
+							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+						}
+					} else {
+						// 这里有音标的东西
+						
+					}
+
 				}
 			}
+			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(homeworkStudentScoreEntity);
 		}
 	}
 

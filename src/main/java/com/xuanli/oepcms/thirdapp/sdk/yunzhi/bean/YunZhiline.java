@@ -15,7 +15,7 @@ public class YunZhiline {
 	private double begin;
 	private double end;
 	private double fluency;
-	private int integrity;
+	private double integrity;
 	private double pronunciation;
 	private String sample;
 	private double score;
@@ -39,10 +39,10 @@ public class YunZhiline {
 	public void setFluency(double fluency) {
 		this.fluency = fluency;
 	}
-	public int getIntegrity() {
+	public double getIntegrity() {
 		return integrity;
 	}
-	public void setIntegrity(int integrity) {
+	public void setIntegrity(double integrity) {
 		this.integrity = integrity;
 	}
 	public double getPronunciation() {
@@ -75,6 +75,4 @@ public class YunZhiline {
 	public void setWords(List<YunZhiWords> words) {
 		this.words = words;
 	}
-	
-	
 }
