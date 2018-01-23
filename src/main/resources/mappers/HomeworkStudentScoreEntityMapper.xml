@@ -249,7 +249,10 @@
 			homework_id = #{homeworkId}
 	) hd ON hss.section_id = hd.id
 	LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id
-  
+  where 1=1
+  <if test="homeworkType!=null">
+	 and homeworktype=#{homeworkType}
+  </if>
   </select>
   
   
@@ -279,10 +282,10 @@
   </select>
   <select id="getHomeworkPicTypeScore" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean">
   	SELECT
-		hd.homework_type,
+		hd.homework_type homeworktype,
 		sum(hss.score) / count(hss.id) score,
 		sum(hss.fluency) fluency,
-		sum(hss.integrity) integrity,
+		sum(hss.integrity) intergrity,
 		sum(hss.pronunciation) pronunciation
 	FROM
 		(
