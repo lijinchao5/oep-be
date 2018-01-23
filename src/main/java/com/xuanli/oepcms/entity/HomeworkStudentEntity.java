@@ -13,6 +13,10 @@ public class HomeworkStudentEntity {
 
     private String workComplate;
 
+    private String workTime;
+
+    private Double score;
+
     private Long createId;
 
     private Date createDate;
@@ -59,6 +63,22 @@ public class HomeworkStudentEntity {
 
     public void setWorkComplate(String workComplate) {
         this.workComplate = workComplate == null ? null : workComplate.trim();
+    }
+
+    public String getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(String workTime) {
+        this.workTime = workTime == null ? null : workTime.trim();
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
     public Long getCreateId() {

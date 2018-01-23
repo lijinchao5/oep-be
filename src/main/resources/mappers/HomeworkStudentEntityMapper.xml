@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper" >
-  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="homework_id" property="homeworkId" jdbcType="BIGINT" />
-    <result column="student_id" property="studentId" jdbcType="BIGINT" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="work_complate" property="workComplate" jdbcType="VARCHAR" />
-    <result column="create_id" property="createId" jdbcType="BIGINT" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_id" property="updateId" jdbcType="BIGINT" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.HomeworkStudentEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="homework_id" jdbcType="BIGINT" property="homeworkId" />
+    <result column="student_id" jdbcType="BIGINT" property="studentId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="work_complate" jdbcType="VARCHAR" property="workComplate" />
+    <result column="work_time" jdbcType="VARCHAR" property="workTime" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="create_id" jdbcType="BIGINT" property="createId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_id" jdbcType="BIGINT" property="updateId" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, homework_id, student_id, remark, work_complate, create_id, create_date, update_id, 
@@ -29,90 +31,108 @@
 
   <insert id="insertHomeworkStudentEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
     insert into xl_homework_student
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="homeworkId != null" >
+      <if test="homeworkId != null">
         homework_id,
       </if>
-      <if test="studentId != null" >
+      <if test="studentId != null">
         student_id,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="workComplate != null" >
+      <if test="workComplate != null">
         work_complate,
       </if>
-      <if test="createId != null" >
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="createId != null">
         create_id,
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date,
       </if>
-      <if test="updateId != null" >
+      <if test="updateId != null">
         update_id,
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="homeworkId != null" >
+      <if test="homeworkId != null">
         #{homeworkId,jdbcType=BIGINT},
       </if>
-      <if test="studentId != null" >
+      <if test="studentId != null">
         #{studentId,jdbcType=BIGINT},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="workComplate != null" >
+      <if test="workComplate != null">
         #{workComplate,jdbcType=VARCHAR},
       </if>
-      <if test="createId != null" >
+      <if test="workTime != null">
+        #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="createId != null">
         #{createId,jdbcType=BIGINT},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateId != null" >
+      <if test="updateId != null">
         #{updateId,jdbcType=BIGINT},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateHomeworkStudentEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
     update xl_homework_student
-    <set >
-      <if test="homeworkId != null" >
+    <set>
+      <if test="homeworkId != null">
         homework_id = #{homeworkId,jdbcType=BIGINT},
       </if>
-      <if test="studentId != null" >
+      <if test="studentId != null">
         student_id = #{studentId,jdbcType=BIGINT},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="workComplate != null" >
+      <if test="workComplate != null">
         work_complate = #{workComplate,jdbcType=VARCHAR},
       </if>
-      <if test="createId != null" >
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="createId != null">
         create_id = #{createId,jdbcType=BIGINT},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateId != null" >
+      <if test="updateId != null">
         update_id = #{updateId,jdbcType=BIGINT},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
@@ -126,5 +146,23 @@
             (#{hd.homeworkId}, #{hd.studentId},#{hd.workComplate},#{hd.createId},#{hd.createDate})
         </foreach >
 	</insert>
-
+	
+  <update id="updateHomeworkStudentEntityBatch" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity">
+ 	   update xl_homework_student set work_complate = 'T',  score = #{score} where student_id = #{studentId} and homework_id= #{homeworkId}
+  </update>
+  
+  <select id="selectHomeworkStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+    select 
+    <include refid="Base_Column_List" />
+    from xl_homework_student
+    where 1=1 
+    <if test="homeworkId != null">
+        and homework_id = #{homeworkId,jdbcType=BIGINT}
+      </if>
+      <if test="workComplate != null">
+        and work_complate = #{workComplate,jdbcType=VARCHAR}
+      </if>
+    order by score desc
+  </select>
+  
 </mapper>

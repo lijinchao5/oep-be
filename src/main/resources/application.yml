@@ -48,6 +48,9 @@ spring:
 systemconfig:
   file:
     base-path: d:/test/3
+  yunzhi:
+    url: http://edu.hivoice.cn:8085/eval/mp3
+    appkey: n3nibwi4xvjsv43at5jccmq2uhgdav3suorh4lye
 
 # 日志输出
 logging:

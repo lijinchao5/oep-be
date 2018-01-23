@@ -21,5 +21,11 @@ public interface HomeworkStudentEntityMapper {
 	 * @CreateDate:  2018年1月18日 下午4:09:46
 	 */
 	void insertHomeworkStudentEntityBatch(List<HomeworkStudentEntity> homeworkStudentEntities);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月22日 上午11:06:52
+	 */
+	void updateHomeworkStudentEntityBatch(HomeworkStudentEntity homeworkStudentEntity);
 
 }

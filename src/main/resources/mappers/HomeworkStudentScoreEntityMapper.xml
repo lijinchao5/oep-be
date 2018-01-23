@@ -166,4 +166,48 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="reportStudentScore" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  	select hss.student_id,SUM(score) score from xl_homework_student_score hss where hss.homework_id = #{value} group by student_id
+  </select>
+  
+  
+  <select id="getStudentHomework" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" resultType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean">
+  	SELECT
+		hss.id id,
+		hss.student_id studentid,
+		hss.homework_id homeworkid,
+		hss.section_id sectionid,
+		hss.audio_path audiopath,
+		hss.text studenttext,
+		hss.score studentscore,
+		hd.homework_type homeworktype,
+		hd.section_detail_id sectiondetailid,
+		sd.audio_path standeraudiopath,
+		sd.text standertext,
+		sd.m_audio_path standermaudiopath,
+		sd.w_audio_path standerwaudiopath,
+		sd.word_mean standerwordmean
+	FROM
+		(
+			SELECT
+				*
+			FROM
+				xl_homework_student_score
+			WHERE
+				homework_id = #{homeworkId}
+				and 
+				student_id = #{studentId}
+		) hss
+	LEFT JOIN (
+		SELECT
+			*
+		FROM
+			xl_homework_detail
+		WHERE
+			homework_id = #{homeworkId}
+	) hd ON hss.section_id = hd.id
+	LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id
+  
+  </select>
+  
 </mapper>

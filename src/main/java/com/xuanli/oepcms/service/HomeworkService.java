@@ -6,6 +6,7 @@
  */
 package com.xuanli.oepcms.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.controller.bean.HomeworkBean;
+import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.entity.HomeworkDetailEntity;
 import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
@@ -28,6 +32,8 @@ import com.xuanli.oepcms.mapper.HomeworkDetailEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
+import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
+import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.util.FileUtil;
 
 /**
@@ -48,6 +54,8 @@ public class HomeworkService {
 	UserService userService;
 	@Autowired
 	FileUtil fileUtil;
+	@Autowired
+	YunZhiSDK yunZhiSDK;
 
 	/**
 	 * @Description: TODO
@@ -115,14 +123,24 @@ public class HomeworkService {
 	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, MultipartFile file, String text, HttpServletRequest request) {
 		String filePath = null;
 		if (!file.isEmpty()) {
+			InputStream inputStream = null;
 			try {
-				InputStream inputStream = file.getInputStream();
+				inputStream = file.getInputStream();
 				filePath = fileUtil.uploadFile(inputStream, "student_homework_audio", request);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("上传文件失败!");
 				filePath = null;
 				return "1";
+			} finally {
+				if (null != inputStream) {
+					try {
+						inputStream.close();
+						inputStream = null;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		HomeworkStudentScoreEntity scoreEntity = new HomeworkStudentScoreEntity();
@@ -133,7 +151,85 @@ public class HomeworkService {
 		scoreEntity.setHomeworkId(homeworkId);
 		scoreEntity.setText(text);
 		homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
+		// 开始调用SDK计算分数
+		// ----获取题目的详细信息
+		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
+		homeworkScoreBean.setHomeworkId(homeworkId);
+		homeworkScoreBean.setStudentId(studentId);
+		List<HomeworkScoreBean> homeworkScoreBeans = homeworkStudentScoreDao.getStudentHomework(homeworkScoreBean);
+		// 开始评分
+		for (HomeworkScoreBean result : homeworkScoreBeans) {
+			// 如果题型是听写的那么就不用让sdk评分了
+			if (null != result.getHomeworkType() && result.getHomeworkType().intValue() == 5) {
+				if (result.getStanderText().trim().equalsIgnoreCase(result.getStudentText())) {
+					result.setStudentScore(new Double(100));
+				} else {
+					result.setStudentScore(new Double(0));
+				}
+			} else {
+				String json = yunZhiSDK.generatorStudentScore(result);
+
+			}
+		}
+
 		return "0";
 	}
-}
 
+	public void test(long homeworkId, long studentId) {
+		// 开始调用SDK计算分数
+		// ----获取题目的详细信息
+		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
+		homeworkScoreBean.setHomeworkId(homeworkId);
+		homeworkScoreBean.setStudentId(studentId);
+		List<HomeworkScoreBean> homeworkScoreBeans = homeworkStudentScoreDao.getStudentHomework(homeworkScoreBean);
+		// 开始评分
+		for (HomeworkScoreBean result : homeworkScoreBeans) {
+			// 如果题型是听写的那么就不用让sdk评分了
+			if (null != result.getHomeworkType() && result.getHomeworkType().intValue() == 5) {
+				if (result.getStanderText().trim().equalsIgnoreCase(result.getStudentText())) {
+					result.setStudentScore(new Double(100));
+				} else {
+					result.setStudentScore(new Double(0));
+				}
+			} else {
+				String json = yunZhiSDK.generatorStudentScore(result);
+				if (null == json || json.trim().equals("")) {
+					System.out.println(result.getId()+"---出现问题,不能计算");
+					
+				}else {
+					YunZhiBean yunZhiBean = JSONObject.parseObject(json,YunZhiBean.class);
+					System.out.println(json);
+					System.out.println(JSON.toJSONString(yunZhiBean));
+					System.out.println("-------------------------------");
+				}
+			}
+		}
+	}
+
+	/**
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月22日 上午10:46:49
+	 */
+	public List<HomeworkStudentScoreEntity> reportStudentScore(long homeworkId) {
+		return homeworkStudentScoreDao.reportStudentScore(homeworkId);
+	}
+
+	/**
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月22日 上午10:48:55
+	 */
+	public void updateHomeworkStudentScoreEntityBatch(HomeworkStudentEntity homeworkStudentEntity) {
+		homeworkStudentDao.updateHomeworkStudentEntityBatch(homeworkStudentEntity);
+	}
+
+	/**
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月22日 上午11:12:47
+	 */
+	public int reportHomeworkDetail(long homeworkId) {
+		return homeworkDetailDao.reportHomeworkDetail(homeworkId);
+	}
+}

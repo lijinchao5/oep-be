@@ -10,27 +10,38 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
  * @author QiaoYu
  */
 @Component
-public class SystemConfig {
+public class SystemConfig implements EnvironmentAware {
 	private static final Logger logger = LoggerFactory.getLogger(SystemConfig.class);
-	@Autowired
-	private DatabaseConfig databaseConfig;
-
 	private RelaxedPropertyResolver propertyResolver;
 
 	public String FILE_BASEPATH = "";
+	public String YUN_ZHI_APPKEY = "";
+	public String YUN_ZHI_URL = "";
 
 	@PostConstruct
 	public void initMethod() {
-		propertyResolver = databaseConfig.propertyResolver;
 		FILE_BASEPATH = propertyResolver.getProperty("file.base-path");
+		YUN_ZHI_APPKEY = propertyResolver.getProperty("yunzhi.appkey");
+		YUN_ZHI_URL = propertyResolver.getProperty("yunzhi.url");
 		logger.debug("初始化完成系统配置信息...");
+	}
+
+	/**
+	 * @CreateUser:QiaoYu
+	 * @CreateDate:2018年1月22日 下午4:23:54
+	 */
+
+	@Override
+	public void setEnvironment(Environment env) {
+		this.propertyResolver = new RelaxedPropertyResolver(env, "systemconfig.");
 	}
 }

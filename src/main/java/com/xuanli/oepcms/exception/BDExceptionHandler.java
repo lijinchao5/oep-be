@@ -4,6 +4,7 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,4 +62,10 @@ public class BDExceptionHandler {
 		logger.error(e.getMessage(), e);
 		return Result.error("服务器错误，请联系管理员");
 	}
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public Result handleException(HttpRequestMethodNotSupportedException e) {
+		logger.error(e.getMessage(), e);
+		return Result.error("请求类型不支持!");
+	}
+	
 }
