@@ -159,7 +159,7 @@ public class UserController extends BaseController {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月16日 下午1:45:14
 	 */
-	@ApiOperation(value="账号使用情况分页查询", notes="账号使用情况的分页查询方法")
+	@ApiOperation(value="班级信息分页查询", notes="分页查询方法")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "clasId", value = "用户id", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "rows", value = "分页行数", required = true, dataType = "String"),

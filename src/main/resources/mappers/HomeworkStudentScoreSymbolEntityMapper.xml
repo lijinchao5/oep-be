@@ -12,25 +12,18 @@
   <sql id="Base_Column_List">
     id, homework_id, homework_detail_id, student_id, score, symbol
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xl_homework_student_score_symbol
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteHomeworkStudentScoreSymbolEntity" parameterType="java.lang.Long">
     delete from xl_homework_student_score_symbol
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity">
-    insert into xl_homework_student_score_symbol (id, homework_id, homework_detail_id, 
-      student_id, score, symbol
-      )
-    values (#{id,jdbcType=BIGINT}, #{homeworkId,jdbcType=BIGINT}, #{homeworkDetailId,jdbcType=BIGINT}, 
-      #{studentId,jdbcType=BIGINT}, #{score,jdbcType=DOUBLE}, #{symbol,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity">
+
+  <insert id="insertHomeworkStudentScoreSymbolEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity">
     insert into xl_homework_student_score_symbol
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -73,7 +66,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity">
+  <update id="updateHomeworkStudentScoreSymbolEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity">
     update xl_homework_student_score_symbol
     <set>
       <if test="homeworkId != null">
@@ -94,13 +87,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity">
-    update xl_homework_student_score_symbol
-    set homework_id = #{homeworkId,jdbcType=BIGINT},
-      homework_detail_id = #{homeworkDetailId,jdbcType=BIGINT},
-      student_id = #{studentId,jdbcType=BIGINT},
-      score = #{score,jdbcType=DOUBLE},
-      symbol = #{symbol,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>
