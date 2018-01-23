@@ -7,12 +7,15 @@
 package com.xuanli.oepcms.service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
+import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 import com.xuanli.oepcms.vo.RestResult;
@@ -32,7 +35,21 @@ public class ReportService extends BaseService {
 	 * @CreateDate: 2018年1月22日 上午9:39:06
 	 */
 	public RestResult<Map<String, Object>> homeworkReport(long homeworkId) {
-		return null;
+		//获取统计信息
+		List<HomeworkStudentScoreEntity> studentScores = homeworkService.getHomeworkStudentScoreByHomeworkId(homeworkId);
+		//获取学情分析数据
+		//获取音素平均分
+		List<HomeworkSymbolScore> symbolScores = homeworkService.getHomeworkSymbolScore(homeworkId);
+		//获取每个题的平均分
+		List<HomeworkPicScoreBean> subjectScores = homeworkService.getHomeworkPicScore(homeworkId);
+		//获取每个类型题平均分
+		List<HomeworkPicScoreBean> subjectTypeScores = homeworkService.getHomeworkPicTypeScore(homeworkId);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("studentScore", studentScores);
+		resultMap.put("symbolScore", symbolScores);
+		resultMap.put("subjectScore", subjectScores);
+		resultMap.put("subjectTypeScore", subjectTypeScores);
+		return ok(resultMap);
 	}
 
 	/**

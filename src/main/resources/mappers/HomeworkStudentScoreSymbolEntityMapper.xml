@@ -88,4 +88,36 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+
+	<select id="getHomeworkSymbolScore" resultType="com.xuanli.oepcms.controller.bean.HomeworkSymbolScore" parameterType="java.lang.Long">
+		SELECT
+			rs.symbol symbol,
+			sum(rs.score) / count(rs.id) AS score,
+			GROUP_CONCAT(rs.text) word
+		FROM
+			(
+				SELECT
+					hsss.symbol,
+					sd.text,
+					hsss.score,
+					hsss.id
+				FROM
+					(
+						SELECT
+							*
+						FROM
+							xl_homework_student_score_symbol
+						WHERE
+							homework_id = #{value}
+					) hsss
+				LEFT JOIN xl_homework_detail hd ON hsss.homework_detail_id = hd.id
+				LEFT JOIN xl_section_detail sd ON sd.id = hd.section_detail_id
+			) rs
+		GROUP BY
+			rs.symbol
+		ORDER BY
+			score DESC
+	
+	</select>
+
 </mapper>

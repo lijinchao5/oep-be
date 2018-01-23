@@ -15,8 +15,8 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, homework_id, student_id, remark, work_complate, create_id, create_date, update_id, 
-    update_date
+    id, homework_id, student_id, remark, work_complate, work_time, score, create_id, 
+    create_date, update_id, update_date
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 

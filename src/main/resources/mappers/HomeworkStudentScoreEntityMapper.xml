@@ -26,13 +26,13 @@
     from xl_homework_student_score
     where id = #{id,jdbcType=BIGINT}
       <if test="studentId != null" >
-        and studentId = #{studentId,jdbcType=BIGINT}
+        and student_id = #{studentId,jdbcType=BIGINT}
       </if>
       <if test="sectionId != null" >
-        and sectionId = #{mobile,jdbcType=BIGINT}
+        and section_id = #{sectionId,jdbcType=BIGINT}
       </if>
       <if test="homeworkId != null" >
-        and homeworkId = #{mobile,jdbcType=BIGINT}
+        and homework_id = #{homeworkId,jdbcType=BIGINT}
       </if>
   </select>
   <delete id="deleteHomeworkStudentScoreEntity" parameterType="java.lang.Long" >
@@ -197,6 +197,21 @@
   	select hss.student_id,SUM(score) score from xl_homework_student_score hss where hss.homework_id = #{value} group by student_id
   </select>
   
+  <select id="selectHomeworkStudentScore" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" >
+    select 
+    	<include refid="Base_Column_List" />
+    from xl_homework_student_score
+    where 1=1 
+      <if test="studentId != null" >
+        and student_id = #{studentId,jdbcType=BIGINT}
+      </if>
+      <if test="sectionId != null" >
+        and section_id = #{sectionId,jdbcType=BIGINT}
+      </if>
+      <if test="homeworkId != null" >
+        and homework_id = #{homeworkId,jdbcType=BIGINT}
+      </if>
+  </select>
   
   <select id="getStudentHomework" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" resultType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean">
   	SELECT
@@ -235,6 +250,52 @@
 	) hd ON hss.section_id = hd.id
 	LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id
   
+  </select>
+  
+  
+  <select id="getHomeworkPickScore" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean">
+  	SELECT
+		hd.homework_type homeworktype,
+		hd.id id,
+		CONCAT(sd.text) text,
+		sum(hss.score) / count(hss.id) score,
+		sum(hss.fluency) fluency,
+		sum(hss.integrity) integrity,
+		sum(hss.pronunciation) pronunciation
+	FROM
+		(
+			SELECT
+				*
+			FROM
+				xl_homework_student_score
+			WHERE
+				homework_id = #{value}
+		) hss
+	LEFT JOIN xl_homework_detail hd ON hd.id = hss.section_id
+	LEFT JOIN xl_section_detail sd ON sd.id = hd.section_detail_id
+	GROUP BY
+		hd.homework_type,
+		hd.id
+  </select>
+  <select id="getHomeworkPicTypeScore" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean">
+  	SELECT
+		hd.homework_type,
+		sum(hss.score) / count(hss.id) score,
+		sum(hss.fluency) fluency,
+		sum(hss.integrity) integrity,
+		sum(hss.pronunciation) pronunciation
+	FROM
+		(
+			SELECT
+				*
+			FROM
+				xl_homework_student_score
+			WHERE
+				homework_id = #{value}
+		) hss
+	LEFT JOIN xl_homework_detail hd ON hd.id = hss.section_id
+	GROUP BY
+		hd.homework_type
   </select>
   
 </mapper>

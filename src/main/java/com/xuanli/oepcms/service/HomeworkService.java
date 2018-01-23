@@ -8,6 +8,7 @@ package com.xuanli.oepcms.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.controller.bean.HomeworkBean;
+import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
+import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
 import com.xuanli.oepcms.entity.HomeworkDetailEntity;
 import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
@@ -168,6 +171,7 @@ public class HomeworkService {
 		for (HomeworkScoreBean result : homeworkScoreBeans) {
 			// 如果题型是听写的那么就不用让sdk评分了
 			HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
+			homeworkStudentScoreEntity.setId(result.getId());
 			if (null != result.getHomeworkType() && result.getHomeworkType().intValue() == 5) {
 				if (result.getStanderText().trim().equalsIgnoreCase(result.getStudentText())) {
 					homeworkStudentScoreEntity.setScore(new Double(100));
@@ -182,7 +186,6 @@ public class HomeworkService {
 					YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
 					System.out.println(JSON.toJSONString(yunZhiBean));
 					// 开始分析作业分数并且更新到数据库中
-					homeworkStudentScoreEntity.setId(result.getId());
 					// 设置分数
 					homeworkStudentScoreEntity.setScore(yunZhiBean.getScore());
 					if (null != result.getHomeworkType() && result.getHomeworkType().intValue() != 1) {
@@ -201,19 +204,24 @@ public class HomeworkService {
 							YunZhiline yunZhiline = yunZhilines.get(0);
 							List<YunZhiWords> yunZhiWords = yunZhiline.getWords();
 							for (YunZhiWords word : yunZhiWords) {
-								//正常读音
-								if (word.getType()==2) {
+								// 正常读音
+								if (word.getType() == 2) {
 									List<YunZhiSubWords> yunZhiSubWords = word.getSubwords();
 									for (YunZhiSubWords subWord : yunZhiSubWords) {
 										HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity = new HomeworkStudentScoreSymbolEntity();
 										homeworkStudentScoreSymbolEntity.setHomeworkId(homeworkId);
-										homeworkStudentScoreSymbolEntity.setHomeworkDetailId(result.getSectionDetailId());
+										homeworkStudentScoreSymbolEntity.setHomeworkDetailId(result.getSectionId());
 										homeworkStudentScoreSymbolEntity.setStudentId(studentId);
-										if (subWord.getSubtext()!=null && !subWord.getSubtext().trim().equals("")) {
-											homeworkStudentScoreSymbolEntity.setSymbol(subWord.getSubtext());
+										if (subWord.getSubtext() != null) {
+											if (subWord.getSubtext().trim().equals("") || subWord.getSubtext().trim().equals("'") || subWord.getSubtext().trim().equals("ˌ")) {
+											} else {
+												homeworkStudentScoreSymbolEntity.setSymbol(subWord.getSubtext());
+												double sc = subWord.getScore()*10;
+												sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+												homeworkStudentScoreSymbolEntity.setScore(sc);
+												homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
+											}
 										}
-										homeworkStudentScoreSymbolEntity.setScore(subWord.getScore());
-										homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
 									}
 								}
 							}
@@ -239,6 +247,7 @@ public class HomeworkService {
 		for (HomeworkScoreBean result : homeworkScoreBeans) {
 			// 如果题型是听写的那么就不用让sdk评分了
 			HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
+			homeworkStudentScoreEntity.setId(result.getId());
 			if (null != result.getHomeworkType() && result.getHomeworkType().intValue() == 5) {
 				if (result.getStanderText().trim().equalsIgnoreCase(result.getStudentText())) {
 					homeworkStudentScoreEntity.setScore(new Double(100));
@@ -253,7 +262,6 @@ public class HomeworkService {
 					YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
 					System.out.println(JSON.toJSONString(yunZhiBean));
 					// 开始分析作业分数并且更新到数据库中
-					homeworkStudentScoreEntity.setId(result.getId());
 					// 设置分数
 					homeworkStudentScoreEntity.setScore(yunZhiBean.getScore());
 					if (null != result.getHomeworkType() && result.getHomeworkType().intValue() != 1) {
@@ -272,19 +280,24 @@ public class HomeworkService {
 							YunZhiline yunZhiline = yunZhilines.get(0);
 							List<YunZhiWords> yunZhiWords = yunZhiline.getWords();
 							for (YunZhiWords word : yunZhiWords) {
-								//正常读音
-								if (word.getType()==2) {
+								// 正常读音
+								if (word.getType() == 2) {
 									List<YunZhiSubWords> yunZhiSubWords = word.getSubwords();
 									for (YunZhiSubWords subWord : yunZhiSubWords) {
 										HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity = new HomeworkStudentScoreSymbolEntity();
 										homeworkStudentScoreSymbolEntity.setHomeworkId(homeworkId);
-										homeworkStudentScoreSymbolEntity.setHomeworkDetailId(result.getSectionDetailId());
+										homeworkStudentScoreSymbolEntity.setHomeworkDetailId(result.getSectionId());
 										homeworkStudentScoreSymbolEntity.setStudentId(studentId);
-										if (subWord.getSubtext()!=null && !subWord.getSubtext().trim().equals("")) {
-											homeworkStudentScoreSymbolEntity.setSymbol(subWord.getSubtext());
+										if (subWord.getSubtext() != null) {
+											if (subWord.getSubtext().trim().equals("") || subWord.getSubtext().trim().equals("'") || subWord.getSubtext().trim().equals("ˌ")) {
+											} else {
+												homeworkStudentScoreSymbolEntity.setSymbol(subWord.getSubtext());
+												double sc = subWord.getScore()*10;
+												sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+												homeworkStudentScoreSymbolEntity.setScore(sc);
+												homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
+											}
 										}
-										homeworkStudentScoreSymbolEntity.setScore(subWord.getScore());
-										homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
 									}
 								}
 							}
@@ -322,5 +335,43 @@ public class HomeworkService {
 	 */
 	public int reportHomeworkDetail(long homeworkId) {
 		return homeworkDetailDao.reportHomeworkDetail(homeworkId);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月23日 下午2:45:54
+	 */
+	public List<HomeworkSymbolScore> getHomeworkSymbolScore(long homeworkId) {
+		return homeworkStudentScoreSymbolEntityDao.getHomeworkSymbolScore(homeworkId);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月23日 下午2:46:21
+	 */
+	public List<HomeworkPicScoreBean> getHomeworkPicScore(long homeworkId) {
+		return homeworkStudentScoreDao.getHomeworkPickScore(homeworkId);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月23日 下午2:52:15
+	 */
+	public List<HomeworkPicScoreBean> getHomeworkPicTypeScore(long homeworkId) {
+		return homeworkStudentScoreDao.getHomeworkPicTypeScore(homeworkId);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月23日 下午2:57:29
+	 */
+	public List<HomeworkStudentScoreEntity> getHomeworkStudentScoreByHomeworkId(long homeworkId) {
+		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
+		homeworkStudentEntity.setHomeworkId(homeworkId);
+		return homeworkStudentDao.selectHomeworkStudentEntity(homeworkStudentEntity);
 	}
 }

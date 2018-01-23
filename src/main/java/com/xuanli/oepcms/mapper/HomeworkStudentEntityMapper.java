@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
+import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 @Mapper
 public interface HomeworkStudentEntityMapper {
 	/**删除方法，根据id删除*/
@@ -27,5 +28,11 @@ public interface HomeworkStudentEntityMapper {
 	 * @CreateDate:  2018年1月22日 上午11:06:52
 	 */
 	void updateHomeworkStudentEntityBatch(HomeworkStudentEntity homeworkStudentEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月23日 下午3:13:07
+	 */
+	List<HomeworkStudentScoreEntity> selectHomeworkStudentEntity(HomeworkStudentEntity homeworkStudentEntity);
 
 }
