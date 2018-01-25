@@ -158,11 +158,19 @@
     where 1=1 
     <if test="homeworkId != null">
         and homework_id = #{homeworkId,jdbcType=BIGINT}
-      </if>
-      <if test="workComplate != null">
+    </if>
+    <if test="workComplate != null">
         and work_complate = #{workComplate,jdbcType=VARCHAR}
-      </if>
+    </if>
     order by score desc
   </select>
+  
+  <update id="updateHomewordStudentEntityRemark" parameterType="java.util.List">
+        UPDATE xl_homework_student set remark = #{remark}
+        WHERE homework_id=#{homeworkId} AND student_id in
+        <foreach collection ="userIds" item="item" index= "index" open="(" separator="," close=")">
+          #{item}
+        </foreach >
+  </update>
   
 </mapper>

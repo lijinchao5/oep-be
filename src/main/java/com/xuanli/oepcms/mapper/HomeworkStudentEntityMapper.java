@@ -1,8 +1,10 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
@@ -34,5 +36,7 @@ public interface HomeworkStudentEntityMapper {
 	 * @CreateDate:  2018年1月23日 下午3:13:07
 	 */
 	List<HomeworkStudentScoreEntity> selectHomeworkStudentEntity(HomeworkStudentEntity homeworkStudentEntity);
-
+	/**评语*/
+	int updateHomewordStudentEntityRemark(@Param("userIds")String[] userIds,@Param("homeworkId")Long homeworkId,@Param("remark")String remark);
+	
 }

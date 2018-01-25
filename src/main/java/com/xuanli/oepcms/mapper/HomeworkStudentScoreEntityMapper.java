@@ -3,6 +3,7 @@ package com.xuanli.oepcms.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
@@ -52,4 +53,6 @@ public interface HomeworkStudentScoreEntityMapper {
 	 * @CreateDate:  2018年1月23日 下午2:58:29
 	 */
 	List<HomeworkStudentScoreEntity> selectHomeworkStudentScore(HomeworkStudentScoreEntity homeworkStudentScoreEntity);
+	
+	List<HomeworkScoreBean> getStudentHomework(@Param("homeworkId")Long homeworkId,@Param("studentId")Long studentId, @Param("homeworkType")String homeworkType);
 }

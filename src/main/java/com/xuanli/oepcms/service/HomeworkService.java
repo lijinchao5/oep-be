@@ -43,6 +43,7 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiSubWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.FileUtil;
+import com.xuanli.oepcms.util.StringUtil;
 
 /**
  * @author QiaoYu
@@ -373,5 +374,32 @@ public class HomeworkService {
 		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
 		homeworkStudentEntity.setHomeworkId(homeworkId);
 		return homeworkStudentDao.selectHomeworkStudentEntity(homeworkStudentEntity);
+	}
+	
+	/**老师写评语
+	 * @return */
+	public String updateHomewordStudentEntityRemark(String userIds,Long homeworkId,String remark) {
+		HomeworkStudentEntity homeworkStudentEntity1 = new HomeworkStudentEntity();
+		homeworkStudentEntity1.setHomeworkId(homeworkId);
+		homeworkStudentEntity1.setRemark(remark);
+		//1.验证参数的有效性
+		if(StringUtil.isEmpty(userIds)){
+			return "1";
+		}
+		//2.执行更新操作
+		String[] userId = userIds.split(",");
+		int rows = homeworkStudentDao.updateHomewordStudentEntityRemark(userId, homeworkId, remark);
+
+		//3.验证更新结果(成功,失败)
+		if(rows<=0){
+			return "2";
+		}else {
+			return "0";
+		}
+	}
+	
+	/**查看学生作业详情*/
+	public List<HomeworkScoreBean> getStudentHomeworkDetail(Long homeworkId,Long studentId,String homeworkType) {
+		return homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
 	}
 }

@@ -6,6 +6,7 @@
  */
 package com.xuanli.oepcms.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.controller.bean.HomeworkBean;
+import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.service.HomeworkService;
+import com.xuanli.oepcms.service.UserService;
 import com.xuanli.oepcms.vo.RestResult;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -95,5 +98,52 @@ public class HomeworkController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, "布置家庭作业出现异常");
 		}
 	}
-
+	
+	@ApiOperation(value="老师写评语", notes="老师写作业评语方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userIds", value = "要写评语的学生id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "remark", value = "评语内容", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "homeWorkRemark.do")
+	public RestResult<String> homeworkRemark(String userIds,Long homeworkId,String remark){
+		try {
+			String result = homeworkService.updateHomewordStudentEntityRemark(userIds, homeworkId, remark);
+			if(result.equals("0")) {
+				return ok("写评语成功");
+			}else if(result.equals("2")) {
+				return failed(ExceptionCode.UNKNOW_CODE,"写评语出现异常，请联系管理员");
+			}else if(result.equals("1")){
+				return failed(ExceptionCode.UPDATE_BATCH_REMARK_ERROR,"请现选择学生");
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE,"写评语出现异常，请联系管理员");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("写评语出现异常", e);
+			return failed(ExceptionCode.UNKNOW_CODE, "写评语出现异常");
+		}
+	}
+	
+	@ApiOperation(value="查看作业详情", notes="查看作业详情方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "studentHomeWorkDetail.do")
+	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(Long homeworkId,Long studentId,String homeworkType){
+		try {
+			List<HomeworkScoreBean> result = homeworkService.getStudentHomeworkDetail(homeworkId, studentId, homeworkType);
+			if(null!=result && result.size()>0) {
+				return ok(result);
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE,"查看学生作业详情出现异常，请联系管理员");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("查看作业详情出现异常", e);
+			return failed(ExceptionCode.UNKNOW_CODE, "查看作业详情出现异常");
+		}
+	}
 }

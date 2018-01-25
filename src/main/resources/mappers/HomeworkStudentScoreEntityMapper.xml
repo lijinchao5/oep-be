@@ -251,7 +251,7 @@
 	LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id
   where 1=1
   <if test="homeworkType!=null">
-	 and homeworktype=#{homeworkType}
+	 and homework_type=#{homeworkType}
   </if>
   </select>
   
