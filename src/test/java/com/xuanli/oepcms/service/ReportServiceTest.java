@@ -24,8 +24,8 @@ public class ReportServiceTest extends BaseTest{
 	
 	@Test
 	public void getReportMsg() {
-		RestResult<Map<String, Object>> result= reportService.homeworkReport(1);
-		Map<String, Object> map = result.getResult();
-		System.out.println(JSON.toJSONString(map));
+//		RestResult<Map<String, Object>> result= reportService.homeworkReport(1);
+//		Map<String, Object> map = result.getResult();
+//		System.out.println(JSON.toJSONString(map));
 	}
 }

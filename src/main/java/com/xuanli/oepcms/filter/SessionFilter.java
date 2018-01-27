@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.springframework.core.annotation.Order;
 
 import com.alibaba.fastjson.JSON;
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
@@ -51,7 +52,7 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// 不过滤的uri
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		String[] notFilter = new String[] { "login.do", "logout.do", "/login","/picture","/mobileMessage" };
+		String[] notFilter = new String[] { "login.do", "logout.do", "picture.do","teacher_regist.do","student_regist.do","mobileMessage" };
 		String uri = request.getRequestURI();
 		boolean doFilter = true;
 		if (uri.indexOf(".do") != -1) {
@@ -66,32 +67,15 @@ public class SessionFilter implements Filter {
 				Object obj = SessionUtil.getSessionUser(request);
 				logger.info("进入SessionFilter拦截器[Session=" + obj + "]");
 				if (null == obj) {
-					if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("x-requested-with"))) {
-						logger.info("进入SessionFilter拦截器[Session是空的进入AJAX请求!]");
-						PrintWriter printWriter = response.getWriter();
-						RestResult<String> restResult = new RestResult<String>();
-						restResult.setCode(99998);
-						restResult.setResult("登陆超时");
-						restResult.setMessage("登陆超时");
-						printWriter.print(JSON.toJSONString(restResult));
-						printWriter.flush();
-						printWriter.close();
-					} else {
-						logger.info("进入SessionFilter拦截器[Session是空的进入POST|GET请求!]");
-						String contextPath = request.getContextPath();
-						request.setCharacterEncoding("UTF-8");
-						response.setCharacterEncoding("UTF-8");
-						PrintWriter out = response.getWriter();
-						String loginPage = contextPath + "/login.jsp";
-						StringBuffer builder = new StringBuffer();
-						builder.append("<script type=\"text/javascript\">");
-						builder.append("alert('网页过期，请重新登录！');");
-						builder.append("window.top.location.href='");
-						builder.append(loginPage);
-						builder.append("';");
-						builder.append("</script>");
-						out.print(builder.toString());
-					}
+					logger.info("进入SessionFilter拦截器[Session是空的进入AJAX请求!]");
+					PrintWriter printWriter = response.getWriter();
+					RestResult<String> restResult = new RestResult<String>();
+					restResult.setCode(ExceptionCode.USER_NO_LOGIN);
+					restResult.setResult("登陆超时");
+					restResult.setMessage("登陆超时");
+					printWriter.print(JSON.toJSONString(restResult));
+					printWriter.flush();
+					printWriter.close();
 				} else {
 					chain.doFilter(request, response);
 				}
