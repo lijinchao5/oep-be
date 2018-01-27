@@ -51,7 +51,7 @@ public class YunZhiSDK {
 				customMultiPartEntity.addPart("mode", new StringBody("D", Charset.forName("UTF-8")));
 			} else {
 				// 句子的有流畅度等..
-				customMultiPartEntity.addPart("mode", new StringBody("A", Charset.forName("UTF-8")));
+				customMultiPartEntity.addPart("mode", new StringBody("E", Charset.forName("UTF-8")));
 			}
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10 * 1000);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10 * 1000);
