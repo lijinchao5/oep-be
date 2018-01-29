@@ -46,5 +46,6 @@ public class ExceptionCode {
 	
 	
 	
-	
+	/**用户未登陆**/
+	public static final Integer USER_NO_LOGIN = 99998;
 }

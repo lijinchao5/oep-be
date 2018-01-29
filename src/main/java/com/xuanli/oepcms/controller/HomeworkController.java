@@ -22,6 +22,7 @@ import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.service.HomeworkService;
 import com.xuanli.oepcms.service.UserService;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -55,6 +56,21 @@ public class HomeworkController extends BaseController {
     })
 	@RequestMapping(value = "makeHomeWork.do", method = RequestMethod.POST)
 	public RestResult<String> makeHomeWork(String name, String clasId, Date endTime, String remark, List<HomeworkBean> homeworkBeans) {
+		if(StringUtil.isEmpty(name)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请填写作业名称");
+		}
+		if(StringUtil.isEmpty(clasId)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请选择班级");
+		}
+		if(null==endTime) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请选择结束时间");
+		}
+		if(StringUtil.isEmpty(name)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请填写作业名称");
+		}
+		if(null==homeworkBeans) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请布置作业内容");
+		}
 		try {
 			Long createId = getCurrentUser().getId();
 			homeworkService.makeHomeWork(name, clasId, endTime, remark, homeworkBeans, createId);
@@ -105,7 +121,7 @@ public class HomeworkController extends BaseController {
             @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "remark", value = "评语内容", required = true, dataType = "String")
     })
-	@RequestMapping(value = "homeWorkRemark.do")
+	@RequestMapping(value = "homeWorkRemark.do", method = RequestMethod.PUT)
 	public RestResult<String> homeworkRemark(String userIds,Long homeworkId,String remark){
 		try {
 			String result = homeworkService.updateHomewordStudentEntityRemark(userIds, homeworkId, remark);
@@ -131,7 +147,7 @@ public class HomeworkController extends BaseController {
             @ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String")
     })
-	@RequestMapping(value = "studentHomeWorkDetail.do")
+	@RequestMapping(value = "studentHomeWorkDetail.do", method = RequestMethod.GET)
 	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(Long homeworkId,Long studentId,String homeworkType){
 		try {
 			List<HomeworkScoreBean> result = homeworkService.getStudentHomeworkDetail(homeworkId, studentId, homeworkType);

@@ -42,7 +42,7 @@ public class MobileMessageController extends BaseController {
             @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String")
     })
-	@RequestMapping(value = "registMsg.do", method = RequestMethod.POST)
+	@RequestMapping(value = "registMsg.do", method = RequestMethod.GET)
 	public RestResult<String> registMsg(String mobile, String randomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
 			if (!StringUtil.isMobile(mobile)) {
@@ -82,7 +82,7 @@ public class MobileMessageController extends BaseController {
             @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String")
     })
-	@RequestMapping(value = "forgetPassword.do", method = RequestMethod.POST)
+	@RequestMapping(value = "forgetPassword.do", method = RequestMethod.GET)
 	public RestResult<String> forgetPassword(String mobile, String randomStr) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
 			if (!StringUtil.isMobile(mobile)) {
@@ -118,7 +118,7 @@ public class MobileMessageController extends BaseController {
 	 * @CreateDate: 2018年1月15日 下午3:56:14
 	 */
 	@ApiIgnore
-	@RequestMapping(value = "loginMsg.do", method = RequestMethod.POST)
+	@RequestMapping(value = "loginMsg.do", method = RequestMethod.GET)
 	public RestResult<String> loginMsg(String mobile, String randomStr) {
 
 		return null;

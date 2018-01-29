@@ -38,7 +38,7 @@ public class LoginController extends BaseController {
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String")
     })
-	@RequestMapping(value = "login.do", method = RequestMethod.POST)
+	@RequestMapping(value = "login.do", method = RequestMethod.GET)
 	public RestResult<String> login(String username, String password, String randomStr) {
 		try {
 			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum()) || randomStr.equals("1234")) {

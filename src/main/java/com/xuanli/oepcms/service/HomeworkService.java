@@ -31,12 +31,14 @@ import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity;
+import com.xuanli.oepcms.entity.HomeworkStudentScoreWordEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.HomeworkDetailEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreSymbolEntityMapper;
+import com.xuanli.oepcms.mapper.HomeworkStudentScoreWordEntityMapper;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiSubWords;
@@ -67,6 +69,8 @@ public class HomeworkService {
 	YunZhiSDK yunZhiSDK;
 	@Autowired
 	HomeworkStudentScoreSymbolEntityMapper homeworkStudentScoreSymbolEntityDao;
+	@Autowired
+	HomeworkStudentScoreWordEntityMapper HomeworkStudentScoreWordEntityDao;
 
 	/**
 	 * @Description: TODO
@@ -197,6 +201,23 @@ public class HomeworkService {
 							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+							
+							for(YunZhiline line:yunZhilines) {
+								List<YunZhiWords> yunZhiSubWords = line.getWords();
+								for(YunZhiWords word : yunZhiSubWords) {
+									int type = word.getType();
+									String text1 = word.getText();
+									double score = word.getScore();
+									HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
+									homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
+									homeworkStudentScoreWordEntity.setHomeworkDetailId(result.getSectionId());
+									homeworkStudentScoreWordEntity.setStudentId(studentId);
+									homeworkStudentScoreWordEntity.setType(type+"");
+									homeworkStudentScoreWordEntity.setText(text1);
+									homeworkStudentScoreWordEntity.setScore(score);
+									HomeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
+								}
+							}
 						}
 					} else {
 						// 这里有音标的东西
@@ -273,6 +294,23 @@ public class HomeworkService {
 							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+							
+							for(YunZhiline line:yunZhilines) {
+								List<YunZhiWords> yunZhiSubWords = line.getWords();
+								for(YunZhiWords word : yunZhiSubWords) {
+									int type = word.getType();
+									String text1 = word.getText();
+									double score = word.getScore()*10.0;
+									HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
+									homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
+									homeworkStudentScoreWordEntity.setHomeworkDetailId(result.getSectionId());
+									homeworkStudentScoreWordEntity.setStudentId(studentId);
+									homeworkStudentScoreWordEntity.setType(type+"");
+									homeworkStudentScoreWordEntity.setText(text1);
+									homeworkStudentScoreWordEntity.setScore(score);
+									HomeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
+								}
+							}
 						}
 					} else {
 						// 这里有音标的东西

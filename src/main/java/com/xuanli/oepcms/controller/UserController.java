@@ -39,6 +39,9 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "insert.do", method = RequestMethod.POST)
 	public RestResult<String> saveUser(UserEntity user) {
 		try {
+			if(null==user) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"保存用户不能为空");
+			}
 			try {
 				user.setCreateId(getCurrentUser().getId().intValue() + "");
 			} catch (Exception e) {
@@ -165,7 +168,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "rows", value = "分页行数", required = true, dataType = "String"),
             @ApiImplicitParam(name = "page", value = "分页页数", required = true, dataType = "String")
     })
-	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.POST)
+	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.GET)
 	public RestResult<PageBean> findStudentByPage(Long clasId, Integer rows, Integer page) {
 		UserEntity userEntity = new UserEntity();
 		
@@ -187,9 +190,12 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
 
     })
-	@RequestMapping(value = "deleteStudent.do", method = RequestMethod.POST)
+	@RequestMapping(value = "deleteStudent.do", method = RequestMethod.DELETE)
 	public RestResult<String> deleteStudent(Long userId, Long clasId) {
 		try {
+			if(null==userId||null==clasId) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择要删除的学生");
+			}
 			UserClasEntity userClasEntity = new UserClasEntity();
 			userClasEntity.setUserId(userId);
 			userClasEntity.setClasId(clasId);
@@ -211,9 +217,12 @@ public class UserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "Long")
     })
-	@RequestMapping(value = "resetStudentPassword.do", method = RequestMethod.POST)
+	@RequestMapping(value = "resetStudentPassword.do", method = RequestMethod.PUT)
 	public RestResult<String> resetStudentPassword(String password) {
 		try {
+			if(StringUtil.isEmpty(password)) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请输入密码");
+			}
 			UserEntity userEntity = new UserEntity();
 			userEntity.setPassword(PasswordUtil.generate(password));
 			userService.resetStudentPassword(userEntity);
@@ -235,8 +244,11 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
     })
 	@RequestMapping(value = "addClasStudentBatch.do", method = RequestMethod.POST)
-	public RestResult<String> addClasStudentBatch(int size, Long clasId) {
+	public RestResult<String> addClasStudentBatch(Integer size, Long clasId) {
 		try {
+			if(null==size) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请填入批量生成学生数量");
+			}
 			if (size>100) {
 				return failed(ExceptionCode.ADD_BATCH_SIZE_ERROR, "批量添加数量不能超过100!");
 			}
@@ -262,7 +274,7 @@ public class UserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
     })
-	@RequestMapping(value = "exportClasStudent.do", method = RequestMethod.POST)
+	@RequestMapping(value = "exportClasStudent.do", method = RequestMethod.GET)
 	public void partExport(HttpServletResponse response, Long clasId) {
 		List<UserEntity> userEntities = userService.exportNameNum(clasId);
 		Map<String, String> headMap = new HashMap<String, String>();// 获取属性-列头
@@ -279,7 +291,7 @@ public class UserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
     })
-	@RequestMapping(value = "getClassStudentUseStatus.do", method = RequestMethod.POST)
+	@RequestMapping(value = "getClassStudentUseStatus.do", method = RequestMethod.GET)
 	public RestResult<List<UserEntity>> getClassStudentUseStatus(Long clasId) {
 		try {
 			List<UserEntity> userEntities = userService.exportNameNum(clasId);

@@ -37,7 +37,7 @@ public class MenuController extends BaseController{
 	 * @CreateDate:  2018年1月16日 下午1:38:34
 	 */
 	@ApiOperation(value="获取菜单", notes="获取菜单方法")
-	@RequestMapping(value = "getUserMenu.do", method = RequestMethod.POST)
+	@RequestMapping(value = "getUserMenu.do", method = RequestMethod.GET)
 	public RestResult<List<TreeObject>> getMenu() {
 		UserEntity userEntity = getCurrentUser();
 		List<TreeObject> trees = menuService.getUserMenu(userEntity);

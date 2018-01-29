@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.service.ClasService;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,6 +39,9 @@ public class ClasController extends BaseController{
     })
 	@RequestMapping(value = "addClas.do", method = RequestMethod.POST)
 	public RestResult<String> addClas(String grade,String name){
+		if(StringUtil.isEmpty(grade)||StringUtil.isEmpty(name)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"年级或班级名称不能为空");
+		}
 		ClasEntity clasEntity = new ClasEntity();
 		clasEntity.setGrade(grade);
 		clasEntity.setName(name);
@@ -61,9 +65,12 @@ public class ClasController extends BaseController{
     @ApiImplicitParams({
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
     })
-	@RequestMapping(value = "updateClas.do", method = RequestMethod.POST)
+	@RequestMapping(value = "updateClas.do", method = RequestMethod.DELETE)
 	public RestResult<String> deleteClas(Long clasId){
 		try {
+			if(null==clasId) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择班级");
+			}
 			//clasId = getCurrentUser().getId();
 			clasService.updateClas(clasId);
 			return ok("删除班级成功!");
