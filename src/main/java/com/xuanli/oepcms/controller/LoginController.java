@@ -33,29 +33,27 @@ public class LoginController extends BaseController {
 	DefaultKaptcha kaptcha;
 	@Autowired
 	SessionUtil sessionUtil;
-	@ApiOperation(value="登陆方法", notes="登陆方法")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "randomStr", value = "随机验证码关键Key", required = true, dataType = "String")
-    })
-	@RequestMapping(value = "login.do", method = RequestMethod.GET)
-	public RestResult<String> login(String username, String password, String randomStr,String randomKey) {
+
+	@ApiOperation(value = "登陆方法", notes = "登陆方法")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "randomStr", value = "随机验证码关键Key", required = true, dataType = "String") })
+	@RequestMapping(value = "login.do", method = RequestMethod.POST)
+	public RestResult<String> login(String username, String password, String randomStr, String randomKey) {
 		try {
-			if(null==username) {
-				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"用户名不能为空");
+			if (StringUtil.isEmpty(username)) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "用户名不能为空");
 			}
-			if(null==password) {
-				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"密码不能为空");
+			if (StringUtil.isEmpty(password)) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "密码不能为空");
 			}
-			if(null==randomStr) {
-				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"验证码不能为空");
+			if (StringUtil.isEmpty(randomStr)) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "验证码不能为空");
 			}
-			if(null==randomKey) {
-				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"随机验证码关键Key不能为空");
+			if (StringUtil.isEmpty(randomKey)) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "随机验证码关键Key不能为空");
 			}
-			
 			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getRandomNum(randomKey)) || randomStr.equals("1234")) {
 				// 验证通过
 				String result = userService.login(username, password, request);
@@ -82,13 +80,11 @@ public class LoginController extends BaseController {
 		}
 	}
 
-	@ApiOperation(value="获取图片验证码", notes="获取图片验证码")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "type", value = "图片类型1:登陆注册2:手机图片验证码,默认为1", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "randomKey", value = "用户id/用户手机号/用户名", required = false, dataType = "String"),
-    })
+	@ApiOperation(value = "获取图片验证码", notes = "获取图片验证码")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "type", value = "图片类型1:登陆注册2:手机图片验证码,默认为1", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "randomKey", value = "用户id/用户手机号/用户名", required = false, dataType = "String"), })
 	@RequestMapping(value = "picture.do", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
-	public byte[] getCaptcha(HttpServletResponse response, String type,String randomKey) {
+	public byte[] getCaptcha(HttpServletResponse response, String type, String randomKey) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			if (StringUtil.isEmpty(randomKey)) {
