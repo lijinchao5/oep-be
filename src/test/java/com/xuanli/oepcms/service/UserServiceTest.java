@@ -60,6 +60,27 @@ public class UserServiceTest extends BaseTest {
 //    	System.out.println(i);
     }
     
-    
+    @Test
+    public void testPerfectUserInfo() {
+//    	UserEntity userEntity = new UserEntity();
+//    	userEntity.setId(107L);
+//		userEntity.setName("zhangsan");
+//		userEntity.setBirthDate(new Date());
+//		userEntity.setSex("M");
+//		userEntity.setStudySectionId(1111);
+//		userEntity.setGradeLevelId(2);
+//		userEntity.setBookVersionId(1212);
+//		userService.perfectUserInfo(userEntity);
+//		
+//	    UserEntity user = userService.selectById(107L);
+//	    assertThat(user, notNullValue());
+//	    assertThat(user.getId(), notNullValue());
+//	    assertThat(user.getId().longValue(), greaterThan(0L));
+//	    assertThat(user.getName(), is(userEntity.getName()));
+//	    assertThat(user.getSex(), is(userEntity.getSex()));
+//	    assertThat(user.getStudySectionId(), is(userEntity.getStudySectionId()));
+//	    assertThat(user.getGradeLevelId(), is(userEntity.getGradeLevelId()));
+//	    assertThat(user.getGradeLevelId(), is(userEntity.getGradeLevelId()));
+    }
 
 }

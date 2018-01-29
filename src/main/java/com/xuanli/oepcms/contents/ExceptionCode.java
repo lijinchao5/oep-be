@@ -34,7 +34,9 @@ public class ExceptionCode {
 	/**批量添加数量不能超过100**/
 	public static final int ADD_BATCH_SIZE_ERROR = 1008;
 	/**写评语未选择学生*/
-	public static final int UPDATE_BATCH_REMARK_ERROR = 1008;
+	public static final int UPDATE_BATCH_REMARK_ERROR = 1009;
+	/**完善用户信息错误*/
+	public static final int PERFECT_USERINFO_ERROR = 1010;
 	
 	/**参数验证错误*/
 	public static final int PARAMETER_VALIDATE_ERROR_CODE = 7001;

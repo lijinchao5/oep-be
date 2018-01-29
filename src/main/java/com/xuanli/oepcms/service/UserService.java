@@ -272,5 +272,13 @@ public class UserService extends BaseService{
 	public List<UserEntity> getClasUseStudent(UserEntity userEntity) {
 		return userDao.getClasUserStudent(userEntity);
 	}
-
+	
+	public UserEntity selectById(Long id){
+		return userDao.selectById(id);
+	}
+	
+	/**完善用户信息*/
+	public int perfectUserInfo(UserEntity userEntity){
+		return userDao.updateUserEntity(userEntity);
+	}
 }

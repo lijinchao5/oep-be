@@ -43,9 +43,18 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "login.do", method = RequestMethod.GET)
 	public RestResult<String> login(String username, String password, String randomStr,String randomKey) {
 		try {
-			
-			
-			
+			if(null==username) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"用户名不能为空");
+			}
+			if(null==password) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"密码不能为空");
+			}
+			if(null==randomStr) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"验证码不能为空");
+			}
+			if(null==randomKey) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"随机验证码关键Key不能为空");
+			}
 			
 			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getRandomNum(randomKey)) || randomStr.equals("1234")) {
 				// 验证通过

@@ -1,5 +1,6 @@
 package com.xuanli.oepcms.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,7 +164,66 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
 		}
 	}
+	
+	/**完善用户信息*/
+	@ApiOperation(value="完善用户信息", notes="完善用户信息方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "name", value = "真实姓名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "birthDate", value = "生日", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "sex", value = "性别", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "studySectionId", value = "学段(小初高)", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "gradeLevelId", value = "年级", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "bookVersionId", value = "教材版本", required = true, dataType = "Integer")
+    })
+	@RequestMapping(value = "perfectUserInfo.do", method = RequestMethod.PUT)
+	public RestResult<String> perfectUserInfo(Long userId,String name,Date birthDate,String sex,Integer studySectionId,Integer gradeLevelId,Integer bookVersionId){
+		if(null==userId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"用户id不能为空");
+		}
+		if(null==name) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"真实姓名不能为空");
+		}
+		if(null==sex) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"性别不能为空");
+		}
+		if(null==birthDate) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"生日不能为空");
+		}
+		if(null==studySectionId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"学段不能为空");
+		}
+		if(null==gradeLevelId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"年级不能为空");
+		}
+		if(null==bookVersionId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"教材版本不能为空");
+		}
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(userId);
+		userEntity.setName(name);
+		userEntity.setBirthDate(birthDate);
+		userEntity.setSex(sex);
+		userEntity.setStudySectionId(studySectionId);
+		userEntity.setGradeLevelId(gradeLevelId);
+		userEntity.setBookVersionId(bookVersionId);
+		try {
+			int perfectInfo = userService.perfectUserInfo(userEntity);
+			if(perfectInfo>0) {
+				return ok("完善信息成功");
+			}else if(perfectInfo<=0){
+				return failed(ExceptionCode.PERFECT_USERINFO_ERROR,"完善用户信息错误");
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE,"未知错误，请联系管理员");
+			}
+		} catch (Exception e) {
+			logger.error("完善用户信息失败!", e);
+			e.printStackTrace();
+			return failed(ExceptionCode.PERFECT_USERINFO_ERROR, "完善用户信息失败.");
+		}
 
+	}
+	
 	/**
 	 * @Description: TODO 获取该班级中用户信息---->分页
 	 * @CreateName: QiaoYu
