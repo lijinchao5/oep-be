@@ -37,11 +37,16 @@ public class LoginController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String")
+            @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "随机验证码关键Key", required = true, dataType = "String")
     })
 	@RequestMapping(value = "login.do", method = RequestMethod.GET)
 	public RestResult<String> login(String username, String password, String randomStr,String randomKey) {
 		try {
+			
+			
+			
+			
 			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getRandomNum(randomKey)) || randomStr.equals("1234")) {
 				// 验证通过
 				String result = userService.login(username, password, request);
