@@ -26,9 +26,8 @@ import io.swagger.annotations.ApiOperation;
  * @author  QiaoYu 
  */
 @RestController()
-//@RequestMapping(value = "/class", method = RequestMethod.POST)
 @RequestMapping(value = "/class/")
-public class ClasController extends BaseController{
+public class ClasController extends BaseController {
 	@Autowired
 	ClasService clasService;
 	
@@ -38,8 +37,8 @@ public class ClasController extends BaseController{
             @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
             @ApiImplicitParam(name = "name", value = "班级名称", required = true, dataType = "String")
     })
-	@RequestMapping(value = "addClas.do", method = RequestMethod.POST)
-	public RestResult<String> addClas(@RequestParam String grade,@RequestParam String name){
+	@RequestMapping(value = "addClass.do", method = RequestMethod.POST)
+	public RestResult<String> addClass(@RequestParam String grade,@RequestParam String name){
 		if(StringUtil.isEmpty(grade)||StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"年级或班级名称不能为空");
 		}
@@ -66,8 +65,8 @@ public class ClasController extends BaseController{
     @ApiImplicitParams({
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
     })
-	@RequestMapping(value = "updateClas.do", method = RequestMethod.DELETE)
-	public RestResult<String> deleteClas(@RequestParam Long clasId){
+	@RequestMapping(value = "deleteClass.do", method = RequestMethod.DELETE)
+	public RestResult<String> deleteClass(@RequestParam Long clasId){
 		try {
 			if(null==clasId) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择班级");
