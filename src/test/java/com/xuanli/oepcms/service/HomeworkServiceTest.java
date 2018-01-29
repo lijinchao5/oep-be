@@ -24,15 +24,15 @@ public class HomeworkServiceTest extends BaseTest{
 
 	@Test
 	public void test() {
-		homeworkService.test(1, 3);
+		//homeworkService.test(1, 3);
 	}
 	
 	@Test
 	public void testUpdateHomewordStudentEntityRemark() {
-		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
-		String userIds = "3,4,5";
-		homeworkStudentEntity.setRemark("AAA111");
-		homeworkService.updateHomewordStudentEntityRemark(userIds, 1L,homeworkStudentEntity.getRemark());
+//		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
+//		String userIds = "3,4,5";
+//		homeworkStudentEntity.setRemark("AAA111");
+//		homeworkService.updateHomewordStudentEntityRemark(userIds, 1L,homeworkStudentEntity.getRemark());
 		
 	}
 }

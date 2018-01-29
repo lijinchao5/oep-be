@@ -26,6 +26,12 @@ jdbc:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
 
+#Redis配置
+redis:
+  host: 39.104.76.67
+  port: 5379
+  password: oep-be-123!@#098)(*
+
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   

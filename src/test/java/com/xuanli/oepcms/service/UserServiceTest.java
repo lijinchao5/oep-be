@@ -46,18 +46,18 @@ public class UserServiceTest extends BaseTest {
     
     @Test
     public void saveUser() {
-    	UserEntity user = new UserEntity();
-    	user.setBirthDate(new Date());
-    	user.setName("1234");
-    	user.setMobile("1234565");
-    	user.setNameNum("1233333");
-    	user.setCreateId("1");
-    	user.setCreateDate(new Date());
-    	user.setEnableFlag("T");
-    	user.setRoleId(new Integer(2));
-    	user.setPassword(PasswordUtil.generate("admin"));
-    	int i = userService.saveUser(user);
-    	System.out.println(i);
+//    	UserEntity user = new UserEntity();
+//    	user.setBirthDate(new Date());
+//    	user.setName("1234");
+//    	user.setMobile("1234565");
+//    	user.setNameNum("1233333");
+//    	user.setCreateId("1");
+//    	user.setCreateDate(new Date());
+//    	user.setEnableFlag("T");
+//    	user.setRoleId(new Integer(2));
+//    	user.setPassword(PasswordUtil.generate("admin"));
+//    	int i = userService.saveUser(user);
+//    	System.out.println(i);
     }
     
     
