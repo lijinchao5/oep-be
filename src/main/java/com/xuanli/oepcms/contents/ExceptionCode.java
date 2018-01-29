@@ -35,6 +35,9 @@ public class ExceptionCode {
 	public static final int ADD_BATCH_SIZE_ERROR = 1008;
 	/**写评语未选择学生*/
 	public static final int UPDATE_BATCH_REMARK_ERROR = 1008;
+	
+	/**参数验证错误*/
+	public static final int PARAMETER_VALIDATE_ERROR_CODE = 7001;
 
 	/**短信验证码错误*/
 	public static final Integer MOBILE_MESSAGE_ERROR_CODE = 9001;
