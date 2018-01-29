@@ -77,6 +77,7 @@ public class SessionFilter implements Filter {
 						chain.doFilter(request, response);
 					} else {
 						logger.info("进入SessionFilter拦截器[Session是空的请求!]");
+						response.setContentType("text/json; charset=utf-8");
 						PrintWriter printWriter = response.getWriter();
 						RestResult<String> restResult = new RestResult<String>();
 						restResult.setCode(99998);

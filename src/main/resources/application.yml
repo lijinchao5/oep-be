@@ -1,7 +1,8 @@
 #服务启动端口
 server:  
   port: 8092
-
+  tomcat:
+    uri-encoding: UTF-8
 #数据库配置
 jdbc:
   datasource:
@@ -56,17 +57,16 @@ spring:
       max-active: 2000
       min-idle: 50
       max-idle: 500
-      
   http:
     multipart:
       enabled: true
       max-file-size: 20MB
       max-request-size: 20MB
     encoding:
+      force: true
       enabled: true
-      charset: "UTF-8"
+      charset: UTF-8
 #自定义系统的一些配置文件
-
 systemconfig:
   file:
     base-path: d:/test/3
