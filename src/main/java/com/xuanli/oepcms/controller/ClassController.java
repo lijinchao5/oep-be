@@ -27,11 +27,10 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController()
 @RequestMapping(value = "/class/")
-public class ClasController extends BaseController {
+public class ClassController extends BaseController {
 	@Autowired
 	ClasService clasService;
-	
-	
+
 	@ApiOperation(value="创建班级", notes="增加班级方法")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
