@@ -62,16 +62,16 @@ public class ClassController extends BaseController {
 	 */
 	@ApiOperation(value="删除班级", notes="删除班级方法")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "Long"),
     })
 	@RequestMapping(value = "deleteClass.do", method = RequestMethod.DELETE)
-	public RestResult<String> deleteClass(@RequestParam Long clasId){
+	public RestResult<String> deleteClass(@RequestParam Long classId){
 		try {
-			if(null==clasId) {
+			if(null==classId) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择班级");
 			}
-			//clasId = getCurrentUser().getId();
-			clasService.updateClas(clasId);
+			//classId = getCurrentUser().getId();
+			clasService.updateClas(classId);
 			return ok("删除班级成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
