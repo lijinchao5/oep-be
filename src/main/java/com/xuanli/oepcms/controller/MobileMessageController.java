@@ -9,6 +9,7 @@ package com.xuanli.oepcms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
@@ -45,7 +46,7 @@ public class MobileMessageController extends BaseController {
             @ApiImplicitParam(name = "randomKey", value = "随机验证码关键key", required = true, dataType = "String")
     })
 	@RequestMapping(value = "registMsg.do", method = RequestMethod.GET)
-	public RestResult<String> registMsg(String mobile, String randomStr,String randomKey) {
+	public RestResult<String> registMsg(@RequestParam String mobile, @RequestParam String randomStr,@RequestParam String randomKey) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getMobileRandomNum(randomKey))) {
 			if (!StringUtil.isMobile(mobile)) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码错误.");
@@ -86,7 +87,7 @@ public class MobileMessageController extends BaseController {
             @ApiImplicitParam(name = "randomKey", value = "随机验证码关键key", required = true, dataType = "String")
     })
 	@RequestMapping(value = "forgetPassword.do", method = RequestMethod.GET)
-	public RestResult<String> forgetPassword(String mobile, String randomStr,String randomKey) {
+	public RestResult<String> forgetPassword(@RequestParam String mobile, @RequestParam String randomStr,@RequestParam String randomKey) {
 		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getMobileRandomNum(randomKey))) {
 			if (!StringUtil.isMobile(mobile)) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码错误.");
@@ -122,7 +123,7 @@ public class MobileMessageController extends BaseController {
 	 */
 	@ApiIgnore
 	@RequestMapping(value = "loginMsg.do", method = RequestMethod.GET)
-	public RestResult<String> loginMsg(String mobile, String randomStr) {
+	public RestResult<String> loginMsg(@RequestParam String mobile, @RequestParam String randomStr) {
 		return null;
 	}
 }

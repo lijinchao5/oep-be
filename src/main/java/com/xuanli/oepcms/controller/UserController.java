@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -39,7 +40,7 @@ public class UserController extends BaseController {
 	SessionUtil sessionUtil;
 	@ApiIgnore
 	@RequestMapping(value = "insert.do", method = RequestMethod.POST)
-	public RestResult<String> saveUser(UserEntity user) {
+	public RestResult<String> saveUser(@RequestParam UserEntity user) {
 		try {
 			if(null==user) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"保存用户不能为空");
@@ -78,7 +79,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key不能为空", required = true, dataType = "String")
     })
 	@RequestMapping(value = "teacher_regist.do", method = RequestMethod.POST)
-	public RestResult<String> teacher_regist(String schoolId, String mobile, String randomStr, String password, String mobileRandomStr,String randomKey) {
+	public RestResult<String> teacher_regist(@RequestParam String schoolId, @RequestParam String mobile, @RequestParam String randomStr, @RequestParam String password, @RequestParam String mobileRandomStr,@RequestParam String randomKey) {
 		if (StringUtil.isEmpty(randomKey)) {
 			return failed(ExceptionCode.USERINFO_ERROR_CODE, "随机验证码关键Key不能为空");
 		}
@@ -129,7 +130,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key不能为空", required = true, dataType = "String")
     })
 	@RequestMapping(value = "student_regist.do", method = RequestMethod.POST)
-	public RestResult<String> student_regist(String classId, String mobile, String randomStr, String password, String mobileRandomStr,String randomKey) {
+	public RestResult<String> student_regist(@RequestParam String classId, @RequestParam String mobile, @RequestParam String randomStr, @RequestParam String password, @RequestParam String mobileRandomStr,@RequestParam String randomKey) {
 		if (StringUtil.isEmpty(randomKey)) {
 			return failed(ExceptionCode.USERINFO_ERROR_CODE, "随机验证码关键Key不能为空");
 		}
@@ -177,14 +178,14 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "bookVersionId", value = "教材版本", required = true, dataType = "Integer")
     })
 	@RequestMapping(value = "perfectUserInfo.do", method = RequestMethod.PUT)
-	public RestResult<String> perfectUserInfo(Long userId,String name,Date birthDate,String sex,Integer studySectionId,Integer gradeLevelId,Integer bookVersionId){
+	public RestResult<String> perfectUserInfo(@RequestParam Long userId,@RequestParam String name,@RequestParam Date birthDate,@RequestParam String sex,@RequestParam Integer studySectionId,@RequestParam Integer gradeLevelId,@RequestParam Integer bookVersionId){
 		if(null==userId) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"用户id不能为空");
 		}
-		if(null==name) {
+		if(StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"真实姓名不能为空");
 		}
-		if(null==sex) {
+		if(StringUtil.isEmpty(sex)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"性别不能为空");
 		}
 		if(null==birthDate) {
@@ -236,7 +237,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "page", value = "分页页数", required = true, dataType = "String")
     })
 	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findStudentByPage(Long clasId, Integer rows, Integer page) {
+	public RestResult<PageBean> findStudentByPage(@RequestParam Long clasId, @RequestParam Integer rows, @RequestParam Integer page) {
 		UserEntity userEntity = new UserEntity();
 		
 		PageBean pageBean = initPageBean(page, rows);
@@ -258,7 +259,7 @@ public class UserController extends BaseController {
 
     })
 	@RequestMapping(value = "deleteStudent.do", method = RequestMethod.DELETE)
-	public RestResult<String> deleteStudent(Long userId, Long clasId) {
+	public RestResult<String> deleteStudent(@RequestParam Long userId, @RequestParam Long clasId) {
 		try {
 			if(null==userId||null==clasId) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择要删除的学生");
@@ -285,7 +286,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "Long")
     })
 	@RequestMapping(value = "resetStudentPassword.do", method = RequestMethod.PUT)
-	public RestResult<String> resetStudentPassword(String password) {
+	public RestResult<String> resetStudentPassword(@RequestParam String password) {
 		try {
 			if(StringUtil.isEmpty(password)) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请输入密码");
@@ -311,7 +312,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
     })
 	@RequestMapping(value = "addClasStudentBatch.do", method = RequestMethod.POST)
-	public RestResult<String> addClasStudentBatch(Integer size, Long clasId) {
+	public RestResult<String> addClasStudentBatch(@RequestParam Integer size, @RequestParam Long clasId) {
 		try {
 			if(null==size) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请填入批量生成学生数量");
@@ -342,7 +343,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
     })
 	@RequestMapping(value = "exportClasStudent.do", method = RequestMethod.GET)
-	public void partExport(HttpServletResponse response, Long clasId) {
+	public void partExport(HttpServletResponse response, @RequestParam Long clasId) {
 		List<UserEntity> userEntities = userService.exportNameNum(clasId);
 		Map<String, String> headMap = new HashMap<String, String>();// 获取属性-列头
 		headMap.put("nameNum", "编号");
@@ -359,7 +360,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long")
     })
 	@RequestMapping(value = "getClassStudentUseStatus.do", method = RequestMethod.GET)
-	public RestResult<List<UserEntity>> getClassStudentUseStatus(Long clasId) {
+	public RestResult<List<UserEntity>> getClassStudentUseStatus(@RequestParam Long clasId) {
 		try {
 			List<UserEntity> userEntities = userService.exportNameNum(clasId);
 			return ok(userEntities);

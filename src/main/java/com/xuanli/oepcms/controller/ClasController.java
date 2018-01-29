@@ -9,6 +9,7 @@ package com.xuanli.oepcms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
@@ -38,7 +39,7 @@ public class ClasController extends BaseController{
             @ApiImplicitParam(name = "name", value = "班级名称", required = true, dataType = "String")
     })
 	@RequestMapping(value = "addClas.do", method = RequestMethod.POST)
-	public RestResult<String> addClas(String grade,String name){
+	public RestResult<String> addClas(@RequestParam String grade,@RequestParam String name){
 		if(StringUtil.isEmpty(grade)||StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"年级或班级名称不能为空");
 		}
@@ -66,7 +67,7 @@ public class ClasController extends BaseController{
             @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
     })
 	@RequestMapping(value = "updateClas.do", method = RequestMethod.DELETE)
-	public RestResult<String> deleteClas(Long clasId){
+	public RestResult<String> deleteClas(@RequestParam Long clasId){
 		try {
 			if(null==clasId) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择班级");

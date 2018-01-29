@@ -52,7 +52,7 @@ public class HomeworkController extends BaseController {
             @ApiImplicitParam(name = "homeworkBeans", value = "作业列表", required = true, dataType = "String")
     })
 	@RequestMapping(value = "makeHomeWork.do", method = RequestMethod.POST)
-	public RestResult<String> makeHomeWork(String name, String clasId, Date endTime, String remark, List<HomeworkBean> homeworkBeans) {
+	public RestResult<String> makeHomeWork(@RequestParam String name, @RequestParam String clasId, @RequestParam Date endTime, @RequestParam String remark, @RequestParam List<HomeworkBean> homeworkBeans) {
 		if(StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请填写作业名称");
 		}
@@ -94,7 +94,7 @@ public class HomeworkController extends BaseController {
             @ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"),
     })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
-	public RestResult<String> doHomeWork(Long sectionId, Long homeworkId, @RequestParam("audioFile") MultipartFile file, String text) {
+	public RestResult<String> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam("audioFile") MultipartFile file, @RequestParam String text) {
 		try {
 			Long studentId = getCurrentUser().getId();
 			String result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
@@ -119,7 +119,7 @@ public class HomeworkController extends BaseController {
             @ApiImplicitParam(name = "remark", value = "评语内容", required = true, dataType = "String")
     })
 	@RequestMapping(value = "homeWorkRemark.do", method = RequestMethod.PUT)
-	public RestResult<String> homeworkRemark(String userIds,Long homeworkId,String remark){
+	public RestResult<String> homeworkRemark(@RequestParam String userIds,@RequestParam Long homeworkId,@RequestParam String remark){
 		try {
 			String result = homeworkService.updateHomewordStudentEntityRemark(userIds, homeworkId, remark);
 			if(result.equals("0")) {
@@ -145,7 +145,7 @@ public class HomeworkController extends BaseController {
             @ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String")
     })
 	@RequestMapping(value = "studentHomeWorkDetail.do", method = RequestMethod.GET)
-	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(Long homeworkId,Long studentId,String homeworkType){
+	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(@RequestParam Long homeworkId,@RequestParam Long studentId,@RequestParam String homeworkType){
 		try {
 			List<HomeworkScoreBean> result = homeworkService.getStudentHomeworkDetail(homeworkId, studentId, homeworkType);
 			if(null!=result && result.size()>0) {

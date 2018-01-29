@@ -87,7 +87,7 @@ public class LoginController extends BaseController {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "type", value = "图片类型1:登陆注册2:手机图片验证码,默认为1", required = false, dataType = "String"),
 			@ApiImplicitParam(name = "randomKey", value = "用户id/用户手机号/用户名", required = false, dataType = "String"), })
 	@RequestMapping(value = "picture.do", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
-	public byte[] getCaptcha(HttpServletResponse response, String type, String randomKey) {
+	public byte[] getCaptcha(HttpServletResponse response, @RequestParam String type, @RequestParam String randomKey) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			if (StringUtil.isEmpty(randomKey)) {
