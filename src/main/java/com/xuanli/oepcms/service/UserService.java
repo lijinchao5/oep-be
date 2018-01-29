@@ -18,12 +18,13 @@ import com.xuanli.oepcms.entity.UserSchoolEntity;
 import com.xuanli.oepcms.mapper.UserEntityMapper;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.PasswordUtil;
+import com.xuanli.oepcms.util.RanNumUtil;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService extends BaseService{
 	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private UserEntityMapper userDao;
@@ -31,7 +32,8 @@ public class UserService {
 	private SchoolService schoolService;
 	@Autowired
 	private ClasService clasService;
-
+	@Autowired
+	SessionUtil sessionUtil;
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
@@ -50,8 +52,9 @@ public class UserService {
 					up.setId(result.getId());
 					userDao.updateUserEntity(up);
 					// 登陆成功
-					SessionUtil.setSessionUser(request, result);
-					return "1";
+					String tokenId = RanNumUtil.getRandom();
+					sessionUtil.setSessionUser(tokenId, result);
+					return tokenId;
 				} else {
 					// 用户名或者密码错误
 					return "2";

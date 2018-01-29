@@ -41,6 +41,22 @@ mybatis:
 #    date-format: yyyy-MM-dd HH:mm:ss
 
 spring:
+  session:
+    store-type: REDIS
+    redis:
+      flush-mode: immediate
+  redis:
+    timeout: 3000
+    port: 5379
+    password: oep-be-123!@#098)(*
+    host: 39.104.76.67
+    database: 5 
+    pool:
+      max-wait: 1000
+      max-active: 2000
+      min-idle: 50
+      max-idle: 500
+      
   http:
     multipart:
       enabled: true

@@ -6,6 +6,10 @@
  */ 
 package com.xuanli.oepcms.service;
 
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.xuanli.oepcms.vo.RestResult;
 
 /** 
@@ -22,5 +26,16 @@ public class BaseService {
 
 	public <T> RestResult<T> failed(int code, String message) {
 		return RestResult.failed(code, message);
+	}
+	
+	
+	public String getTokenId(HttpServletRequest request) {
+		Enumeration<String> enumeration = request.getHeaders("X-AUTH-TOKEN");
+		if (enumeration.hasMoreElements()) {
+			String tokenId = (String) enumeration.nextElement();
+			return tokenId;
+		} else {
+			return null;
+		}
 	}
 }

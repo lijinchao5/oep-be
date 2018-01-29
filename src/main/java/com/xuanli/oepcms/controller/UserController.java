@@ -34,7 +34,8 @@ import springfox.documentation.annotations.ApiIgnore;
 public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	SessionUtil sessionUtil;
 	@ApiIgnore
 	@RequestMapping(value = "insert.do", method = RequestMethod.POST)
 	public RestResult<String> saveUser(UserEntity user) {
@@ -72,13 +73,15 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "mobile", value = "教师手机号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String")
+            @ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key不能为空", required = true, dataType = "String")
     })
 	@RequestMapping(value = "teacher_regist.do", method = RequestMethod.POST)
-	public RestResult<String> teacher_regist(String schoolId, String mobile, String randomStr, String password, String mobileRandomStr) {
-
-		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
-
+	public RestResult<String> teacher_regist(String schoolId, String mobile, String randomStr, String password, String mobileRandomStr,String randomKey) {
+		if (StringUtil.isEmpty(randomKey)) {
+			return failed(ExceptionCode.USERINFO_ERROR_CODE, "随机验证码关键Key不能为空");
+		}
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getRandomNum(randomKey))) {
 			if (StringUtil.isEmpty(schoolId)) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "校区ID不能为空.");
 			}
@@ -91,8 +94,8 @@ public class UserController extends BaseController {
 			if (StringUtil.isEmpty(password)) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
 			}
-			logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + SessionUtil.getMobileMessageRandomNum(request));
-			if (!mobileRandomStr.equalsIgnoreCase(SessionUtil.getMobileMessageRandomNum(request))) {
+			logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + sessionUtil.getMobileMessageRandomNum(randomKey));
+			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(getTokenId()))) {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.teacherRegist(schoolId, mobile, password);
@@ -121,11 +124,15 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "mobile", value = "学生手机号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String")
+            @ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key不能为空", required = true, dataType = "String")
     })
 	@RequestMapping(value = "student_regist.do", method = RequestMethod.POST)
-	public RestResult<String> student_regist(String classId, String mobile, String randomStr, String password, String mobileRandomStr) {
-		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum())) {
+	public RestResult<String> student_regist(String classId, String mobile, String randomStr, String password, String mobileRandomStr,String randomKey) {
+		if (StringUtil.isEmpty(randomKey)) {
+			return failed(ExceptionCode.USERINFO_ERROR_CODE, "随机验证码关键Key不能为空");
+		}
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getRandomNum(randomKey))) {
 			if (StringUtil.isEmpty(classId)) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "班级ID不能为空.");
 			}
@@ -138,8 +145,8 @@ public class UserController extends BaseController {
 			if (StringUtil.isEmpty(password)) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
 			}
-			logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + SessionUtil.getMobileMessageRandomNum(request));
-			if (!mobileRandomStr.equalsIgnoreCase(SessionUtil.getMobileMessageRandomNum(request))) {
+			logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + sessionUtil.getMobileMessageRandomNum(randomKey));
+			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(getTokenId()))) {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.studentRegist(classId, mobile, password);

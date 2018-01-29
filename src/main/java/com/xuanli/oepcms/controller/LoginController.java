@@ -31,7 +31,8 @@ public class LoginController extends BaseController {
 	UserService userService;
 	@Autowired
 	DefaultKaptcha kaptcha;
-	
+	@Autowired
+	SessionUtil sessionUtil;
 	@ApiOperation(value="登陆方法", notes="登陆方法")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
@@ -39,25 +40,22 @@ public class LoginController extends BaseController {
             @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String")
     })
 	@RequestMapping(value = "login.do", method = RequestMethod.GET)
-	public RestResult<String> login(String username, String password, String randomStr) {
+	public RestResult<String> login(String username, String password, String randomStr,String randomKey) {
 		try {
-			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getRandomNum()) || randomStr.equals("1234")) {
+			if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getRandomNum(randomKey)) || randomStr.equals("1234")) {
 				// 验证通过
 				String result = userService.login(username, password, request);
 				if (StringUtil.isEmpty(result)) {
 					return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
 				} else {
-					if (result.equals("1")) {
-						logger.debug("登陆成功.");
-						return ok("登陆成功.");
-					} else if (result.equals("2")) {
+					if (result.equals("2")) {
 						// 用户名//或者密码错误
 						return failed(ExceptionCode.USERINFO_ERROR_CODE, "用户名或者密码错误.");
 					} else if (result.equals("3")) {
 						// 用户名//或者密码错误
 						return failed(ExceptionCode.USERINFO_NOUSE_ERROR, "用户被禁用,请联系管理员.");
 					} else {
-						return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
+						return ok(result);
 					}
 				}
 			} else {
@@ -73,11 +71,15 @@ public class LoginController extends BaseController {
 	@ApiOperation(value="获取图片验证码", notes="获取图片验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "图片类型1:登陆注册2:手机图片验证码,默认为1", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "randomKey", value = "用户id/用户手机号/用户名", required = false, dataType = "String"),
     })
 	@RequestMapping(value = "picture.do", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
-	public byte[] getCaptcha(HttpServletResponse response, String type) {
+	public byte[] getCaptcha(HttpServletResponse response, String type,String randomKey) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
+			if (StringUtil.isEmpty(randomKey)) {
+				return null;
+			}
 			// 生产验证码字符串并保存到session中
 			String createText = kaptcha.createText();
 			BufferedImage challenge = kaptcha.createImage(createText);
@@ -85,11 +87,11 @@ public class LoginController extends BaseController {
 			if (StringUtil.isEmpty(type) || type.equals("1")) {
 				// 图片验证码
 				logger.debug("产生图片验证码:" + createText);
-				SessionUtil.setRandomNum(request, createText);
+				sessionUtil.setRandomNum(randomKey, createText);
 			} else if (type.equals("2")) {
 				// 手机短信图片验证码
 				logger.debug("产生手机短信图片验证码:" + createText);
-				SessionUtil.setMobileRandomNum(request, createText);
+				sessionUtil.setMobileRandomNum(randomKey, createText);
 			}
 			return os.toByteArray();
 		} catch (IllegalArgumentException | IOException e) {

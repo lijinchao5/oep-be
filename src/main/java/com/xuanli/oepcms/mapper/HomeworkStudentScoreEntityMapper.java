@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
-import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 @Mapper
 public interface HomeworkStudentScoreEntityMapper {

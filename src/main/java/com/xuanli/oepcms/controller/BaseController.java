@@ -1,18 +1,24 @@
 package com.xuanli.oepcms.controller;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
+@Service
 public abstract class BaseController {
 	@Autowired
 	protected HttpServletRequest request;
-
+	@Autowired
+	protected SessionUtil sessionUtil;
 	public final Logger logger = Logger.getLogger(this.getClass());
 
 	public <T> RestResult<T> ok(T result) {
@@ -27,37 +33,28 @@ public abstract class BaseController {
 		return RestResult.failed(code, message);
 	}
 
-	public UserEntity getCurrentUser() {
-		Object obj = SessionUtil.getSessionUser(request);
-		if (null == obj) {
-			return null;
+	public String getTokenId() {
+		Enumeration<String> enumeration = request.getHeaders("X-AUTH-TOKEN");
+		if (enumeration.hasMoreElements()) {
+			String tokenId = (String) enumeration.nextElement();
+			return tokenId;
 		} else {
-			try {
-				UserEntity userEntity = (UserEntity) obj;
-				return userEntity;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
+			return null;
 		}
 	}
 
-	public String getRandomNum() {
-		Object obj = SessionUtil.getRandomNum(request);
-		if (null == obj) {
-			return null;
+	public UserEntity getCurrentUser() {
+		Enumeration<String> enumeration = request.getHeaders("X-AUTH-TOKEN");
+		if (enumeration.hasMoreElements()) {
+			String tokenId = (String) enumeration.nextElement();
+			UserEntity user = sessionUtil.getSessionUser(tokenId);
+			return user;
 		} else {
-			try {
-				String num = (String) obj;
-				return num;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
+			return null;
 		}
 	}
-	
-	protected PageBean initPageBean(Integer page,Integer rows){
+
+	protected PageBean initPageBean(Integer page, Integer rows) {
 		if (null == page || page.intValue() == 0) {
 			page = 1;
 		}

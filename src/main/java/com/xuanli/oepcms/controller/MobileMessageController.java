@@ -31,7 +31,8 @@ import springfox.documentation.annotations.ApiIgnore;
 public class MobileMessageController extends BaseController {
 	@Autowired
 	MobileMessageService mobileMessageService;
-
+	@Autowired
+	SessionUtil sessionUtil;
 	/**
 	 * @Description: TODO 注册
 	 * @CreateName: QiaoYu
@@ -40,11 +41,12 @@ public class MobileMessageController extends BaseController {
 	@ApiOperation(value="发送手机短信", notes="注册时用户发送手机短信验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String")
+            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomKey", value = "随机验证码关键key", required = true, dataType = "String")
     })
 	@RequestMapping(value = "registMsg.do", method = RequestMethod.GET)
-	public RestResult<String> registMsg(String mobile, String randomStr) {
-		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
+	public RestResult<String> registMsg(String mobile, String randomStr,String randomKey) {
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getMobileRandomNum(randomKey))) {
 			if (!StringUtil.isMobile(mobile)) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码错误.");
 			}
@@ -53,7 +55,7 @@ public class MobileMessageController extends BaseController {
 				String result = mobileMessageService.registMsg(mobile, randomNum);
 				if (StringUtil.isEmpty(result) || result.equals("1")) {
 					// 发送短信成功
-					SessionUtil.setMobileMessageRandomNum(request, randomNum);
+					sessionUtil.setMobileMessageRandomNum(randomKey, randomNum);
 					return ok("发送短信成功!");
 				} else if (result.equals("2")) {
 					// 手机号码已经存在
@@ -80,11 +82,12 @@ public class MobileMessageController extends BaseController {
 	@ApiOperation(value="忘记密码", notes="忘记密码时用户发送手机短信验证码重置密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String")
+            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomKey", value = "随机验证码关键key", required = true, dataType = "String")
     })
 	@RequestMapping(value = "forgetPassword.do", method = RequestMethod.GET)
-	public RestResult<String> forgetPassword(String mobile, String randomStr) {
-		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(getMobileRandomNum())) {
+	public RestResult<String> forgetPassword(String mobile, String randomStr,String randomKey) {
+		if (StringUtil.isNotEmpty(randomStr) && randomStr.equalsIgnoreCase(sessionUtil.getMobileRandomNum(randomKey))) {
 			if (!StringUtil.isMobile(mobile)) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码错误.");
 			}
@@ -93,7 +96,7 @@ public class MobileMessageController extends BaseController {
 				String result = mobileMessageService.forgetPassword(mobile, randomNum);
 				if (StringUtil.isEmpty(result) || result.equals("1")) {
 					// 发送短信成功
-					SessionUtil.setMobileMessageRandomNum(request, randomNum);
+					sessionUtil.setMobileMessageRandomNum(getTokenId(), randomNum);
 					return ok("发送短信成功!");
 				} else if (result.equals("2")) {
 					// 手机号码已经存在
@@ -120,27 +123,6 @@ public class MobileMessageController extends BaseController {
 	@ApiIgnore
 	@RequestMapping(value = "loginMsg.do", method = RequestMethod.GET)
 	public RestResult<String> loginMsg(String mobile, String randomStr) {
-
 		return null;
-	}
-
-	/**
-	 * @Description: TODO 私有方法,验证手机图片验证码
-	 * @CreateName: QiaoYu
-	 * @CreateDate: 2018年1月15日 下午4:13:15
-	 */
-	private String getMobileRandomNum() {
-		Object obj = SessionUtil.getMobileRandomNum(request);
-		if (null == obj) {
-			return null;
-		} else {
-			try {
-				String num = (String) obj;
-				return num;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
 	}
 }

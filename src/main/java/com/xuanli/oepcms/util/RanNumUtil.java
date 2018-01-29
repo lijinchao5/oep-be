@@ -1,6 +1,7 @@
 package com.xuanli.oepcms.util;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class RanNumUtil {
 	
@@ -14,7 +15,8 @@ public class RanNumUtil {
         System.out.println(code);
         return code.toString();
     }
-    public static void main(String[] args) {
-		RanNumUtil.createRandomNum(6);
-	}
+    
+    public static String getRandom() {
+    	return UUID.randomUUID().toString().replace("-", "");
+    }
 }
