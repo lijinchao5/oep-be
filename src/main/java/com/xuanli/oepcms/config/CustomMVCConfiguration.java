@@ -21,14 +21,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * @author QiaoYu
  */
-@Configuration
+//@Configuration
 public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public HttpMessageConverter<String> responseBodyConverter() {
-		// StringHttpMessageConverter converter = new
-		// StringHttpMessageConverter(Charset.forName("UTF-8"));
-		// return converter;
 		StringHttpMessageConverter converter = new StringHttpMessageConverter();
 		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "plain", Charset.forName("UTF-8"))));
 		return converter;

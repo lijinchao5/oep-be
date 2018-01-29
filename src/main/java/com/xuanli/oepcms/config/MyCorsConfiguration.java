@@ -44,16 +44,20 @@ public class MyCorsConfiguration implements EnvironmentAware {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(false);
 		for (String allowedOrigin : getValues("cors.allowedOrigins", "*")) {
-			config.addAllowedOrigin(allowedOrigin);
+			config.addAllowedOrigin(allowedOrigin.trim());
+			logger.debug("add allowedOrigin["+allowedOrigin.trim()+"]");
 		}
 		for (String allowedHeader : getValues("cors.allowedHeaders", "*")) {
-			config.addAllowedHeader(allowedHeader);
+			config.addAllowedHeader(allowedHeader.trim());
+			logger.debug("add allowedOrigin["+allowedHeader.trim()+"]");
 		}
 		for (String allowedMethod : getValues("cors.allowedMethods", "*")) {
-			config.addAllowedMethod(allowedMethod);
+			config.addAllowedMethod(allowedMethod.trim());
+			logger.debug("add allowedOrigin["+allowedMethod.trim()+"]");
 		}
 		for (String exposedHeader : getValues("cors.exposedHeaders", "*")) {
-			config.addExposedHeader(exposedHeader);
+			config.addExposedHeader(exposedHeader.trim());
+			logger.debug("add allowedOrigin["+exposedHeader.trim()+"]");
 		}
 		config.setMaxAge(Long.parseLong(propertyResolver.getProperty("cors.maxAge", "86400")));
 		config.setAllowCredentials(Boolean.parseBoolean(propertyResolver.getProperty("cors.allowCredentials", "false")));

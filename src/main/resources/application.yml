@@ -76,7 +76,7 @@ systemconfig:
   cors:
       path: "/**"
       allowedOrigins: "*"
-      allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
+      allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
       allowedHeaders: "*"
       exposedHeaders: ""
       allowCredentials: "false"
