@@ -13,6 +13,7 @@ import java.util.Enumeration;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -20,8 +21,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.xuanli.oepcms.entity.UserEntity;
@@ -35,8 +37,6 @@ import com.xuanli.oepcms.vo.RestResult;
 @WebFilter(filterName = "sessionFilter", urlPatterns = "/*")
 public class SessionFilter implements Filter {
 	private final Logger logger = Logger.getLogger(this.getClass());
-	@Autowired
-	public SessionUtil sessionUtil;
 
 	/**
 	 * @CreateUser:QiaoYu
@@ -68,6 +68,9 @@ public class SessionFilter implements Filter {
 				}
 			}
 			if (doFilter) {
+				ServletContext context = request.getServletContext();
+				ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
+				SessionUtil sessionUtil = ctx.getBean(SessionUtil.class);
 				Enumeration<String> enumeration = request.getHeaders("X-AUTH-TOKEN");
 				if (enumeration.hasMoreElements()) {
 					String tokenId = (String) enumeration.nextElement();
