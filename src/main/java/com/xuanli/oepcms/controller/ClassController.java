@@ -27,20 +27,18 @@ import io.swagger.annotations.ApiOperation;
  * @author  QiaoYu 
  */
 @RestController()
-//@RequestMapping(value = "/class", method = RequestMethod.POST)
 @RequestMapping(value = "/class/")
-public class ClassController extends BaseController{
+public class ClassController extends BaseController {
 	@Autowired
 	ClasService clasService;
-	
-	
+
 	@ApiOperation(value="创建班级", notes="增加班级方法")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
             @ApiImplicitParam(name = "name", value = "班级名称", required = true, dataType = "String")
     })
-	@RequestMapping(value = "addClas.do", method = RequestMethod.POST)
-	public RestResult<String> addClas(@RequestParam String grade,@RequestParam String name){
+	@RequestMapping(value = "addClass.do", method = RequestMethod.POST)
+	public RestResult<String> addClass(@RequestParam String grade,@RequestParam String name){
 		if(StringUtil.isEmpty(grade)||StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"年级或班级名称不能为空");
 		}
@@ -65,16 +63,16 @@ public class ClassController extends BaseController{
 	 */
 	@ApiOperation(value="删除班级", notes="删除班级方法")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "Long"),
     })
-	@RequestMapping(value = "updateClas.do", method = RequestMethod.DELETE)
-	public RestResult<String> deleteClas(@RequestParam Long clasId){
+	@RequestMapping(value = "deleteClass.do", method = RequestMethod.DELETE)
+	public RestResult<String> deleteClass(@RequestParam Long classId){
 		try {
-			if(null==clasId) {
+			if(null==classId) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择班级");
 			}
-			//clasId = getCurrentUser().getId();
-			clasService.updateClas(clasId);
+			//classId = getCurrentUser().getId();
+			clasService.updateClas(classId);
 			return ok("删除班级成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,10 +82,10 @@ public class ClassController extends BaseController{
 	}
 	
 	
-	@ApiOperation(value="查询教师的班级列表", notes="查询教师的班级列表")
+	@ApiOperation(value="获取教师班级列表", notes="获取教师班级列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "rows", value = "分页行数", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "page", value = "分页页数", required = true, dataType = "String")
+            @ApiImplicitParam(name = "rows", value = "页数", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "page", value = "当前页", required = true, dataType = "String")
     })
 	@RequestMapping(value = "findClasByPage.do", method = RequestMethod.GET)
 	public RestResult<PageBean> findClasByPage(@RequestParam Integer rows, @RequestParam Integer page) {
@@ -98,5 +96,4 @@ public class ClassController extends BaseController{
 		clasService.findClasByPage(clasEntity, pageBean);
 		return ok(pageBean);
 	}
-	
 }
