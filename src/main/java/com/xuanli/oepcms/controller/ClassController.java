@@ -84,7 +84,7 @@ public class ClassController extends BaseController {
 	
 	@ApiOperation(value="获取教师班级列表", notes="获取教师班级列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "rows", value = "页数", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "rows", value = "每页显示的条数", required = true, dataType = "String"),
             @ApiImplicitParam(name = "page", value = "当前页", required = true, dataType = "String")
     })
 	@RequestMapping(value = "findClasByPage.do", method = RequestMethod.GET)

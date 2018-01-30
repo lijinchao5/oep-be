@@ -23,7 +23,7 @@ public class MyRedisCache {
 	public final Logger logger = Logger.getLogger(this.getClass());
 	public void put(String key, String value) {
 		logger.info("redis中添加["+key+"]---["+value+"]");
-		redisTemplate.opsForValue().set(key, value, 30, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(key, value, 30*60, TimeUnit.SECONDS);
 	}
 
 	public String get(String key) {
@@ -32,7 +32,7 @@ public class MyRedisCache {
 		if (null == value || value.trim().equals("")) {
 			return null;
 		} else {
-			redisTemplate.expire(key, 30, TimeUnit.SECONDS);
+			redisTemplate.expire(key, 30*60, TimeUnit.SECONDS);
 			return redisTemplate.opsForValue().get(key);
 		}
 	}
