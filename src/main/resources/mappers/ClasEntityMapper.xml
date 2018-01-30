@@ -156,16 +156,47 @@
     </if>
   </select>
   
-  <select id="findClasByPage" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
-    select 
-   		<include refid="Base_Column_List" />
-    from xl_clas
+  <select id="findClasByPage" resultType="com.xuanli.oepcms.entity.ClasEntity" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+    select
+    	id, clas_id clasId,
+    	name, school_id schoolid, 
+    	create_id create_id, 
+    	create_date createdate, 
+    	update_id updateid, 
+    	update_date updatedate, 
+    	enable_flag enableflag,
+    	grade,
+   		(
+		SELECT
+			count(id)
+		FROM
+			xl_user u
+		WHERE
+			u.id IN (
+				SELECT
+					uc.id
+				FROM
+					xl_user_clas uc
+				WHERE
+					uc.clas_id = c.id
+			)
+		AND u.update_date IS NOT NULL
+	) totalStudent,
+	(
+		SELECT
+			count(h.id)
+		FROM
+			xl_homework h
+		WHERE
+			h.clas_id = c.id
+	) totalHomework
+    from xl_clas c
     where 
-    	enable_flag='T'
+    	c.enable_flag='T'
     <if test="createId != null" >
-        and create_id = #{createId,jdbcType=VARCHAR}
+        and c.create_id = #{createId,jdbcType=VARCHAR}
     </if>
-    order by id desc 
+    order by c.id desc 
 	limit #{start},#{end}
   </select>
   

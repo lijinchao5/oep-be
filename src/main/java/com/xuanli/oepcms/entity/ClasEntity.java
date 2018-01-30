@@ -25,7 +25,44 @@ public class ClasEntity extends BasePageBean{
     
     private String grade;
     
-    /** 
+    private int totalStudent;
+    private int totalExam;
+    private int totalHomework;
+    private int totalVExam;
+    
+    public int getTotalHomework() {
+		return totalHomework;
+	}
+
+	public void setTotalHomework(int totalHomework) {
+		this.totalHomework = totalHomework;
+	}
+
+	public int getTotalVExam() {
+		return totalVExam;
+	}
+
+	public void setTotalVExam(int totalVExam) {
+		this.totalVExam = totalVExam;
+	}
+
+	public int getTotalStudent() {
+		return totalStudent;
+	}
+
+	public void setTotalStudent(int totalStudent) {
+		this.totalStudent = totalStudent;
+	}
+
+	public int getTotalExam() {
+		return totalExam;
+	}
+
+	public void setTotalExam(int totalExam) {
+		this.totalExam = totalExam;
+	}
+
+	/** 
 	 * @return 返回 grade 
 	 */
 	public String getGrade() {

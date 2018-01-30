@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xuanli.oepcms.entity.ClasEntity;
-import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.entity.UserSchoolEntity;
 import com.xuanli.oepcms.mapper.ClasEntityMapper;
 import com.xuanli.oepcms.util.PageBean;
@@ -70,8 +69,8 @@ public class ClasService {
 		pageBean.setTotal(total);
 		clasEntity.setStart(pageBean.getRowFrom());
 		clasEntity.setEnd(pageBean.getPageSize());
-		List<UserEntity> userEntities = clasDao.findClasByPage(clasEntity);
-		pageBean.setRows(userEntities);
+		List<ClasEntity> clasEntities = clasDao.findClasByPage(clasEntity);
+		pageBean.setRows(clasEntities);
 		
 	}
 }

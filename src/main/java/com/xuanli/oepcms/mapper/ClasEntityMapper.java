@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.ClasEntity;
-import com.xuanli.oepcms.entity.UserEntity;
 @Mapper
 public interface ClasEntityMapper {
     int deleteById(Long id);
@@ -39,5 +38,5 @@ public interface ClasEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月30日 上午9:35:29
 	 */
-	List<UserEntity> findClasByPage(ClasEntity clasEntity);
+	List<ClasEntity> findClasByPage(ClasEntity clasEntity);
 }
