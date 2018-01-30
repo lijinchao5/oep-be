@@ -61,15 +61,12 @@ public class SessionFilter implements Filter {
 		boolean doFilter = true;
 		if (uri.indexOf(".do") != -1) {
 			logger.info("SessionFilter拦截器[URI=" + uri + "]");
-			doFilter = false;
-			/*
 			for (String s : notFilter) {
 				if (uri.indexOf(s) != -1) {
 					doFilter = false;
 					break;
 				}
 			}
-			*/
 			if (doFilter) {
 				Enumeration<String> enumeration = request.getHeaders("X-AUTH-TOKEN");
 				if (enumeration.hasMoreElements()) {
