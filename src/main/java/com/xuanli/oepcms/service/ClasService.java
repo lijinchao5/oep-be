@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xuanli.oepcms.entity.ClasEntity;
+import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.entity.UserSchoolEntity;
 import com.xuanli.oepcms.mapper.ClasEntityMapper;
+import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
 
 
@@ -57,5 +59,19 @@ public class ClasService {
 	
 	public ClasEntity selectById(Long clasId) {
 		return clasDao.selectById(clasId);
+	}
+	/**
+	 * @Description:  TODO 获取教师创建的班级
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月30日 上午9:34:10
+	 */
+	public void findClasByPage(ClasEntity clasEntity, PageBean pageBean) {
+		int total = clasDao.findClasByPageTotal(clasEntity);
+		pageBean.setTotal(total);
+		clasEntity.setStart(pageBean.getRowFrom());
+		clasEntity.setEnd(pageBean.getPageSize());
+		List<UserEntity> userEntities = clasDao.findClasByPage(clasEntity);
+		pageBean.setRows(userEntities);
+		
 	}
 }

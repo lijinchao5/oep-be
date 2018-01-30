@@ -277,6 +277,7 @@
 						select id from xl_clas where create_id=#{clasCreateId}
 					)
 			)
+		limit #{start},#{end}
   </select>
   
   <delete id="deleteUserClas" parameterType="com.xuanli.oepcms.entity.UserClasEntity">

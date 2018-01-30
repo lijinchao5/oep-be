@@ -56,7 +56,7 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// 不过滤的uri
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		String[] notFilter = new String[] { "login.do", "logout.do", "teacher_regist.do", "student_regist.do", "/picture", "/mobileMessage" };
+		String[] notFilter = new String[] { "login.do", "logout.do", "teacher_regist.do", "student_regist.do", "/picture", "/mobileMessage", "/dic" };
 		String uri = request.getRequestURI();
 		boolean doFilter = true;
 		if (uri.indexOf(".do") != -1) {

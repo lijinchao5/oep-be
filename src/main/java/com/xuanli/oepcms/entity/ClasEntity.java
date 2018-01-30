@@ -2,7 +2,9 @@ package com.xuanli.oepcms.entity;
 
 import java.util.Date;
 
-public class ClasEntity {
+import com.xuanli.oepcms.util.BasePageBean;
+
+public class ClasEntity extends BasePageBean{
     private Long id;
 
     private String clasId;

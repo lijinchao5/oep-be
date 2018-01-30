@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +42,7 @@ public class LoginController extends BaseController {
 			@ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "randomStr", value = "随机验证码关键Key", required = true, dataType = "String") })
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
-	@CrossOrigin
-	public RestResult<String> login(@RequestParam String username,@RequestParam  String password,@RequestParam  String randomStr,@RequestParam  String randomKey) {
+	public RestResult<String> login(String username, String password, String randomStr, String randomKey) {
 		try {
 			if (StringUtil.isEmpty(username)) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "用户名不能为空");

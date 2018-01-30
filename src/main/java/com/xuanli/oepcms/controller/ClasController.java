@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.service.ClasService;
+import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
@@ -81,4 +82,21 @@ public class ClasController extends BaseController{
 			return failed(ExceptionCode.UNKNOW_CODE,e.getMessage());
 		}
 	}
+	
+	
+	@ApiOperation(value="查询教师的班级列表", notes="查询教师的班级列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "rows", value = "分页行数", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "page", value = "分页页数", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "findClasByPage.do", method = RequestMethod.GET)
+	public RestResult<PageBean> findClasByPage(@RequestParam Integer rows, @RequestParam Integer page) {
+		ClasEntity clasEntity = new ClasEntity();
+		PageBean pageBean = initPageBean(page, rows);
+		Long userId = getCurrentUser().getId();
+		clasEntity.setCreateId(userId.longValue()+"");
+		clasService.findClasByPage(clasEntity, pageBean);
+		return ok(pageBean);
+	}
+	
 }

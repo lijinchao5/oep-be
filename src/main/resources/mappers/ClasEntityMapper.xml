@@ -141,4 +141,42 @@
     set create_id = null
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  
+  
+   <select id="findClasByPageTotal" resultType="java.lang.Integer" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+    select 
+    	count(id)
+    from xl_clas
+    where 
+    	enable_flag='T'
+    <if test="createId != null" >
+        and create_id = #{createId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="findClasByPage" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+    select 
+   		<include refid="Base_Column_List" />
+    from xl_clas
+    where 
+    	enable_flag='T'
+    <if test="createId != null" >
+        and create_id = #{createId,jdbcType=VARCHAR}
+    </if>
+    order by id desc 
+	limit #{start},#{end}
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>

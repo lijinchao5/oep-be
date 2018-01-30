@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.ClasEntity;
+import com.xuanli.oepcms.entity.UserEntity;
 @Mapper
 public interface ClasEntityMapper {
     int deleteById(Long id);
@@ -25,4 +26,18 @@ public interface ClasEntityMapper {
 	
 	/**删除班级,只取消老师与班级绑定关系*/
 	int updateClas(Long userId);
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月30日 上午9:35:24
+	 */
+	int findClasByPageTotal(ClasEntity clasEntity);
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年1月30日 上午9:35:29
+	 */
+	List<UserEntity> findClasByPage(ClasEntity clasEntity);
 }
