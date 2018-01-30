@@ -8,6 +8,7 @@ package com.xuanli.oepcms.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xuanli.oepcms.entity.DicDetailEntity;
@@ -20,6 +21,7 @@ import com.xuanli.oepcms.mapper.DicDetailEntityMapper;
  */
 @Service
 public class DicService {
+	@Autowired
 	DicDetailEntityMapper dicDetailEntityMapper;
 
 	/**

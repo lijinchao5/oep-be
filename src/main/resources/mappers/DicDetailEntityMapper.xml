@@ -91,15 +91,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectById" resultType="com.xuanli.oepcms.entity.DicDetailEntity" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
+  <select id="findDicByType" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.DicEntity" >
     SELECT
-		dd. name name,
-		dd.name_val nameValue
+		dd.id, dd.dic_id, dd.name, dd.name_val, dd.enable_flag
 	FROM
 		xl_dic_detail dd
 	LEFT JOIN xl_dic d ON dd.dic_id = d.id
 	WHERE
-		d.type = #{type}
+		d.type = #{type,jdbcType=VARCHAR}
   </select>
   
 </mapper>
