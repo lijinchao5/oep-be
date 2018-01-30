@@ -27,7 +27,7 @@ public class MenuService {
 		MenuEntity menuEntity = new MenuEntity();
 		menuEntity.setType(userEntity.getRoleId());
 		// 获取菜单信息
-		List<MenuEntity> menuEntities = menuDao.getUserMenu();
+		List<MenuEntity> menuEntities = menuDao.getUserMenu(menuEntity);
 		List<TreeObject> treeObjects = new ArrayList<TreeObject>();
 		for (MenuEntity me : menuEntities) {
 			TreeObject treeObject = new TreeObject();

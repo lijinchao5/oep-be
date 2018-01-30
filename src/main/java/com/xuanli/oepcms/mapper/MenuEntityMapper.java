@@ -20,6 +20,6 @@ public interface MenuEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月16日 下午1:53:52
 	 */
-	List<MenuEntity> getUserMenu();
+	List<MenuEntity> getUserMenu(MenuEntity menuEntity);
 
 }
