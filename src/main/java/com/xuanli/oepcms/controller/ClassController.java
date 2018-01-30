@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController()
 //@RequestMapping(value = "/class", method = RequestMethod.POST)
 @RequestMapping(value = "/class/")
-public class ClasController extends BaseController{
+public class ClassController extends BaseController{
 	@Autowired
 	ClasService clasService;
 	
