@@ -196,36 +196,36 @@ public class ExcelUtil {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
-		int count = 100;
-		JSONArray ja = new JSONArray();
-		for (int i = 0; i < count; i++) {
-			Student s = new Student();
-			s.setName("POI" + i);
-			s.setAge(i);
-			s.setBirthday(new Date());
-			s.setHeight(i);
-			s.setWeight(i);
-			s.setSex(i / 2 == 0 ? false : true);
-			ja.add(s);
-		}
-		Map<String, String> headMap = new LinkedHashMap<String, String>();
-		headMap.put("name", "姓名");
-		headMap.put("age", "年龄");
-		headMap.put("birthday", "生日");
-		headMap.put("height", "身高");
-		headMap.put("weight", "体重");
-		headMap.put("sex", "性别");
-
-		String title = "测试";
-		OutputStream outXlsx = new FileOutputStream("E://b.xlsx");
-		System.out.println("正在导出xlsx....");
-		Date d2 = new Date();
-		ExcelUtil.exportExcelX(title, headMap, ja, null, 0, outXlsx);
-		System.out.println("共" + count + "条数据,执行" + (new Date().getTime() - d2.getTime()) + "ms");
-		outXlsx.close();
-
-	}
+//	public static void main(String[] args) throws IOException {
+//		int count = 100;
+//		JSONArray ja = new JSONArray();
+//		for (int i = 0; i < count; i++) {
+//			Student s = new Student();
+//			s.setName("POI" + i);
+//			s.setAge(i);
+//			s.setBirthday(new Date());
+//			s.setHeight(i);
+//			s.setWeight(i);
+//			s.setSex(i / 2 == 0 ? false : true);
+//			ja.add(s);
+//		}
+//		Map<String, String> headMap = new LinkedHashMap<String, String>();
+//		headMap.put("name", "姓名");
+//		headMap.put("age", "年龄");
+//		headMap.put("birthday", "生日");
+//		headMap.put("height", "身高");
+//		headMap.put("weight", "体重");
+//		headMap.put("sex", "性别");
+//
+//		String title = "测试";
+//		OutputStream outXlsx = new FileOutputStream("E://b.xlsx");
+//		System.out.println("正在导出xlsx....");
+//		Date d2 = new Date();
+//		ExcelUtil.exportExcelX(title, headMap, ja, null, 0, outXlsx);
+//		System.out.println("共" + count + "条数据,执行" + (new Date().getTime() - d2.getTime()) + "ms");
+//		outXlsx.close();
+//
+//	}
 }
 
 class Student {
