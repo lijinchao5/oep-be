@@ -46,17 +46,17 @@ public class HomeworkController extends BaseController {
 	@ApiOperation(value="布置作业", notes="老师布置作业方法")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "作业名称", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "clasId", value = "班级id", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "endTime", value = "作业完成时间 格式 yyyy-MM-dd HH:mm:ss", required = true, dataType = "String"),
             @ApiImplicitParam(name = "remark", value = "", required = true, dataType = "String"),
             @ApiImplicitParam(name = "homeworkBeans", value = "作业列表", required = true, dataType = "String")
     })
 	@RequestMapping(value = "makeHomeWork.do", method = RequestMethod.POST)
-	public RestResult<String> makeHomeWork(@RequestParam String name, @RequestParam String clasId, @RequestParam Date endTime, @RequestParam String remark, @RequestParam List<HomeworkBean> homeworkBeans) {
+	public RestResult<String> makeHomeWork(@RequestParam String name, @RequestParam String classId, @RequestParam Date endTime, @RequestParam String remark, @RequestParam List<HomeworkBean> homeworkBeans) {
 		if(StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请填写作业名称");
 		}
-		if(StringUtil.isEmpty(clasId)) {
+		if(StringUtil.isEmpty(classId)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请选择班级");
 		}
 		if(null==endTime) {
@@ -70,7 +70,7 @@ public class HomeworkController extends BaseController {
 		}
 		try {
 			Long createId = getCurrentUser().getId();
-			homeworkService.makeHomeWork(name, clasId, endTime, remark, homeworkBeans, createId);
+			homeworkService.makeHomeWork(name, classId, endTime, remark, homeworkBeans, createId);
 			return ok("成功.");
 		} catch (Exception e) {
 			e.printStackTrace();

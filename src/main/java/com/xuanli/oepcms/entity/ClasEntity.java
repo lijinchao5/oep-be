@@ -25,10 +25,16 @@ public class ClasEntity extends BasePageBean{
     
     private String grade;
     
+    //一共多少学生
     private int totalStudent;
+    //一共多少考试
     private int totalExam;
+    //一共多少次家庭作业
     private int totalHomework;
+    //一共多少模考
     private int totalVExam;
+    
+    
     
     public int getTotalHomework() {
 		return totalHomework;
