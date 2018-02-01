@@ -254,7 +254,7 @@
 		FROM
 			xl_user where id in (
 				SELECT
-					id
+					user_id
 				FROM
 					xl_user_clas
 				WHERE
@@ -269,7 +269,7 @@
 		FROM
 			xl_user where id in (
 				SELECT
-					id
+					user_id
 				FROM
 					xl_user_clas
 				WHERE

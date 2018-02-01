@@ -238,10 +238,10 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.GET)
 	public RestResult<PageBean> findStudentByPage(@RequestParam Long classId, @RequestParam Integer rows, @RequestParam Integer page) {
 		UserEntity userEntity = new UserEntity();
-
 		PageBean pageBean = initPageBean(page, rows);
 		// 保证这个班是这个老师创建的
 		userEntity.setClasCreateId(getCurrentUser().getId());
+		userEntity.setClasId(classId.longValue()+"");
 		userService.findStudentByPage(userEntity, pageBean);
 		return ok(pageBean);
 	}
