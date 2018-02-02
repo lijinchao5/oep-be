@@ -22,12 +22,12 @@ public class MyRedisCache {
 	private RedisTemplate<String, String> redisTemplate;
 	public final Logger logger = Logger.getLogger(this.getClass());
 	public void put(String key, String value) {
-		logger.info("redis中添加["+key+"]---["+value+"]");
+		logger.debug("redis中添加["+key+"]---["+value+"]");
 		redisTemplate.opsForValue().set(key, value, 30*60, TimeUnit.SECONDS);
 	}
 
 	public String get(String key) {
-		logger.info("redis中获取["+key+"]");
+		logger.debug("redis中获取["+key+"]");
 		String value = redisTemplate.opsForValue().get(key);
 		if (null == value || value.trim().equals("")) {
 			return null;
@@ -35,5 +35,15 @@ public class MyRedisCache {
 			redisTemplate.expire(key, 30*60, TimeUnit.SECONDS);
 			return redisTemplate.opsForValue().get(key);
 		}
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月2日 下午4:10:23
+	 */
+	public void remove(String key) {
+		logger.debug("redis中删除["+key+"]");
+		redisTemplate.delete(key);
 	}
 }

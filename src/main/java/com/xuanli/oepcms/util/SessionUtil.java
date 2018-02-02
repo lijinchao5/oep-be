@@ -33,6 +33,11 @@ public class SessionUtil {
 	public void setSessionUser(String key, UserEntity userEntity) {
 		myRedisCache.put(key, JSONObject.toJSONString(userEntity));
 	}
+	
+	
+	public void removeSessionUser(String key) {
+		myRedisCache.remove(key);
+	}
 
 	public String getRandomNum(String key) {
 		String value = myRedisCache.get(key + "_" + SystemContents.RANDOM_NUM);
