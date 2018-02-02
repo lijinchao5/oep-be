@@ -20,29 +20,18 @@
     id, paper_id, subject_num, subject, score, audio, total_time, type, create_id, create_date, 
     update_id, update_date, enable_flag
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xl_paper_subject
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deletePaperSubjectEntity" parameterType="java.lang.Long">
     delete from xl_paper_subject
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
-    insert into xl_paper_subject (id, paper_id, subject_num, 
-      subject, score, audio, 
-      total_time, type, create_id, 
-      create_date, update_id, update_date, 
-      enable_flag)
-    values (#{id,jdbcType=BIGINT}, #{paperId,jdbcType=BIGINT}, #{subjectNum,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, #{audio,jdbcType=VARCHAR}, 
-      #{totalTime,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createId,jdbcType=BIGINT}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{enableFlag,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
+
+  <insert id="insertPaperSubjectEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
     insert into xl_paper_subject
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -127,7 +116,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
+  <update id="updatePaperSubjectEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
     update xl_paper_subject
     <set>
       <if test="paperId != null">
@@ -169,20 +158,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
-    update xl_paper_subject
-    set paper_id = #{paperId,jdbcType=BIGINT},
-      subject_num = #{subjectNum,jdbcType=VARCHAR},
-      subject = #{subject,jdbcType=VARCHAR},
-      score = #{score,jdbcType=VARCHAR},
-      audio = #{audio,jdbcType=VARCHAR},
-      total_time = #{totalTime,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=BIGINT},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      enable_flag = #{enableFlag,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>

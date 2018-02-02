@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.PaperSubjectDetailEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="subject_id" jdbcType="BIGINT" property="subjectId" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="guide" jdbcType="VARCHAR" property="guide" />
     <result column="question" jdbcType="VARCHAR" property="question" />
     <result column="guide_audio" jdbcType="VARCHAR" property="guideAudio" />
@@ -94,7 +94,7 @@
         #{subjectId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="guide != null">
         #{guide,jdbcType=VARCHAR},
@@ -144,7 +144,7 @@
         subject_id = #{subjectId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="guide != null">
         guide = #{guide,jdbcType=VARCHAR},
@@ -188,5 +188,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
- 
+
 </mapper>

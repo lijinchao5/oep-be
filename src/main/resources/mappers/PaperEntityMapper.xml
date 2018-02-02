@@ -7,7 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="notice" jdbcType="VARCHAR" property="notice" />
     <result column="total_score" jdbcType="DOUBLE" property="totalScore" />
-    <result column="total_time" jdbcType="VARCHAR" property="totalTime" />
+    <result column="total_time" jdbcType="INTEGER" property="totalTime" />
     <result column="study_section_id" jdbcType="INTEGER" property="studySectionId" />
     <result column="grade__level_id" jdbcType="INTEGER" property="gradeLevelId" />
     <result column="address_province" jdbcType="INTEGER" property="addressProvince" />
@@ -108,7 +108,7 @@
         #{totalScore,jdbcType=DOUBLE},
       </if>
       <if test="totalTime != null">
-        #{totalTime,jdbcType=VARCHAR},
+        #{totalTime,jdbcType=INTEGER},
       </if>
       <if test="studySectionId != null">
         #{studySectionId,jdbcType=INTEGER},
@@ -161,7 +161,7 @@
         total_score = #{totalScore,jdbcType=DOUBLE},
       </if>
       <if test="totalTime != null">
-        total_time = #{totalTime,jdbcType=VARCHAR},
+        total_time = #{totalTime,jdbcType=INTEGER},
       </if>
       <if test="studySectionId != null">
         study_section_id = #{studySectionId,jdbcType=INTEGER},
@@ -199,5 +199,5 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
- 
+  
 </mapper>

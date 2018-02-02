@@ -13,7 +13,7 @@ public class PaperEntity {
 
     private Double totalScore;
 
-    private String totalTime;
+    private Integer totalTime;
 
     private Integer studySectionId;
 
@@ -77,11 +77,11 @@ public class PaperEntity {
         this.totalScore = totalScore;
     }
 
-    public String getTotalTime() {
+    public Integer getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(String totalTime) {
+    public void setTotalTime(Integer totalTime) {
         this.totalTime = totalTime;
     }
 

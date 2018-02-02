@@ -7,7 +7,7 @@ public class PaperSubjectDetailEntity {
 
     private Long subjectId;
 
-    private String type;
+    private Integer type;
 
     private String guide;
 
@@ -51,11 +51,11 @@ public class PaperSubjectDetailEntity {
         this.subjectId = subjectId;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
