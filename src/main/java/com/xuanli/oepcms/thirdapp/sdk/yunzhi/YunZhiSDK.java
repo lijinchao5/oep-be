@@ -6,7 +6,7 @@
  */
 package com.xuanli.oepcms.thirdapp.sdk.yunzhi;
 
-import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.xuanli.oepcms.config.SystemConfig;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
+import com.xuanli.oepcms.util.AliOSSUtil;
 
 /**
  * @author QiaoYu
@@ -34,6 +35,9 @@ import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 public class YunZhiSDK {
 	@Autowired
 	SystemConfig systemConfig;
+	
+	@Autowired
+	AliOSSUtil aliOSSUtil;
 
 	/**
 	 * @Description: TODO
@@ -56,7 +60,10 @@ public class YunZhiSDK {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10 * 1000);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10 * 1000);
 			customMultiPartEntity.addPart("text", new StringBody(result.getStanderText(), Charset.forName("UTF-8")));
-			ContentBody fileBody = new FileBody(new File(result.getAudioPath()));
+			//ContentBody fileBody = new FileBody(new File(result.getAudioPath()));
+			String uuid = UUID.randomUUID().toString().replace("-", "") + ".mp3";
+			InputStream is = aliOSSUtil.downloadFile(result.getAudioPath());
+			ContentBody fileBody = new InputStreamBody(is, uuid);
 			customMultiPartEntity.addPart("voice", fileBody);
 			httpPost.setEntity(customMultiPartEntity);
 			httpPost.setHeader("appkey", systemConfig.YUN_ZHI_APPKEY);

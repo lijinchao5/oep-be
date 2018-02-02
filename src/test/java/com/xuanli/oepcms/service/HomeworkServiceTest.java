@@ -24,7 +24,7 @@ public class HomeworkServiceTest extends BaseTest{
 
 	@Test
 	public void test() {
-		//homeworkService.test(1, 3);
+		homeworkService.test(1, 3);
 	}
 	
 	@Test
