@@ -167,29 +167,39 @@
     	enable_flag enableflag,
     	grade,
    		(
-		SELECT
-			count(id)
-		FROM
-			xl_user u
-		WHERE
-			u.id IN (
-				SELECT
-					uc.id
-				FROM
-					xl_user_clas uc
-				WHERE
-					uc.clas_id = c.id
-			)
-		AND u.update_date IS NOT NULL
-	) totalStudent,
-	(
-		SELECT
-			count(h.id)
-		FROM
-			xl_homework h
-		WHERE
-			h.clas_id = c.id
-	) totalHomework
+			SELECT
+				count(id)
+			FROM
+				xl_user u
+			WHERE
+				u.id IN (
+					SELECT
+						uc.id
+					FROM
+						xl_user_clas uc
+					WHERE
+						uc.clas_id = c.id
+				)
+			AND u.update_date IS NOT NULL
+		) totalStudent,
+		(
+			SELECT
+				count(h.id)
+			FROM
+				xl_homework h
+			WHERE
+				h.clas_id = c.id
+		) totalHomework,
+		(
+			SELECT
+				count(u.id)
+			FROM
+				xl_user u
+			LEFT JOIN xl_user_clas uc ON uc.user_id = u.id
+			WHERE
+				u.name_num IS NOT NULL
+			AND uc.clas_id = c.id
+		) canBatch
     from xl_clas c
     where 
     	c.enable_flag='T'

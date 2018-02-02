@@ -33,10 +33,19 @@ public class ClasEntity extends BasePageBean{
     private int totalHomework;
     //一共多少模考
     private int totalVExam;
+    //是否可以批量,0:可以  其他:都不可以
+    private int canBatch;
     
     
-    
-    public int getTotalHomework() {
+    public int getCanBatch() {
+		return canBatch;
+	}
+
+	public void setCanBatch(int canBatch) {
+		this.canBatch = canBatch;
+	}
+
+	public int getTotalHomework() {
 		return totalHomework;
 	}
 
