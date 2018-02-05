@@ -39,9 +39,19 @@ public class UserEntity extends BasePageBean{
 
     private String enableFlag;
     
+    private String photo;
     
     
-    //下面几个字段只用于查询
+    
+    public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	//下面几个字段只用于查询
     private String clasId;
     private Long clasCreateId;
     

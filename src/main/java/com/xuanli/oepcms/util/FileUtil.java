@@ -28,11 +28,21 @@ public class FileUtil {
 	@Autowired
 	SystemConfig systemConfig;
 
+	@Autowired
+	AliOSSUtil aliOSSUtil;
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月19日 上午10:07:02
 	 */
+	public String uploadFile(InputStream inputStream, String path,String suffix) throws IOException {
+		return aliOSSUtil.uploadFile(inputStream, path, "."+suffix);
+	}
+	/**
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月19日 上午10:07:02
+	 
 	public String uploadFile(InputStream inputStream, String path, HttpServletRequest request) throws IOException {
 		String contextBasePath = request.getSession().getServletContext().getRealPath("/");
 		String basePath = contextBasePath + "uploadFile";
@@ -49,9 +59,15 @@ public class FileUtil {
 		File imageFile = new File(imagePath);
 		// 这里就是保存
 		FileUtil.copyInputStreamToFile(inputStream, imageFile);
+		
+		
+		
+		return aliOSSUtil.uploadFile(inputStream, path, ".jpg");
+		
+		
 		return imagePath;
 	}
-
+*/
 	/**
 	 * 输出文件到磁盘
 	 * 

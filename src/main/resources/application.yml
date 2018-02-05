@@ -108,8 +108,8 @@ systemconfig:
       #用户代理，指HTTP的User-Agent头。默认为”aliyun-sdk-java”
       userAgent: aliyun-sdk-java
   sms:
-    regist_template: 注册验证码,验证码为:%s,验证码30分钟内有效.
-    forget_template: 正在找回密码,验证码为:%s,验证码30分钟内有效.
+    regist_template: 您的验证码：%s，有效期5分钟，请提交验证码完成验证及注册。如非本人操作， 请忽略本条信息。
+    forget_template: 您的验证码：%s，有效期5分钟，请提交验证码完成验证及密码修改。如非本人操作， 请忽略本条信息。
     login_template: 手机验证码登录,验证码为:%s,验证码30分钟内有效.
     action: send
     account: 922022

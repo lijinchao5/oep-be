@@ -141,7 +141,7 @@ public class HomeworkService {
 			InputStream inputStream = null;
 			try {
 				inputStream = file.getInputStream();
-				filePath = fileUtil.uploadFile(inputStream, "student_homework_audio", request);
+				filePath = fileUtil.uploadFile(inputStream, "student_homework_audio", "mp3");
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("上传文件失败!");

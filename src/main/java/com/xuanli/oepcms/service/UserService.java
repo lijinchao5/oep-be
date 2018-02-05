@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.entity.SchoolEntity;
@@ -16,6 +19,7 @@ import com.xuanli.oepcms.entity.UserClasEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.entity.UserSchoolEntity;
 import com.xuanli.oepcms.mapper.UserEntityMapper;
+import com.xuanli.oepcms.util.FileUtil;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.RanNumUtil;
@@ -34,6 +38,8 @@ public class UserService extends BaseService{
 	private ClasService clasService;
 	@Autowired
 	SessionUtil sessionUtil;
+	@Autowired
+	FileUtil fileUtil;
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
@@ -285,7 +291,29 @@ public class UserService extends BaseService{
 	 * @param userEntity
 	 * @return
 	 */
-	public int updateUserInfo(UserEntity userEntity){
+	public int updateUserInfo(UserEntity userEntity,MultipartFile file){
+		String filePath = null;
+		if (null != file && !file.isEmpty()) {
+			InputStream inputStream = null;
+			try {
+				inputStream = file.getInputStream();
+				filePath = fileUtil.uploadFile(inputStream, "teacher_photo", "jpg");
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("上传文件失败!");
+				filePath = null;
+			} finally {
+				if (null != inputStream) {
+					try {
+						inputStream.close();
+						inputStream = null;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		userEntity.setPhoto(filePath);;
 		return userDao.updateUserEntity(userEntity);
 	}
 	
