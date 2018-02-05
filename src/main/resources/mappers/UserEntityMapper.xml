@@ -304,6 +304,37 @@
 			xu.name_num  is null or (xu.name_num is not null and xu.update_date is not null)
 	</select>
 	
-	
+	<select id="getTeachingInfo" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity">
+		SELECT
+	xs.school_id,
+	(
+		SELECT
+			text
+		FROM
+			xl_area xla
+		WHERE
+			xla.id = xs.address_province
+	) address_province,
+	(
+		SELECT
+			text
+		FROM
+			xl_area xla
+		WHERE
+			xla.id = xs.address_city
+	) address_city,
+	(
+		SELECT
+			text
+		FROM
+			xl_area xla
+		WHERE
+			xla.id = xs.address_area
+	) address_area
+FROM
+	xl_school xs 
+WHERE
+	xs.school_id = #{schoolId}
+	</select>
 	
 </mapper>

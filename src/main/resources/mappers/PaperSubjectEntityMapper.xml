@@ -6,9 +6,10 @@
     <result column="paper_id" jdbcType="BIGINT" property="paperId" />
     <result column="subject_num" jdbcType="VARCHAR" property="subjectNum" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
-    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="total_score" jdbcType="DOUBLE" property="totalScore" />
+    <result column="question_score" jdbcType="DOUBLE" property="questionScore" />
     <result column="audio" jdbcType="VARCHAR" property="audio" />
-    <result column="total_time" jdbcType="VARCHAR" property="totalTime" />
+    <result column="total_time" jdbcType="INTEGER" property="totalTime" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="create_id" jdbcType="BIGINT" property="createId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -17,8 +18,8 @@
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, paper_id, subject_num, subject, score, audio, total_time, type, create_id, create_date, 
-    update_id, update_date, enable_flag
+    id, paper_id, subject_num, subject, total_score, question_score, audio, total_time, 
+    type, create_id, create_date, update_id, update_date, enable_flag
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -46,8 +47,11 @@
       <if test="subject != null">
         subject,
       </if>
-      <if test="score != null">
-        score,
+      <if test="totalScore != null">
+        total_score,
+      </if>
+      <if test="questionScore != null">
+        question_score,
       </if>
       <if test="audio != null">
         audio,
@@ -87,14 +91,17 @@
       <if test="subject != null">
         #{subject,jdbcType=VARCHAR},
       </if>
-      <if test="score != null">
-        #{score,jdbcType=VARCHAR},
+      <if test="totalScore != null">
+        #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="questionScore != null">
+        #{questionScore,jdbcType=DOUBLE},
       </if>
       <if test="audio != null">
         #{audio,jdbcType=VARCHAR},
       </if>
       <if test="totalTime != null">
-        #{totalTime,jdbcType=VARCHAR},
+        #{totalTime,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -128,14 +135,17 @@
       <if test="subject != null">
         subject = #{subject,jdbcType=VARCHAR},
       </if>
-      <if test="score != null">
-        score = #{score,jdbcType=VARCHAR},
+      <if test="totalScore != null">
+        total_score = #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="questionScore != null">
+        question_score = #{questionScore,jdbcType=DOUBLE},
       </if>
       <if test="audio != null">
         audio = #{audio,jdbcType=VARCHAR},
       </if>
       <if test="totalTime != null">
-        total_time = #{totalTime,jdbcType=VARCHAR},
+        total_time = #{totalTime,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},

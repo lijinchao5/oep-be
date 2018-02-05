@@ -4,37 +4,34 @@ import com.xuanli.oepcms.entity.PaperSubjectEntity;
 
 public interface PaperSubjectEntityMapper {
 	/**
-	 * 
 	 * Title: deletePaperSubjectEntity 
 	 * Description:   删除试卷题方法
-	 * @date 2018年2月2日 上午11:51:31
+	 * @date 2018年2月5日 上午10:34:01
 	 * @param id
 	 * @return
 	 */
     int deletePaperSubjectEntity(Long id);
     /**
-     * 
      * Title: insertPaperSubjectEntity 
-     * Description:   新增方法
-     * @date 2018年2月2日 上午11:51:34
+     * Description:   插入方法
+     * @date 2018年2月5日 上午10:34:20
      * @param record
      * @return
      */
     int insertPaperSubjectEntity(PaperSubjectEntity record);
     /**
-     * 
-     * Title: selectByPrimaryKey 
+     * Title: selectById 
      * Description:   查询方法
-     * @date 2018年2月2日 上午11:51:36
+     * @date 2018年2月5日 上午10:34:30
      * @param id
      * @return
      */
     PaperSubjectEntity selectById(Long id);
     /**
-     * 
-     * Title: updateByPaperSubjectEntity 
-     * Description:   更新方法
-     * @date 2018年2月2日 上午11:51:38
+     * 更新方法
+     * Title: updatePaperSubjectEntity 
+     * Description:   
+     * @date 2018年2月5日 上午10:34:45
      * @param record
      * @return
      */

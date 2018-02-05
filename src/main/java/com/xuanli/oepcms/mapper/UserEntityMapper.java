@@ -99,4 +99,6 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年1月18日 下午4:40:04
 	 */
 	List<UserEntity> getClasUserStudent(UserEntity userEntity);
+	
+	List<UserEntity> getTeachingInfo(UserEntity userEntity);
 }

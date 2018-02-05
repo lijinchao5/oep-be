@@ -11,11 +11,13 @@ public class PaperSubjectEntity {
 
     private String subject;
 
-    private String score;
+    private Double totalScore;
+
+    private Double questionScore;
 
     private String audio;
 
-    private String totalTime;
+    private Integer totalTime;
 
     private Integer type;
 
@@ -61,12 +63,20 @@ public class PaperSubjectEntity {
         this.subject = subject;
     }
 
-    public String getScore() {
-        return score;
+    public Double getTotalScore() {
+        return totalScore;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setTotalScore(Double totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Double getQuestionScore() {
+        return questionScore;
+    }
+
+    public void setQuestionScore(Double questionScore) {
+        this.questionScore = questionScore;
     }
 
     public String getAudio() {
@@ -77,11 +87,11 @@ public class PaperSubjectEntity {
         this.audio = audio;
     }
 
-    public String getTotalTime() {
+    public Integer getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(String totalTime) {
+    public void setTotalTime(Integer totalTime) {
         this.totalTime = totalTime;
     }
 

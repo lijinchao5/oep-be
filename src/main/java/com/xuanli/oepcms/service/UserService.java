@@ -277,8 +277,17 @@ public class UserService extends BaseService{
 		return userDao.selectById(id);
 	}
 	
-	/**完善用户信息*/
-	public int perfectUserInfo(UserEntity userEntity){
+	/**
+	 * 
+	 * Title: perfectUserInfo 
+	 * Description:   更新个人信息
+	 * @date 2018年2月3日 下午2:16:20
+	 * @param userEntity
+	 * @return
+	 */
+	public int updateUserInfo(UserEntity userEntity){
 		return userDao.updateUserEntity(userEntity);
 	}
+	
+	
 }
