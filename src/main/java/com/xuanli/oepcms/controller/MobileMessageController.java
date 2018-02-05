@@ -42,7 +42,7 @@ public class MobileMessageController extends BaseController {
 	@ApiOperation(value="发送手机短信", notes="注册时用户发送手机短信验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "randomStr", value = "手机短信验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "randomStr", value = "手机图片验证码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "randomKey", value = "随机验证码关键key", required = true, dataType = "String")
     })
 	@RequestMapping(value = "registMsg.do", method = RequestMethod.GET)

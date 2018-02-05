@@ -59,6 +59,7 @@ public class SessionUtil {
 
 	public String getMobileMessageRandomNum(String key) {
 		String value = myRedisCache.get(key + "_" + SystemContents.MOBILE_MESSAGE_RANDOM_NUM);
+		logger.debug("获取出来的value为:"+value);
 		return value;
 	}
 

@@ -456,10 +456,10 @@ public class UserController extends BaseController {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "newMobile", value = "新手机号", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "mobileRandomStr", value = "手机验证码", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key", required = true, dataType = "String") })
+			@ApiImplicitParam(name = "mobileRandomKey", value = "随机验证码关键Key", required = true, dataType = "String") })
 	@RequestMapping(value = "updateMobile.do", method = RequestMethod.PUT)
-	public RestResult<String> updateMobile(String password, String newMobile, String mobileRandomStr, String randomKey) {
-		if (StringUtil.isEmpty(randomKey)) {
+	public RestResult<String> updateMobile(String password, String newMobile, String mobileRandomStr, String mobileRandomKey) {
+		if (StringUtil.isEmpty(mobileRandomKey)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "验证码关键key不能为空");
 		}
 		if (StringUtil.isEmpty(password)) {
@@ -475,11 +475,11 @@ public class UserController extends BaseController {
 			if (!StringUtil.isMobile(newMobile)) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "请输入正确的手机号");
 			}
-			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileRandomNum(mobileRandomStr))) {
+			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(mobileRandomKey))) {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "短信验证码错误");
 			}
 			Long userId = getCurrentUser().getId();
-			String result = userService.updateMobile(userId, password, newMobile, mobileRandomStr, randomKey);
+			String result = userService.updateMobile(userId, password, newMobile, mobileRandomStr, mobileRandomKey);
 			if (result.equals("1")) {
 				return okNoResult("修改手机号成功");
 			} else if(result.equals("0")){
