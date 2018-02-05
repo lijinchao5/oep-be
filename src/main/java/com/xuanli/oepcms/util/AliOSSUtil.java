@@ -36,6 +36,7 @@ public class AliOSSUtil {
 		String uuid = path + "_" + UUID.randomUUID().toString().replace("-", "") + "." + suffix;
 		OSSClient ossClient = aliOSSPool.ossClient;
 		ossClient.putObject(new PutObjectRequest(aliOSSPool.BUCKET_NAME, uuid, is));
+		logger.debug("上传成功"+uuid);
 		return uuid;
 	}
 	/**

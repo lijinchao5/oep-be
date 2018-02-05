@@ -376,7 +376,7 @@ public class UserController extends BaseController {
 			@ApiImplicitParam(name = "sex", value = "性别  W:女,M:男", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "birthDate", value = "出生日期 yyyy-MM-dd", required = true, dataType = "String") })
 	@RequestMapping(value = "updatePersionalInfo.do", method = RequestMethod.PUT)
-	public RestResult<String> updatePersionalInfo(String name, String sex, Date birthDate, @RequestParam("picfile") MultipartFile file) {
+	public RestResult<String> updatePersionalInfo(String name, String sex, Date birthDate, @RequestParam(required = false, value = "picfile") MultipartFile file) {
 		if (StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "真实姓名不能为空");
 		}
@@ -444,6 +444,7 @@ public class UserController extends BaseController {
 	/**
 	 * 
 	 * Title: updateMobile Description: 更换手机号码
+	 * 
 	 * @date 2018年2月3日 下午3:57:16
 	 * @param userId
 	 * @param password
@@ -482,9 +483,9 @@ public class UserController extends BaseController {
 			String result = userService.updateMobile(userId, password, newMobile, mobileRandomStr, mobileRandomKey);
 			if (result.equals("1")) {
 				return okNoResult("修改手机号成功");
-			} else if(result.equals("0")){
+			} else if (result.equals("0")) {
 				return failed(ExceptionCode.UNKNOW_CODE, "更换手机号出现错误");
-			}else {
+			} else {
 				return failed(ExceptionCode.UNKNOW_CODE, "未知错误，请联系管理员");
 			}
 		} catch (Exception e) {
@@ -493,14 +494,14 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, "更换手机号出现错误");
 		}
 	}
-	
+
 	@RequestMapping(value = "getTeacherInfo.do", method = RequestMethod.GET)
-	public RestResult<UserEntity> getTeacherInfo(){
+	public RestResult<UserEntity> getTeacherInfo() {
 		try {
 			UserEntity userEntity = userService.selectById(getCurrentUser().getId());
-			if(null!=userEntity) {
+			if (null != userEntity) {
 				return ok(userEntity);
-			}else {
+			} else {
 				return failed(ExceptionCode.UNKNOW_CODE, "查询教学信息出现错误");
 			}
 		} catch (Exception e) {
