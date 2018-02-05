@@ -124,9 +124,9 @@ public class LoginController extends BaseController {
 	public RestResult<String> logout(String tokenId){
 		try {
 			sessionUtil.removeSessionUser(tokenId);
-			return ok("成功登出");
+			return okNoResult("成功登出");
 		}catch(Exception e) {
-			return ok("成功登出");
+			return okNoResult("成功登出");
 		}
 	}
 

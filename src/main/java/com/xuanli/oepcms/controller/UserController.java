@@ -55,7 +55,7 @@ public class UserController extends BaseController {
 			user.setPassword(PasswordUtil.generate(user.getPassword()));
 			int result = userService.saveUser(user);
 			if (result > 0) {
-				return ok("增加用户成功");
+				return okNoResult("增加用户成功");
 			} else {
 				return failed(ExceptionCode.ADDUSER_ERROR_CODE, "增加用户失败.");
 			}
@@ -103,7 +103,7 @@ public class UserController extends BaseController {
 			}
 			String result = userService.teacherRegist(schoolId, mobile, password);
 			if (result.equals("0")) {
-				return ok("注册成功.");
+				return okNoResult("注册成功.");
 			} else if (result.equals("1")) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "校区ID错误.");
 			} else if (result.equals("2")) {
@@ -153,7 +153,7 @@ public class UserController extends BaseController {
 			}
 			String result = userService.studentRegist(classId, mobile, password);
 			if (result.equals("0")) {
-				return ok("注册成功.");
+				return okNoResult("注册成功.");
 			} else if (result.equals("1")) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "班级ID错误.");
 			} else if (result.equals("2")) {
@@ -206,7 +206,7 @@ public class UserController extends BaseController {
 		try {
 			int perfectInfo = userService.updateUserInfo(userEntity, null);
 			if (perfectInfo > 0) {
-				return ok("完善信息成功");
+				return okNoResult("完善信息成功");
 			} else if (perfectInfo <= 0) {
 				return failed(ExceptionCode.PERFECT_USERINFO_ERROR, "完善用户信息错误");
 			} else {
@@ -261,7 +261,7 @@ public class UserController extends BaseController {
 			userClasEntity.setUserId(userId);
 			userClasEntity.setClasId(classId);
 			userService.deleteStudent(userClasEntity);
-			return ok("操作成功.");
+			return okNoResult("操作成功.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("删除班级学生出现错误.");
@@ -286,7 +286,7 @@ public class UserController extends BaseController {
 			userEntity.setId(studentId);
 			userEntity.setPassword("888888");
 			userService.resetStudentPassword(userEntity);
-			return ok("操作成功.");
+			return okNoResult("操作成功.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("重置学生密码出现错误.");
@@ -393,7 +393,7 @@ public class UserController extends BaseController {
 			userEntity.setSex(sex);
 			userEntity.setBirthDate(birthDate);
 			userService.updateUserInfo(userEntity, file);
-			return ok("操作成功");
+			return okNoResult("操作成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("更改用户信息出现错误");
@@ -430,7 +430,7 @@ public class UserController extends BaseController {
 				userEntity2.setId(userId);
 				userEntity2.setPassword(PasswordUtil.generate(newPassword));
 				userService.updateUserInfo(userEntity2, null);
-				return ok("密码修改成功");
+				return okNoResult("密码修改成功");
 			} else {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "原密码错误");
 			}
@@ -481,7 +481,7 @@ public class UserController extends BaseController {
 			Long userId = getCurrentUser().getId();
 			String result = userService.updateMobile(userId, password, newMobile, mobileRandomStr, randomKey);
 			if (result.equals("1")) {
-				return ok("修改手机号成功");
+				return okNoResult("修改手机号成功");
 			} else if(result.equals("0")){
 				return failed(ExceptionCode.UNKNOW_CODE, "更换手机号出现错误");
 			}else {

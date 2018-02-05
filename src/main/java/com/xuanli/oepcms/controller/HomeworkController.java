@@ -71,7 +71,7 @@ public class HomeworkController extends BaseController {
 		try {
 			Long createId = getCurrentUser().getId();
 			homeworkService.makeHomeWork(name, classId, endTime, remark, homeworkBeans, createId);
-			return ok("成功.");
+			return okNoResult("成功.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("布置家庭作业出现异常", e);
@@ -99,7 +99,7 @@ public class HomeworkController extends BaseController {
 			Long studentId = getCurrentUser().getId();
 			String result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
 			if (result.equals("0")) {
-				return ok("成功.");
+				return okNoResult("成功.");
 			} else if (result.equals("1")) {
 				return failed(ExceptionCode.UNKNOW_CODE, "上传录音出现异常");
 			} else {
@@ -123,7 +123,7 @@ public class HomeworkController extends BaseController {
 		try {
 			String result = homeworkService.updateHomewordStudentEntityRemark(userIds, homeworkId, remark);
 			if(result.equals("0")) {
-				return ok("写评语成功");
+				return okNoResult("写评语成功");
 			}else if(result.equals("2")) {
 				return failed(ExceptionCode.UNKNOW_CODE,"写评语出现异常，请联系管理员");
 			}else if(result.equals("1")){

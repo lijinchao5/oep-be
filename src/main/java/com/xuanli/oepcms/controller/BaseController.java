@@ -21,6 +21,9 @@ public abstract class BaseController {
 	protected SessionUtil sessionUtil;
 	public final Logger logger = Logger.getLogger(this.getClass());
 
+	public RestResult<String> okNoResult(String message) {
+		return RestResult.okNoResult(message);
+	}
 	public <T> RestResult<T> ok(T result) {
 		return RestResult.ok(result);
 	}

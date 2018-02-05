@@ -57,7 +57,7 @@ public class MobileMessageController extends BaseController {
 				if (StringUtil.isEmpty(result) || result.equals("1")) {
 					// 发送短信成功
 					sessionUtil.setMobileMessageRandomNum(randomKey, randomNum);
-					return ok("发送短信成功!");
+					return okNoResult("发送短信成功!");
 				} else if (result.equals("2")) {
 					// 手机号码已经存在
 					return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码已经存在.");
@@ -98,7 +98,7 @@ public class MobileMessageController extends BaseController {
 				if (StringUtil.isEmpty(result) || result.equals("1")) {
 					// 发送短信成功
 					sessionUtil.setMobileMessageRandomNum(getTokenId(), randomNum);
-					return ok("发送短信成功!");
+					return okNoResult("发送短信成功!");
 				} else if (result.equals("2")) {
 					// 手机号码已经存在
 					return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码不存在.");

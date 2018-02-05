@@ -15,6 +15,14 @@ public class RestResult<T> {
 	/**具体业务数据*/
     private T result;
     
+    public static RestResult<String> okNoResult(String message) {
+    	RestResult<String> okResult = new RestResult<String>();
+    	okResult.setMessage(message);
+    	okResult.setResult("");
+    	okResult.setCode(ExceptionCode.SUCCESS_CODE);
+    	return okResult;
+    }
+    
     public static <T> RestResult<T> ok(T result) {
         RestResult<T> okResult = new RestResult<T>();
         okResult.setResult(result);

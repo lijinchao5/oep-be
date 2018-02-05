@@ -48,7 +48,7 @@ public class ClassController extends BaseController {
 		try {
 			Long userId = getCurrentUser().getId();
 			clasService.saveClas(clasEntity, userId);
-			return ok("添加班级成功!");
+			return okNoResult("添加班级成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("添加班级异常,请联系管理员.", e);
@@ -73,7 +73,7 @@ public class ClassController extends BaseController {
 			}
 			//classId = getCurrentUser().getId();
 			clasService.updateClas(classId);
-			return ok("删除班级成功!");
+			return okNoResult("删除班级成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("删除班级异常,请联系管理员",e);
