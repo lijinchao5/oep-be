@@ -100,5 +100,4 @@ public interface UserEntityMapper {
 	 */
 	List<UserEntity> getClasUserStudent(UserEntity userEntity);
 	
-	List<UserEntity> getTeachingInfo(UserEntity userEntity);
 }

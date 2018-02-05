@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xuanli.oepcms.entity.SchoolEntity;
+import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.SchoolEntityMapper;
 
 /**
@@ -29,5 +30,9 @@ public class SchoolService {
 	 */
 	public List<SchoolEntity> selectSchoolEntity(SchoolEntity schoolEntity) {
 		return schoolEntityMapper.selectSchoolEntity(schoolEntity);
+	}
+	
+	public List<UserEntity> getTeachingInfo(String schoolId,Long userId) {
+		return schoolEntityMapper.getTeachingInfo(schoolId,userId);
 	}
 }

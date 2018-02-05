@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.entity.SchoolEntity;
 import com.xuanli.oepcms.entity.UserClasEntity;
@@ -317,5 +318,16 @@ public class UserService extends BaseService{
 		return userDao.updateUserEntity(userEntity);
 	}
 	
-	
+	public String updateMobile(Long userId,String password, String newMobile, String mobileRandomStr, String randomKey) {
+		UserEntity userEntity = userDao.selectById(userId);
+		if (PasswordUtil.verify(password, userEntity.getPassword())) {
+			UserEntity userEntity2 = new UserEntity();
+			userEntity2.setId(userId);
+			userEntity2.setMobile(newMobile);
+			this.updateUserInfo(userEntity2, null);
+			return "1";
+		} else {
+			return "0";
+		}
+	}
 }

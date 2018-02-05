@@ -444,13 +444,11 @@ public class UserController extends BaseController {
 	/**
 	 * 
 	 * Title: updateMobile Description: 更换手机号码
-	 * 
 	 * @date 2018年2月3日 下午3:57:16
 	 * @param userId
 	 * @param password
 	 * @param newMobile
 	 * @param mobileRandomStr
-	 * @param randomStr
 	 * @param randomKey
 	 * @return
 	 */
@@ -458,7 +456,6 @@ public class UserController extends BaseController {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "newMobile", value = "新手机号", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "mobileRandomStr", value = "手机验证码", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key", required = true, dataType = "String") })
 	@RequestMapping(value = "updateMobile.do", method = RequestMethod.PUT)
 	public RestResult<String> updateMobile(String password, String newMobile, String mobileRandomStr, String randomKey) {
@@ -482,20 +479,34 @@ public class UserController extends BaseController {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "短信验证码错误");
 			}
 			Long userId = getCurrentUser().getId();
-			UserEntity userEntity = userService.selectById(userId);
-			if (PasswordUtil.verify(password, userEntity.getPassword())) {
-				UserEntity userEntity2 = new UserEntity();
-				userEntity2.setId(userId);
-				userEntity2.setMobile(newMobile);
-				userService.updateUserInfo(userEntity2, null);
+			String result = userService.updateMobile(userId, password, newMobile, mobileRandomStr, randomKey);
+			if (result.equals("1")) {
 				return ok("修改手机号成功");
-			} else {
-				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码错误");
+			} else if(result.equals("0")){
+				return failed(ExceptionCode.UNKNOW_CODE, "更换手机号出现错误");
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE, "未知错误，请联系管理员");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("更换手机号失败");
 			return failed(ExceptionCode.UNKNOW_CODE, "更换手机号出现错误");
+		}
+	}
+	
+	@RequestMapping(value = "getTeacherInfo.do", method = RequestMethod.GET)
+	public RestResult<UserEntity> getTeacherInfo(){
+		try {
+			UserEntity userEntity = userService.selectById(getCurrentUser().getId());
+			if(null!=userEntity) {
+				return ok(userEntity);
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE, "查询教学信息出现错误");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("查询教学信息失败");
+			return failed(ExceptionCode.UNKNOW_CODE, "查询教学信息出现错误");
 		}
 	}
 }

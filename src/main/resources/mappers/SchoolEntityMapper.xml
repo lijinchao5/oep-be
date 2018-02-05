@@ -158,4 +158,36 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  	<select id="getTeachingInfo" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
+		SELECT
+	xs.school_id,
+	(
+		SELECT
+			text
+		FROM
+			xl_area xla
+		WHERE
+			xla.id = xs.address_province
+	) address_province,
+	(
+		SELECT
+			text
+		FROM
+			xl_area xla
+		WHERE
+			xla.id = xs.address_city
+	) address_city,
+	(
+		SELECT
+			text
+		FROM
+			xl_area xla
+		WHERE
+			xla.id = xs.address_area
+	) address_area
+		FROM
+	xl_school xs LEFT JOIN xl_user_school xus ON xus.school_id = xs.id
+		WHERE
+	  xs.school_id = #{schoolId} AND xus.user_id = #{userId}
+	</select>
 </mapper>
