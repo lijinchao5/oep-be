@@ -329,4 +329,13 @@ public class UserService extends BaseService{
 			return "0";
 		}
 	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月6日 上午9:04:58
+	 */
+	public UserEntity getUserInfo(Long id) {
+		return userDao.selectById(id);
+	}
 }

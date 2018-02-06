@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanli.oepcms.mapper.ExamStudentEntityMapper">
+  <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.ExamStudentEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exam_id" jdbcType="BIGINT" property="examId" />
+    <result column="student_id" jdbcType="BIGINT" property="studentId" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="time_out" jdbcType="INTEGER" property="timeOut" />
+    <result column="complate" jdbcType="VARCHAR" property="complate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_id" jdbcType="BIGINT" property="createId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_id" jdbcType="BIGINT" property="updateId" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exam_id, student_id, score, time_out, complate, remark, create_id, create_date, 
+    update_id, update_date, enable_flag
+  </sql>
+  <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_exam_student
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteExamStudentEntity" parameterType="java.lang.Long">
+    delete from xl_exam_student
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertExamStudentEntity" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity">
+    insert into xl_exam_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="examId != null">
+        exam_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="timeOut != null">
+        time_out,
+      </if>
+      <if test="complate != null">
+        complate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="enableFlag != null">
+        enable_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="examId != null">
+        #{examId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="timeOut != null">
+        #{timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="complate != null">
+        #{complate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null">
+        #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateExamStudentEntity" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity">
+    update xl_exam_student
+    <set>
+      <if test="examId != null">
+        exam_id = #{examId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="timeOut != null">
+        time_out = #{timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="complate != null">
+        complate = #{complate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>
