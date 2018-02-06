@@ -45,6 +45,7 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiSubWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.FileUtil;
+import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
 
 /**
@@ -439,5 +440,19 @@ public class HomeworkService {
 	/**查看学生作业详情*/
 	public List<HomeworkScoreBean> getStudentHomeworkDetail(Long homeworkId,Long studentId,String homeworkType) {
 		return homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月6日 上午9:32:14
+	 */
+	public void findHomeworkPage(HomeworkEntity homeworkEntity, PageBean pageBean) {
+		int total = homeworkDao.findHomeworkPageTotal(homeworkEntity);
+		pageBean.setTotal(total);
+		homeworkEntity.setStart(pageBean.getRowFrom());
+		homeworkEntity.setEnd(pageBean.getPageSize());
+		List<HomeworkEntity> homeworkEntities = homeworkDao.findHomeworkPage(homeworkEntity);
+		pageBean.setRows(homeworkEntities);
 	}
 }

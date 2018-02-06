@@ -227,8 +227,8 @@ public class UserController extends BaseController {
 	 */
 	@ApiOperation(value = "班级学生信息分页查询", notes = "分页查询方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "classId", value = "用户id", required = true, dataType = "Long"),
-			@ApiImplicitParam(name = "rows", value = "分页行数", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "page", value = "分页页数", required = true, dataType = "String") })
+		 @ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
+		 @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") })
 	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.GET)
 	public RestResult<PageBean> findStudentByPage(@RequestParam Long classId, @RequestParam Integer rows, @RequestParam Integer page) {
 		UserEntity userEntity = new UserEntity();
