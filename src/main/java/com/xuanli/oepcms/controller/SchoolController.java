@@ -41,7 +41,7 @@ public class SchoolController extends BaseController{
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "schoolId", value = "学校id", required = true, dataType = "String")})
 	@RequestMapping(value = "getTeachingInfo.do", method = RequestMethod.GET)
-	public RestResult<List<UserEntity>> getTeachingInfo(@RequestParam String schoolId){
+	public RestResult<List<UserEntity>> getTeachingInfo(String schoolId){
 		try {
 			if(null==schoolId) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "学校id不能为空");

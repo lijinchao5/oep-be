@@ -5,16 +5,16 @@ import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
 public interface PaperSubjectDetailEntityMapper {
 	/**
 	 * Title: deletePaperSubjectDetailEntity 
-	 * Description:   删除题目详情方法
-	 * @date 2018年2月5日 上午10:32:25
+	 * Description:   删除方法
+	 * @date 2018年2月6日 下午2:11:58
 	 * @param id
 	 * @return
 	 */
     int deletePaperSubjectDetailEntity(Long id);
     /**
      * Title: insertPaperSubjectDetailEntity 
-     * Description:  插入试卷详情方法
-     * @date 2018年2月5日 上午10:32:46
+     * Description:   添加方法
+     * @date 2018年2月6日 下午2:12:06
      * @param record
      * @return
      */
@@ -22,7 +22,7 @@ public interface PaperSubjectDetailEntityMapper {
     /**
      * Title: selectById 
      * Description:   查询方法
-     * @date 2018年2月5日 上午10:33:13
+     * @date 2018年2月6日 下午2:12:13
      * @param id
      * @return
      */
@@ -30,7 +30,7 @@ public interface PaperSubjectDetailEntityMapper {
     /**
      * Title: updatePaperSubjectDetailEntity 
      * Description:   更新方法
-     * @date 2018年2月5日 上午10:33:21
+     * @date 2018年2月6日 下午2:12:19
      * @param record
      * @return
      */

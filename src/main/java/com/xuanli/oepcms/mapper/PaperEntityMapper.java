@@ -6,15 +6,15 @@ public interface PaperEntityMapper {
 	/**
 	 * Title: deletePaperEntity 
 	 * Description:   删除试卷方法
-	 * @date 2018年2月5日 上午10:27:21
+	 * @date 2018年2月6日 下午2:09:41
 	 * @param id
 	 * @return
 	 */
     int deletePaperEntity(Long id);
     /**
      * Title: insertPaperEntity 
-     * Description:   生成试卷方法
-     * @date 2018年2月5日 上午10:27:48
+     * Description:   添加试卷方法
+     * @date 2018年2月6日 下午2:09:55
      * @param record
      * @return
      */
@@ -22,7 +22,7 @@ public interface PaperEntityMapper {
     /**
      * Title: selectById 
      * Description:   查询方法
-     * @date 2018年2月5日 上午10:28:12
+     * @date 2018年2月6日 下午2:10:04
      * @param id
      * @return
      */
@@ -30,7 +30,7 @@ public interface PaperEntityMapper {
     /**
      * Title: updatePaperEntity 
      * Description:   更新方法
-     * @date 2018年2月5日 上午10:28:22
+     * @date 2018年2月6日 下午2:10:12
      * @param record
      * @return
      */

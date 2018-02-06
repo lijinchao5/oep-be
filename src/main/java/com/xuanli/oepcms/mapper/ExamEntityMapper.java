@@ -5,16 +5,16 @@ import com.xuanli.oepcms.entity.ExamEntity;
 public interface ExamEntityMapper {
 	/**
 	 * Title: deleteExamEntity 
-	 * Description:   删除考试方法
-	 * @date 2018年2月5日 上午10:46:14
+	 * Description:   删除试卷方法
+	 * @date 2018年2月6日 下午2:00:20
 	 * @param id
 	 * @return
 	 */
     int deleteExamEntity(Long id);
     /**
      * Title: insertExamEntity 
-     * Description:   添加方法
-     * @date 2018年2月5日 上午10:46:29
+     * Description:   添加试卷方法
+     * @date 2018年2月6日 下午2:00:35
      * @param record
      * @return
      */
@@ -22,7 +22,7 @@ public interface ExamEntityMapper {
     /**
      * Title: selectById 
      * Description:   查询方法
-     * @date 2018年2月5日 上午10:46:40
+     * @date 2018年2月6日 下午2:00:50
      * @param id
      * @return
      */
@@ -30,10 +30,9 @@ public interface ExamEntityMapper {
     /**
      * Title: updateExamEntity 
      * Description:   更新方法
-     * @date 2018年2月5日 上午10:46:47
+     * @date 2018年2月6日 下午2:00:59
      * @param record
      * @return
      */
     int updateExamEntity(ExamEntity record);
-
 }

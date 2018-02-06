@@ -6,7 +6,7 @@ public interface ExamStudentScoreEntityMapper {
 	/**
 	 * Title: deleteExamStudentScoreEntity 
 	 * Description:   删除方法
-	 * @date 2018年2月5日 上午10:48:18
+	 * @date 2018年2月6日 下午2:02:38
 	 * @param id
 	 * @return
 	 */
@@ -14,7 +14,7 @@ public interface ExamStudentScoreEntityMapper {
     /**
      * Title: insertExamStudentScoreEntity 
      * Description:   添加方法
-     * @date 2018年2月5日 上午10:48:28
+     * @date 2018年2月6日 下午2:02:53
      * @param record
      * @return
      */
@@ -22,7 +22,7 @@ public interface ExamStudentScoreEntityMapper {
     /**
      * Title: selectById 
      * Description:   查询方法
-     * @date 2018年2月5日 上午10:48:36
+     * @date 2018年2月6日 下午2:03:03
      * @param id
      * @return
      */
@@ -30,10 +30,9 @@ public interface ExamStudentScoreEntityMapper {
     /**
      * Title: updateExamStudentScoreEntity 
      * Description:   更新方法
-     * @date 2018年2月5日 上午10:48:48
+     * @date 2018年2月6日 下午2:03:10
      * @param record
      * @return
      */
     int updateExamStudentScoreEntity(ExamStudentScoreEntity record);
-
 }
