@@ -58,7 +58,7 @@ public class BookController extends BaseController{
             @ApiImplicitParam(name = "bookVolume", value = "教材册别", required = true, dataType = "String"),
     })
 	@RequestMapping(value = "getBooks.do", method = RequestMethod.GET)
-	public RestResult<List<BookEntity>> getBooks(@RequestParam String grade,@RequestParam String bookVolume){
+	public RestResult<List<BookEntity>> getBooks(String grade,String bookVolume){
 		try {
 			BookEntity bookEntity = new BookEntity();
 			bookEntity.setGrade(grade);
@@ -84,7 +84,7 @@ public class BookController extends BaseController{
             @ApiImplicitParam(name = "bookId", value = "教材Id", required = true, dataType = "String"),
     })
 	@RequestMapping(value = "getUnits.do", method = RequestMethod.GET)
-	public RestResult<List<UnitEntity>> getUnits(@RequestParam String bookId){
+	public RestResult<List<UnitEntity>> getUnits(String bookId){
 		if(StringUtil.isEmpty(bookId)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择教材");
 		}
@@ -110,7 +110,7 @@ public class BookController extends BaseController{
             @ApiImplicitParam(name = "unitId", value = "教材单元Id", required = true, dataType = "String"),
     })
 	@RequestMapping(value = "getSections.do", method = RequestMethod.GET)
-	public RestResult<List<SectionEntity>> getSections(@RequestParam String unitId){
+	public RestResult<List<SectionEntity>> getSections(String unitId){
 		if(StringUtil.isEmpty(unitId)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择教材单元");
 		}
@@ -136,7 +136,7 @@ public class BookController extends BaseController{
             @ApiImplicitParam(name = "sectionId", value = "教材单元章节Id", required = true, dataType = "String"),
     })
 	@RequestMapping(value = "getSectionDetail.do", method = RequestMethod.GET)
-	public RestResult<List<SectionDetail>> getSectionDetail(@RequestParam String sectionId){
+	public RestResult<List<SectionDetail>> getSectionDetail(String sectionId){
 		if(StringUtil.isEmpty(sectionId)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择教材章节");
 		}
