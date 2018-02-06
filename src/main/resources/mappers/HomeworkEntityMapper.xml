@@ -127,8 +127,8 @@
 			xl_homework h
 		where
 			create_id = #{createId}
-		<if test="clasId != null">
-			and clasId = #{clasId,jdbcType=BIGINT}
+		<if test="clasIds != null">
+			and clas_Id in (#{clasIds})
 		</if>
 		<if test="status != null">
 			<if test="status == '1'">
@@ -190,8 +190,8 @@
 			xl_homework h
 		where
 			h.create_id = #{createId}
-		<if test="clasId != null">
-			and h.clas_Id = #{clasId,jdbcType=BIGINT}
+		<if test="clasIds != null">
+			and h.clas_Id in (#{clasIds})
 		</if>
 		<if test="status != null">
 			<if test="status == 1">

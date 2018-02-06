@@ -32,11 +32,20 @@ public class HomeworkEntity extends BasePageBean{
     
     
     private String status;
+    //查询使用
+    private String clasIds;
     
     
     
-    
-    public String getStatus() {
+    public String getClasIds() {
+		return clasIds;
+	}
+
+	public void setClasIds(String clasIds) {
+		this.clasIds = clasIds;
+	}
+
+	public String getStatus() {
 		return status;
 	}
 
