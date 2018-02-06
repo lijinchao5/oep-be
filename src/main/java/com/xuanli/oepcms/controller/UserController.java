@@ -494,11 +494,27 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, "更换手机号出现错误");
 		}
 	}
-
+	@ApiOperation(value = "获取当前登录教师信息", notes = "获取教师信息")
 	@RequestMapping(value = "getTeacherInfo.do", method = RequestMethod.GET)
 	public RestResult<UserEntity> getTeacherInfo() {
 		try {
 			UserEntity userEntity = userService.selectById(getCurrentUser().getId());
+			if (null != userEntity) {
+				return ok(userEntity);
+			} else {
+				return failed(ExceptionCode.UNKNOW_CODE, "查询教学信息出现错误");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("查询教学信息失败");
+			return failed(ExceptionCode.UNKNOW_CODE, "查询教学信息出现错误");
+		}
+	}
+	@ApiOperation(value = "获取当前登录用户信息", notes = "获取用户信息")
+	@RequestMapping(value = "getUserInfo.do", method = RequestMethod.GET)
+	public RestResult<UserEntity> getUserInfo() {
+		try {
+			UserEntity userEntity = userService.getUserInfo(getCurrentUser().getId());
 			if (null != userEntity) {
 				return ok(userEntity);
 			} else {
