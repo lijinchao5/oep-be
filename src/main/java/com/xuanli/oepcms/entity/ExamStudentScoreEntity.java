@@ -25,7 +25,7 @@ public class ExamStudentScoreEntity {
 
     private Long updateId;
 
-    private Date enableFlag;
+    private String enableFlag;
 
     private String remark;
 
@@ -34,6 +34,8 @@ public class ExamStudentScoreEntity {
     private Double pronunciation;
 
     private Double fluency;
+
+    private Long studentId;
 
     public Long getId() {
         return id;
@@ -123,11 +125,11 @@ public class ExamStudentScoreEntity {
         this.updateId = updateId;
     }
 
-    public Date getEnableFlag() {
+    public String getEnableFlag() {
         return enableFlag;
     }
 
-    public void setEnableFlag(Date enableFlag) {
+    public void setEnableFlag(String enableFlag) {
         this.enableFlag = enableFlag;
     }
 
@@ -161,5 +163,13 @@ public class ExamStudentScoreEntity {
 
     public void setFluency(Double fluency) {
         this.fluency = fluency;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 }
