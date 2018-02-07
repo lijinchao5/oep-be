@@ -312,8 +312,10 @@ public class UserService extends BaseService{
 					}
 				}
 			}
+		}else {
+			logger.debug("用户头像是空的.....");
 		}
-		userEntity.setPhoto(filePath);;
+		userEntity.setPhoto(filePath);
 		return userDao.updateUserEntity(userEntity);
 	}
 	

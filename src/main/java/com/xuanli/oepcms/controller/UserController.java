@@ -376,7 +376,7 @@ public class UserController extends BaseController {
 			@ApiImplicitParam(name = "sex", value = "性别  W:女,M:男", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "birthDate", value = "出生日期 yyyy-MM-dd", required = true, dataType = "String") })
 	@RequestMapping(value = "updatePersionalInfo.do", method = RequestMethod.PUT)
-	public RestResult<String> updatePersionalInfo(String name, String sex, Date birthDate, @RequestParam(required = false, value = "picfile") MultipartFile file) {
+	public RestResult<String> updatePersionalInfo(String name, String sex, Date birthDate, @RequestParam(required = false, value = "picfile") MultipartFile picfile) {
 		if (StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "真实姓名不能为空");
 		}
@@ -392,7 +392,7 @@ public class UserController extends BaseController {
 			userEntity.setName(name);
 			userEntity.setSex(sex);
 			userEntity.setBirthDate(birthDate);
-			userService.updateUserInfo(userEntity, file);
+			userService.updateUserInfo(userEntity, picfile);
 			return okNoResult("操作成功");
 		} catch (Exception e) {
 			e.printStackTrace();

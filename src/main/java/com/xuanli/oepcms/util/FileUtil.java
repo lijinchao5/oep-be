@@ -33,7 +33,7 @@ public class FileUtil {
 	 * @CreateDate: 2018年1月19日 上午10:07:02
 	 */
 	public String uploadFile(InputStream inputStream, String path,String suffix) throws IOException {
-		return aliOSSUtil.uploadFile(inputStream, path, "."+suffix);
+		return aliOSSUtil.uploadFile(inputStream, path, suffix);
 	}
 	/**
 	 * @Description: TODO

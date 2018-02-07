@@ -6,6 +6,7 @@
  */
 package com.xuanli.oepcms.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.comm.ResponseMessage;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.xuanli.oepcms.config.AliOSSPool;
@@ -36,7 +38,7 @@ public class AliOSSUtil {
 		String uuid = path + "_" + UUID.randomUUID().toString().replace("-", "") + "." + suffix;
 		OSSClient ossClient = aliOSSPool.ossClient;
 		ossClient.putObject(new PutObjectRequest(aliOSSPool.BUCKET_NAME, uuid, is));
-		logger.debug("上传成功"+uuid);
+		logger.debug("阿里oss文件服务上传成功"+uuid);
 		return uuid;
 	}
 	/**
@@ -52,7 +54,11 @@ public class AliOSSUtil {
 			// 存在
 			OSSObject object = ossClient.getObject(aliOSSPool.BUCKET_NAME, osId);
 			InputStream is = object.getObjectContent();
-			logger.info("文件OSID:[" + osId + "]文件Content-Type:" + object.getObjectMetadata().getContentType());
+			try {
+				logger.info("文件OSID:[" + osId + "]文件Content-Type:" + object.getObjectMetadata().getContentType()+"文件大小为:"+is.available());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return is;
 		} else {
 			logger.error("文件OSID:[" + osId + "]文件不存在");

@@ -3,6 +3,7 @@ package com.xuanli.oepcms.controller;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import com.xuanli.oepcms.vo.RestResult;
 
 @Service
 public abstract class BaseController {
+	@Autowired
+	protected HttpServletResponse response;
 	@Autowired
 	protected HttpServletRequest request;
 	@Autowired
