@@ -6,8 +6,11 @@
  */
 package com.xuanli.oepcms.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,33 +32,31 @@ import com.xuanli.oepcms.util.AliOSSUtil;
 public class FileController extends BaseController {
 	@Autowired
 	AliOSSUtil aliOSSUtil;
-	
+
 	@RequestMapping(value = "download.do", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> download(String type, String id) {
+	public void download(String type, String id) {
 		String filename = UUID.randomUUID().toString().replace("-", "");
-		HttpHeaders headers = new HttpHeaders();
 		if (type.equals("mp3")) {
 			filename = filename + ".mp3";
-			// response.setContentType("audio/mpeg");
-			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			response.setContentType("audio/mpeg");
 		} else {
 			filename = filename + ".jpg";
-			// response.setContentType("image/jpeg");
-			headers.setContentType(MediaType.IMAGE_JPEG);
+			response.setContentType("image/jpeg");
 		}
-		InputStream is = aliOSSUtil.downloadFile(id);
+		InputStream inputStream = aliOSSUtil.downloadFile(id);
 
-		byte[] body;
+		OutputStream outputStream;
 		try {
-			body = new byte[is.available()];
-			is.read(body);
-			headers.setContentDispositionFormData("attachment;filename", filename);
-			HttpStatus statusCode = HttpStatus.OK;
-			ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body, headers, statusCode);
-			return entity;
+			outputStream = response.getOutputStream();
+			int read = 0;
+			byte[] bytes = new byte[1024];
+			while ((read = inputStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, read);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error("下载文件出现错误!");
 		}
-		return null;
+
 	}
 }
