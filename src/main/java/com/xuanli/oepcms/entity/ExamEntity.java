@@ -2,7 +2,9 @@ package com.xuanli.oepcms.entity;
 
 import java.util.Date;
 
-public class ExamEntity {
+import com.xuanli.oepcms.util.BasePageBean;
+
+public class ExamEntity extends BasePageBean{
     private Long id;
 
     private String name;
@@ -31,7 +33,39 @@ public class ExamEntity {
 
     private String enableFlag;
 
-    public Long getId() {
+    
+    private String clasIds;
+    private int totalStudent;
+    private int complateStudent;
+    
+    
+    
+    
+    public int getTotalStudent() {
+		return totalStudent;
+	}
+
+	public void setTotalStudent(int totalStudent) {
+		this.totalStudent = totalStudent;
+	}
+
+	public int getComplateStudent() {
+		return complateStudent;
+	}
+
+	public void setComplateStudent(int complateStudent) {
+		this.complateStudent = complateStudent;
+	}
+
+	public String getClasIds() {
+		return clasIds;
+	}
+
+	public void setClasIds(String clasIds) {
+		this.clasIds = clasIds;
+	}
+
+	public Long getId() {
         return id;
     }
 

@@ -1,7 +1,9 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
+@Mapper
 public interface PaperSubjectDetailEntityMapper {
 	/**
 	 * Title: deletePaperSubjectDetailEntity 

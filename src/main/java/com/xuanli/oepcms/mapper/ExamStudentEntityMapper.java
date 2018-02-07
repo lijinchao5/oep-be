@@ -1,7 +1,9 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.ExamStudentEntity;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.entity.ExamStudentEntity;
+@Mapper
 public interface ExamStudentEntityMapper {
 	/**
 	 * Title: deleteExamStudentEntity 

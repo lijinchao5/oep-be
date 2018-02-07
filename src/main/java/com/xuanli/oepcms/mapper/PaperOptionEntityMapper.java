@@ -1,7 +1,11 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.PaperOptionEntity;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.xuanli.oepcms.entity.PaperOptionEntity;
+@Mapper
 public interface PaperOptionEntityMapper {
 	/**
 	 * Title: deletePaperOptionEntity 
@@ -35,5 +39,11 @@ public interface PaperOptionEntityMapper {
      * @return
      */
     int updatePaperOptionEntity(PaperOptionEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月6日 下午4:26:50
+	 */
+	List<PaperOptionEntity> selectByDetailId(Long detailId);
 
 }

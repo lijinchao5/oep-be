@@ -168,5 +168,68 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  
+  <select id="findExamByPageTotal" parameterType="com.xuanli.oepcms.entity.ExamEntity" resultType="java.lang.Integer">
+  		SELECT
+			count(*)
+		FROM
+			xl_exam h
+		where
+			create_id = #{createId}
+		<if test="clasIds != null">
+			and class_Id in (#{clasIds})
+		</if>
+		<if test="type != null">
+			and type = #{type}
+		</if>
+		<if test="status != null">
+			<if test="status == '1'">
+				and end_time > NOW()
+			</if>
+			
+			<if test="status == '2'">
+				and NOW() > end_time
+			</if>
+		</if>
+  </select>
+  <select id="findExamByPage" parameterType="com.xuanli.oepcms.entity.ExamEntity" resultType="com.xuanli.oepcms.entity.ExamEntity">
+  		SELECT
+			id, name, notice, start_time starttime, end_time endtime, class_id classId, status, type, point_score pointscore, create_id createid, 
+    		create_date createdate, update_id updateid, update_date updatedate, enable_flag enableflag, (
+				SELECT
+					count(id)
+				FROM
+					xl_exam_student
+			) totalStudent,
+			(
+				SELECT
+					count(id)
+				FROM
+					xl_exam_student
+				WHERE
+					complate = 'T'
+			) complateStudent
+		FROM
+			xl_exam
+		WHERE
+			create_id = #{createId}
+		<if test="clasIds != null">
+			and class_Id in (#{clasIds})
+		</if>
+		<if test="type != null">
+			and type = #{type}
+		</if>
+		<if test="status != null">
+			<if test="status == '1'">
+				and end_time > NOW()
+			</if>
+			
+			<if test="status == '2'">
+				and NOW() > end_time
+			</if>
+		</if>
+  </select>
 
 </mapper>

@@ -1,7 +1,11 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.ExamEntity;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.xuanli.oepcms.entity.ExamEntity;
+@Mapper
 public interface ExamEntityMapper {
 	/**
 	 * Title: deleteExamEntity 
@@ -35,4 +39,16 @@ public interface ExamEntityMapper {
      * @return
      */
     int updateExamEntity(ExamEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月7日 上午10:45:24
+	 */
+	int findExamByPageTotal(ExamEntity examEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月7日 上午10:45:34
+	 */
+	List<ExamEntity> findExamByPage(ExamEntity examEntity);
 }

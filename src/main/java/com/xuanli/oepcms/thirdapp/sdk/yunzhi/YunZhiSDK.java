@@ -6,6 +6,8 @@
  */
 package com.xuanli.oepcms.thirdapp.sdk.yunzhi;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import com.xuanli.oepcms.config.SystemConfig;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.util.AliOSSUtil;
+import com.xuanli.oepcms.util.StringUtil;
 
 /**
  * @author QiaoYu
@@ -35,9 +38,48 @@ import com.xuanli.oepcms.util.AliOSSUtil;
 public class YunZhiSDK {
 	@Autowired
 	SystemConfig systemConfig;
-	
+
 	@Autowired
 	AliOSSUtil aliOSSUtil;
+
+	public String generatorStudentExamScore(InputStream inputStream, String text, String mode) {
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(systemConfig.YUN_ZHI_URL);
+		MultipartEntity customMultiPartEntity = new MultipartEntity();
+		try {
+			HttpResponse response = null;
+			if (StringUtil.isEmaile(mode)) {
+				mode = "E";
+			}
+			// 句子的有流畅度等..
+			customMultiPartEntity.addPart("mode", new StringBody(mode, Charset.forName("UTF-8")));
+			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10 * 1000);
+			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10 * 1000);
+			customMultiPartEntity.addPart("text", new StringBody(text, Charset.forName("UTF-8")));
+			// ContentBody fileBody = new FileBody(new File(result.getAudioPath()));
+			String uuid = UUID.randomUUID().toString().replace("-", "") + ".mp3";
+			ContentBody fileBody = new InputStreamBody(inputStream, uuid);
+			customMultiPartEntity.addPart("voice", fileBody);
+			httpPost.setEntity(customMultiPartEntity);
+			httpPost.setHeader("appkey", systemConfig.YUN_ZHI_APPKEY);
+			String uuid_str = UUID.randomUUID().toString();
+			httpPost.setHeader("session-id", uuid_str);
+			httpPost.setHeader("device-id", uuid_str);
+			response = httpclient.execute(httpPost);
+			if (response != null && response.getStatusLine().getStatusCode() == 200) {
+				String result = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
+				return result;
+			} else {
+				return "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		} finally {
+			httpclient.getConnectionManager().shutdown();
+			httpclient.close();
+		}
+	}
 
 	/**
 	 * @Description: TODO
@@ -60,7 +102,7 @@ public class YunZhiSDK {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10 * 1000);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10 * 1000);
 			customMultiPartEntity.addPart("text", new StringBody(result.getStanderText(), Charset.forName("UTF-8")));
-			//ContentBody fileBody = new FileBody(new File(result.getAudioPath()));
+			// ContentBody fileBody = new FileBody(new File(result.getAudioPath()));
 			String uuid = UUID.randomUUID().toString().replace("-", "") + ".mp3";
 			InputStream is = aliOSSUtil.downloadFile(result.getAudioPath());
 			ContentBody fileBody = new InputStreamBody(is, uuid);
