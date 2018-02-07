@@ -6,8 +6,6 @@
  */
 package com.xuanli.oepcms.thirdapp.sdk.yunzhi;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
