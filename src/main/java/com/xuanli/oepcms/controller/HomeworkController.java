@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONArray;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
@@ -72,7 +73,7 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "homeworkBeans", value = "作业列表", required = true, dataType = "String") })
 	@RequestMapping(value = "makeHomeWork.do", method = RequestMethod.POST)
 	public RestResult<String> makeHomeWork(@RequestParam String name, @RequestParam String classId, @RequestParam Date endTime, @RequestParam String remark,
-			@RequestParam List<HomeworkBean> homeworkBeans) {
+			@RequestParam String homeworkBeans) {
 		if (StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请填写作业名称");
 		}
@@ -90,7 +91,8 @@ public class HomeworkController extends BaseController {
 		}
 		try {
 			Long createId = getCurrentUser().getId();
-			homeworkService.makeHomeWork(name, classId, endTime, remark, homeworkBeans, createId);
+			List<HomeworkBean> hbBeans = JSONArray.parseArray(homeworkBeans,HomeworkBean.class);
+			homeworkService.makeHomeWork(name, classId, endTime, remark, hbBeans, createId);
 			return okNoResult("成功.");
 		} catch (Exception e) {
 			e.printStackTrace();
