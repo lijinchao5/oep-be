@@ -20,11 +20,13 @@
     <result column="word_type" property="wordType" jdbcType="VARCHAR" />
     <result column="word_mean" property="wordMean" jdbcType="VARCHAR" />
     <result column="point_type" property="pointType" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="dialog_num" property="dialogNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, person_name, name, type, section_id, audio_path, text, create_id, create_date, 
     update_id, update_date, enable_flag, m_audio_path, w_audio_path, picture_path, word_type, 
-    word_mean, point_type
+    word_mean, point_type,order_num,dialog_num
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -93,6 +95,12 @@
       <if test="pointType != null" >
         point_type,
       </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="dialogNum != null" >
+        dialog_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -149,6 +157,12 @@
       <if test="pointType != null" >
         #{pointType,jdbcType=VARCHAR},
       </if>
+      <if test="orderNum != null" >
+      	#{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="dialogNum != null" >
+      	#{dialogNum,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateSectionDetail" parameterType="com.xuanli.oepcms.entity.SectionDetail" >
@@ -204,6 +218,12 @@
       </if>
       <if test="pointType != null" >
         point_type = #{pointType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="dialogNum != null" >
+        dialog_num = #{dialogNum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

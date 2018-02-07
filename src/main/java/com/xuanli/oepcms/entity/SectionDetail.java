@@ -38,8 +38,28 @@ public class SectionDetail {
     private String wordMean;
 
     private String pointType;
+    
+    private Integer orderNum;
+    
+    private Integer dialogNum;
 
-    public Long getId() {
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public Integer getDialogNum() {
+		return dialogNum;
+	}
+
+	public void setDialogNum(Integer dialogNum) {
+		this.dialogNum = dialogNum;
+	}
+
+	public Long getId() {
         return id;
     }
 
