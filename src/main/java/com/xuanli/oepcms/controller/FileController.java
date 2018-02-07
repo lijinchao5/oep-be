@@ -7,22 +7,20 @@
 package com.xuanli.oepcms.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.util.AliOSSUtil;
+import com.xuanli.oepcms.vo.RestResult;
 
 /**
  * @author QiaoYu
@@ -57,6 +55,32 @@ public class FileController extends BaseController {
 			e.printStackTrace();
 			logger.error("下载文件出现错误!");
 		}
-
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "uploadAudio.do", method = RequestMethod.POST)
+	public RestResult<String> uploadAudio(@RequestParam("audiofile") MultipartFile file) {
+		
+		try {
+			if (null!=file && !file.isEmpty()) {
+				
+				file.transferTo(new File("e:\\"+UUID.randomUUID().toString()+".mp3"));
+				logger.debug("文件上传成功");
+			}else {
+				logger.debug("文件是空的");
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return okNoResult("1234");
+		
+	}
+
+	
 }
