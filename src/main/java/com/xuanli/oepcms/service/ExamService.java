@@ -192,7 +192,6 @@ public class ExamService {
 				try {
 					if (null != file && !file.isEmpty()) {
 						inputStream = file.getInputStream();
-						fileId = ossUtils.uploadFile(inputStream, "exam_student", "mp3");
 						baos = new ByteArrayOutputStream();
 						byte[] buffer = new byte[1024];
 						int len;
@@ -257,7 +256,7 @@ public class ExamService {
 						baos.flush();
 						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
 						// 计算分数 //按照比例去计算分数
-						String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), paperSubjectDetailEntity.getQuestion(), "E");
+						String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), paperOptionEntities.get(0).getCorrectResult(), "E");
 						if (null == json || json.trim().equals("")) {
 							System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
 						} else {
@@ -266,12 +265,11 @@ public class ExamService {
 							// 这里要弄一下流利度流畅度完整度三个信息
 							if (null != yunZhiBean.getLines() && yunZhiBean.getLines().size() > 0) {
 								YunZhiline yunZhiline = yunZhiBean.getLines().get(0);
-								examStudentScoreEntity.setFluency(yunZhiline.getFluency());
-								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
-								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+								examStudentScoreEntity.setFluency(yunZhiline.getFluency()*10);
+								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity()*10);
+								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation()*10);
 							}
 						}
-						fileId = ossUtils.uploadFile(inputStream, "exam_student", "mp3");
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
