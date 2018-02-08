@@ -44,6 +44,6 @@ public interface PaperOptionEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月6日 下午4:26:50
 	 */
-	List<PaperOptionEntity> selectByDetailId(Long detailId);
+	List<PaperOptionEntity> selectByDetailId(PaperOptionEntity record);
 
 }

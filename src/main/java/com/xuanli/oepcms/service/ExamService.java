@@ -6,6 +6,8 @@
  */
 package com.xuanli.oepcms.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -59,7 +61,9 @@ public class ExamService {
 			long detailId = Long.parseLong(detailIds1[i]);
 			// 获取题目详情
 			PaperSubjectDetailEntity paperSubjectDetailEntity = paperSubjectDetailEntityMapper.selectById(detailId);
-			List<PaperOptionEntity> paperOptionEntities = paperOptionEntityMapper.selectByDetailId(detailId);
+			PaperOptionEntity record = new PaperOptionEntity();
+			record.setDetailId(detailId);
+			List<PaperOptionEntity> paperOptionEntities = paperOptionEntityMapper.selectByDetailId(record);
 			// 获取考试详情
 			ExamEntity examEntity = examEntityMapper.selectById(examId);
 			double pointScore = examEntity.getPointScore().doubleValue();
@@ -73,18 +77,26 @@ public class ExamService {
 			Double score = 0.00;
 			InputStream inputStream = null;
 			// 听后回答是有音频的---- type --1(听后回答)
+			ByteArrayOutputStream baos = null;
 			if (paperSubjectDetailEntity.getType().intValue() == 1) {
 				try {
 					if (null != file && !file.isEmpty()) {
+						baos = new ByteArrayOutputStream();
 						inputStream = file.getInputStream();
-						fileId = ossUtils.uploadFile(inputStream, "exam_student", "mp3");
+						byte[] buffer = new byte[1024];
+						int len;
+						while ((len = inputStream.read(buffer)) > -1) {
+							baos.write(buffer, 0, len);
+						}
+						baos.flush();
+						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
 						// 计算分数
 						// 获取本地答案的详细信息
 						for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
 							String correnctResult = paperOptionEntity.getCorrectResult();
-							String correncts[] = correnctResult.split("||");
+							String correncts[] = correnctResult.split("\\|\\|");
 							for (String correnct : correncts) {
-								String json = yunZhiSDK.generatorStudentExamScore(inputStream, correnct, "A");
+								String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
 								if (null == json || json.trim().equals("")) {
 									System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
 								} else {
@@ -97,9 +109,9 @@ public class ExamService {
 						}
 						for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
 							String correnctResult = paperOptionEntity.getPointResult();
-							String correncts[] = correnctResult.split("||");
+							String correncts[] = correnctResult.split("\\|\\|");
 							for (String correnct : correncts) {
-								String json = yunZhiSDK.generatorStudentExamScore(inputStream, correnct, "A");
+								String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
 								if (null == json || json.trim().equals("")) {
 									System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
 								} else {
@@ -123,6 +135,13 @@ public class ExamService {
 							e.printStackTrace();
 						}
 						inputStream = null;
+					}
+					if (null != baos) {
+						try {
+							baos.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
@@ -174,13 +193,21 @@ public class ExamService {
 					if (null != file && !file.isEmpty()) {
 						inputStream = file.getInputStream();
 						fileId = ossUtils.uploadFile(inputStream, "exam_student", "mp3");
+						baos = new ByteArrayOutputStream();
+						byte[] buffer = new byte[1024];
+						int len;
+						while ((len = inputStream.read(buffer)) > -1) {
+							baos.write(buffer, 0, len);
+						}
+						baos.flush();
+						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
 						// 计算分数 //按照比例去计算分数
 						double thisScore = 0.00;
 						double picScore = paperSubjectDetailEntity.getScore() / paperOptionEntities.size();
 						String correnctResult = paperOptionEntities.get(0).getCorrectResult();
-						String correncts[] = correnctResult.split("||");
+						String correncts[] = correnctResult.split("\\|\\|");
 						for (String correnct : correncts) {
-							String json = yunZhiSDK.generatorStudentExamScore(inputStream, correnct, "A");
+							String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
 							if (null == json || json.trim().equals("")) {
 								System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
 							} else {
@@ -201,6 +228,13 @@ public class ExamService {
 						}
 						inputStream = null;
 					}
+					if (null != baos) {
+						try {
+							baos.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(text);
@@ -214,9 +248,16 @@ public class ExamService {
 				try {
 					if (null != file && !file.isEmpty()) {
 						inputStream = file.getInputStream();
-						fileId = ossUtils.uploadFile(inputStream, "exam_student", "mp3");
+						baos = new ByteArrayOutputStream();
+						byte[] buffer = new byte[1024];
+						int len;
+						while ((len = inputStream.read(buffer)) > -1) {
+							baos.write(buffer, 0, len);
+						}
+						baos.flush();
+						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
 						// 计算分数 //按照比例去计算分数
-						String json = yunZhiSDK.generatorStudentExamScore(inputStream, paperSubjectDetailEntity.getQuestion(), "E");
+						String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), paperSubjectDetailEntity.getQuestion(), "E");
 						if (null == json || json.trim().equals("")) {
 							System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
 						} else {
@@ -230,6 +271,7 @@ public class ExamService {
 								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
 							}
 						}
+						fileId = ossUtils.uploadFile(inputStream, "exam_student", "mp3");
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -242,6 +284,13 @@ public class ExamService {
 							e.printStackTrace();
 						}
 						inputStream = null;
+					}
+					if (null != baos) {
+						try {
+							baos.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
@@ -256,9 +305,9 @@ public class ExamService {
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月7日 上午10:44:41
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月7日 上午10:44:41
 	 */
 	public void findExamByPage(ExamEntity examEntity, PageBean pageBean) {
 		int total = examEntityMapper.findExamByPageTotal(examEntity);

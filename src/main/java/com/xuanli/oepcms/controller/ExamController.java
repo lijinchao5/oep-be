@@ -32,8 +32,8 @@ public class ExamController extends BaseController{
 	
 	
 	//提交试卷
-	@RequestMapping(value = "submitExam.do", method = RequestMethod.GET)
-	public RestResult<String> submitExam(@RequestParam Long examId,@RequestParam String detailIds,@RequestParam String answer, @RequestParam(required = false, value = "audiofile") MultipartFile file){
+	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)
+	public RestResult<String> submitExam(@RequestParam Long examId,@RequestParam String detailIds,@RequestParam(required = false) String answer, @RequestParam(required = false, value = "audiofile") MultipartFile file){
 		try {
 			Long studentId = getCurrentUser().getId();
 			examService.submitExam(studentId,examId,detailIds,answer,file);
@@ -55,6 +55,9 @@ public class ExamController extends BaseController{
 		examService.findExamByPage(examEntity, pageBean);
 		return ok(pageBean);
 	}
+	
+	
+	//
 	
 	
 }

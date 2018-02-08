@@ -129,4 +129,13 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+  <select id="selectByDetailId" parameterType="com.xuanli.oepcms.entity.PaperOptionEntity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_paper_option
+    where enable_flag='T'
+    <if test="detailId != null">
+       and  detail_id = #{detailId,jdbcType=BIGINT}
+     </if>
+  </select>
 </mapper>
