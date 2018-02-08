@@ -90,7 +90,7 @@ public class SchoolController extends BaseController {
 				// 解绑学校id
 				schoolService.updateUserSchool(userId);
 				// 绑定学校Id
-				int result = schoolService.saveUserSchool(schoolId, userId);
+				int result = schoolService.saveUserSchool(schoolEntity.getId().longValue()+"", userId);
 				if (result > 0) {
 					return okNoResult("更换学校成功");
 				} else {
