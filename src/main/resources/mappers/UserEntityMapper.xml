@@ -20,6 +20,7 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="cms_id" property="cmsId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, mobile, password, sex, birth_date, study_section_id, grade__level_id, book_version_id, 
@@ -113,6 +114,9 @@
       <if test="enableFlag != null" >
         enable_flag,
       </if>
+      <if test="cmsId != null" >
+        cms_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -169,6 +173,9 @@
       <if test="enableFlag != null" >
         #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="cmsId != null" >
+        #{cmsId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateUserEntity" parameterType="com.xuanli.oepcms.entity.UserEntity" >
@@ -224,6 +231,9 @@
       </if>
       <if test="enableFlag != null" >
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cmsId != null" >
+        cms_id = #{cmsId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
