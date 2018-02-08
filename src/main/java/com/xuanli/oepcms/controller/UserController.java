@@ -486,7 +486,7 @@ public class UserController extends BaseController {
 	@ApiOperation(value = "获取当前登录用户信息", notes = "获取用户信息")
 	@RequestMapping(value = "getUserInfo.do", method = RequestMethod.GET)
 	public RestResult<UserEntity> getUserInfo() {
-		UserEntity userEntity = userService.getUserInfo(getCurrentUser().getId());
+		UserEntity userEntity = userService.selectById(getCurrentUser().getId());
 		return ok(userEntity);
 	}
 }
