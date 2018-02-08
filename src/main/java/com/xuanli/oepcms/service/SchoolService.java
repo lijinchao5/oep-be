@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xuanli.oepcms.entity.SchoolEntity;
-import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.SchoolEntityMapper;
 
 /**
@@ -36,14 +35,29 @@ public class SchoolService {
 		return schoolEntityMapper.selectSchoolId(schoolId);
 	}
 	
-	public List<UserEntity> getTeachingInfo(String schoolId,Long userId) {
-		return schoolEntityMapper.getTeachingInfo(schoolId,userId);
+	public SchoolEntity getSchoolEntity(String schoolId) {
+		return schoolEntityMapper.selectSchoolId(schoolId);
 	}
 	
-	public int updateTeachingInfo(String schoolId,Long userId) {
+	public void updateUserSchool(Long userId) {
+		SchoolEntity schoolEntity = new SchoolEntity();
+		schoolEntity.setCreateId(userId.longValue()+"");
+		schoolEntityMapper.deleteUserSchool(schoolEntity);
+	}
+	
+	public int saveUserSchool(String schoolId,Long userId) {
 		SchoolEntity schoolEntity = new SchoolEntity();
 		schoolEntity.setSchoolId(schoolId);
-		schoolEntity.setCreateId(userId+"");
-		return schoolEntityMapper.updateSchoolId(schoolEntity);
+		schoolEntity.setCreateId(userId.longValue()+"");
+		return schoolEntityMapper.saveUserSchool(schoolEntity);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月8日 下午3:36:16
+	 */
+	public SchoolEntity getUserSchoolInfo(Long id) {
+		return schoolEntityMapper.getUserSchoolInfo(id);
 	}
 }

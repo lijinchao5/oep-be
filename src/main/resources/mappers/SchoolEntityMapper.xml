@@ -164,43 +164,42 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  	<select id="getTeachingInfo" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
+  	<select id="getUserSchoolInfo" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
 		SELECT
-	xs.school_id,
-	(
-		SELECT
-			text
-		FROM
-			xl_area xla
-		WHERE
-			xla.id = xs.address_province
-	) address_province,
-	(
-		SELECT
-			text
-		FROM
-			xl_area xla
-		WHERE
-			xla.id = xs.address_city
-	) address_city,
-	(
-		SELECT
-			text
-		FROM
-			xl_area xla
-		WHERE
-			xla.id = xs.address_area
-	) address_area
-		FROM
-	xl_school xs LEFT JOIN xl_user_school xus ON xus.school_id = xs.id
-		WHERE
-	  xs.school_id = #{schoolId} AND xus.user_id = #{userId}
+			xs.school_id,
+			(
+				SELECT
+					text
+				FROM
+					xl_area xla
+				WHERE
+					xla.id = xs.address_province
+			) address_province,
+			(
+				SELECT
+					text
+				FROM
+					xl_area xla
+				WHERE
+					xla.id = xs.address_city
+			) address_city,
+			(
+				SELECT
+					text
+				FROM
+					xl_area xla
+				WHERE
+					xla.id = xs.address_area
+			) address_area
+				FROM
+			xl_school xs LEFT JOIN xl_user_school xus ON xus.school_id = xs.id
+		WHERE xus.user_id = #{userId}
 	</select>
 
-	<update id="updateSchoolId" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
-		UPDATE xl_school
-		SET school_id = #{schoolId}
-		WHERE
-		create_id = #{createId}
-	</update>
+	<insert id="saveUserSchool" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
+		insert into xl_user_school(user_id,school_id) values(#{createId},#{schoolId}) 
+	</insert>
+	<delete id="deleteUserSchool" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
+		delete from xl_user_school where user_id = #{userId}
+	</delete>
 </mapper>

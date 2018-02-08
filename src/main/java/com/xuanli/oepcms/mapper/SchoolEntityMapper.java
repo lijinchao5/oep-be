@@ -3,10 +3,8 @@ package com.xuanli.oepcms.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.xuanli.oepcms.entity.SchoolEntity;
-import com.xuanli.oepcms.entity.UserEntity;
 @Mapper
 public interface SchoolEntityMapper {
     /**
@@ -40,9 +38,20 @@ public interface SchoolEntityMapper {
 	 */
 	List<SchoolEntity> selectSchoolEntity(SchoolEntity schoolEntity);
 	
-	List<UserEntity> getTeachingInfo(@Param("schoolId")String schoolId,@Param("userId")Long userId);
 	
-	int updateSchoolId(SchoolEntity schoolEntity);
+	int saveUserSchool(SchoolEntity schoolEntity);
 	
 	SchoolEntity selectSchoolId(String id);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月8日 下午3:30:12
+	 */
+	void deleteUserSchool(SchoolEntity schoolEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月8日 下午3:36:38
+	 */
+	SchoolEntity getUserSchoolInfo(Long id);
 }
