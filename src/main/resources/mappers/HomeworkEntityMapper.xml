@@ -185,7 +185,8 @@
 				WHERE
 					hs.homework_id = h.id
 				AND hs.work_complate = 'T'
-			) complateTotal
+			) complateTotal,
+			if(end_time>NOW(),'1','2') status
 		FROM
 			xl_homework h
 		where
