@@ -36,13 +36,9 @@ public class SchoolController extends BaseController {
 	 * @return
 	 */
 	@ApiOperation(value = "获取当前教师所在学校信息", notes = "获取当前教师所在学校信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "schoolId", value = "学校id", required = true, dataType = "String") })
 	@RequestMapping(value = "getUserSchoolInfo.do", method = RequestMethod.GET)
-	public RestResult<SchoolEntity> getUserSchoolInfo(String schoolId) {
+	public RestResult<SchoolEntity> getUserSchoolInfo() {
 		try {
-			if (StringUtil.isEmpty(schoolId)) {
-				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "学校id不能为空");
-			}
 			SchoolEntity schoolEntity = schoolService.getUserSchoolInfo(getCurrentUser().getId());
 			return ok(schoolEntity);
 		} catch (Exception e) {
