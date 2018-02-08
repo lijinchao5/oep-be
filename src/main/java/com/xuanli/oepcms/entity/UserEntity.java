@@ -41,9 +41,17 @@ public class UserEntity extends BasePageBean{
     
     private String photo;
     
+    private String cmsId;
     
-    
-    public String getPhoto() {
+    public String getCmsId() {
+		return cmsId;
+	}
+
+	public void setCmsId(String cmsId) {
+		this.cmsId = cmsId;
+	}
+
+	public String getPhoto() {
 		return photo;
 	}
 

@@ -95,6 +95,36 @@ public class UserService extends BaseService{
 	public List<UserEntity> selectUserEntity(UserEntity userEntity) {
 		return userDao.selectUserEntity(userEntity);
 	}
+	
+	/**
+	 * Title: selectUserEntity 
+	 * Description:  
+	 * @date 2018年2月7日 下午8:30:55
+	 * @param userEntity
+	 * @return
+	 */
+	public List<UserEntity> getUsers() {
+		return userDao.getUsers();
+	}
+	
+	/**
+	 * Title: updateUser 
+	 * Description:  修改用户信息
+	 * @date 2018年2月7日 下午6:44:05
+	 * @param userId
+	 */
+	public int updateUser(UserEntity userEntity) {
+		return userDao.updateUserInfo(userEntity);	
+	}
+	/**
+	 * Title: deleteUser 
+	 * Description:  删除用户
+	 * @date 2018年2月7日 下午8:24:47
+	 * @param userId
+	 */
+	public int disableUser(Long userId) {
+		return userDao.disableUser(userId);
+	}
 
 	/**
 	 * @Description: TODO 教师注册
@@ -330,14 +360,5 @@ public class UserService extends BaseService{
 		} else {
 			return "0";
 		}
-	}
-
-	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月6日 上午9:04:58
-	 */
-	public UserEntity getUserInfo(Long id) {
-		return userDao.selectById(id);
 	}
 }

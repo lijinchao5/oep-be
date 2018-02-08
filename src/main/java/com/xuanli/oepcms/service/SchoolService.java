@@ -32,7 +32,18 @@ public class SchoolService {
 		return schoolEntityMapper.selectSchoolEntity(schoolEntity);
 	}
 	
+	public SchoolEntity selectSchoolId(String schoolId){
+		return schoolEntityMapper.selectSchoolId(schoolId);
+	}
+	
 	public List<UserEntity> getTeachingInfo(String schoolId,Long userId) {
 		return schoolEntityMapper.getTeachingInfo(schoolId,userId);
+	}
+	
+	public int updateTeachingInfo(String schoolId,Long userId) {
+		SchoolEntity schoolEntity = new SchoolEntity();
+		schoolEntity.setSchoolId(schoolId);
+		schoolEntity.setCreateId(userId+"");
+		return schoolEntityMapper.updateSchoolId(schoolEntity);
 	}
 }

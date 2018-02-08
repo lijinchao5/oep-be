@@ -19,10 +19,11 @@
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, mobile, password, sex, birth_date, study_section_id, grade__level_id, book_version_id, 
-    role_id, name_num, remark, create_id, create_date, update_id, update_date, enable_flag
+    role_id, name_num, remark, photo,create_id, create_date, update_id, update_date, enable_flag
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -94,6 +95,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="photo != null" >
+        photo,
+      </if>
       <if test="createId != null" >
         create_id,
       </if>
@@ -146,6 +150,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
       </if>
       <if test="createId != null" >
         #{createId,jdbcType=VARCHAR},
@@ -200,6 +207,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
       <if test="createId != null" >
         create_id = #{createId,jdbcType=VARCHAR},
       </if>
@@ -219,7 +229,63 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  
+    <update id="updateUserInfo" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    update xl_user
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null" >
+        birth_date = #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="studySectionId != null" >
+        study_section_id = #{studySectionId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeLevelId != null" >
+        grade__level_id = #{gradeLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="bookVersionId != null" >
+        book_version_id = #{bookVersionId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="nameNum != null" >
+        name_num = #{nameNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </update>
   
   
   
@@ -303,5 +369,13 @@
 		where 
 			xu.name_num  is null or (xu.name_num is not null and xu.update_date is not null)
 	</select>
-	
+	<select id="getUsers" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity">
+		select
+		<include refid="Base_Column_List" />
+		from xl_user
+	</select>
+  <update id="disableUser" parameterType="com.xuanli.oepcms.entity.UserEntity">
+  	update xl_user SET enable_flag = 'F' WHERE id = #{id}
+  </update>
+  
 </mapper>

@@ -100,4 +100,9 @@ public interface UserEntityMapper {
 	 */
 	List<UserEntity> getClasUserStudent(UserEntity userEntity);
 	
+	List<UserEntity> getUsers();
+	
+	int disableUser(Long userId);
+	
+	int updateUserInfo(UserEntity userEntity);
 }

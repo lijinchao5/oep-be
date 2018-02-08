@@ -41,4 +41,8 @@ public interface SchoolEntityMapper {
 	List<SchoolEntity> selectSchoolEntity(SchoolEntity schoolEntity);
 	
 	List<UserEntity> getTeachingInfo(@Param("schoolId")String schoolId,@Param("userId")Long userId);
+	
+	int updateSchoolId(SchoolEntity schoolEntity);
+	
+	SchoolEntity selectSchoolId(String id);
 }

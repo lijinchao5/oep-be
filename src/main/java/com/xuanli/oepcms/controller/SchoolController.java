@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
+import com.xuanli.oepcms.entity.SchoolEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.SchoolService;
+import com.xuanli.oepcms.service.UserService;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,7 +46,7 @@ public class SchoolController extends BaseController{
 	@RequestMapping(value = "getTeachingInfo.do", method = RequestMethod.GET)
 	public RestResult<List<UserEntity>> getTeachingInfo(String schoolId){
 		try {
-			if(null==schoolId) {
+			if(StringUtil.isEmpty(schoolId)) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "学校id不能为空");
 			}
 			List<UserEntity> userEntities = schoolService.getTeachingInfo(schoolId,getCurrentUser().getId());
@@ -56,6 +59,34 @@ public class SchoolController extends BaseController{
 			e.printStackTrace();
 			logger.error("获取老师教学信息失败");
 			return failed(ExceptionCode.UNKNOW_CODE, "获取老师教学信息出现错误");
+		}
+	}
+	
+	@ApiOperation(value = "更换学校", notes = "更换学校方法")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "schoolId", value = "学校id", required = true, dataType = "String")})
+	@RequestMapping(value = "updateTeachingInfo.do", method = RequestMethod.PUT)
+	public RestResult<String> updateTeachingInfo(String schoolId){
+		try {
+			if(StringUtil.isEmpty(schoolId)) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "学校id不能为空");
+			}
+			SchoolEntity schoolEntity = schoolService.selectSchoolId(schoolId);
+			if(null!=schoolEntity) {
+				Long userId = getCurrentUser().getId();
+				int result = schoolService.updateTeachingInfo(schoolId,userId);
+				if(result>0) {
+					return okNoResult("更换学校成功");
+				}else {
+					return failed(ExceptionCode.UNKNOW_CODE, "更换学校失败");
+				}
+			}else {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "学校编号不存在");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("更换学校失败");
+			return failed(ExceptionCode.UNKNOW_CODE, "更换学校出现错误");
 		}
 	}
 }
