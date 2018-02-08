@@ -201,6 +201,6 @@
 		insert into xl_user_school(user_id,school_id) values(#{createId},#{schoolId}) 
 	</insert>
 	<delete id="deleteUserSchool" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
-		delete from xl_user_school where user_id = #{userId}
+		delete from xl_user_school where user_id = #{createId}
 	</delete>
 </mapper>
