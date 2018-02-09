@@ -109,8 +109,10 @@ public class ClassController extends BaseController {
             @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String")
     })
 	@RequestMapping(value = "selectClass.do", method = RequestMethod.GET)
-	public RestResult<ClasEntity> selectClass(String classId) {
-		ClasEntity clasEntity = clasService.selectClass(classId);
+	public RestResult<ClasEntity> selectClass(Long classId) {
+		ClasEntity clasEntity = clasService.selectById(classId);
 		return ok(clasEntity);
 	}
+	
+	
 }
