@@ -100,7 +100,7 @@ public class UserController extends BaseController {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
 			}
 			logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + sessionUtil.getMobileMessageRandomNum(randomKey));
-			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(getTokenId()))) {
+			if (!mobileRandomStr.equalsIgnoreCase( sessionUtil.getMobileMessageRandomNum(randomKey))) {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.teacherRegist(schoolId, mobile, password);
@@ -150,7 +150,7 @@ public class UserController extends BaseController {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "密码不能为空.");
 			}
 			logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + sessionUtil.getMobileMessageRandomNum(randomKey));
-			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(getTokenId()))) {
+			if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(randomKey))) {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.studentRegist(classId, mobile, password);
@@ -167,7 +167,6 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
 		}
 	}
-
 	/** 完善用户信息 */
 	@ApiOperation(value = "完善用户信息", notes = "完善用户信息方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "name", value = "真实姓名", required = false, dataType = "String"),
