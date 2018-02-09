@@ -139,4 +139,30 @@
 		select count(id) from xl_homework_detail where homework_id = #{homeworkId}
 	</select>
 
+
+	<select id="getHomeworkDetail" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" resultType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean">
+  	SELECT
+		hd.homework_type homeworktype,
+		hd.section_detail_id sectiondetailid,
+		sd. NAME name,
+		sd.audio_path standeraudiopath,
+		sd.text standertext,
+		sd.m_audio_path standermaudiopath,
+		sd.w_audio_path standerwaudiopath,
+		sd.word_mean standerwordmean
+	FROM
+		(
+			SELECT
+				*
+			FROM
+				xl_homework_detail
+			WHERE
+				homework_id = 1
+		) hd
+	LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id
+	ORDER BY
+		hd.homework_type
+  </select>
+
+
 </mapper>

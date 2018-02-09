@@ -8,6 +8,7 @@ package com.xuanli.oepcms.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -156,8 +157,9 @@ public class HomeworkController extends BaseController {
 		}
 	}
 
-	@ApiOperation(value = "查看作业详情", notes = "查看作业详情方法")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
+	@ApiOperation(value = "查看学生作业详情", notes = "查看学生作业详情方法")
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String") })
 	@RequestMapping(value = "studentHomeWorkDetail.do", method = RequestMethod.GET)
@@ -174,5 +176,15 @@ public class HomeworkController extends BaseController {
 			logger.error("查看作业详情出现异常", e);
 			return failed(ExceptionCode.UNKNOW_CODE, "查看作业详情出现异常");
 		}
+	}
+	
+	
+	@ApiOperation(value = "查看布置作业详情", notes = "查看布置作业详情")
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
+	})
+	@RequestMapping(value = "getHomeworkDetail.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId){
+		return homeworkService.getHomeworkDetail(homeworkId);
 	}
 }

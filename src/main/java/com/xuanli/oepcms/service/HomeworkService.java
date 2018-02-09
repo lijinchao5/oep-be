@@ -11,7 +11,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,12 +49,13 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.FileUtil;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
+import com.xuanli.oepcms.vo.RestResult;
 
 /**
  * @author QiaoYu
  */
 @Service
-public class HomeworkService {
+public class HomeworkService extends BaseService{
 	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	HomeworkEntityMapper homeworkDao;
@@ -454,5 +457,23 @@ public class HomeworkService {
 		homeworkEntity.setEnd(pageBean.getPageSize());
 		List<HomeworkEntity> homeworkEntities = homeworkDao.findHomeworkPage(homeworkEntity);
 		pageBean.setRows(homeworkEntities);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月9日 下午3:54:08
+	 */
+	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId) {
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		//查询作业信息信息
+		HomeworkEntity homeworkEntity = homeworkDao.selectById(homeworkId);
+		//获取作业详细信息
+		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
+		homeworkScoreBean.setHomeworkId(homeworkId);
+		List<HomeworkScoreBean> homeworkDetails = homeworkDetailDao.getHomeworkDetail(homeworkScoreBean);
+		resultMap.put("homeworkEntity", homeworkEntity);
+		resultMap.put("homeworkDetails", homeworkDetails);
+		return ok(resultMap);
 	}
 }

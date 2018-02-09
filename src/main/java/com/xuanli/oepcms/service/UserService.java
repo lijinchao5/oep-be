@@ -361,4 +361,13 @@ public class UserService extends BaseService{
 			return "0";
 		}
 	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月9日 下午4:09:27
+	 */
+	public void pushMsgByClass(Long classId, String type) {
+		
+	}
 }

@@ -490,4 +490,20 @@ public class UserController extends BaseController {
 		UserEntity userEntity = userService.selectById(getCurrentUser().getId());
 		return ok(userEntity);
 	}
+	
+	
+	@ApiOperation(value = "根据班级发送消息给学生", notes = "根据班级发送消息给学生")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "type", value = "消息类型1:催收作业", required = true, dataType = "String") 
+	})
+	@RequestMapping(value = "updateMobile.do", method = RequestMethod.PUT)
+	public RestResult<String> pushMsgByClass(Long classId,String type){
+		try {
+			userService.pushMsgByClass(classId,type);
+			return okNoResult("发送成功");
+		} catch (Exception e) {
+			return failed(ExceptionCode.UNKNOW_CODE, "发送消息错误");
+		}
+	}
 }

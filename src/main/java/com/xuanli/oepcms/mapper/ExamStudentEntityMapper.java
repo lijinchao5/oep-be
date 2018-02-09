@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.ExamStudentEntity;
@@ -37,5 +39,17 @@ public interface ExamStudentEntityMapper {
      * @return
      */
     int updateExamStudentEntity(ExamStudentEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月9日 上午11:44:05
+	 */
+	 List<ExamStudentEntity> generatorExamReport(ExamStudentEntity examStudentEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月9日 上午11:47:08
+	 */
+	void updateExamStudentEntityByExamId(ExamStudentEntity ese);
 
 }

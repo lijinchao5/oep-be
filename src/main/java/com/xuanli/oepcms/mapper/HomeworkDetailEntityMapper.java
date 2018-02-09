@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.entity.HomeworkDetailEntity;
 @Mapper
 public interface HomeworkDetailEntityMapper {
@@ -27,5 +28,11 @@ public interface HomeworkDetailEntityMapper {
 	 * @CreateDate:  2018年1月22日 上午11:13:07
 	 */
 	int reportHomeworkDetail(long homeworkId);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月9日 下午4:04:56
+	 */
+	List<HomeworkScoreBean> getHomeworkDetail(HomeworkScoreBean homeworkScoreBean);
 
 }

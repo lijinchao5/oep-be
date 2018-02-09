@@ -17,12 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.entity.ExamEntity;
+import com.xuanli.oepcms.entity.ExamStudentEntity;
 import com.xuanli.oepcms.entity.ExamStudentScoreEntity;
 import com.xuanli.oepcms.entity.PaperOptionEntity;
 import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
 import com.xuanli.oepcms.mapper.ExamEntityMapper;
+import com.xuanli.oepcms.mapper.ExamStudentEntityMapper;
 import com.xuanli.oepcms.mapper.ExamStudentScoreEntityMapper;
 import com.xuanli.oepcms.mapper.PaperOptionEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectDetailEntityMapper;
@@ -31,6 +34,7 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.AliOSSUtil;
 import com.xuanli.oepcms.util.PageBean;
+import com.xuanli.oepcms.vo.RestResult;
 
 /**
  * @author QiaoYu
@@ -49,7 +53,8 @@ public class ExamService {
 	ExamEntityMapper examEntityMapper;
 	@Autowired
 	YunZhiSDK yunZhiSDK;
-
+	@Autowired
+	ExamStudentEntityMapper examStudentEntityMapper;
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
@@ -94,6 +99,9 @@ public class ExamService {
 						// 获取本地答案的详细信息
 						for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
 							String correnctResult = paperOptionEntity.getCorrectResult();
+							if (null == correnctResult || StringUtils.isEmpty(correnctResult)) {
+								continue;
+							}
 							String correncts[] = correnctResult.split("\\|\\|");
 							for (String correnct : correncts) {
 								String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
@@ -109,6 +117,9 @@ public class ExamService {
 						}
 						for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
 							String correnctResult = paperOptionEntity.getPointResult();
+							if (null == correnctResult || StringUtils.isEmpty(correnctResult)) {
+								continue;
+							}
 							String correncts[] = correnctResult.split("\\|\\|");
 							for (String correnct : correncts) {
 								String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
@@ -214,6 +225,7 @@ public class ExamService {
 								thisScore = thisScore + (yunZhiBean.getScore() * picScore / 100);
 							}
 						}
+						examStudentScoreEntity.setScore(thisScore);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -255,8 +267,8 @@ public class ExamService {
 						}
 						baos.flush();
 						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
-						// 计算分数 //按照比例去计算分数
-						String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), paperOptionEntities.get(0).getCorrectResult(), "E");
+						//阅读 直接把问题text传入即可
+						String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), paperSubjectDetailEntity.getQuestion(), "E");
 						if (null == json || json.trim().equals("")) {
 							System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
 						} else {
@@ -265,9 +277,9 @@ public class ExamService {
 							// 这里要弄一下流利度流畅度完整度三个信息
 							if (null != yunZhiBean.getLines() && yunZhiBean.getLines().size() > 0) {
 								YunZhiline yunZhiline = yunZhiBean.getLines().get(0);
-								examStudentScoreEntity.setFluency(yunZhiline.getFluency()*10);
-								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity()*10);
-								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation()*10);
+								examStudentScoreEntity.setFluency(yunZhiline.getFluency());
+								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
+								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
 							}
 						}
 					}
@@ -292,6 +304,7 @@ public class ExamService {
 					}
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
+				examStudentScoreEntity.setScore(score);
 				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(text);
 				examStudentScoreEntity.setEnableFlag("T");
@@ -303,7 +316,7 @@ public class ExamService {
 	}
 
 	/**
-	 * @Description: TODO
+	 * @Description: TODO 分页展示考试列表
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月7日 上午10:44:41
 	 */
@@ -314,5 +327,25 @@ public class ExamService {
 		examEntity.setEnd(pageBean.getPageSize());
 		List<ExamEntity> examEntities = examEntityMapper.findExamByPage(examEntity);
 		pageBean.setRows(examEntities);
+	}
+
+	/**
+	 * @Description:  TODO 生成作业报告--其实就是计算学生总分数
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月9日 上午10:25:55
+	 */
+	public RestResult<String> generatorExamReport(Long examId, Long studentId) {
+		//
+		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
+		examStudentEntity.setExamId(examId);
+		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.generatorExamReport(examStudentEntity);
+		
+		
+		for (ExamStudentEntity ese : examStudentEntities) {
+			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
+		}
+		
+		
+		return null;
 	}
 }

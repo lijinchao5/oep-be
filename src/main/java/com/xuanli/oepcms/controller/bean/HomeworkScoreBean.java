@@ -12,6 +12,7 @@ package com.xuanli.oepcms.controller.bean;
 public class HomeworkScoreBean {
 	private Long id;
 	private Long studentId;
+	private String name;
 	private Long homeworkId;
 	private Long sectionId;
 	private String audioPath;
@@ -24,6 +25,13 @@ public class HomeworkScoreBean {
 	private String standerMAudioPath;
 	private String standerWAudioPath;
 	private String standerWordMean;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Long getId() {
 		return id;
 	}

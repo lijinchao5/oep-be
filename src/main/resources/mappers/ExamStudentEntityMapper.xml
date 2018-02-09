@@ -148,5 +148,30 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-
+<select id="generatorExamReport" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity" resultType="com.xuanli.oepcms.entity.ExamStudentEntity">
+	
+		SELECT
+			sum(score) score,
+			student_id studentId,
+			exam_id examId
+			FROM
+				xl_exam_student_score
+			where exam_id = exam_id = #{examId,jdbcType=BIGINT}
+		GROUP BY
+				ess.student_id,
+				ess.exam_id
+	</select>
+	
+	<update id="updateExamStudentEntityByExamId" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity">
+		update xl_exam_student
+    	<set>
+	      <if test="score != null">
+	        score = #{score,jdbcType=DOUBLE},
+	      </if>
+      	</set>
+		where
+        	student_id = #{studentId,jdbcType=BIGINT} 
+        	and  exam_id = #{examId,jdbcType=BIGINT}
+        	
+	</update>
 </mapper>
