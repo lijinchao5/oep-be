@@ -39,4 +39,12 @@ public interface ClasEntityMapper {
 	 * @CreateDate:  2018年1月30日 上午9:35:29
 	 */
 	List<ClasEntity> findClasByPage(ClasEntity clasEntity);
+
+	/**Title: selectClass 
+	 * Description:  
+	 * @date 2018年2月9日 下午5:33:32
+	 * @param classId
+	 * @return  
+	 */
+	ClasEntity selectClass(String classId);
 }

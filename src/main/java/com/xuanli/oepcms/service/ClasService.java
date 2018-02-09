@@ -73,4 +73,8 @@ public class ClasService {
 		pageBean.setRows(clasEntities);
 		
 	}
+	
+	public ClasEntity selectClass(String classId) {
+		return clasDao.selectClass(classId);
+	}
 }

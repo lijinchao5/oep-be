@@ -96,4 +96,21 @@ public class ClassController extends BaseController {
 		clasService.findClasByPage(clasEntity, pageBean);
 		return ok(pageBean);
 	}
+	
+	/**
+	 * Title: selectClass 
+	 * Description:  根据classId查询班级信息
+	 * @date 2018年2月9日 下午5:46:48
+	 * @param classId
+	 * @return
+	 */
+	@ApiOperation(value="获取班级信息", notes="获取班级方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "selectClass.do", method = RequestMethod.GET)
+	public RestResult<ClasEntity> selectClass(String classId) {
+		ClasEntity clasEntity = clasService.selectClass(classId);
+		return ok(clasEntity);
+	}
 }
