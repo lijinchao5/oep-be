@@ -367,7 +367,7 @@ public class UserService extends BaseService{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月9日 下午4:09:27
 	 */
-	public void pushMsgByClass(Long classId, String type) {
-		
+	public void pushMsgByClass(Long classId,Long homeworkId, String type) {
+		logger.info("发送消息"+classId);
 	}
 }
