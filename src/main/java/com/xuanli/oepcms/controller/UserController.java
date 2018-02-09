@@ -495,12 +495,13 @@ public class UserController extends BaseController {
 	@ApiOperation(value = "根据班级发送消息给学生", notes = "根据班级发送消息给学生")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "homeworkId", value = "家庭作业Id", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "type", value = "消息类型1:催收作业", required = true, dataType = "String") 
 	})
 	@RequestMapping(value = "pushMsgByClass.do", method = RequestMethod.POST)
-	public RestResult<String> pushMsgByClass(Long classId,String type){
+	public RestResult<String> pushMsgByClass(Long classId,Long homeworkId,String type){
 		try {
-			userService.pushMsgByClass(classId,type);
+			userService.pushMsgByClass(classId,homeworkId,type);
 			return okNoResult("发送成功");
 		} catch (Exception e) {
 			return failed(ExceptionCode.UNKNOW_CODE, "发送消息错误");
