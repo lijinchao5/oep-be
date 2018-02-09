@@ -497,7 +497,7 @@ public class UserController extends BaseController {
 			@ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "type", value = "消息类型1:催收作业", required = true, dataType = "String") 
 	})
-	@RequestMapping(value = "updateMobile.do", method = RequestMethod.PUT)
+	@RequestMapping(value = "pushMsgByClass.do", method = RequestMethod.PUT)
 	public RestResult<String> pushMsgByClass(Long classId,String type){
 		try {
 			userService.pushMsgByClass(classId,type);
