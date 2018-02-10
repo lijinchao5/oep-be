@@ -61,66 +61,322 @@ public class User implements Serializable {
 	
     public User() {
     }
+
+	/** 
+	 * @return 返回 id 
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/** 
+	 * @setParam 设置id
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/** 
+	 * @return 返回 username 
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/** 
+	 * @setParam 设置username
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/** 
+	 * @return 返回 password 
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/** 
+	 * @setParam 设置password
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/** 
+	 * @return 返回 desc 
+	 */
+	public String getDesc() {
+		return desc;
+	}
+
+	/** 
+	 * @setParam 设置desc
+	 */
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	/** 
+	 * @return 返回 gender 
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/** 
+	 * @setParam 设置gender
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/** 
+	 * @return 返回 schoolId 
+	 */
+	public String getSchoolId() {
+		return schoolId;
+	}
+
+	/** 
+	 * @setParam 设置schoolId
+	 */
+	public void setSchoolId(String schoolId) {
+		this.schoolId = schoolId;
+	}
+
+	/** 
+	 * @return 返回 clasId 
+	 */
+	public String getClasId() {
+		return clasId;
+	}
+
+	/** 
+	 * @setParam 设置clasId
+	 */
+	public void setClasId(String clasId) {
+		this.clasId = clasId;
+	}
+
+	/** 
+	 * @return 返回 mobile 
+	 */
+	public String getMobile() {
+		return mobile;
+	}
+
+	/** 
+	 * @setParam 设置mobile
+	 */
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	/** 
+	 * @return 返回 birthDate 
+	 */
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	/** 
+	 * @setParam 设置birthDate
+	 */
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	/** 
+	 * @return 返回 studySection 
+	 */
+	public String getStudySection() {
+		return studySection;
+	}
+
+	/** 
+	 * @setParam 设置studySection
+	 */
+	public void setStudySection(String studySection) {
+		this.studySection = studySection;
+	}
+
+	/** 
+	 * @return 返回 grade 
+	 */
+	public String getGrade() {
+		return grade;
+	}
+
+	/** 
+	 * @setParam 设置grade
+	 */
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	/** 
+	 * @return 返回 bookEdition 
+	 */
+	public String getBookEdition() {
+		return bookEdition;
+	}
+
+	/** 
+	 * @setParam 设置bookEdition
+	 */
+	public void setBookEdition(String bookEdition) {
+		this.bookEdition = bookEdition;
+	}
+
+	/** 
+	 * @return 返回 salt 
+	 */
+	public String getSalt() {
+		return salt;
+	}
+
+	/** 
+	 * @setParam 设置salt
+	 */
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	/** 
+	 * @return 返回 captcha 
+	 */
+	public String getCaptcha() {
+		return captcha;
+	}
+
+	/** 
+	 * @setParam 设置captcha
+	 */
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
+	}
+
+	/** 
+	 * @return 返回 createId 
+	 */
+	public String getCreateId() {
+		return createId;
+	}
+
+	/** 
+	 * @setParam 设置createId
+	 */
+	public void setCreateId(String createId) {
+		this.createId = createId;
+	}
+
+	/** 
+	 * @return 返回 createDate 
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	/** 
+	 * @setParam 设置createDate
+	 */
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	/** 
+	 * @return 返回 updateId 
+	 */
+	public String getUpdateId() {
+		return updateId;
+	}
+
+	/** 
+	 * @setParam 设置updateId
+	 */
+	public void setUpdateId(String updateId) {
+		this.updateId = updateId;
+	}
+
+	/** 
+	 * @return 返回 updateDate 
+	 */
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	/** 
+	 * @setParam 设置updateDate
+	 */
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	/** 
+	 * @return 返回 enableFlag 
+	 */
+	public Integer getEnableFlag() {
+		return enableFlag;
+	}
+
+	/** 
+	 * @setParam 设置enableFlag
+	 */
+	public void setEnableFlag(Integer enableFlag) {
+		this.enableFlag = enableFlag;
+	}
+
+	/** 
+	 * @return 返回 province 
+	 */
+	public String getProvince() {
+		return province;
+	}
+
+	/** 
+	 * @setParam 设置province
+	 */
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	/** 
+	 * @return 返回 city 
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/** 
+	 * @setParam 设置city
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	/** 
+	 * @return 返回 district 
+	 */
+	public String getDistrict() {
+		return district;
+	}
+
+	/** 
+	 * @setParam 设置district
+	 */
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	/** 
+	 * @return 返回 serialversionuid 
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
     
 
-    public User(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.desc = user.getDesc();
-        this.gender = user.getGender();
-        this.schoolId = user.getSchoolId();
-        this.clasId = user.getClasId();
-        this.mobile = user.getMobile();
-        this.birthDate = user.getBirthDate();
-        this.studySection = user.getStudySection();
-        this.grade = user.getGrade();
-        this.bookEdition = user.getBookEdition();
-        this.salt = user.getSalt();
-        this.captcha = user.getCaptcha();
-        this.createId = user.getCreateId();
-        this.createDate = user.getCreateDate();
-        this.updateId = user.getCreateId();
-        this.updateDate = user.getUpdateDate();
-        this.enableFlag = user.getEnableFlag();
-        this.province = user.getProvince();
-        this.city = user.getCity();
-        this.district = user.getDistrict();
-    }
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", desc=" + desc + ", gender="
-				+ gender + ", schoolId=" + schoolId + ", clasId=" + clasId + ", mobile=" + mobile + ", birthDate="
-				+ birthDate + ", studySection=" + studySection + ", grade=" + grade + ", bookEdition=" + bookEdition
-				+ ", salt=" + salt + ", captcha=" + captcha + ", createId=" + createId + ", createDate=" + createDate
-				+ ", updateId=" + updateId + ", updateDate=" + updateDate + ", enableFlag=" + enableFlag + ", province="
-				+ province + ", city=" + city + ", district=" + district + "]";
-	}
-
+    
 }

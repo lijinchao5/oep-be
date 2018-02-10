@@ -44,4 +44,47 @@ public class RestResult<T> {
         failedResult.setResult(result);
         return failedResult;
     }
+
+	/** 
+	 * @return 返回 code 
+	 */
+	public int getCode() {
+		return code;
+	}
+
+	/** 
+	 * @setParam 设置code
+	 */
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	/** 
+	 * @return 返回 message 
+	 */
+	public String getMessage() {
+		return message;
+	}
+
+	/** 
+	 * @setParam 设置message
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	/** 
+	 * @return 返回 result 
+	 */
+	public T getResult() {
+		return result;
+	}
+
+	/** 
+	 * @setParam 设置result
+	 */
+	public void setResult(T result) {
+		this.result = result;
+	}
+    
 }
