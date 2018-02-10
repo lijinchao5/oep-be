@@ -53,5 +53,5 @@ public interface HomeworkStudentScoreEntityMapper {
 	 */
 	List<HomeworkStudentScoreEntity> selectHomeworkStudentScore(HomeworkStudentScoreEntity homeworkStudentScoreEntity);
 	
-	List<HomeworkScoreBean> getStudentHomework(@Param("homeworkId")Long homeworkId,@Param("studentId")Long studentId, @Param("homeworkType")String homeworkType);
+	List<HomeworkScoreBean> getStudentHomework(@Param("homeworkId")Long homeworkId,@Param("studentId")Long studentId, @Param("homeworkType")Integer homeworkType);
 }

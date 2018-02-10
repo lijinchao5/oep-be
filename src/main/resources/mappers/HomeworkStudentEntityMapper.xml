@@ -164,6 +164,35 @@
     </if>
     order by score desc
   </select>
+    <select id="selectStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+	    SELECT
+		id,
+		homework_id,
+		student_id,
+		(
+			SELECT
+				xu. NAME
+			FROM
+				xl_user xu
+			WHERE
+				xu.id = student_id
+		) studentname,
+		remark,
+		work_complate,
+		work_time,
+		score,
+		create_id,
+		create_date,
+		update_id,
+		update_date,
+		enable_flag
+	FROM
+		xl_homework_student
+	WHERE
+		homework_id = #{homeworkId}
+	ORDER BY
+		score DESC
+  </select>
   
   <update id="updateHomewordStudentEntityRemark" parameterType="java.util.List">
         UPDATE xl_homework_student set remark = #{remark}

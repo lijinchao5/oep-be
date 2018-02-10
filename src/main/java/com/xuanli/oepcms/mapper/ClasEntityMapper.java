@@ -46,5 +46,5 @@ public interface ClasEntityMapper {
 	 * @param classId
 	 * @return  
 	 */
-	ClasEntity selectClass(String classId);
+	
 }

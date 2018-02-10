@@ -210,13 +210,6 @@
 	limit #{start},#{end}
   </select>
   
-  <select id="selectClass" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.ClasEntity" >
-    select 
-    <include refid="Base_Column_List" />
-    from xl_clas
-    where clas_id = #{clasId,jdbcType=BIGINT}
-  </select>
-  
   
   
   

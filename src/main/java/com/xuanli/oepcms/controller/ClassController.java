@@ -114,5 +114,4 @@ public class ClassController extends BaseController {
 		return ok(clasEntity);
 	}
 	
-	
 }

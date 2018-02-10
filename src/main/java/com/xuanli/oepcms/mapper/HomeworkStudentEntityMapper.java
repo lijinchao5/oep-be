@@ -35,7 +35,23 @@ public interface HomeworkStudentEntityMapper {
 	 * @CreateDate:  2018年1月23日 下午3:13:07
 	 */
 	List<HomeworkStudentScoreEntity> selectHomeworkStudentEntity(HomeworkStudentEntity homeworkStudentEntity);
-	/**评语*/
+	
+	/**
+	 * Title: updateHomewordStudentEntityRemark 
+	 * Description:  老师写评语
+	 * @date 2018年2月10日 下午3:08:16
+	 * @param userIds
+	 * @param homeworkId
+	 * @param remark
+	 * @return
+	 */
 	int updateHomewordStudentEntityRemark(@Param("userIds")String[] userIds,@Param("homeworkId")Long homeworkId,@Param("remark")String remark);
+	
+	/**Title: SelectStudentDetail 
+	 * Description:  作业报告查看学生详情
+	 * @date 2018年2月10日 下午3:04:29
+	 * @return  
+	 */
+	List<HomeworkStudentEntity> selectStudentEntity(HomeworkStudentEntity homeworkStudentEntity);
 	
 }

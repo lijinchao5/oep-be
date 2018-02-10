@@ -440,9 +440,30 @@ public class HomeworkService extends BaseService{
 		}
 	}
 	
-	/**查看学生作业详情*/
-	public List<HomeworkScoreBean> getStudentHomeworkDetail(Long homeworkId,Long studentId,String homeworkType) {
+	/**
+	 * Title: getStudentHomeworkDetail 
+	 * Description:  查看学生作业详情
+	 * @date 2018年2月10日 下午3:10:27
+	 * @param homeworkId
+	 * @param studentId
+	 * @param homeworkType
+	 * @return
+	 */
+	public List<HomeworkScoreBean> getStudentHomeworkDetail(Long homeworkId,Long studentId,Integer homeworkType) {
 		return homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
+	}
+	
+	/**
+	 * Title: selectStudentDetail 
+	 * Description:  作业报告,学生详情
+	 * @date 2018年2月10日 下午3:10:39
+	 * @param homeworkId
+	 * @return
+	 */
+	public List<HomeworkStudentEntity> selectStudentEntity(Long homeworkId){
+		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
+		homeworkStudentEntity.setHomeworkId(homeworkId);
+		return homeworkStudentDao.selectStudentEntity(homeworkStudentEntity);
 	}
 
 	/**

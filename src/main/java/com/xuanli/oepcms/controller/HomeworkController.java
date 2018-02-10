@@ -22,6 +22,7 @@ import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.entity.HomeworkEntity;
+import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.service.HomeworkService;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
@@ -163,21 +164,21 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String") })
 	@RequestMapping(value = "studentHomeWorkDetail.do", method = RequestMethod.GET)
-	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(@RequestParam Long homeworkId, @RequestParam Long studentId, @RequestParam String homeworkType) {
-		try {
-			List<HomeworkScoreBean> result = homeworkService.getStudentHomeworkDetail(homeworkId, studentId, homeworkType);
-			if (null != result && result.size() > 0) {
-				return ok(result);
-			} else {
-				return failed(ExceptionCode.UNKNOW_CODE, "查看学生作业详情出现异常，请联系管理员");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("查看作业详情出现异常", e);
-			return failed(ExceptionCode.UNKNOW_CODE, "查看作业详情出现异常");
-		}
+	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(@RequestParam Long homeworkId, @RequestParam Long studentId, @RequestParam Integer homeworkType) {
+		return ok(homeworkService.getStudentHomeworkDetail(homeworkId, studentId, homeworkType));
 	}
 	
+	@ApiOperation(value = "作业报告中学生详情", notes = "查看作业报告学生详情")
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
+			 })
+	@RequestMapping(value = "selectStudentEntity.do", method = RequestMethod.GET)
+	public RestResult<List<HomeworkStudentEntity>> selectStudentEntity(Long homeworkId) {
+		if(null==homeworkId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "作业id不能为空");
+		}
+		return ok(homeworkService.selectStudentEntity(homeworkId));
+	}
 	
 	@ApiOperation(value = "查看布置作业详情", notes = "查看布置作业详情")
 	@ApiImplicitParams({ 
