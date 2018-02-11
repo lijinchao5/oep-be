@@ -142,33 +142,36 @@
 	</select>
 	<select id="findHomeworkPage" parameterType="com.xuanli.oepcms.entity.HomeworkEntity" resultType="com.xuanli.oepcms.entity.HomeworkEntity">
 		SELECT
-			h.id,
-			h. NAME NAME,
-			h.end_time endtime,
-			h.clas_id clasid,
-			h.remark remark,
-			h.create_id createid,
-			h.create_date createdate,
+			h.id ,
+			h. NAME NAME ,
+			h.end_time endtime ,
+			h.clas_id clasid ,
+			h.remark remark ,
+			h.create_id createid ,
+			h.create_date createdate ,
 			(
 				SELECT
-					CONCAT(u. NAME, ',', s. NAME, '||')
+					GROUP_CONCAT(b. NAME , '||')
 				FROM
-					xl_section_detail sd
-				LEFT JOIN xl_section s ON s.id = sd.section_id
-				LEFT JOIN xl_unit u ON u.id = s.unit_id
-				WHERE
-					sd.id IN (
+					(
 						SELECT
-							section_detail_id
+							CONCAT(u. NAME , ',' , s. NAME) NAME ,
+							'1' AS id,
+							hd.homework_id workid
 						FROM
-							xl_homework_detail
-						WHERE
-							homework_id = h.id
-					)
+							xl_section_detail sd
+						LEFT JOIN xl_section s ON s.id = sd.section_id
+						LEFT JOIN xl_unit u ON u.id = s.unit_id
+						LEFT JOIN xl_homework_detail hd ON sd.id = hd.section_detail_id
+						GROUP BY
+							u.id ,
+							s.id,
+							hd.homework_id
+					) b
+				where b.workid=h.id
 				GROUP BY
-					u. NAME,
-					s. NAME
-			) detail,
+					b.id
+			) detail ,
 			(
 				SELECT
 					count(*)
@@ -176,7 +179,7 @@
 					xl_homework_student hs
 				WHERE
 					hs.homework_id = h.id
-			) totalStudent,
+			) totalStudent ,
 			(
 				SELECT
 					count(*)
@@ -185,12 +188,12 @@
 				WHERE
 					hs.homework_id = h.id
 				AND hs.work_complate = 'T'
-			) complateTotal,
-			if(end_time>NOW(),'1','2') status
-		FROM
-			xl_homework h
-		where
-			h.create_id = #{createId}
+			) complateTotal ,
+			IF(end_time > NOW() , '1' , '2') STATUS 
+			FROM 
+				xl_homework 
+			WHERE
+				h.create_id = #{createId}
 		<if test="clasIds != null">
 			and h.clas_Id in (#{clasIds})
 		</if>
