@@ -156,7 +156,7 @@
 					(
 						SELECT
 							CONCAT(u. NAME , ',' , s. NAME) NAME ,
-							'1' AS id,
+							'1' AS id ,
 							hd.homework_id workid
 						FROM
 							xl_section_detail sd
@@ -165,10 +165,11 @@
 						LEFT JOIN xl_homework_detail hd ON sd.id = hd.section_detail_id
 						GROUP BY
 							u.id ,
-							s.id,
+							s.id ,
 							hd.homework_id
 					) b
-				where b.workid=h.id
+				WHERE
+					b.workid = h.id
 				GROUP BY
 					b.id
 			) detail ,
@@ -189,11 +190,11 @@
 					hs.homework_id = h.id
 				AND hs.work_complate = 'T'
 			) complateTotal ,
-			IF(end_time > NOW() , '1' , '2') STATUS 
-			FROM 
-				xl_homework 
-			WHERE
-				h.create_id = #{createId}
+			IF(end_time > NOW() , '1' , '2') STATUS
+		FROM
+			xl_homework h
+		WHERE
+			h.create_id = #{createId}
 		<if test="clasIds != null">
 			and h.clas_Id in (#{clasIds})
 		</if>
