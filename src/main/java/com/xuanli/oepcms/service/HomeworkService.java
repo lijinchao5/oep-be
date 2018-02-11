@@ -449,7 +449,7 @@ public class HomeworkService extends BaseService{
 	 * @param homeworkType
 	 * @return
 	 */
-	public List<HomeworkScoreBean> getStudentHomeworkDetail(Long homeworkId,Long studentId,Integer homeworkType) {
+	public List<HomeworkScoreBean> getStudentHomework(Long homeworkId,Long studentId,Integer homeworkType) {
 		return homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
 	}
 	

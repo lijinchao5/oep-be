@@ -165,7 +165,7 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String") })
 	@RequestMapping(value = "studentHomeWorkDetail.do", method = RequestMethod.GET)
 	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(@RequestParam Long homeworkId, @RequestParam Long studentId, @RequestParam Integer homeworkType) {
-		return ok(homeworkService.getStudentHomeworkDetail(homeworkId, studentId, homeworkType));
+		return ok(homeworkService.getStudentHomework(homeworkId, studentId, homeworkType));
 	}
 	
 	@ApiOperation(value = "作业报告中学生详情", notes = "查看作业报告学生详情")

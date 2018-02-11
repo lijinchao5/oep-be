@@ -19,6 +19,10 @@ import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.ReportService;
 import com.xuanli.oepcms.vo.RestResult;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /** 
  * @author  QiaoYu 
  */
@@ -32,6 +36,10 @@ public class ReportController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月22日 上午9:40:32
 	 */
+	
+	@ApiOperation(value = "生成作业报告", notes = "生成作业报告")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")})
 	@RequestMapping(value = "generatorHomeworkReport.do", method = RequestMethod.PUT)
 	public RestResult<String> generatorHomeworkReport(@RequestParam Long homeworkId) {
 		if(null==homeworkId) {
@@ -45,6 +53,9 @@ public class ReportController extends BaseController{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月22日 上午9:40:43
 	 */
+	@ApiOperation(value = "获取作业报告信息", notes = "获取作业报告信息")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")})
 	@RequestMapping(value = "homeworkReport.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> homeworkReport(@RequestParam Long homeworkId) {
 		if(null==homeworkId) {

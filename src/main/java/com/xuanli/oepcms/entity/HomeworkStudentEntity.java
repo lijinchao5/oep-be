@@ -24,8 +24,18 @@ public class HomeworkStudentEntity {
     private Long updateId;
 
     private Date updateDate;
+    
+    private String studentName;
+    
+    public String getStudentName() {
+		return studentName;
+	}
 
-    public Long getId() {
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+
+	public Long getId() {
         return id;
     }
 
