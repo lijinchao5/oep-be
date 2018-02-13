@@ -161,7 +161,7 @@ public class UserService extends BaseService{
 			userSchoolEntity.setSchoolId(result.getId());
 			userSchoolEntity.setUserId(userEntity.getId());
 			userDao.insertUserSchool(userSchoolEntity);
-			return "0";
+			return userEntity.getId().longValue()+"";
 		} else {
 			return "1";
 		}
@@ -187,7 +187,7 @@ public class UserService extends BaseService{
 		clasEntity.setClasId(classId);
 		List<ClasEntity> clasEntities = clasService.selectClasEntity(clasEntity);
 		if (null != clasEntities && clasEntities.size() > 0) {
-			// 校区存在
+			// 班级存在
 			ClasEntity result = clasEntities.get(0);
 			UserEntity userEntity = new UserEntity();
 			userEntity.setCreateDate(new Date());
@@ -202,7 +202,7 @@ public class UserService extends BaseService{
 			userClasEntity.setClasId(result.getId());
 			userClasEntity.setUserId(userEntity.getId());
 			userDao.inserUserClas(userClasEntity);
-			return "0";
+			return userEntity.getId().longValue()+"";
 		} else {
 			return "1";
 		}

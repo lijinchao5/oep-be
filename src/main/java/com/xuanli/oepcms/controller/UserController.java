@@ -104,14 +104,12 @@ public class UserController extends BaseController {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.teacherRegist(schoolId, mobile, password);
-			if (result.equals("0")) {
-				return okNoResult("注册成功.");
-			} else if (result.equals("1")) {
+			if (result.equals("1")) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "校区ID错误.");
 			} else if (result.equals("2")) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码已经注册.");
 			} else {
-				return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
+				return ok(result);
 			}
 		} else {
 			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
@@ -154,14 +152,12 @@ public class UserController extends BaseController {
 				return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
 			}
 			String result = userService.studentRegist(classId, mobile, password);
-			if (result.equals("0")) {
-				return okNoResult("注册成功.");
-			} else if (result.equals("1")) {
+			if (result.equals("1")) {
 				return failed(ExceptionCode.USERINFO_ERROR_CODE, "班级ID错误.");
 			} else if (result.equals("2")) {
 				return failed(ExceptionCode.MOBILE_ERROR_CODE, "手机号码已经注册.");
 			} else {
-				return failed(ExceptionCode.UNKNOW_CODE, "未知错误,请联系管理员.");
+				return ok(result);
 			}
 		} else {
 			return failed(ExceptionCode.CAPTCHA_ERROR_CODE, "验证码错误.");
@@ -200,6 +196,42 @@ public class UserController extends BaseController {
 			return failed(ExceptionCode.PERFECT_USERINFO_ERROR, "完善用户信息失败.");
 		}
 
+	}
+	/** 完善用户信息 */
+	@ApiOperation(value = "完善用户信息", notes = "完善用户信息方法")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "userId", value = "用户id", required = false, dataType = "String"),
+		@ApiImplicitParam(name = "name", value = "真实姓名", required = false, dataType = "String"),
+		@ApiImplicitParam(name = "birthDate", value = "生日", required = false, dataType = "String"),
+		@ApiImplicitParam(name = "sex", value = "性别", required = false, dataType = "String"),
+		@ApiImplicitParam(name = "studySectionId", value = "学段(小初高)", required = false, dataType = "Integer"),
+		@ApiImplicitParam(name = "gradeLevelId", value = "年级", required = false, dataType = "Integer"),
+		@ApiImplicitParam(name = "bookVersionId", value = "教材版本", required = false, dataType = "Integer") })
+	@RequestMapping(value = "complateUserInfo.do", method = RequestMethod.PUT)
+	public RestResult<String> complateUserInfo(String userId,String name, Date birthDate, String sex, Integer studySectionId, Integer gradeLevelId, Integer bookVersionId) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(Long.parseLong(userId));
+		userEntity.setName(name);
+		userEntity.setBirthDate(birthDate);
+		userEntity.setSex(sex);
+		userEntity.setStudySectionId(studySectionId);
+		userEntity.setGradeLevelId(gradeLevelId);
+		userEntity.setBookVersionId(bookVersionId);
+		try {
+			int perfectInfo = userService.updateUserInfo(userEntity, null);
+			if (perfectInfo > 0) {
+				return okNoResult("完善信息成功");
+			} else if (perfectInfo <= 0) {
+				return failed(ExceptionCode.PERFECT_USERINFO_ERROR, "完善用户信息错误");
+			} else {
+				return failed(ExceptionCode.UNKNOW_CODE, "未知错误，请联系管理员");
+			}
+		} catch (Exception e) {
+			logger.error("完善用户信息失败!", e);
+			e.printStackTrace();
+			return failed(ExceptionCode.PERFECT_USERINFO_ERROR, "完善用户信息失败.");
+		}
+		
 	}
 
 	/**
