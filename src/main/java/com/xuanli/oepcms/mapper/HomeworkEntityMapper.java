@@ -27,5 +27,11 @@ public interface HomeworkEntityMapper {
 	 * @CreateDate:  2018年2月6日 上午9:52:09
 	 */
 	List<HomeworkEntity> findHomeworkPage(HomeworkEntity homeworkEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月13日 下午4:00:20
+	 */
+	HomeworkEntity getById(Long homeworkId);
 
 }

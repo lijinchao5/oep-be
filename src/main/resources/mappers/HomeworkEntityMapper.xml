@@ -15,6 +15,14 @@
   <sql id="Base_Column_List" >
     id, name, end_time, clas_id, remark, create_id, create_date, update_id, update_date
   </sql>
+  <select id="getById" resultType="com.xuanli.oepcms.entity.HomeworkEntity" parameterType="java.lang.Long" >
+    select 
+    	id, name, end_time endtime, clas_id clasid, remark, create_id createid, create_date createdate, update_id updateid, update_date updatedate,IF(end_time > NOW() , '1' , '2') STATUS
+    from 
+    	xl_homework
+    where 
+    	id = #{id,jdbcType=BIGINT}
+  </select>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
