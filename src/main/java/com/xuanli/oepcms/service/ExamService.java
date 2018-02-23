@@ -40,7 +40,7 @@ import com.xuanli.oepcms.vo.RestResult;
  * @author QiaoYu
  */
 @Service
-public class ExamService {
+public class ExamService extends BaseService{
 	@Autowired
 	PaperSubjectDetailEntityMapper paperSubjectDetailEntityMapper;
 	@Autowired
@@ -339,13 +339,9 @@ public class ExamService {
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.generatorExamReport(examStudentEntity);
-		
-		
 		for (ExamStudentEntity ese : examStudentEntities) {
 			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
 		}
-		
-		
-		return null;
+		return okNoResult("成功");
 	}
 }
