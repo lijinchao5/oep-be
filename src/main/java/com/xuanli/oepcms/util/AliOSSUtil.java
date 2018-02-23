@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.common.comm.ResponseMessage;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.xuanli.oepcms.config.AliOSSPool;
