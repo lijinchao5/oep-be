@@ -75,4 +75,17 @@ public class StringUtil {
         }  
         return code.toString();
 	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月23日 下午2:38:33
+	 */
+	public static boolean isNotNullUnDefined(String str) {
+		if (null != str && str.length() > 0 && !"null".equals(str) && !"undefined".equals(str)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

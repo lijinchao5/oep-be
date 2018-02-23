@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.util.AliOSSUtil;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 /**
@@ -41,20 +42,25 @@ public class FileController extends BaseController {
 			filename = filename + ".jpg";
 			response.setContentType("image/jpeg");
 		}
-		InputStream inputStream = aliOSSUtil.downloadFile(id);
-
-		OutputStream outputStream;
-		try {
-			outputStream = response.getOutputStream();
-			int read = 0;
-			byte[] bytes = new byte[1024];
-			while ((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
+		if (StringUtil.isNotNullUnDefined(id)) {
+			InputStream inputStream = aliOSSUtil.downloadFile(id);
+			OutputStream outputStream;
+			try {
+				outputStream = response.getOutputStream();
+				int read = 0;
+				byte[] bytes = new byte[1024];
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				logger.error("下载文件出现错误!");
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			logger.error("下载文件出现错误!");
+		}else {
+			logger.info("文件id不能为空!");
 		}
+		
+		
 	}
 	
 	

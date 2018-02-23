@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.PaperSubjectEntity;
@@ -37,5 +39,11 @@ public interface PaperSubjectEntityMapper {
      * @return
      */
     int updatePaperSubjectEntity(PaperSubjectEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月23日 下午4:17:58
+	 */
+	List<PaperSubjectEntity> getPaperSubjectEntity(PaperSubjectEntity paperSubjectEntity);
 
 }

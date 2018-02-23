@@ -22,13 +22,20 @@ import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.entity.ExamEntity;
 import com.xuanli.oepcms.entity.ExamStudentEntity;
 import com.xuanli.oepcms.entity.ExamStudentScoreEntity;
+import com.xuanli.oepcms.entity.ExamSubjectEntity;
+import com.xuanli.oepcms.entity.PaperEntity;
 import com.xuanli.oepcms.entity.PaperOptionEntity;
 import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
+import com.xuanli.oepcms.entity.PaperSubjectEntity;
+import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.ExamEntityMapper;
 import com.xuanli.oepcms.mapper.ExamStudentEntityMapper;
 import com.xuanli.oepcms.mapper.ExamStudentScoreEntityMapper;
+import com.xuanli.oepcms.mapper.ExamSubjectEntityMapper;
+import com.xuanli.oepcms.mapper.PaperEntityMapper;
 import com.xuanli.oepcms.mapper.PaperOptionEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectDetailEntityMapper;
+import com.xuanli.oepcms.mapper.PaperSubjectEntityMapper;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
@@ -55,6 +62,15 @@ public class ExamService extends BaseService{
 	YunZhiSDK yunZhiSDK;
 	@Autowired
 	ExamStudentEntityMapper examStudentEntityMapper;
+	@Autowired
+	UserService userService;
+	@Autowired
+	PaperEntityMapper paperEntityMapper;
+	@Autowired
+	PaperSubjectEntityMapper paperSubjectEntityMapper;
+	@Autowired
+	ExamSubjectEntityMapper examSubjectEntityMapper;
+	
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
@@ -340,8 +356,74 @@ public class ExamService extends BaseService{
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.generatorExamReport(examStudentEntity);
 		for (ExamStudentEntity ese : examStudentEntities) {
+			ese.setComplate("T");
 			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
 		}
 		return okNoResult("成功");
 	}
+
+	/**
+	 * @Description:  TODO //布置模拟考试
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月23日 下午2:53:36
+	 */
+	public RestResult<String> genteratorExam(Long userId, String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
+		String clasIds[] = classIds.split(",");
+		for (int i = 0; i < clasIds.length; i++) {
+			String clasId = clasIds[i];
+			//考试信息
+			ExamEntity examEntity = new ExamEntity();
+			examEntity.setEnableFlag("T");
+			examEntity.setNotice(notice);
+			examEntity.setName(name);
+			examEntity.setStartTime(startTime);
+			examEntity.setEndTime(endTime);
+			examEntity.setPaperId(paperId);
+			examEntityMapper.insertExamEntity(examEntity);
+			//考题信息
+			PaperEntity paperEntity = paperEntityMapper.selectById(paperId);	//获取试卷信息
+			Integer timeOut = paperEntity.getTotalTime();
+			PaperSubjectEntity paperSubjectEntity = new PaperSubjectEntity();
+			paperSubjectEntity.setPaperId(paperId);
+			List<PaperSubjectEntity> paperSubjectEntities = paperSubjectEntityMapper.getPaperSubjectEntity(paperSubjectEntity);	//获取试卷详细信息
+			for (PaperSubjectEntity paperSubjectEntity2 : paperSubjectEntities) {
+				ExamSubjectEntity examSubjectEntity = new ExamSubjectEntity();
+				examSubjectEntity.setCreateDate(new Date());
+				examSubjectEntity.setCreateId(userId);
+				examSubjectEntity.setEnableFlag("T");
+				examSubjectEntity.setSubjectId(paperSubjectEntity2.getId());
+				examSubjectEntity.setExamId(examEntity.getId());
+				examSubjectEntityMapper.insertExamSubjectEntity(examSubjectEntity);
+			}
+			//考生信息
+			UserEntity userEntity1 = new UserEntity();
+			userEntity1.setClasId(clasId);
+			List<UserEntity> userEntities = userService.getClasUseStudent(userEntity1);
+			for (UserEntity userEntity : userEntities) {
+				ExamStudentEntity examStudentEntity = new ExamStudentEntity();
+				examStudentEntity.setComplate("F");
+				examStudentEntity.setEnableFlag("T");
+				examStudentEntity.setCreateId(userId);
+				examStudentEntity.setExamId(examEntity.getId());
+				examStudentEntity.setStudentId(userEntity.getId());
+				examStudentEntity.setTimeOut(timeOut);
+				examStudentEntityMapper.insertExamStudentEntity(examStudentEntity);
+			}
+		}
+		return okNoResult("成功布置模拟考试!");
+	}
+	
+	//获取报告内容
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

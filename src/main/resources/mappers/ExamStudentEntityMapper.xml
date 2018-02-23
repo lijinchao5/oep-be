@@ -155,7 +155,7 @@
 			student_id studentId,
 			exam_id examId
 			FROM
-				xl_exam_student_score
+				xl_exam_student_score ess
 			where exam_id = exam_id = #{examId,jdbcType=BIGINT}
 		GROUP BY
 				ess.student_id,

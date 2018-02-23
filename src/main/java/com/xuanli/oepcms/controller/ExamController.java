@@ -6,6 +6,8 @@
  */
 package com.xuanli.oepcms.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,20 @@ public class ExamController extends BaseController {
 	@Autowired
 	ExamService examService;
 	// 布置模拟考试
+	@RequestMapping(value = "genteratorExam.do", method = RequestMethod.POST)
+	public RestResult<String> genteratorExam(String name,String notice,String classIds,Date startTime,Date endTime,Long paperId) {
+		try {
+			Long userId = getCurrentUser().getId();
+			return examService.genteratorExam(userId, name, notice, classIds, startTime,endTime,paperId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
+		}
+	}
+	
+	
+	
+	
 
 	// 提交试卷
 	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)

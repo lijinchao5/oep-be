@@ -32,7 +32,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertExamEntity" parameterType="com.xuanli.oepcms.entity.ExamEntity">
+  <insert id="insertExamEntity" parameterType="com.xuanli.oepcms.entity.ExamEntity" keyProperty="id" useGeneratedKeys="true">
     insert into xl_exam
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

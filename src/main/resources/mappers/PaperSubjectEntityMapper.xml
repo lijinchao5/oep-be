@@ -27,6 +27,15 @@
     from xl_paper_subject
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="getPaperSubjectEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_paper_subject
+    where enable_flag = 'T'
+     <if test="paperId != null">
+         and paper_id = #{paperId,jdbcType=BIGINT}
+      </if>
+  </select>
   <delete id="deletePaperSubjectEntity" parameterType="java.lang.Long">
     delete from xl_paper_subject
     where id = #{id,jdbcType=BIGINT}

@@ -53,7 +53,7 @@ public class SMSConfig implements EnvironmentAware {
 		sign = propertyResolver.getProperty("sign");
 		extno = propertyResolver.getProperty("extno");
 		host = propertyResolver.getProperty("host");
-		logger.debug("初始化完成短信系统配置信息...");
+		logger.debug("初始化完成短信配置信息...");
 	}
 
 }
