@@ -6,6 +6,7 @@
  */
 package com.xuanli.oepcms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,26 @@ public class SchoolService {
 	 */
 	public SchoolEntity getUserSchoolInfo(Long id) {
 		return schoolEntityMapper.getUserSchoolInfo(id);
+	}
+	
+	/**Title: updateSchool 
+	 * Description:  
+	 * @date 2018年2月23日 下午2:10:08
+	 * @param schoolEntity
+	 * @return  
+	 */
+	public int updateSchool(SchoolEntity schoolEntity) {
+		return schoolEntityMapper.updateSchoolEntity(schoolEntity);
+	}
+	
+	/**
+	 * Title: saveSchool 
+	 * Description:  
+	 * @date 2018年2月23日 下午2:35:59
+	 * @param schoolEntity
+	 * @return
+	 */
+	public int saveSchool(SchoolEntity schoolEntity) {
+		return schoolEntityMapper.insertSchoolEntity(schoolEntity);
 	}
 }

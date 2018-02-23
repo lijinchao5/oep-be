@@ -13,6 +13,8 @@
     <result column="update_id" property="updateId" jdbcType="INTEGER" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+    <result column="startdate" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="enddate" property="endDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, school_id, name, address_province, address_city, address_area, create_id, create_date, 
@@ -55,7 +57,7 @@
     delete from xl_school
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelectiveSchoolEntity" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
+  <insert id="insertSchoolEntity" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
     insert into xl_school
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -90,6 +92,12 @@
       </if>
       <if test="enableFlag != null" >
         enable_flag,
+      </if>
+      <if test="startDate != null" >
+        startdate,
+      </if>
+      <if test="endDate != null" >
+        enddate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -126,6 +134,12 @@
       <if test="enableFlag != null" >
         #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateSchoolEntity" parameterType="com.xuanli.oepcms.entity.SchoolEntity" >
@@ -160,6 +174,12 @@
       </if>
       <if test="enableFlag != null" >
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        startdate = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        enddate = #{endDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
