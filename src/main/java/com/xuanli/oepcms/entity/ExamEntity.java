@@ -38,10 +38,21 @@ public class ExamEntity extends BasePageBean{
     private int totalStudent;
     private int complateStudent;
     
+    private String state;
     
     
     
-    public int getTotalStudent() {
+    
+    
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public int getTotalStudent() {
 		return totalStudent;
 	}
 

@@ -210,7 +210,16 @@
 					xl_exam_student
 				WHERE
 					complate = 'T'
-			) complateStudent
+			) complateStudent,
+			CASE
+			WHEN NOW() > end_time THEN
+				'结束'
+			WHEN NOW() > start_time
+			AND end_time > NOW() THEN
+				'进行中'
+			WHEN start_time > NOW() THEN
+				'未开始'
+			END state
 		FROM
 			xl_exam
 		WHERE
