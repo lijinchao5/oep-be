@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ import com.xuanli.oepcms.mapper.PaperSubjectDetailEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectEntityMapper;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
+import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.AliOSSUtil;
 import com.xuanli.oepcms.util.PageBean;
@@ -296,6 +298,12 @@ public class ExamService extends BaseService{
 								examStudentScoreEntity.setFluency(yunZhiline.getFluency());
 								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+								
+								List<YunZhiWords> yunZhiWords = yunZhiline.getWords();
+								for (YunZhiWords yunZhiWord : yunZhiWords) {
+									//yunZhiWord.
+								}
+								
 							}
 						}
 					}
@@ -407,6 +415,7 @@ public class ExamService extends BaseService{
 				examStudentEntity.setExamId(examEntity.getId());
 				examStudentEntity.setStudentId(userEntity.getId());
 				examStudentEntity.setTimeOut(timeOut);
+				examStudentEntity.setScore(0.00);
 				examStudentEntityMapper.insertExamStudentEntity(examStudentEntity);
 			}
 		}
@@ -414,6 +423,23 @@ public class ExamService extends BaseService{
 	}
 	
 	//获取报告内容
+	public Map<String, Object> getExamReport(Long examId){
+		
+		
+		
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

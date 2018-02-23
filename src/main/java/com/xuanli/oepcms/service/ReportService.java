@@ -78,11 +78,6 @@ public class ReportService extends BaseService {
 			// 保存本次学生的分数
 			homeworkService.updateHomeworkStudentScoreEntityBatch(studentEntity);
 		}
-		
-		
-		
-		
-		
 		return ok("生成完成");
 	}
 

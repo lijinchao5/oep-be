@@ -168,6 +168,9 @@
 	      <if test="score != null">
 	        score = #{score,jdbcType=DOUBLE},
 	      </if>
+	      <if test="complate != null">
+	        complate = #{complate,jdbcType=VARCHAR},
+	      </if>
       	</set>
 		where
         	student_id = #{studentId,jdbcType=BIGINT} 
