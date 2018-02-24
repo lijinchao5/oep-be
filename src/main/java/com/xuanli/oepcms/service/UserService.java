@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +26,7 @@ import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.RanNumUtil;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
+import com.xuanli.oepcms.vo.RestResult;
 
 @Service
 @Transactional
@@ -362,4 +364,14 @@ public class UserService extends BaseService {
     public void pushMsgByClass(Long classId, Long homeworkId, String type) {
         logger.info("发送消息" + classId);
     }
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月24日 下午2:10:57
+	 */
+	public RestResult<Map<String, Object>> getStudentInfo(UserEntity userEntity) {
+		Map<String, Object> studentInfo = userDao.getStudentInfo(userEntity);
+		return ok(studentInfo);
+	}
 }
