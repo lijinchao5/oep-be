@@ -283,9 +283,10 @@
 	LEFT JOIN xl_paper_subject ps ON ps.id = es.subject_id
 	LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
 	LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
-	LEFT JOIN xl_exam_student_score ess ON ess.subject_detail_id = psd.id and ess.student_id=3
+	LEFT JOIN xl_exam_student_score ess ON ess.subject_detail_id = psd.id
+	AND ess.student_id = #{studentId}
 	WHERE
-		e.id = 1
+		e.id = #{examId}
 	ORDER BY
 		ps.id,
 		psd.id
