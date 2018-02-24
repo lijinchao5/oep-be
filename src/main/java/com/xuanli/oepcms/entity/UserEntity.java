@@ -43,7 +43,17 @@ public class UserEntity extends BasePageBean{
     
     private String cmsId;
     
-    public String getCmsId() {
+    private String areaid;
+    
+    public String getAreaid() {
+		return areaid;
+	}
+
+	public void setAreaid(String areaid) {
+		this.areaid = areaid;
+	}
+
+	public String getCmsId() {
 		return cmsId;
 	}
 

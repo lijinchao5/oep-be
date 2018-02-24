@@ -25,24 +25,24 @@ public class SchoolEntity {
 
     private String enableFlag;
     
-    private Date startDate;
+    private Date startdate;
     
-    private Date endDate;
+    private Date enddate;
 
-    public Date getStartDate() {
-		return startDate;
+	public Date getStartdate() {
+		return startdate;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartdate(Date startdate) {
+		this.startdate = startdate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public Date getEnddate() {
+		return enddate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
 	}
 
 	public Long getId() {

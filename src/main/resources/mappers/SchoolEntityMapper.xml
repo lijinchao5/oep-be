@@ -13,8 +13,8 @@
     <result column="update_id" property="updateId" jdbcType="INTEGER" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
-    <result column="startdate" property="startDate" jdbcType="TIMESTAMP" />
-    <result column="enddate" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="startdate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="enddate" property="enddate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, school_id, name, address_province, address_city, address_area, create_id, create_date, 
@@ -93,10 +93,10 @@
       <if test="enableFlag != null" >
         enable_flag,
       </if>
-      <if test="startDate != null" >
+      <if test="startdate != null" >
         startdate,
       </if>
-      <if test="endDate != null" >
+      <if test="enddate != null" >
         enddate,
       </if>
     </trim>
@@ -134,11 +134,11 @@
       <if test="enableFlag != null" >
         #{enableFlag,jdbcType=VARCHAR},
       </if>
-      <if test="startDate != null" >
-        #{startDate,jdbcType=TIMESTAMP},
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
       </if>
-      <if test="endDate != null" >
-        #{endDate,jdbcType=TIMESTAMP},
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -175,11 +175,11 @@
       <if test="enableFlag != null" >
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
-      <if test="startDate != null" >
-        startdate = #{startDate,jdbcType=TIMESTAMP},
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=TIMESTAMP},
       </if>
-      <if test="endDate != null" >
-        enddate = #{endDate,jdbcType=TIMESTAMP},
+      <if test="enddate != null" >
+        enddate = #{enddate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -187,10 +187,10 @@
   	<select id="getUserSchoolInfo" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
 		SELECT
 		xs.id, xs.school_id, xs.name, xs.address_province, xs.address_city, xs.address_area, xs.create_id, xs.create_date, 
-    xs.update_id, xs.update_date, xs.enable_flag,
+    	xs.update_id, xs.update_date, xs.enable_flag,
 			(
 				SELECT
-					text
+					texts
 				FROM
 					xl_area xla
 				WHERE
@@ -198,7 +198,7 @@
 			) address_province,
 			(
 				SELECT
-					text
+					texts
 				FROM
 					xl_area xla
 				WHERE
@@ -206,7 +206,7 @@
 			) address_city,
 			(
 				SELECT
-					text
+					texts
 				FROM
 					xl_area xla
 				WHERE

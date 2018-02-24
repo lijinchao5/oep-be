@@ -4,6 +4,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -151,24 +152,24 @@ public class SynchronizeController extends BaseController{
 		}
 	}
     
-    @ApiOperation(value = "同步新增区县时间", notes = "新增区县时间方法")
-    @ApiImplicitParams({ @ApiImplicitParam(name = "AreaDateInfo", value = "区县时间信息", required = true, dataType = "String") })
-	@RequestMapping(value = "saveAreaDate.do", method = RequestMethod.POST)
-	public String saveAreaDate(String AreaDateInfo){
-		AreaUseEntity areaUseEntity = JSONObject.parseObject(AreaDateInfo,AreaUseEntity.class);
-		try {
-			int result = areaUseService.saveAreaDate(areaUseEntity);
-			if(result>0) {
-				return "1";
-			}else {
-				return "0";
-			}
-		} catch (Exception e) {
-			logger.error("新增区县时间失败",e);
-			e.printStackTrace();
-			return "0";
-		}
-	}
+//    @ApiOperation(value = "同步新增区县时间", notes = "新增区县时间方法")
+//    @ApiImplicitParams({ @ApiImplicitParam(name = "AreaDateInfo", value = "区县时间信息", required = true, dataType = "String") })
+//	@RequestMapping(value = "saveAreaDate.do", method = RequestMethod.POST)
+//	public String saveAreaDate(String AreaDateInfo){
+//		AreaUseEntity areaUseEntity = JSONObject.parseObject(AreaDateInfo,AreaUseEntity.class);
+//		try {
+//			int result = areaUseService.saveAreaDate(areaUseEntity);
+//			if(result>0) {
+//				return "1";
+//			}else {
+//				return "0";
+//			}
+//		} catch (Exception e) {
+//			logger.error("新增区县时间失败",e);
+//			e.printStackTrace();
+//			return "0";
+//		}
+//	}
     
     @ApiOperation(value = "同步删除区县时间", notes = "删除区县时间方法")
     @ApiImplicitParams({ @ApiImplicitParam(name = "AreaDateInfo", value = "区县时间信息", required = true, dataType = "String") })
@@ -184,6 +185,22 @@ public class SynchronizeController extends BaseController{
 			}
 		} catch (Exception e) {
 			logger.error("删除区县时间信息失败",e);
+			e.printStackTrace();
+			return "0";
+		}
+	}
+    
+    @ApiOperation(value = "同步新增区县时间", notes = "新增区县时间方法")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "AreaDateInfo", value = "区县时间信息", required = true, dataType = "String") })
+	@RequestMapping(value = "saveAreaDate.do", method = RequestMethod.POST)
+	public String saveAreaDate(String SchoolEntityList,String AreaUseEntityList){
+		try {
+			List<SchoolEntity> SchoolEntities = JSONObject.parseArray(SchoolEntityList,SchoolEntity.class);
+			List<AreaUseEntity> AreaUseEntitities = JSONObject.parseArray(AreaUseEntityList,AreaUseEntity.class);
+			areaUseService.updateAreaDate(SchoolEntities, AreaUseEntitities);
+			return "1";
+		} catch (Exception e) {
+			logger.error("新增区县时间失败",e);
 			e.printStackTrace();
 			return "0";
 		}

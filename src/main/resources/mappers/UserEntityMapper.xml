@@ -21,10 +21,11 @@
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
     <result column="cms_id" property="cmsId" jdbcType="VARCHAR" />
+    <result column="areaid" property="areaid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, mobile, password, sex, birth_date, study_section_id, grade__level_id, book_version_id, 
-    role_id, name_num, remark, photo,create_id, create_date, update_id, update_date, enable_flag
+    role_id, name_num, remark, photo,create_id, create_date, update_id, update_date, enable_flag,cms_id,areaid
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -117,6 +118,9 @@
       <if test="cmsId != null" >
         cms_id,
       </if>
+      <if test="areaid != null" >
+        areaid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -175,6 +179,9 @@
       </if>
       <if test="cmsId != null" >
         #{cmsId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -235,6 +242,9 @@
       <if test="cmsId != null" >
         cms_id = #{cmsId,jdbcType=VARCHAR},
       </if>
+      <if test="areaid != null" >
+        areaid = #{areaid,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -292,6 +302,9 @@
       </if>
       <if test="enableFlag != null" >
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null" >
+        areaid = #{areaid,jdbcType=VARCHAR},
       </if>
     </set>
     where cms_id = #{cmsId,jdbcType=BIGINT}
@@ -387,5 +400,68 @@
   <update id="disableUser" parameterType="com.xuanli.oepcms.entity.UserEntity">
   	update xl_user SET enable_flag = 'F' WHERE id = #{id}
   </update>
+  
+  
+  <select id="getStudentInfo" parameterType="com.xuanli.oepcms.entity.UserEntity" resultType="java.util.Map">
+  	SELECT
+		u.name_num,
+		u.mobile,
+		c.clas_id,
+		s.name schoolName,
+		IFNULL(
+			(
+				SELECT
+					NAME
+				FROM
+					xl_dic_detail dd
+				WHERE
+					dd.dic_id = 3
+				AND dd.name_val = u.book_version_id
+			),
+			'其他'
+		) bookVersion,
+		(
+			SELECT
+				texts
+			FROM
+				xl_area xla
+			WHERE
+				xla.id = s.address_province
+		) address_province,
+		(
+			SELECT
+				texts
+			FROM
+				xl_area xla
+			WHERE
+				xla.id = s.address_city
+		) address_city,
+		(
+			SELECT
+				texts
+			FROM
+				xl_area xla
+			WHERE
+				xla.id = s.address_area
+		) address_area,
+		(
+			SELECT
+				NAME
+			FROM
+				xl_dic_detail dd
+			WHERE
+				dd.dic_id = 2
+			AND dd.name_val = c.grade
+		) grade,
+		c.name className
+	FROM
+		xl_user u
+	LEFT JOIN xl_user_clas uc ON u.id = uc.user_id
+	LEFT JOIN xl_clas c ON uc.clas_id = c.id
+	LEFT JOIN xl_school s ON c.school_id = s.id
+	WHERE
+		u.id = 3
+  
+  </select>
   
 </mapper>
