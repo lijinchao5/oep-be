@@ -461,7 +461,6 @@
 	LEFT JOIN xl_school s ON c.school_id = s.id
 	WHERE
 		u.id = 3
-  
   </select>
   
 </mapper>
