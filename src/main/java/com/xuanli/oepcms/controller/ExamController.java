@@ -30,29 +30,26 @@ import com.xuanli.oepcms.vo.RestResult;
 public class ExamController extends BaseController {
 	@Autowired
 	ExamService examService;
+
 	// 布置模拟考试
 	@RequestMapping(value = "genteratorExam.do", method = RequestMethod.POST)
-	public RestResult<String> genteratorExam(String name,String notice,String classIds,Date startTime,Date endTime,Long paperId) {
+	public RestResult<String> genteratorExam(String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
 		try {
 			Long userId = getCurrentUser().getId();
-			return examService.genteratorExam(userId, name, notice, classIds, startTime,endTime,paperId);
+			return examService.genteratorExam(userId, name, notice, classIds, startTime, endTime, paperId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
-	
-	
-	
 
 	// 提交试卷
 	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)
-	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String detailIds, @RequestParam(required = false) String answer,
+	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String detailIds, @RequestParam(required = false) String answer, @RequestParam Integer timeout,
 			@RequestParam(required = false, value = "audiofile") MultipartFile file) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			examService.submitExam(studentId, examId, detailIds, answer, file);
+			examService.submitExam(studentId, examId, detailIds, answer, file, timeout);
 			return okNoResult("提交完成");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,9 +80,5 @@ public class ExamController extends BaseController {
 		return examService.generatorExamReport(examId, userEntity.getId());
 	}
 	// 统计作业信息
-	
-	
-	
-	
-	
+
 }

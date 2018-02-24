@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.controller.bean.ExamBean;
 import com.xuanli.oepcms.entity.ExamEntity;
 @Mapper
 public interface ExamEntityMapper {
@@ -51,4 +52,10 @@ public interface ExamEntityMapper {
 	 * @CreateDate:  2018年2月7日 上午10:45:34
 	 */
 	List<ExamEntity> findExamByPage(ExamEntity examEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月24日 上午9:53:41
+	 */
+	ExamBean getExamInfo(Long examId);
 }

@@ -1,6 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -105,4 +106,10 @@ public interface UserEntityMapper {
 	int disableUser(Long userId);
 	
 	int updateUserInfo(UserEntity userEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月24日 下午2:11:51
+	 */
+	Map<String, Object> getStudentInfo(UserEntity userEntity);
 }

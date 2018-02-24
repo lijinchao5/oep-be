@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.controller.bean.ExamStudentBean;
+import com.xuanli.oepcms.controller.bean.ExamStudentScoreBean;
 import com.xuanli.oepcms.entity.ExamStudentEntity;
 @Mapper
 public interface ExamStudentEntityMapper {
@@ -51,5 +53,23 @@ public interface ExamStudentEntityMapper {
 	 * @CreateDate:  2018年2月9日 上午11:47:08
 	 */
 	void updateExamStudentEntityByExamId(ExamStudentEntity ese);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月24日 上午9:06:08
+	 */
+	List<ExamStudentEntity> getExamStudentRank(ExamStudentEntity examStudentEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月24日 上午11:08:32
+	 */
+	List<ExamStudentBean> getStudentExamScore(ExamStudentBean examStudentBean);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月24日 上午11:29:00
+	 */
+	List<ExamStudentScoreBean> getStudentExamScoreDetail(ExamStudentBean examStudentBean);
 
 }

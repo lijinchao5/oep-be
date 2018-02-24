@@ -437,7 +437,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "修改密码", notes = "修改密码方法")
     @ApiImplicitParams({ @ApiImplicitParam(name = "oldPassword", value = "原密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String") })
-    @RequestMapping(value = "updatePassword.do", method = RequestMethod.PUT)
+    @RequestMapping(value = "updatePassword.do",method = {RequestMethod.PUT,RequestMethod.POST})
     public RestResult<String> updatePassword(String oldPassword, String newPassword) {
         if (StringUtil.isEmpty(oldPassword)) {
             return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "真实姓名不能为空");
@@ -481,7 +481,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "newMobile", value = "新手机号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "mobileRandomStr", value = "手机验证码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "mobileRandomKey", value = "随机验证码关键Key", required = true, dataType = "String") })
-    @RequestMapping(value = "updateMobile.do", method = RequestMethod.PUT)
+    @RequestMapping(value = "updateMobile.do", method = {RequestMethod.PUT,RequestMethod.POST})
     public RestResult<String> updateMobile(String password, String newMobile, String mobileRandomStr,
             String mobileRandomKey) {
         if (StringUtil.isEmpty(mobileRandomKey)) {
@@ -546,4 +546,14 @@ public class UserController extends BaseController {
             return failed(ExceptionCode.UNKNOW_CODE, "发送消息错误");
         }
     }
+    
+    
+    
+    @ApiOperation(value = "获取当前学生的详细信息", notes = "获取当前学生的详细信息")
+    @RequestMapping(value = "getStudentInfo.do", method = RequestMethod.GET)
+    public RestResult<Map<String, Object>> getStudentInfo(){
+    	return userService.getStudentInfo(getCurrentUser());
+    }
+    
+    
 }
