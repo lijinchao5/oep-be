@@ -18,7 +18,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration  
 public class WebSocketConfig {  
 	private static final Logger logger = LoggerFactory.getLogger(WebSocketConfig.class);
-    @Bean  
+    //@Bean  
     public ServerEndpointExporter serverEndpointExporter() {  
     	logger.debug("配置websocket");
         return new ServerEndpointExporter();  
