@@ -75,16 +75,16 @@ public class AliOSSPool implements EnvironmentAware {
 		config.setUserAgent(propertyResolver.getProperty("pool.userAgent"));
 		ossClient = new OSSClient(endpoint, credsProvider, config);
 		logger.debug("初始化阿里巴巴OOS对象存储配置...");
-		try {
-			ossClient.putObject(new PutObjectRequest(BUCKET_NAME, UUID.randomUUID().toString().replace("-", "")+".txt", createSampleFile()));
-		} catch (OSSException e) {
-			e.printStackTrace();
-		} catch (ClientException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		logger.debug("测试存储完成......");
+//		try {
+//			ossClient.putObject(new PutObjectRequest(BUCKET_NAME, UUID.randomUUID().toString().replace("-", "")+".txt", createSampleFile()));
+//		} catch (OSSException e) {
+//			e.printStackTrace();
+//		} catch (ClientException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		logger.debug("测试存储完成......");
 	}
 
 	private static File createSampleFile() throws IOException {
