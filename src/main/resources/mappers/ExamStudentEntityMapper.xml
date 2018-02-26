@@ -182,7 +182,7 @@
         	and  exam_id = #{examId,jdbcType=BIGINT}
 	</update>
 	
-	<select id="getExamStudentRank" parameterType="java.lang.Long" resultMap="com.xuanli.oepcms.controller.bean.ExamStudentBean">
+	<select id="getExamStudentRank" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
 	    select 
 	    	id, exam_id examid, student_id studentid, score, time_out timeout, complate, remark, create_id createid, create_date createdate,update_id updateid, update_date updatedate, enable_flag enableflag,
 			(
@@ -197,7 +197,6 @@
 	    	xl_exam_student es
 	    where id = #{id,jdbcType=BIGINT}
   	</select>
-  	
   	<select id="getStudentExamScore" parameterType="com.xuanli.oepcms.controller.bean.ExamStudentBean" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
   		SELECT
 			type,
