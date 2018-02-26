@@ -12,8 +12,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.entity.SchoolEntity;
 import com.xuanli.oepcms.entity.UserClasEntity;
@@ -62,8 +62,9 @@ public class UserService extends BaseService {
                     userDao.updateUserEntity(up);
                     // 登陆成功
                     String tokenId = RanNumUtil.getRandom();
+                    result.setTokenId(tokenId);
                     sessionUtil.setSessionUser(tokenId, result);
-                    return tokenId;
+                    return JSONObject.toJSONString(result);
                 } else {
                     // 用户名或者密码错误
                     return "2";
