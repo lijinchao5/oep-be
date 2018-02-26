@@ -8,7 +8,9 @@ package com.xuanli.oepcms.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -56,7 +58,21 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// 不过滤的uri
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		String[] notFilter = new String[] { "login.do", "logout.do", "teacher_regist.do", "student_regist.do", "/picture", "/mobileMessage", "/dic","/file","/syncUser","/test" };
+		// String[] notFilter = new String[] { };
+
+		List<String> notFilter = new ArrayList<String>();
+		notFilter.add("login.do");
+		notFilter.add("logout.do");
+		notFilter.add("teacher_regist.do");
+		notFilter.add("student_regist.do");
+		notFilter.add("/picture");
+		notFilter.add("/mobileMessage");
+		notFilter.add("/dic");
+		notFilter.add("/file");
+		notFilter.add("/syncUser");
+		notFilter.add("/test");
+		notFilter.add("/paper");
+
 		String uri = request.getRequestURI();
 		boolean doFilter = true;
 		if (uri.indexOf(".do") != -1) {

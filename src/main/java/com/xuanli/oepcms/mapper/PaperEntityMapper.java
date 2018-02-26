@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.PaperEntity;
@@ -37,5 +39,17 @@ public interface PaperEntityMapper {
      * @return
      */
     int updatePaperEntity(PaperEntity record);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月26日 下午12:06:41
+	 */
+	int findPaperByPageTotal(Map<String, Object> requestMap);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月26日 下午12:06:51
+	 */
+	Map<String, Object> findPaperByPage(Map<String, Object> requestMap);
 
 }

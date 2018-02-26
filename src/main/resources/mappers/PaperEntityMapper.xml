@@ -9,7 +9,7 @@
     <result column="total_score" jdbcType="DOUBLE" property="totalScore" />
     <result column="total_time" jdbcType="INTEGER" property="totalTime" />
     <result column="study_section_id" jdbcType="INTEGER" property="studySectionId" />
-    <result column="grade__level_id" jdbcType="INTEGER" property="gradeLevelId" />
+    <result column="grade_level_id" jdbcType="INTEGER" property="gradeLevelId" />
     <result column="address_province" jdbcType="INTEGER" property="addressProvince" />
     <result column="term" jdbcType="INTEGER" property="term" />
     <result column="exam_type" jdbcType="INTEGER" property="examType" />
@@ -21,7 +21,7 @@
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, paper_num, name, notice, total_score, total_time, study_section_id, grade__level_id, 
+    id, paper_num, name, notice, total_score, total_time, study_section_id, grade_level_id, 
     address_province, term, exam_type, question_type, create_id, create_date, update_id, 
     update_date, enable_flag
   </sql>
@@ -61,7 +61,7 @@
         study_section_id,
       </if>
       <if test="gradeLevelId != null">
-        grade__level_id,
+        grade_level_id,
       </if>
       <if test="addressProvince != null">
         address_province,
@@ -167,7 +167,7 @@
         study_section_id = #{studySectionId,jdbcType=INTEGER},
       </if>
       <if test="gradeLevelId != null">
-        grade__level_id = #{gradeLevelId,jdbcType=INTEGER},
+        grade_level_id = #{gradeLevelId,jdbcType=INTEGER},
       </if>
       <if test="addressProvince != null">
         address_province = #{addressProvince,jdbcType=INTEGER},
@@ -199,5 +199,91 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="findPaperByPageTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select 
+    	 count(id)
+    from
+    	 xl_paper
+    where 
+    	enable_flag = 'T' 
+    <if test="paperNum != null">
+        and paper_num = #{paperNum,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="notice != null">
+        and notice = #{notice,jdbcType=VARCHAR}
+      </if>
+      <if test="totalScore != null">
+        and total_score = #{totalScore,jdbcType=DOUBLE}
+      </if>
+      <if test="totalTime != null">
+        and total_time = #{totalTime,jdbcType=INTEGER}
+      </if>
+      <if test="studySectionId != null">
+        and study_section_id = #{studySectionId,jdbcType=INTEGER}
+      </if>
+      <if test="gradeLevelId != null">
+        and grade_level_id = #{gradeLevelId,jdbcType=INTEGER}
+      </if>
+      <if test="addressProvince != null">
+        and address_province = #{addressProvince,jdbcType=INTEGER}
+      </if>
+      <if test="term != null">
+        and term = #{term,jdbcType=INTEGER}
+      </if>
+      <if test="examType != null">
+        and exam_type = #{examType,jdbcType=INTEGER}
+      </if>
+      <if test="questionType != null">
+        and question_type = #{questionType,jdbcType=INTEGER}
+      </if>
+  </select>
+  <select id="findPaperByPage" parameterType="java.util.Map" resultType="java.util.Map">
+    select 
+    	 id, paper_num paperNum, name, notice, total_score totalScore, total_time totalTime, study_section_id, grade_level_id, 
+	    address_province, term, exam_type, question_type, create_id, create_date, update_id, 
+	    update_date, enable_flag
+    from
+    	 xl_paper
+    where 
+    	enable_flag = 'T' 
+    <if test="paperNum != null">
+        and paper_num = #{paperNum,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="notice != null">
+        and notice = #{notice,jdbcType=VARCHAR}
+      </if>
+      <if test="totalScore != null">
+        and total_score = #{totalScore,jdbcType=DOUBLE}
+      </if>
+      <if test="totalTime != null">
+        and total_time = #{totalTime,jdbcType=INTEGER}
+      </if>
+      <if test="studySectionId != null">
+        and study_section_id = #{studySectionId,jdbcType=INTEGER}
+      </if>
+      <if test="gradeLevelId != null">
+        and grade_level_id = #{gradeLevelId,jdbcType=INTEGER}
+      </if>
+      <if test="addressProvince != null">
+        and address_province = #{addressProvince,jdbcType=INTEGER}
+      </if>
+      <if test="term != null">
+        and term = #{term,jdbcType=INTEGER}
+      </if>
+      <if test="examType != null">
+        and exam_type = #{examType,jdbcType=INTEGER}
+      </if>
+      <if test="questionType != null">
+        and question_type = #{questionType,jdbcType=INTEGER}
+      </if>
+      limit #{start},#{end}
+  </select>
 
 </mapper>
