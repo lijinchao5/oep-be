@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -23,13 +22,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.aliyun.oss.ClientConfiguration;
-import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.OSSException;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.common.comm.Protocol;
-import com.aliyun.oss.model.PutObjectRequest;
 
 /**
  * @author QiaoYu
