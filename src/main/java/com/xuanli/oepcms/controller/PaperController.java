@@ -7,9 +7,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,20 +54,5 @@ public class PaperController extends BaseController{
 //		requestMap.put("paperType", paperType);
 		paperService.findPaperByPage(requestMap, pageBean);
 		return ok(pageBean);
-	}
-	
-	public static Map<String, Object> requestParamToMap(Map<String, String[]> map) {
-		Set<String> set = map.keySet();
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		Iterator<String> iterator = set.iterator();
-		String key = "";
-		String[] value;
-		while (iterator.hasNext()) {
-			key = (String) iterator.next();
-			value = map.get(key);
-			resultMap.put(key, value[0]);
-		}
-		return resultMap;
-
 	}
 }

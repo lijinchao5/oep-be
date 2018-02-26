@@ -1,6 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -33,5 +34,17 @@ public interface HomeworkEntityMapper {
 	 * @CreateDate:  2018年2月13日 下午4:00:20
 	 */
 	HomeworkEntity getById(Long homeworkId);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月26日 下午8:46:54
+	 */
+	int findStudentHomeworkByPageTotal(Map<String, Object> requestMap);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月26日 下午8:46:58
+	 */
+	Map<String, Object> findStudentHomeworkByPage(Map<String, Object> requestMap);
 
 }

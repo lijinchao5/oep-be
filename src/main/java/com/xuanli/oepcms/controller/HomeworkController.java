@@ -7,6 +7,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class HomeworkController extends BaseController {
 	@Autowired
 	private HomeworkService homeworkService;
 
-	@ApiOperation(value = "作业列表", notes = "作业列表")
+	@ApiOperation(value = "教师作业列表", notes = "教师作业列表")
 	@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "status", value = "状态 1:进行中,2:已完成", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "clasId", value = "班级ids 使用,隔开", required = true, dataType = "String"),
@@ -188,4 +189,24 @@ public class HomeworkController extends BaseController {
 	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId){
 		return homeworkService.getHomeworkDetail(homeworkId);
 	}
+
+	
+	@ApiOperation(value = "查看布置作业详情", notes = "查看布置作业详情")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") 
+	})
+	@RequestMapping(value = "getStudentHomeWorkList.do", method = RequestMethod.GET)
+	public RestResult<PageBean> getStudentHomeWorkList(Integer rows,Integer page,Long homeworkId){
+		PageBean pageBean = initPageBean(page, rows);
+		Map<String, Object> requestMap = new HashMap<String, Object>();
+		Map<String, String[]> requestMap1 = request.getParameterMap();
+		requestMap = requestParamToMap(requestMap1);
+		requestMap.put("studentId", getCurrentUser().getId());
+		homeworkService.getStudentHomeWorkList(requestMap, pageBean);
+		return ok(pageBean);
+	}
+	
+	
+	
 }

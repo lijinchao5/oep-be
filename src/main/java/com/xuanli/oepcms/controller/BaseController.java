@@ -1,6 +1,10 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,5 +73,20 @@ public abstract class BaseController {
 		}
 		PageBean pageBean = new PageBean(page, rows);
 		return pageBean;
+	}
+	
+	public static Map<String, Object> requestParamToMap(Map<String, String[]> map) {
+		Set<String> set = map.keySet();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Iterator<String> iterator = set.iterator();
+		String key = "";
+		String[] value;
+		while (iterator.hasNext()) {
+			key = (String) iterator.next();
+			value = map.get(key);
+			resultMap.put(key, value[0]);
+		}
+		return resultMap;
+
 	}
 }

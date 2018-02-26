@@ -215,4 +215,32 @@
 			</if>
 		</if>
 	</select>
+	
+	<select id="findStudentHomeworkByPageTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT
+			count(*)
+		FROM
+			xl_homework xh
+		LEFT JOIN xl_homework_student hs ON xh.id = hs.homework_id
+		WHERE
+			hs.student_id = #{studentId}
+	</select>
+	<select id="findStudentHomeworkByPage" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			xh. NAME,
+			xh.remark,
+			xh.end_time endTime,
+			xh.create_date createDate,
+			hs.score,
+			hs.work_complate workComplate,
+			hs.work_time workTime,
+			hs.student_id studentId
+		FROM
+			xl_homework xh
+		LEFT JOIN xl_homework_student hs ON xh.id = hs.homework_id
+		WHERE
+			hs.student_id = #{studentId}
+		limit #{start},#{end}
+	</select>
+	
 </mapper>
