@@ -182,11 +182,19 @@
         	and  exam_id = #{examId,jdbcType=BIGINT}
 	</update>
 	
-	<select id="getExamStudentRank" parameterType="java.lang.Long" resultMap="BaseResultMap">
+	<select id="getExamStudentRank" parameterType="java.lang.Long" resultMap="com.xuanli.oepcms.controller.bean.ExamStudentBean">
 	    select 
-	    	id, exam_id examid, student_id, score, time_out, complate, remark, create_id, create_date,update_id, update_date, enable_flag
+	    	id, exam_id examid, student_id studentid, score, time_out timeout, complate, remark, create_id createid, create_date createdate,update_id updateid, update_date updatedate, enable_flag enableflag,
+			(
+				SELECT
+					count(id) + 1
+				FROM
+					xl_exam_student s
+				WHERE
+					s.score > es.score
+			) rank
 	    from 
-	    	xl_exam_student
+	    	xl_exam_student es
 	    where id = #{id,jdbcType=BIGINT}
   	</select>
   	
@@ -254,41 +262,41 @@
   	
   	<select id="getStudentExamScoreDetail" parameterType="com.xuanli.oepcms.controller.bean.ExamStudentBean" resultType="com.xuanli.oepcms.controller.bean.ExamStudentScoreBean">
   		SELECT
-		es.id,
-		es.exam_id examId,
-		es.subject_id subjectId,
-		ps.audio,
-		ps.type type,
-		psd.guide,
-		psd.question,
-		psd.guide_audio guideAudio,
-		psd.read_time readTime,
-		psd.question_audio questionAudio,
-		psd.write_time writeTime,
-		psd.score,
-		psd.original_text originalText,
-		po.result,
-		po.point_result pointResult,
-		po.correct_result correntResult,
-		ess.fluency,
-		ess.integrity,
-		ess.pronunciation,
-		ess.remark,
-		ess.text,
-		ess.audio_path audioPath,
-		IFNULL(ess.score,0) studentScore
-	FROM
-		xl_exam e
-	LEFT JOIN xl_exam_subject es ON e.id = es.exam_id
-	LEFT JOIN xl_paper_subject ps ON ps.id = es.subject_id
-	LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
-	LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
-	LEFT JOIN xl_exam_student_score ess ON ess.subject_detail_id = psd.id
-	AND ess.student_id = #{studentId}
-	WHERE
-		e.id = #{examId}
-	ORDER BY
-		ps.id,
-		psd.id
+			es.id,
+			es.exam_id examId,
+			es.subject_id subjectId,
+			ps.audio,
+			ps.type type,
+			psd.guide,
+			psd.question,
+			psd.guide_audio guideAudio,
+			psd.read_time readTime,
+			psd.question_audio questionAudio,
+			psd.write_time writeTime,
+			psd.score,
+			psd.original_text originalText,
+			po.result,
+			po.point_result pointResult,
+			po.correct_result correntResult,
+			ess.fluency,
+			ess.integrity,
+			ess.pronunciation,
+			ess.remark,
+			ess.text,
+			ess.audio_path audioPath,
+			IFNULL(ess.score,0) studentScore
+		FROM
+			xl_exam e
+		LEFT JOIN xl_exam_subject es ON e.id = es.exam_id
+		LEFT JOIN xl_paper_subject ps ON ps.id = es.subject_id
+		LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
+		LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
+		LEFT JOIN xl_exam_student_score ess ON ess.subject_detail_id = psd.id
+		AND ess.student_id = #{studentId}
+		WHERE
+			e.id = #{examId}
+		ORDER BY
+			ps.id,
+			psd.id
 	</select>	
 </mapper>
