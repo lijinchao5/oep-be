@@ -1,6 +1,5 @@
 package com.xuanli.oepcms.exception;
 
-import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -51,11 +50,11 @@ public class BDExceptionHandler {
 		return Result.error("没找找到页面");
 	}
 
-	@ExceptionHandler(AuthorizationException.class)
-	public Result handleAuthorizationException(AuthorizationException e) {
-		logger.error(e.getMessage(), e);
-		return Result.error("未授权");
-	}
+//	@ExceptionHandler(AuthorizationException.class)
+//	public Result handleAuthorizationException(AuthorizationException e) {
+//		logger.error(e.getMessage(), e);
+//		return Result.error("未授权");
+//	}
 
 	@ExceptionHandler(Exception.class)
 	public Result handleException(Exception e) {
