@@ -170,31 +170,9 @@ public class HomeworkService extends BaseService{
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月19日 上午9:41:12
 	 */
-	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, MultipartFile file, String text, HttpServletRequest request) {
-		String filePath = null;
-		if (!file.isEmpty()) {
-			InputStream inputStream = null;
-			try {
-				inputStream = file.getInputStream();
-				filePath = fileUtil.uploadFile(inputStream, "student_homework_audio", "mp3");
-			} catch (Exception e) {
-				e.printStackTrace();
-				logger.error("上传文件失败!");
-				filePath = null;
-				return "1";
-			} finally {
-				if (null != inputStream) {
-					try {
-						inputStream.close();
-						inputStream = null;
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
 		HomeworkStudentScoreEntity scoreEntity = new HomeworkStudentScoreEntity();
-		scoreEntity.setAudioPath(filePath);
+		scoreEntity.setAudioPath(file);
 		scoreEntity.setEnableFlag("T");
 		scoreEntity.setCreateId(studentId);
 		scoreEntity.setSectionId(sectionId);

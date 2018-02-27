@@ -117,7 +117,7 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "File"),
 			@ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
-	public RestResult<String> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(value="audioFile",required=false) MultipartFile file, @RequestParam(required=false) String text) {
+	public RestResult<String> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
 		try {
 			Long studentId = getCurrentUser().getId();
 			String result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);

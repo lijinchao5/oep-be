@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.util.AliOSSUtil;
 import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
@@ -72,20 +73,15 @@ public class FileController extends BaseController {
 		
 		try {
 			if (null!=file && !file.isEmpty()) {
-				
-				file.transferTo(new File("e:\\"+UUID.randomUUID().toString()+".mp3"));
-				logger.debug("文件上传成功");
+				String uuid = aliOSSUtil.uploadFile(file.getInputStream(), "studentaudio", "mp3");
+				return ok(uuid);
 			}else {
-				logger.debug("文件是空的");
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "文件不能为空");
 			}
-		} catch (IllegalStateException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "上传出现错误");
 		}
-		
-		return okNoResult("1234");
-		
 	}
 
 	

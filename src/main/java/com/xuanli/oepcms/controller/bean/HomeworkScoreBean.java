@@ -27,7 +27,14 @@ public class HomeworkScoreBean {
 	private String standerWordMean;
 	//电脑说的为F,需要人为录音的为T
 	private String dialogName;
+	private Integer dialogNum;
 	
+	public Integer getDialogNum() {
+		return dialogNum;
+	}
+	public void setDialogNum(Integer dialogNum) {
+		this.dialogNum = dialogNum;
+	}
 	public String getDialogName() {
 		return dialogName;
 	}
