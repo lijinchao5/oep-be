@@ -227,14 +227,33 @@
 	</select>
 	<select id="findStudentHomeworkByPage" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT
-			xh. NAME,
+			xh.id id,
+			xh. name,
 			xh.remark,
 			xh.end_time endTime,
 			xh.create_date createDate,
 			hs.score,
 			hs.work_complate workComplate,
 			hs.work_time workTime,
-			hs.student_id studentId
+			hs.student_id studentId,
+			(
+				SELECT
+					count(id)
+				FROM
+					xl_homework_student xhs
+				WHERE
+					xhs.homework_id = xh.id
+			) totalStudent,
+			(
+				SELECT
+					count(id)
+				FROM
+					xl_homework_student xhs
+				WHERE
+					xhs.homework_id = xh.id
+				AND xhs.work_complate = 'T'
+			) complateStudent,
+			IF (xh.end_time > NOW(), 'T', 'F') over
 		FROM
 			xl_homework xh
 		LEFT JOIN xl_homework_student hs ON xh.id = hs.homework_id
