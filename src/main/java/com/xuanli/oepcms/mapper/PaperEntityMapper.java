@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.PaperEntity;
+import com.xuanli.oepcms.vo.RestResult;
 @Mapper
 public interface PaperEntityMapper {
 	/**
@@ -52,5 +53,11 @@ public interface PaperEntityMapper {
 	 * @CreateDate:  2018年2月26日 下午12:06:51
 	 */
 	List<Map<String, Object>> findPaperByPage(Map<String, Object> requestMap);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 上午9:41:14
+	 */
+	List<Map<String, Object>> getPaperDetail(Long paperId);
 
 }

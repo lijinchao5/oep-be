@@ -285,5 +285,28 @@
       </if>
       limit #{start},#{end}
   </select>
-
+	<select id="getPaperDetail" parameterType="java.lang.Long" resultType="java.util.Map">
+		SELECT
+			p.id,
+			ps.audio,
+			ps.type type,
+			psd.guide,
+			psd.question,
+			psd.guide_audio guideAudio,
+			psd.read_time readTime,
+			psd.question_audio questionAudio,
+			psd.write_time writeTime,
+			psd.score,
+			psd.original_text originalText,
+			po.result,
+			po.point_result pointResult,
+			po.correct_result correntResult
+		FROM
+			xl_paper p
+		LEFT JOIN xl_paper_subject ps ON ps.paper_id = p.id
+		LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
+		LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
+		WHERE
+			p.id = #{value}
+	</select>
 </mapper>

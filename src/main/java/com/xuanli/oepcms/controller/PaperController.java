@@ -7,6 +7,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +56,14 @@ public class PaperController extends BaseController{
 		paperService.findPaperByPage(requestMap, pageBean);
 		return ok(pageBean);
 	}
+	
+	@ApiOperation(value = "获取试卷详细信息", notes = "获取试卷信息信息方法")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "paperId", value = "试卷id", required = true, dataType = "Long")
+	})
+	@RequestMapping(value = "getPaperDetail.do", method = RequestMethod.GET)
+	public RestResult<List<Map<String, Object>>> getPaperDetail(Long paperId){
+		return paperService.getPaperDetail(paperId);
+	}
+	
 }
