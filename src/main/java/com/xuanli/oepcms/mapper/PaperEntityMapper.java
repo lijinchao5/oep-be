@@ -1,5 +1,6 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -50,6 +51,6 @@ public interface PaperEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月26日 下午12:06:51
 	 */
-	Map<String, Object> findPaperByPage(Map<String, Object> requestMap);
+	List<Map<String, Object>> findPaperByPage(Map<String, Object> requestMap);
 
 }

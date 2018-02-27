@@ -12,7 +12,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.PaperEntityMapper;
 import com.xuanli.oepcms.util.PageBean;
 
@@ -34,7 +33,7 @@ public class PaperService {
 		pageBean.setTotal(total);
 		requestMap.put("start", pageBean.getRowFrom());
 		requestMap.put("end", pageBean.getPageSize());
-		Map<String, Object> resultMap = paperEntityMapper.findPaperByPage(requestMap);
+		List<Map<String, Object>> resultMap = paperEntityMapper.findPaperByPage(requestMap);
 		pageBean.setRows(resultMap);
 	}
 

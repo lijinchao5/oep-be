@@ -45,6 +45,6 @@ public interface HomeworkEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月26日 下午8:46:58
 	 */
-	Map<String, Object> findStudentHomeworkByPage(Map<String, Object> requestMap);
+	List<Map<String, Object>> findStudentHomeworkByPage(Map<String, Object> requestMap);
 
 }

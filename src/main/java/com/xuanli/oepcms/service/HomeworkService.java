@@ -504,15 +504,11 @@ public class HomeworkService extends BaseService{
 	 * @CreateDate:  2018年2月26日 下午8:45:12
 	 */
 	public void getStudentHomeWorkList(Map<String, Object> requestMap, PageBean pageBean) {
-		
 		int total = homeworkDao.findStudentHomeworkByPageTotal(requestMap);
 		pageBean.setTotal(total);
 		requestMap.put("start", pageBean.getRowFrom());
 		requestMap.put("end", pageBean.getPageSize());
-		Map<String, Object> resultMap = homeworkDao.findStudentHomeworkByPage(requestMap);
+		List<Map<String, Object>> resultMap = homeworkDao.findStudentHomeworkByPage(requestMap);
 		pageBean.setRows(resultMap);
-		
-		
-		
 	}
 }

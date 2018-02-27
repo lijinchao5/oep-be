@@ -6,7 +6,7 @@ public class PageBean {
 	private Integer page;// 当前页
 	private Integer rowFrom;// 开始的记录数
 	private Integer rowTo;// 结束的记录数 ===pageSize
-	private Object rows; // 记录信息
+	private List<?> rows; // 记录信息
 	private int pageSize;
 	private Integer total;
 	public PageBean(Integer page, Integer pageSize) {
@@ -77,11 +77,11 @@ public class PageBean {
 		this.rowTo = rowTo;
 	}
 
-	public Object getRows() {
+	public List<?> getRows() {
 		return rows;
 	}
 
-	public void setRows(Object rows) {
+	public void setRows(List<?> rows) {
 		this.rows = rows;
 	}
 
