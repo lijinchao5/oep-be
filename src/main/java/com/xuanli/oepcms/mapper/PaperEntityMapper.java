@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.PaperEntity;
-import com.xuanli.oepcms.vo.RestResult;
 @Mapper
 public interface PaperEntityMapper {
 	/**
