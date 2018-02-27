@@ -160,7 +160,8 @@
 			sd.m_audio_path standermaudiopath,
 			sd.w_audio_path standerwaudiopath,
 			sd.word_mean standerwordmean,
-			hd.dialog_name dialogName
+			hd.dialog_name dialogName,
+			sd.dialog_num dialogNum
 		FROM
 			(
 				SELECT
