@@ -77,6 +77,9 @@
       <if test="enableFlag != null">
         enable_flag,
       </if>
+      <if test="paperId != null">
+        paper_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -120,6 +123,9 @@
       </if>
       <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null">
+        #{paperId},
       </if>
     </trim>
   </insert>
