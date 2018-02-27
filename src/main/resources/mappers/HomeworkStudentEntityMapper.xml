@@ -202,4 +202,53 @@
         </foreach >
   </update>
   
+  <select id="getStudentHomeworkInfo" resultType="java.util.Map" parameterType="java.util.Map">
+  	SELECT
+		id,
+		homework_id homeworkId,
+		student_id studentId,
+		remark,
+		work_complate workCompalte,
+		work_time workTime,
+		score,
+		create_id createId,
+		create_date createDate,
+		(
+			SELECT
+				count(id) + 1
+			FROM
+				xl_homework_student s
+			WHERE
+				s.score > hs.score and s.homework_id = #{homeworkId}
+		) rank
+	FROM
+		xl_homework_student hs
+	WHERE
+		hs.homework_id = #{homeworkId} and student_id = #{studentId}
+  </select>
+  <select id="getStudentHomeworkDetail" resultType="java.util.Map" parameterType="java.util.Map">
+  	SELECT
+		id,
+		homework_id homeworkId,
+		student_id studentId,
+		remark,
+		work_complate workCompalte,
+		work_time workTime,
+		score,
+		create_id createId,
+		create_date createDate,
+		(
+			SELECT
+				count(id) + 1
+			FROM
+				xl_homework_student s
+			WHERE
+				s.score > hs.score and s.homework_id = #{homeworkId}
+		) rank
+	FROM
+		xl_homework_student hs
+	WHERE
+		hs.homework_id = #{homeworkId} and student_id = #{studentId}
+  </select>
+  
 </mapper>

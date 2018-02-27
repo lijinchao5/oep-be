@@ -18,8 +18,29 @@ public class HomeworkDetailEntity {
     private Long updateId;
 
     private Date updateDate;
+    
+    private String dialogName;
+    //无实际意义
+    private Integer allSize;
+    
 
-    public Long getId() {
+    public Integer getAllSize() {
+		return allSize;
+	}
+
+	public void setAllSize(Integer allSize) {
+		this.allSize = allSize;
+	}
+
+	public String getDialogName() {
+		return dialogName;
+	}
+
+	public void setDialogName(String dialogName) {
+		this.dialogName = dialogName;
+	}
+
+	public Long getId() {
         return id;
     }
 

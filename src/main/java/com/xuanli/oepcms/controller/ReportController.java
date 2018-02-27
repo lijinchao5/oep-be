@@ -63,4 +63,19 @@ public class ReportController extends BaseController{
 		}
 		return reportService.homeworkReport(homeworkId);
 	}
+	
+	@ApiOperation(value = "获取学生作业报告信息", notes = "获取学生作业报告信息")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")})
+	@RequestMapping(value = "getStudentHomeworkReport.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> getStudentHomeworkReport(@RequestParam Long homeworkId) {
+		if(null==homeworkId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择作业");
+		}
+		Long userId = getCurrentUser().getId();
+		return reportService.getStudentHomeworkReport(userId,homeworkId);
+	}
+	
+	
+	
 }

@@ -10,10 +10,11 @@
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_id" property="updateId" jdbcType="BIGINT" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="dialog_name" property="dialogName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, homework_id, section_detail_id, homework_type, create_id, create_date, update_id, 
-    update_date
+    update_date,dialog_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -60,6 +61,9 @@
       <if test="updateDate != null" >
         update_date,
       </if>
+      <if test="dialogName != null" >
+        dialog_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -86,6 +90,9 @@
       <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="dialogName != null" >
+        #{dialogName},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
@@ -111,6 +118,9 @@
       </if>
       <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dialogName != null" >
+        dialog_name = #{dialogName},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -165,4 +175,23 @@
   </select>
 
 
+  <insert id="insertHomeworkDetailEntityDialog" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
+  	<selectKey keyProperty="allSize" resultType="int" order="BEFORE">
+	  select count(id) id from xl_homework_detail where  homework_id = #{homeworkId} and homework_type=#{homeworkType} and section_detail_id = #{sectionDetailId}
+	</selectKey>
+	<if test="allSize==0">
+	  insert into xl_homework_detail(homework_id,homework_type,section_detail_id) values(#{homeworkId},#{homeworkType},#{sectionDetailId})
+	</if>
+	<if test="allSize>0">
+	  update xl_homework_detail set update_date = NOW() where homework_id = #{homeworkId} and homework_type=#{homeworkType} and section_detail_id = #{sectionDetailId}
+	</if>
+  </insert>
+  <update id="updateHomeworkDetailEntityDialog" parameterType="com.xuanli.oepcms.entity.HomeworkDetailEntity" >
+    update xl_homework_detail
+    set  
+      create_id = #{createId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      dialog_name = #{dialogName}
+    where homework_id = #{homeworkId} and homework_type=#{homeworkType} and section_detail_id = #{sectionDetailId}
+  </update>
 </mapper>

@@ -34,5 +34,17 @@ public interface HomeworkDetailEntityMapper {
 	 * @CreateDate:  2018年2月9日 下午4:04:56
 	 */
 	List<HomeworkScoreBean> getHomeworkDetail(HomeworkScoreBean homeworkScoreBean);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 下午4:27:23
+	 */
+	void insertHomeworkDetailEntityDialog(HomeworkDetailEntity homeworkDetailEntity);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 下午4:39:05
+	 */
+	void updateHomeworkDetailEntityDialog(HomeworkDetailEntity homeworkDetailEntity);
 
 }

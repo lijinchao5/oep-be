@@ -25,4 +25,11 @@ public interface SectionDetailMapper {
 	 * @CreateDate:  2018年1月18日 上午10:15:32
 	 */
 	List<SectionDetail> getSectionDetails(SectionDetail sectionDetail);
+
+	/**
+	 * @Description:  TODO 该方法 单独使用.切莫修改
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 下午4:12:59
+	 */
+	List<SectionDetail> getSectionDetailsDialogs(SectionDetail sectionDetail);
 }

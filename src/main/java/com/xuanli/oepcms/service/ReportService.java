@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
+import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
@@ -79,6 +80,23 @@ public class ReportService extends BaseService {
 			homeworkService.updateHomeworkStudentScoreEntityBatch(studentEntity);
 		}
 		return ok("生成完成");
+	}
+
+	/**
+	 * @Description:  TODO 获取学生作业报告信息
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 下午12:19:40
+	 */
+	public RestResult<Map<String, Object>> getStudentHomeworkReport(Long userId, Long homeworkId) {
+		Map<String, Object> requestMap = new HashMap<String, Object>();
+		requestMap.put("studentId", userId);
+		requestMap.put("homeworkId", homeworkId);
+		Map<String, Object> studentHomeworkInfo = homeworkService.getStudentHomeworkInfo(requestMap);
+		List<HomeworkScoreBean> studentHomeworkDetail = homeworkService.getStudentHomework(homeworkId, userId, null);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("studentHomeworkInfo", studentHomeworkInfo);
+		resultMap.put("studentHomeworkDetail", studentHomeworkDetail);
+		return ok(resultMap);
 	}
 
 }

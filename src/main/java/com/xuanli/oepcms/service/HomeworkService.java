@@ -34,6 +34,7 @@ import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreSymbolEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreWordEntity;
+import com.xuanli.oepcms.entity.SectionDetail;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.mapper.HomeworkDetailEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkEntityMapper;
@@ -41,6 +42,7 @@ import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreSymbolEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreWordEntityMapper;
+import com.xuanli.oepcms.mapper.SectionDetailMapper;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiSubWords;
@@ -75,6 +77,8 @@ public class HomeworkService extends BaseService{
 	HomeworkStudentScoreSymbolEntityMapper homeworkStudentScoreSymbolEntityDao;
 	@Autowired
 	HomeworkStudentScoreWordEntityMapper HomeworkStudentScoreWordEntityDao;
+	@Autowired
+	SectionDetailMapper sectionDetailMapper;
 
 	/**
 	 * @Description: TODO
@@ -118,14 +122,41 @@ public class HomeworkService extends BaseService{
 			List<HomeworkDetailEntity> homeworkDetailEntities = new ArrayList<HomeworkDetailEntity>();
 			for (HomeworkBean homeworkBean : homeworkBeans) {
 				String[] sections = homeworkBean.getSubjects().split(",");
-				for (String sec : sections) {
-					HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
-					homeworkDetailEntity.setCreateId(createId);
-					homeworkDetailEntity.setCreateDate(createDate);
-					homeworkDetailEntity.setHomeworkId(homeworkId);
-					homeworkDetailEntity.setHomeworkType(homeworkBean.getType() + "");
-					homeworkDetailEntity.setSectionDetailId(Long.parseLong(sec));
-					homeworkDetailEntities.add(homeworkDetailEntity);
+				if (homeworkBean.getType() == 4) {
+					//查看对话有几个.分别插入到数据库中
+					//获取全部对话 type为4 
+					for (String sec : sections) {
+						SectionDetail sectionDetail = new SectionDetail();
+						sectionDetail.setType(4);
+						sectionDetail.setId(Long.parseLong(sec));
+						List<SectionDetail> sectionDetails = sectionDetailMapper.getSectionDetailsDialogs(sectionDetail);
+						for (SectionDetail sd : sectionDetails) {
+							HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
+							homeworkDetailEntity.setHomeworkId(homeworkId);
+							homeworkDetailEntity.setSectionDetailId(sd.getId());
+							homeworkDetailEntity.setDialogName("F");
+							homeworkDetailEntity.setHomeworkType("4");
+							homeworkDetailDao.insertHomeworkDetailEntityDialog(homeworkDetailEntity);
+						}
+						HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
+						homeworkDetailEntity.setCreateId(createId);
+						homeworkDetailEntity.setCreateDate(createDate);
+						homeworkDetailEntity.setHomeworkId(homeworkId);
+						homeworkDetailEntity.setHomeworkType("4");
+						homeworkDetailEntity.setSectionDetailId(Long.parseLong(sec));
+						homeworkDetailEntity.setDialogName("T");
+						homeworkDetailDao.updateHomeworkDetailEntityDialog(homeworkDetailEntity);
+					}
+				}else {
+					for (String sec : sections) {
+						HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
+						homeworkDetailEntity.setCreateId(createId);
+						homeworkDetailEntity.setCreateDate(createDate);
+						homeworkDetailEntity.setHomeworkId(homeworkId);
+						homeworkDetailEntity.setHomeworkType(homeworkBean.getType() + "");
+						homeworkDetailEntity.setSectionDetailId(Long.parseLong(sec));
+						homeworkDetailEntities.add(homeworkDetailEntity);
+					}
 				}
 			}
 			if (null != homeworkDetailEntities && homeworkDetailEntities.size() > 0) {
@@ -510,5 +541,23 @@ public class HomeworkService extends BaseService{
 		requestMap.put("end", pageBean.getPageSize());
 		List<Map<String, Object>> resultMap = homeworkDao.findStudentHomeworkByPage(requestMap);
 		pageBean.setRows(resultMap);
+	}
+
+	/**
+	 * @Description:  TODO 获取学生家庭作业信息
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 下午12:29:44
+	 */
+	public Map<String, Object> getStudentHomeworkInfo(Map<String, Object> requestMap) {
+		return homeworkStudentDao.getStudentHomeworkInfo(requestMap);
+	}
+
+	/**
+	 * @Description:  TODO 获取学生家庭作业详细信息
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月27日 下午12:33:17
+	 */
+	public List<Map<String, Object>> getStudentHomeworkDetail(Map<String, Object> requestMap) {
+		return homeworkStudentDao.getStudentHomeworkDetail(requestMap);
 	}
 }
