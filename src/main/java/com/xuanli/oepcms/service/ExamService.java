@@ -409,6 +409,7 @@ public class ExamService extends BaseService {
 			examEntity.setStartTime(startTime);
 			examEntity.setEndTime(endTime);
 			examEntity.setPaperId(paperId);
+			examEntity.setClassId(Long.parseLong(clasId));
 			examEntityMapper.insertExamEntity(examEntity);
 			// 考题信息
 			PaperEntity paperEntity = paperEntityMapper.selectById(paperId); // 获取试卷信息

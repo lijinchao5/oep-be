@@ -62,7 +62,7 @@ public class PaperController extends BaseController{
 		@ApiImplicitParam(name = "paperId", value = "试卷id", required = true, dataType = "Long")
 	})
 	@RequestMapping(value = "getPaperDetail.do", method = RequestMethod.GET)
-	public RestResult<List<Map<String, Object>>> getPaperDetail(Long paperId){
+	public RestResult<Map<String, Object>> getPaperDetail(Long paperId){
 		return paperService.getPaperDetail(paperId);
 	}
 	

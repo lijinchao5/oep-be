@@ -6,6 +6,7 @@
  */
 package com.xuanli.oepcms.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,8 +44,11 @@ public class PaperService extends BaseService{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月27日 上午9:40:42
 	 */
-	public RestResult<List<Map<String, Object>>> getPaperDetail(Long paperId) {
-		return ok(paperEntityMapper.getPaperDetail(paperId));
+	public RestResult<Map<String, Object>> getPaperDetail(Long paperId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("paperDetail", paperEntityMapper.getPaperDetail(paperId));
+		map.put("paperInfo", paperEntityMapper.selectById(paperId));
+		return ok(map);
 	}
 
 }
