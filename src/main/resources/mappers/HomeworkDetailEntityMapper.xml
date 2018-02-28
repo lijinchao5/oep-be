@@ -153,7 +153,7 @@
 	<select id="getHomeworkDetail" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" resultType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean">
 	  	SELECT
 			hd.homework_type homeworktype,
-			hd.section_detail_id sectiondetailid,
+			hd.id sectiondetailid,
 			sd. NAME name,
 			sd.audio_path standeraudiopath,
 			sd.text standertext,

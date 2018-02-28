@@ -81,7 +81,7 @@ public class ExamController extends BaseController {
 		return examService.generatorExamReport(examId, userEntity.getId());
 	}
 	// 统计作业信息
-
+	
 	
 	
 	//查看布置作业详情
