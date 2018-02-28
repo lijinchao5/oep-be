@@ -6,6 +6,8 @@
  */
 package com.xuanli.oepcms.service;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -179,6 +181,8 @@ public class HomeworkService extends BaseService{
 		scoreEntity.setSectionId(sectionId);
 		scoreEntity.setHomeworkId(homeworkId);
 		scoreEntity.setText(text);
+		//
+		
 		homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
 		// 开始调用SDK计算分数
 		// ----获取题目的详细信息
@@ -215,6 +219,7 @@ public class HomeworkService extends BaseService{
 							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+							//删除word评分
 							
 							for(YunZhiline line:yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
@@ -234,6 +239,8 @@ public class HomeworkService extends BaseService{
 							}
 						}
 					} else {
+						//删除音标
+						
 						// 这里有音标的东西
 						List<YunZhiline> yunZhilines = yunZhiBean.getLines();
 						if (null != yunZhilines && yunZhilines.size() > 0) {
