@@ -166,7 +166,7 @@ public class HomeworkController extends BaseController {
 	@ApiOperation(value = "作业报告学生详情", notes = "查看作业报告学生详情")
 	@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
-			 })
+	})
 	@RequestMapping(value = "selectStudentEntity.do", method = RequestMethod.GET)
 	public RestResult<List<HomeworkStudentEntity>> selectStudentEntity(Long homeworkId) {
 		if(null==homeworkId) {
