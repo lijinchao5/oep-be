@@ -486,4 +486,18 @@ public class ExamService extends BaseService {
 		return resultMap;
 	}
 
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月28日 上午9:43:34
+	 */
+	public RestResult<Map<String, Object>> getExamDetail(Long examId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ExamEntity examEntity = examEntityMapper.selectById(examId);
+		map.put("examDetail", examEntity);
+		map.put("paperDetail", paperEntityMapper.getPaperDetail(examEntity.getPaperId()));
+		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
+		return ok(map);
+	}
+
 }

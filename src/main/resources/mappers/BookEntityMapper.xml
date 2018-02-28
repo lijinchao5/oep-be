@@ -39,7 +39,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity">
+  <insert id="insertBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_book
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

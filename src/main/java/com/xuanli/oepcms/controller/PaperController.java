@@ -38,6 +38,8 @@ public class PaperController extends BaseController{
 		@ApiImplicitParam(name = "addressArea", value = "地区", required = true, dataType = "Integer"),
 		@ApiImplicitParam(name = "questionType", value = "题型", required = true, dataType = "Integer"),
 		@ApiImplicitParam(name = "paperType", value = "试卷类型", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "ob", value = "排序字段:size,create_date", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "sb", value = "排序顺序 asc,desc", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") 
 	})

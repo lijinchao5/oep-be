@@ -7,6 +7,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,4 +82,13 @@ public class ExamController extends BaseController {
 	}
 	// 统计作业信息
 
+	
+	
+	//查看布置作业详情
+	@RequestMapping(value = "getExamDetail.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> getExamDetail(Long examId){
+		return examService.getExamDetail(examId);
+	}
+	
+	
 }

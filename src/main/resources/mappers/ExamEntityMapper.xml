@@ -16,10 +16,11 @@
     <result column="update_id" jdbcType="BIGINT" property="updateId" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="paper_id" jdbcType="BIGINT" property="paperId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, notice, start_time, end_time, class_id, status, type, point_score, create_id, 
-    create_date, update_id, update_date, enable_flag
+    create_date, update_id, update_date, enable_flag,paper_id
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
