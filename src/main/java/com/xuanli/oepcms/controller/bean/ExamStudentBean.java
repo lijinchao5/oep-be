@@ -16,9 +16,18 @@ public class ExamStudentBean {
 	private String typeName;
 	private double totalScore;
 	private double studentScore;
+	
+	//查询使用
+	private String studentName;
 	//仅供查询是的结果--学生名次
 	private Integer rank;
 	
+	public String getStudentName() {
+		return studentName;
+	}
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
 	public Integer getRank() {
 		return rank;
 	}

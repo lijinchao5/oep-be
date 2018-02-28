@@ -169,7 +169,7 @@ public class HomeworkController extends BaseController {
 		return ok(homeworkService.getStudentHomework(homeworkId, studentId, homeworkType));
 	}
 	
-	@ApiOperation(value = "作业报告中学生详情", notes = "查看作业报告学生详情")
+	@ApiOperation(value = "作业报告学生详情", notes = "查看作业报告学生详情")
 	@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
 			 })

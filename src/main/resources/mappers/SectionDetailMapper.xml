@@ -320,4 +320,38 @@
       </if>
   </select>
   
+  <select id="getSectionDetailsDialogs" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.SectionDetail" >
+    select 
+    <include refid="Base_Column_List" />
+	FROM
+		xl_section_detail sd
+	WHERE
+		sd.type = #{type}
+	AND section_id IN (
+		SELECT
+			sd.section_id
+		FROM
+			xl_section_detail sd
+		WHERE
+			sd.id = #{id}
+		AND sd.type = #{type}
+	)
+	AND sd.dialog_num IN (
+		SELECT
+			sd.dialog_num
+		FROM
+			xl_section_detail sd
+		WHERE
+			sd.id = #{id}
+		AND sd.type = #{type}
+	)
+  </select>
+  <insert id="insertSectionDetail" parameterType="com.xuanli.oepcms.entity.SectionDetail" >
+  	<selectKey keyProperty="allSize" resultType="int" order="BEFORE">
+	  select count(*) id from xl_user_clas where user_id=#{userId,jdbcType=BIGINT} and clas_id=#{clasId,jdbcType=BIGINT}
+	</selectKey>
+	
+	
+	
+  </insert>
 </mapper>

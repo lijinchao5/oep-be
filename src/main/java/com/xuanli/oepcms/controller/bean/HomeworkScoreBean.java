@@ -29,6 +29,8 @@ public class HomeworkScoreBean {
 	private String dialogName;
 	private Integer dialogNum;
 	
+	
+	
 	public Integer getDialogNum() {
 		return dialogNum;
 	}

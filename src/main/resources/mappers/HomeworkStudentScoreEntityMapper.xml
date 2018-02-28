@@ -240,7 +240,7 @@
 				and 
 				student_id = #{studentId}
 		) hss
-	LEFT JOIN (
+	RIGHT JOIN (
 		SELECT
 			*
 		FROM
