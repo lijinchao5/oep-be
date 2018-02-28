@@ -114,7 +114,7 @@ public class HomeworkController extends BaseController {
 	@ApiOperation(value = "学生做作业", notes = "学生做作业方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "sectionId", value = "作业详情id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
-			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "File"),
+			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
 	public RestResult<String> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {

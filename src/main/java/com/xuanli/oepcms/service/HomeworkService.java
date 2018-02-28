@@ -175,6 +175,7 @@ public class HomeworkService extends BaseService{
 		scoreEntity.setAudioPath(file);
 		scoreEntity.setEnableFlag("T");
 		scoreEntity.setCreateId(studentId);
+		scoreEntity.setStudentId(studentId);
 		scoreEntity.setSectionId(sectionId);
 		scoreEntity.setHomeworkId(homeworkId);
 		scoreEntity.setText(text);
