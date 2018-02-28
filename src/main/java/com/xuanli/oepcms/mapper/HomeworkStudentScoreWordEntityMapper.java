@@ -13,5 +13,14 @@ public interface HomeworkStudentScoreWordEntityMapper {
     HomeworkStudentScoreWordEntity selectById(Long id);
     /**更新学生作业单词分数方法*/
     int updateHomeworkStudentScoreWordEntity(HomeworkStudentScoreWordEntity record);
-
+    /**
+     * Title: deleteHomeworkStudentScoreWord 
+     * Description:  再次评分之前删除本次作业单词分数
+     * @date 2018年2月28日 下午12:23:36
+     * @param homeworkId
+     * @param homeworkDetailId
+     * @param studentId
+     * @return
+     */
+    int deleteHomeworkStudentScoreWord(HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity);
 }

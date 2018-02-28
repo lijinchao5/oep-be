@@ -181,9 +181,13 @@ public class HomeworkService extends BaseService{
 		scoreEntity.setSectionId(sectionId);
 		scoreEntity.setHomeworkId(homeworkId);
 		scoreEntity.setText(text);
-		//
-		
-		homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
+		//如果作业已做过，更新
+		List<HomeworkStudentScoreEntity> homeworkStudentScore = homeworkStudentScoreDao.selectHomeworkStudentScore(scoreEntity);
+		if(null!=homeworkStudentScore&&homeworkStudentScore.size()>0) {
+			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(scoreEntity);
+		}else {
+			homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
+		}
 		// 开始调用SDK计算分数
 		// ----获取题目的详细信息
 		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
@@ -220,7 +224,11 @@ public class HomeworkService extends BaseService{
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
 							//删除word评分
-							
+							HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity1 = new HomeworkStudentScoreWordEntity();
+							homeworkStudentScoreWordEntity1.setHomeworkId(homeworkId);
+							homeworkStudentScoreWordEntity1.setHomeworkDetailId(result.getSectionId());
+							homeworkStudentScoreWordEntity1.setStudentId(studentId);
+							HomeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
 							for(YunZhiline line:yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
 								for(YunZhiWords word : yunZhiSubWords) {
@@ -239,8 +247,12 @@ public class HomeworkService extends BaseService{
 							}
 						}
 					} else {
-						//删除音标
-						
+						//删除音标评分
+						HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity1 = new HomeworkStudentScoreSymbolEntity();
+						homeworkStudentScoreSymbolEntity1.setHomeworkId(homeworkId);
+						homeworkStudentScoreSymbolEntity1.setHomeworkDetailId(result.getSectionId());
+						homeworkStudentScoreSymbolEntity1.setStudentId(studentId);
+						homeworkStudentScoreSymbolEntityDao.deleteHomeworkStudentScoreSymbol(homeworkStudentScoreSymbolEntity1);
 						// 这里有音标的东西
 						List<YunZhiline> yunZhilines = yunZhiBean.getLines();
 						if (null != yunZhilines && yunZhilines.size() > 0) {
@@ -315,7 +327,12 @@ public class HomeworkService extends BaseService{
 							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
-							
+							//删除word评分
+							HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity1 = new HomeworkStudentScoreWordEntity();
+							homeworkStudentScoreWordEntity1.setHomeworkId(homeworkId);
+							homeworkStudentScoreWordEntity1.setHomeworkDetailId(result.getSectionId());
+							homeworkStudentScoreWordEntity1.setStudentId(studentId);
+							HomeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
 							for(YunZhiline line:yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
 								for(YunZhiWords word : yunZhiSubWords) {
@@ -334,6 +351,12 @@ public class HomeworkService extends BaseService{
 							}
 						}
 					} else {
+						//删除音标评分
+						HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity1 = new HomeworkStudentScoreSymbolEntity();
+						homeworkStudentScoreSymbolEntity1.setHomeworkId(homeworkId);
+						homeworkStudentScoreSymbolEntity1.setHomeworkDetailId(result.getSectionId());
+						homeworkStudentScoreSymbolEntity1.setStudentId(studentId);
+						homeworkStudentScoreSymbolEntityDao.deleteHomeworkStudentScoreSymbol(homeworkStudentScoreSymbolEntity1);
 						// 这里有音标的东西
 						List<YunZhiline> yunZhilines = yunZhiBean.getLines();
 						if (null != yunZhilines && yunZhilines.size() > 0) {

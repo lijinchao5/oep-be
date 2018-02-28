@@ -21,6 +21,14 @@ public interface HomeworkStudentScoreSymbolEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年1月23日 下午2:47:28
 	 */
-	List<HomeworkSymbolScore> getHomeworkSymbolScore(long homeworkId);
+	List<HomeworkSymbolScore> getHomeworkSymbolScore(Long homeworkId);
+	/**Title: deleteHomeworkStudentScoreSymbol 
+	 * Description:  
+	 * @date 2018年2月28日 下午12:21:48
+	 * @param homeworkId
+	 * @param sectionId
+	 * @param studentId  
+	 */
+	void deleteHomeworkStudentScoreSymbol(HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity);
 
 }

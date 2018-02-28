@@ -97,5 +97,14 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <delete id="deleteHomeworkStudentScoreWord" parameterType="java.lang.Long">
+	DELETE
+	FROM
+		xl_homework_student_score_word
+	WHERE
+        homework_id = #{homeworkId,jdbcType=BIGINT}
+        and homework_detail_id = #{homeworkDetailId,jdbcType=BIGINT}
+        and student_id = #{studentId,jdbcType=BIGINT}
+  </delete>
 
 </mapper>

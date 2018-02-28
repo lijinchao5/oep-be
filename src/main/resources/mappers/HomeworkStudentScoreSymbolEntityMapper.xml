@@ -119,5 +119,13 @@
 			score DESC
 	
 	</select>
-
+  <delete id="deleteHomeworkStudentScoreSymbol" parameterType="java.lang.Long">
+	DELETE
+	FROM
+		xl_homework_student_score_symbol
+	WHERE
+        homework_id = #{homeworkId,jdbcType=BIGINT}
+        and homework_detail_id = #{homeworkDetailId,jdbcType=BIGINT}
+        and student_id = #{studentId,jdbcType=BIGINT}
+  </delete>
 </mapper>
