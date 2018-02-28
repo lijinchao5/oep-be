@@ -14,7 +14,7 @@ public interface BookEntityMapper {
     /**查询方法,根据id查询*/
     BookEntity selectById(Long id);
     /**更新方法*/
-    int updateByBookEntity(BookEntity record);
+    int updateBookEntity(BookEntity record);
 	/**
 	 * @Description:  TODO 获取书籍信息
 	 * @CreateName:  QiaoYu 

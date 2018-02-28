@@ -74,13 +74,15 @@ public class SyncBookService extends BaseService {
 					bookEntity.setUpdateDate(bookBean.getUpdateDate());
 					bookEntity.setEnableFlag(bookBean.getEnableFlag());
 					BookEntity resultBookEntity = bookDao.selectById(bookEntity.getId());
-					if (resultBookEntity != null) {
-						bookDao.updateSyncBookEntity(bookEntity);
+					if (null != resultBookEntity) {
+						bookDao.updateBookEntity(bookEntity);
 					} else {
 						bookDao.insertBookEntity(bookEntity);
 					}
-					String bookDetailJson = SyncUtil.sendPostUTF8(systemConfig.BOOK_CONTENT + "?bookId=" + bookBean.getId().longValue(), null);
-					SyncBookDetailBean syncBookDetailBean = JSONObject.parseObject(bookDetailJson, SyncBookDetailBean.class);
+					String bookDetailJson = SyncUtil
+							.sendPostUTF8(systemConfig.BOOK_CONTENT + "?bookId=" + bookBean.getId().longValue(), null);
+					SyncBookDetailBean syncBookDetailBean = JSONObject.parseObject(bookDetailJson,
+							SyncBookDetailBean.class);
 					if (null != syncBookDetailBean && syncBookDetailBean.getCode() == 0) {
 						// 更新unit内容
 						for (UnitBean unitBean : syncBookDetailBean.getResult().getUnits()) {
@@ -94,7 +96,7 @@ public class SyncBookService extends BaseService {
 							unitEntity.setEnableFlag(unitBean.getEnableFlag());
 							unitEntity.setBookId(unitBean.getBookId());
 							UnitEntity syncUnitEntity = unitEntityDao.selectById(unitBean.getId());
-							if (syncUnitEntity != null) {
+							if (null != syncUnitEntity) {
 								unitEntityDao.updateUnitEntity(unitEntity);
 							} else {
 								unitEntityDao.insertUnitEntity(unitEntity);
@@ -111,7 +113,7 @@ public class SyncBookService extends BaseService {
 							sectionEntity.setUpdateDate(sectionBean.getUpdateDate());
 							sectionEntity.setEnableFlag(sectionBean.getEnableFlag());
 							SectionEntity syncSectionEntity = sectionEntityDao.selectById(sectionBean.getId());
-							if (syncSectionEntity != null) {
+							if (null != syncSectionEntity) {
 								sectionEntityDao.updateSectionEntity(sectionEntity);
 							} else {
 								sectionEntityDao.insertSectionEntity(sectionEntity);
@@ -141,7 +143,7 @@ public class SyncBookService extends BaseService {
 							sectionDetail.setOrderNum(sectionDetailBean.getOrderNum());
 							sectionDetail.setDialogNum(sectionDetailBean.getDialogNum());
 							SectionDetail syncSectionDetail = sectionDetailDao.selectById(sectionDetailBean.getId());
-							if (syncSectionDetail != null) {
+							if (null != syncSectionDetail) {
 								sectionDetailDao.updateSectionDetail(sectionDetail);
 							} else {
 								sectionDetailDao.insertSectionDetailEntity(sectionDetail);
