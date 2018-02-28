@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
 import com.xuanli.oepcms.contents.ExceptionCode;
@@ -24,6 +23,7 @@ import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
+import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 import com.xuanli.oepcms.service.HomeworkService;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
@@ -117,17 +117,11 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
-	public RestResult<String> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
+	public RestResult<HomeworkStudentScoreEntity> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			String result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
-			if (result.equals("0")) {
-				return okNoResult("成功.");
-			} else if (result.equals("1")) {
-				return failed(ExceptionCode.UNKNOW_CODE, "上传录音出现异常");
-			} else {
-				return failed(ExceptionCode.UNKNOW_CODE, "未知错误");
-			}
+			HomeworkStudentScoreEntity result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
+			return ok(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("布置家庭作业出现异常", e);

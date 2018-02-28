@@ -167,7 +167,7 @@ public class HomeworkService extends BaseService{
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月19日 上午9:41:12
 	 */
-	public String doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
+	public HomeworkStudentScoreEntity doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
 		HomeworkStudentScoreEntity scoreEntity = new HomeworkStudentScoreEntity();
 		scoreEntity.setAudioPath(file);
 		scoreEntity.setEnableFlag("T");
@@ -283,9 +283,9 @@ public class HomeworkService extends BaseService{
 			}
 			homeworkStudentScoreEntity.setEnableFlag("T");
 			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(homeworkStudentScoreEntity);
+			return homeworkStudentScoreEntity;
 		}
-
-		return "0";
+		return null;
 	}
 
 	public void test(long homeworkId, long studentId) {
