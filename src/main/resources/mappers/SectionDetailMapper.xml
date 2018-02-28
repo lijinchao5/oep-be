@@ -45,7 +45,7 @@
     delete from xl_section_detail
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSectionDetail" parameterType="com.xuanli.oepcms.entity.SectionDetail" >
+  <insert id="insertSectionDetail" parameterType="com.xuanli.oepcms.entity.SectionDetail" useGeneratedKeys="true" keyProperty="id">
     insert into xl_section_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

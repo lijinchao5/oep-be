@@ -31,7 +31,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertSectionEntity" parameterType="com.xuanli.oepcms.entity.SectionEntity">
+  <insert id="insertSectionEntity" parameterType="com.xuanli.oepcms.entity.SectionEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_section
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

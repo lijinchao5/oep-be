@@ -32,7 +32,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertUnitEntity" parameterType="com.xuanli.oepcms.entity.UnitEntity">
+  <insert id="insertUnitEntity" parameterType="com.xuanli.oepcms.entity.UnitEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_unit
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
