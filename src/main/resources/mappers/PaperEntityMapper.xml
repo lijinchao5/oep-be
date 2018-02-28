@@ -244,10 +244,22 @@
   <select id="findPaperByPage" parameterType="java.util.Map" resultType="java.util.Map">
     select 
     	 id, paper_num paperNum, name, notice, total_score totalScore, total_time totalTime, study_section_id, grade_level_id, 
-	    address_province, term, exam_type, question_type, create_id, create_date, update_id, 
+	    address_province, term, exam_type, question_type questionType, create_id, create_date, update_id, 
 	    update_date, enable_flag
     from
-    	 xl_paper
+    	 (
+		SELECT
+			*, (
+				SELECT
+					count(id)
+				FROM
+					xl_exam xe
+				WHERE
+					xe.paper_id = xp.id
+			) size
+		FROM
+			xl_paper xp
+	) a
     where 
     	enable_flag = 'T' 
     <if test="paperNum != null">
@@ -282,6 +294,12 @@
       </if>
       <if test="questionType != null">
         and question_type = #{questionType,jdbcType=INTEGER}
+      </if>
+      <if test="ob!=null">
+      	order by #{ob}
+      	<if test="sb!=null">
+      		#{sb}
+      	</if>
       </if>
       limit #{start},#{end}
   </select>
