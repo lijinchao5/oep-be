@@ -183,8 +183,28 @@
 	</update>
 	
 	<select id="getExamStudentRank" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
-	    select 
-	    	id, exam_id examid, student_id studentid, score, time_out timeout, complate, remark, create_id createid, create_date createdate,update_id updateid, update_date updatedate, enable_flag enableflag,
+	    SELECT
+			id,
+			exam_id examid,
+			student_id studentid,
+			(
+				SELECT
+					NAME
+				FROM
+					xl_user u
+				WHERE
+					u.id = es.student_id
+				AND u.enable_flag = 'T'
+			) studentName,
+			score,
+			time_out timeout,
+			complate,
+			remark,
+			create_id createid,
+			create_date createdate,
+			update_id updateid,
+			update_date updatedate,
+			enable_flag enableflag,
 			(
 				SELECT
 					count(id) + 1
@@ -195,7 +215,7 @@
 			) rank
 	    from 
 	    	xl_exam_student es
-	    where id = #{id,jdbcType=BIGINT}
+	    where exam_id = #{examId,jdbcType=BIGINT}
   	</select>
   	<select id="getStudentExamScore" parameterType="com.xuanli.oepcms.controller.bean.ExamStudentBean" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
   		SELECT

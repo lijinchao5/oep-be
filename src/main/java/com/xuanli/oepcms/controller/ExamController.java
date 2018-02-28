@@ -81,7 +81,10 @@ public class ExamController extends BaseController {
 		return examService.generatorExamReport(examId, userEntity.getId());
 	}
 	// 统计作业信息
-	
+	@RequestMapping(value = "getExamReport.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> getExamReport(Long examId){
+		return examService.getExamReport(examId);
+	}
 	
 	
 	//查看布置作业详情

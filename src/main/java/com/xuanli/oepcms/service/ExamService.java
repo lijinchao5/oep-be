@@ -476,14 +476,20 @@ public class ExamService extends BaseService {
 	}
 
 	// 获取报告内容
-	public Map<String, Object> getExamReport(Long examId) {
+	public RestResult<Map<String, Object>> getExamReport(Long examId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.getExamStudentRank(examStudentEntity);
+		//查询
+		
+		
+		
+		
+		
 		// 学生排名等信息
 		resultMap.put("examStudents", examStudentEntities);
-		return resultMap;
+		return ok(resultMap);
 	}
 
 	/**

@@ -161,7 +161,8 @@
 			sd.w_audio_path standerwaudiopath,
 			sd.word_mean standerwordmean,
 			hd.dialog_name dialogName,
-			sd.dialog_num dialogNum
+			sd.dialog_num dialogNum,
+			hss.audio_path audioPath
 		FROM
 			(
 				SELECT
@@ -171,7 +172,7 @@
 				WHERE
 					homework_id = #{homeworkId}
 			) hd
-		LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id
+		LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id LEFT JOIN xl_homework_student_score hss ON hss.section_id = hd.id
 		ORDER BY
 			hd.homework_type
   </select>
