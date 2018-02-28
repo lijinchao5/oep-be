@@ -42,6 +42,16 @@ public class SectionDetail {
 	private Integer orderNum;
 
 	private Integer dialogNum;
+	
+	private Long cmsId;
+	
+	public Long getCmsId() {
+		return cmsId;
+	}
+
+	public void setCmsId(Long cmsId) {
+		this.cmsId = cmsId;
+	}
 
 	public Integer getOrderNum() {
 		return orderNum;

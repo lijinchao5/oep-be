@@ -26,12 +26,18 @@ public class SystemConfig implements EnvironmentAware {
 	public String FILE_BASEPATH = "";
 	public String YUN_ZHI_APPKEY = "";
 	public String YUN_ZHI_URL = "";
-
+	
+	public String BOOK_URL = "";
+	public String BOOK_CONTENT = "";
+	
 	@PostConstruct
 	public void initMethod() {
 		FILE_BASEPATH = propertyResolver.getProperty("file.base-path");
 		YUN_ZHI_APPKEY = propertyResolver.getProperty("yunzhi.appkey");
 		YUN_ZHI_URL = propertyResolver.getProperty("yunzhi.url");
+		
+		BOOK_URL = propertyResolver.getProperty("sync_url.book");
+		BOOK_CONTENT = propertyResolver.getProperty("sync_url.book_content");
 		logger.debug("初始化完成系统配置信息...");
 	}
 

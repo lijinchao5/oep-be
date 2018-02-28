@@ -21,6 +21,24 @@ public interface BookEntityMapper {
 	 * @CreateDate:  2018年1月18日 上午9:36:17
 	 */
 	List<BookEntity> getBookEntity(BookEntity bookEntity);
+	
+	/**
+	 * Title: selectByCmsId 
+	 * Description:  根据cmsId获取教材信息
+	 * @date 2018年2月27日 上午11:45:52
+	 * @param cmsId
+	 * @return
+	 */
+    BookEntity selectByCmsId(Long cmsId);
 
-
+    /**
+     * Title: updateSyncBookEntity 
+     * Description:  如果cmsId已存在，更新教材
+     * @date 2018年2月27日 上午11:47:33
+     * @param record
+     * @return
+     */
+    int updateSyncBookEntity(BookEntity record);
+    
+    List<BookEntity> selectBooks();
 }

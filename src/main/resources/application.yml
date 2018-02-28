@@ -111,6 +111,9 @@ systemconfig:
     sign: 【AI英语】
     extno: 10690022
     host: http://47.100.188.160:7862/sms
+  sync_url:
+    book: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncBooks.do
+    book_content: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncBookContent.do
 # 日志输出
 logging:
   level: 

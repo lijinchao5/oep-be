@@ -32,4 +32,19 @@ public interface SectionDetailMapper {
 	 * @CreateDate:  2018年2月27日 下午4:12:59
 	 */
 	List<SectionDetail> getSectionDetailsDialogs(SectionDetail sectionDetail);
+
+	/**Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年2月28日 上午9:28:15
+	 * @param id
+	 * @return  
+	 */
+	SectionDetail selectByCmsId(Long id);
+
+	/**Title: updateSyncSectionEntity 
+	 * Description:  
+	 * @date 2018年2月28日 上午9:28:22
+	 * @param sectionDetail  
+	 */
+	void updateSyncSectionDetail(SectionDetail sectionDetail);
 }

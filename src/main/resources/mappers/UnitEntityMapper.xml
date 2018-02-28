@@ -10,15 +10,22 @@
     <result column="update_id" jdbcType="VARCHAR" property="updateId" />
     <result column="update_date" jdbcType="DATE" property="updateDate" />
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="cms_id" jdbcType="BIGINT" property="cmsId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, book_id, create_id, create_date, update_id, update_date, enable_flag
+    id, name, book_id, create_id, create_date, update_id, update_date, enable_flag,cms_id
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xl_unit
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCmsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_unit
+    where cms_id = #{cmsId,jdbcType=BIGINT}
   </select>
   <delete id="deleteUnitEntity" parameterType="java.lang.Long">
     delete from xl_unit
@@ -52,6 +59,9 @@
       <if test="enableFlag != null">
         enable_flag,
       </if>
+      <if test="cmsId != null">
+        cms_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,6 +87,9 @@
       </if>
       <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cmsId != null">
+        #{cmsId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -104,8 +117,39 @@
       <if test="enableFlag != null">
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="cmsId != null">
+        cms_id = #{cmsId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+    <update id="updateSyncUnitEntity" parameterType="com.xuanli.oepcms.entity.UnitEntity">
+    update xl_unit
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cms_id = #{cmsId,jdbcType=BIGINT}
   </update>
 
 

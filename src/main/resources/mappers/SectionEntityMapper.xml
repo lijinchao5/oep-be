@@ -20,6 +20,12 @@
     from xl_section
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByCmsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_section
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </select>
   <delete id="deleteSectionEntity" parameterType="java.lang.Long">
     delete from xl_section
     where id = #{id,jdbcType=BIGINT}
@@ -52,6 +58,9 @@
       <if test="enableFlag != null">
         enable_flag,
       </if>
+      <if test="cmsId != null">
+        cms_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,6 +86,9 @@
       </if>
       <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cmsId != null">
+        #{cmsId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -108,6 +120,33 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+  <update id="updateSyncSectionEntity" parameterType="com.xuanli.oepcms.entity.SectionEntity">
+    update xl_section
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </update>
 
 	<select id="getSectionEntity" parameterType="com.xuanli.oepcms.entity.SectionEntity" resultMap="BaseResultMap">
 	    select 

@@ -48,7 +48,8 @@ public class ExceptionCode {
 	/**手机号码错误*/
 	public static final Integer MOBILE_ERROR_CODE = 9003;
 	
-	
+	/**添加教材错误*/
+	public static final Integer ADD_BOOK_ERROR = 2001;
 	
 	
 	/**用户未登陆**/

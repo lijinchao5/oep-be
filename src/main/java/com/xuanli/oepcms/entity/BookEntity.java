@@ -8,8 +8,10 @@ public class BookEntity {
     private String name;
 
     private String grade;
+    
+    private Integer bookVersion;
 
-    private String bookVolume;
+	private String bookVolume;
 
     private String createId;
 
@@ -20,8 +22,26 @@ public class BookEntity {
     private Date updateDate;
 
     private String enableFlag;
+    
+    private Long cmsId;
 
-    public Long getId() {
+	public Integer getBookVersion() {
+		return bookVersion;
+	}
+
+	public void setBookVersion(Integer bookVersion) {
+		this.bookVersion = bookVersion;
+	}
+    
+    public Long getCmsId() {
+		return cmsId;
+	}
+
+	public void setCmsId(Long cmsId) {
+		this.cmsId = cmsId;
+	}
+
+	public Long getId() {
         return id;
     }
 

@@ -6,20 +6,33 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="grade" jdbcType="VARCHAR" property="grade" />
     <result column="book_volume" jdbcType="VARCHAR" property="bookVolume" />
+    <result column="book_version" jdbcType="INTEGER" property="bookVersion" />
     <result column="create_id" jdbcType="VARCHAR" property="createId" />
     <result column="create_date" jdbcType="DATE" property="createDate" />
     <result column="update_id" jdbcType="VARCHAR" property="updateId" />
     <result column="update_date" jdbcType="DATE" property="updateDate" />
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="cms_id" jdbcType="BIGINT" property="cmsId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, grade, book_volume, create_id, create_date, update_id, update_date, enable_flag
+    id, name, grade, book_volume, create_id, create_date, update_id, update_date, enable_flag,cms_id
   </sql>
+  <select id="selectBooks" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_book
+  </select>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xl_book
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCmsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_book
+    where cms_id = #{cmsId,jdbcType=BIGINT}
   </select>
   <delete id="deleteBookEntity" parameterType="java.lang.Long">
     delete from xl_book
@@ -56,6 +69,12 @@
       <if test="enableFlag != null">
         enable_flag,
       </if>
+      <if test="cmsId != null">
+        cms_id,
+      </if>
+      <if test="bookVersion != null">
+        book_version,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -84,6 +103,12 @@
       </if>
       <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cmsId != null">
+        #{cmsId,jdbcType=BIGINT},
+      </if>
+      <if test="bookVersion != null">
+        #{bookVersion,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -114,6 +139,12 @@
       <if test="enableFlag != null">
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="cmsId != null">
+        cms_id = #{cmsId,jdbcType=BIGINT},
+      </if>
+      <if test="bookVersion != null">
+        book_version = #{bookVersion,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -135,5 +166,38 @@
       </if>
   </select>
 
+  <update id="updateSyncBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity">
+    update xl_book
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="bookVolume != null">
+        book_volume = #{bookVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="bookVersion != null">
+        book_version = #{bookVersion,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </update>
 
 </mapper>

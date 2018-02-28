@@ -25,4 +25,19 @@ public interface UnitEntityMapper {
 	 * @CreateDate:  2018年1月18日 上午9:52:11
 	 */
 	List<UnitEntity> getUnitEntity(UnitEntity unitEntity);
+
+	/**Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年2月27日 下午5:03:25
+	 * @param id
+	 * @return  
+	 */
+	UnitEntity selectByCmsId(Long cmsId);
+
+	/**Title: updateSyncUnitEntity 
+	 * Description:  
+	 * @date 2018年2月27日 下午5:04:24
+	 * @param unitEntity  
+	 */
+	void updateSyncUnitEntity(UnitEntity unitEntity);
 }

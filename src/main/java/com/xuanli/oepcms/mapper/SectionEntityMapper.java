@@ -25,4 +25,19 @@ public interface SectionEntityMapper {
 	 * @CreateDate:  2018年1月18日 上午9:55:16
 	 */
 	List<SectionEntity> getSectionEntity(SectionEntity sectionEntity);
+
+	/**Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年2月27日 下午8:41:07
+	 * @param id
+	 * @return  
+	 */
+	SectionEntity selectByCmsId(Long CmsId);
+
+	/**Title: updateSyncSectionEntity 
+	 * Description:  
+	 * @date 2018年2月27日 下午8:42:32
+	 * @param sectionEntity  
+	 */
+	void updateSyncSectionEntity(SectionEntity sectionEntity);
 }

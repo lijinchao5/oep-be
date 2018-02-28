@@ -1,9 +1,19 @@
-package com.xuanli.oepcms.entity;
+/**
+ * 
+ */
+package com.xuanli.oepcms.thirdapp.sdk.xl.bean;
 
 import java.util.Date;
+import java.util.List;
 
-public class SectionEntity {
-    private Long id;
+import com.xuanli.oepcms.entity.SectionDetail;
+
+/**
+ * @author lijinchao
+ * @date 2018年2月27日 下午4:27:38
+ */
+public class SectionBean {
+	private Long id;
 
     private String name;
 
@@ -18,18 +28,14 @@ public class SectionEntity {
     private Date updateDate;
 
     private String enableFlag;
-    
-    private Long cmsId;
-    
-    public Long getCmsId() {
-		return cmsId;
-	}
 
-	public void setCmsId(Long cmsId) {
-		this.cmsId = cmsId;
-	}
+    private Integer bianhao;
 
-	public Long getId() {
+    private String bookId;
+    
+    private List<SectionDetail> list;
+
+    public Long getId() {
         return id;
     }
 
@@ -92,4 +98,28 @@ public class SectionEntity {
     public void setEnableFlag(String enableFlag) {
         this.enableFlag = enableFlag;
     }
+
+	public Integer getBianhao() {
+		return bianhao;
+	}
+
+	public void setBianhao(Integer bianhao) {
+		this.bianhao = bianhao;
+	}
+
+	public List<SectionDetail> getList() {
+		return list;
+	}
+
+	public void setList(List<SectionDetail> list) {
+		this.list = list;
+	}
+
+	public String getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
+	}
 }
