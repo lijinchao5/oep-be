@@ -179,7 +179,7 @@ public class HomeworkService extends BaseService{
 		//如果作业已做过，更新
 		List<HomeworkStudentScoreEntity> homeworkStudentScore = homeworkStudentScoreDao.selectHomeworkStudentScore(scoreEntity);
 		if(null!=homeworkStudentScore&&homeworkStudentScore.size()>0) {
-			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(scoreEntity);
+			homeworkStudentScoreDao.updateHomeworkStudentScore(scoreEntity);
 		}else {
 			homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
 		}

@@ -145,7 +145,7 @@ public class SyncBookService extends BaseService {
 							if (syncSectionDetail != null) {
 								sectionDetailDao.updateSectionDetail(sectionDetail);
 							} else {
-								sectionDetailDao.insertSectionDetail(sectionDetail);
+								sectionDetailDao.insertSectionDetailEntity(sectionDetail);
 							}
 						}
 					}

@@ -54,4 +54,11 @@ public interface HomeworkStudentScoreEntityMapper {
 	List<HomeworkStudentScoreEntity> selectHomeworkStudentScore(HomeworkStudentScoreEntity homeworkStudentScoreEntity);
 	
 	List<HomeworkScoreBean> getStudentHomework(@Param("homeworkId")Long homeworkId,@Param("studentId")Long studentId, @Param("homeworkType")Integer homeworkType);
+
+	/**Title: updateHomeworkStudentScore 
+	 * Description:  
+	 * @date 2018年2月28日 下午3:04:12
+	 * @param scoreEntity  
+	 */
+	void updateHomeworkStudentScore(HomeworkStudentScoreEntity scoreEntity);
 }

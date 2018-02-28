@@ -11,7 +11,7 @@ public interface SectionDetailMapper {
     int deleteSectionDetail(Long id);
 
     /**增加方法*/
-    int insertSectionDetail(SectionDetail record);
+    int insertSectionDetailEntity(SectionDetail record);
 
     SectionDetail selectById(Long id);
     /**查询方法,根据id查询*/

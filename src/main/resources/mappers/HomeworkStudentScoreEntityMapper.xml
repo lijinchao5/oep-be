@@ -193,6 +193,60 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+    <update id="updateHomeworkStudentScore" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreEntity" >
+    update xl_homework_student_score
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="homeworkId != null">
+        homework_id = #{homeworkId,jdbcType=BIGINT},
+      </if>
+      <if test="sectionId != null">
+        section_id = #{sectionId,jdbcType=BIGINT},
+      </if>
+      <if test="audioPath != null">
+        audio_path = #{audioPath,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="integrity != null">
+        integrity = #{integrity,jdbcType=DOUBLE},
+      </if>
+      <if test="pronunciation != null">
+        pronunciation = #{pronunciation,jdbcType=DOUBLE},
+      </if>
+      <if test="fluency != null">
+        fluency = #{fluency,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where student_id = #{studentId,jdbcType=BIGINT} 
+    AND homework_id = #{homeworkId,jdbcType=BIGINT} AND section_id = #{sectionId,jdbcType=BIGINT}
+  </update>
+  
   <select id="reportStudentScore" resultMap="BaseResultMap" parameterType="java.lang.Long" >
   	select hss.student_id,SUM(score) score from xl_homework_student_score hss where hss.homework_id = #{value} group by student_id
   </select>
