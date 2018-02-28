@@ -54,6 +54,7 @@ public class SyncBookService extends BaseService {
 	 * @param sectionBeans
 	 * @date 2018年2月26日 下午9:06:57
 	 */
+	@Transactional(readOnly = false)
 	public String syncBooks() {
 		String bookjson = SyncUtil.sendPostUTF8(systemConfig.BOOK_URL, null);
 		SyncBookBean syncBookBean = JSONObject.parseObject(bookjson, SyncBookBean.class);
@@ -78,10 +79,8 @@ public class SyncBookService extends BaseService {
 					} else {
 						bookDao.insertBookEntity(bookEntity);
 					}
-					String bookDetailJson = SyncUtil
-							.sendPostUTF8(systemConfig.BOOK_CONTENT + "?bookId=" + bookBean.getId().longValue(), null);
-					SyncBookDetailBean syncBookDetailBean = JSONObject.parseObject(bookDetailJson,
-							SyncBookDetailBean.class);
+					String bookDetailJson = SyncUtil.sendPostUTF8(systemConfig.BOOK_CONTENT + "?bookId=" + bookBean.getId().longValue(), null);
+					SyncBookDetailBean syncBookDetailBean = JSONObject.parseObject(bookDetailJson, SyncBookDetailBean.class);
 					if (null != syncBookDetailBean && syncBookDetailBean.getCode() == 0) {
 						// 更新unit内容
 						for (UnitBean unitBean : syncBookDetailBean.getResult().getUnits()) {
@@ -122,7 +121,7 @@ public class SyncBookService extends BaseService {
 						for (SectionDetailBean sectionDetailBean : syncBookDetailBean.getResult().getSectiondetails()) {
 							SectionDetail sectionDetail = new SectionDetail();
 							sectionDetail.setId(sectionDetailBean.getId());
-							sectionDetail.setName(sectionDetail.getName());
+							sectionDetail.setName(sectionDetailBean.getName());
 							sectionDetail.setPersonName(sectionDetailBean.getPersonName());
 							sectionDetail.setSectionId(sectionDetailBean.getSectionId());
 							sectionDetail.setType(Integer.parseInt(sectionDetailBean.getType()));

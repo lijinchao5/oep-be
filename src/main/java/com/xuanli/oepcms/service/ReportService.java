@@ -96,6 +96,9 @@ public class ReportService extends BaseService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("studentHomeworkInfo", studentHomeworkInfo);
 		resultMap.put("studentHomeworkDetail", studentHomeworkDetail);
+		
+		
+		
 		return ok(resultMap);
 	}
 
