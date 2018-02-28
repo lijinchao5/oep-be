@@ -69,7 +69,7 @@ public class FileController extends BaseController {
 	
 	
 	@RequestMapping(value = "uploadAudio.do", method = RequestMethod.POST)
-	public RestResult<String> uploadAudio(@RequestParam("audiofile") MultipartFile file) {
+	public RestResult<String> uploadAudio(@RequestParam("file") MultipartFile file) {
 		
 		try {
 			if (null!=file && !file.isEmpty()) {
