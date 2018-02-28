@@ -188,7 +188,8 @@ public class HomeworkService extends BaseService{
 		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
 		homeworkScoreBean.setHomeworkId(homeworkId);
 		homeworkScoreBean.setStudentId(studentId);
-		List<HomeworkScoreBean> homeworkScoreBeans = homeworkStudentScoreDao.getStudentHomework(homeworkScoreBean);
+		homeworkScoreBean.setSectionId(sectionId);
+		List<HomeworkScoreBean> homeworkScoreBeans = homeworkStudentScoreDao.getStudentHomework1(homeworkScoreBean);
 		// 开始评分
 		for (HomeworkScoreBean result : homeworkScoreBeans) {
 			// 如果题型是听写的那么就不用让sdk评分了
@@ -280,6 +281,7 @@ public class HomeworkService extends BaseService{
 
 				}
 			}
+			homeworkStudentScoreEntity.setEnableFlag("T");
 			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(homeworkStudentScoreEntity);
 		}
 
