@@ -566,4 +566,13 @@ public class HomeworkService extends BaseService{
 	public List<Map<String, Object>> getStudentHomeworkDetail(Map<String, Object> requestMap) {
 		return homeworkStudentDao.getStudentHomeworkDetail(requestMap);
 	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月28日 下午6:05:40
+	 */
+	public List<Map<String, Object>> getStudentAvgScore(Map<String, Object> requestMap) {
+		return homeworkStudentDao.getStudentAvgScore(requestMap);
+	}
 }

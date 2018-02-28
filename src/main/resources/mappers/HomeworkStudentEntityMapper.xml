@@ -250,5 +250,20 @@
 	WHERE
 		hs.homework_id = #{homeworkId} and student_id = #{studentId}
   </select>
+  <select id="getStudentAvgScore" resultType="java.util.Map" parameterType="java.util.Map">
+  	SELECT
+		hd.homework_type,
+		IFNULL(avg(hss.fluency), 0) fluency,
+		IFNULL(avg(hss.integrity), 0) integrity,
+		IFNULL(avg(hss.pronunciation), 0) pronunciation
+	FROM
+		xl_homework_student_score hss
+	LEFT JOIN xl_homework_detail hd ON hss.section_id = hd.id
+	WHERE
+		hd.homework_id = #{homeworkId}
+	AND hd.homework_type IN (2, 3, 4)
+	GROUP BY
+		hd.homework_type
+  </select>
   
 </mapper>

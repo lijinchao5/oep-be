@@ -66,5 +66,11 @@ public interface HomeworkStudentEntityMapper {
 	 * @CreateDate:  2018年2月27日 下午12:33:47
 	 */
 	List<Map<String, Object>> getStudentHomeworkDetail(Map<String, Object> requestMap);
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月28日 下午6:06:02
+	 */
+	List<Map<String, Object>> getStudentAvgScore(Map<String, Object> requestMap);
 	
 }
