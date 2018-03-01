@@ -162,7 +162,9 @@
 			sd.word_mean standerwordmean,
 			hd.dialog_name dialogName,
 			sd.dialog_num dialogNum,
-			hss.audio_path audioPath
+			hss.audio_path audioPath,
+			hss.score studentScore,
+			hss.text studentText
 		FROM
 			(
 				SELECT
