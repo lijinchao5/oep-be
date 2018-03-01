@@ -325,7 +325,9 @@
 		sd.text standertext,
 		sd.m_audio_path standermaudiopath,
 		sd.w_audio_path standerwaudiopath,
-		sd.word_mean standerwordmean
+		sd.word_mean standerwordmean,
+		hd.dialog_name dialogName,
+		sd.name name
 	FROM
 		(
 			SELECT
