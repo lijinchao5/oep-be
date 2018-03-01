@@ -164,7 +164,8 @@
 			sd.dialog_num dialogNum,
 			hss.audio_path audioPath,
 			hss.score studentScore,
-			hss.text studentText
+			hss.text studentText,
+			sd.section_id sectionId
 		FROM
 			(
 				SELECT

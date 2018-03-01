@@ -545,6 +545,7 @@ public class HomeworkService extends BaseService{
 		pageBean.setTotal(total);
 		requestMap.put("start", pageBean.getRowFrom());
 		requestMap.put("end", pageBean.getPageSize());
+		System.out.println(pageBean.getRowFrom()+"----->"+pageBean.getPageSize());
 		List<Map<String, Object>> resultMap = homeworkDao.findStudentHomeworkByPage(requestMap);
 		pageBean.setRows(resultMap);
 	}

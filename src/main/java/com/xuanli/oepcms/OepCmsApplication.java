@@ -6,10 +6,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ImportResource(locations={"classpath:kaptcha.xml"}) 
+@ImportResource(locations = { "classpath:kaptcha.xml" })
 @ServletComponentScan
 public class OepCmsApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(OepCmsApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(OepCmsApplication.class, args);
+	}
 }
