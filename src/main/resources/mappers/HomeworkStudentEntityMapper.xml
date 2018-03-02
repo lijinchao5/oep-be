@@ -148,7 +148,7 @@
 	</insert>
 	
   <update id="updateHomeworkStudentEntityBatch" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity">
- 	   update xl_homework_student set work_complate = 'T',  score = #{score} where student_id = #{studentId} and homework_id= #{homeworkId}
+ 	   update xl_homework_student set work_complate = 'T',  score = #{score},work_time = #{workTime} where student_id = #{studentId} and homework_id= #{homeworkId}
   </update>
   
   <select id="selectHomeworkStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >

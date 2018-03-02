@@ -248,7 +248,31 @@
   </update>
   
   <select id="reportStudentScore" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-  	select hss.student_id,SUM(score) score from xl_homework_student_score hss where hss.homework_id = #{value} group by student_id
+  	<!-- select hss.student_id,SUM(score) score from xl_homework_student_score hss where hss.homework_id = #{value} group by student_id -->
+  	SELECT
+		hss.student_id,
+		SUM(score) score,
+		(
+			SELECT
+				IFNULL(
+					TIMESTAMPDIFF(
+						SECOND,
+						MIN(hs1.create_date),
+						MAX(hs1.create_date)
+					),
+					0
+				) clacTimes
+			FROM
+				xl_homework_student_score hs1
+			WHERE
+				hs1.student_id = hss.student_id
+			AND hs1.homework_id = hss.homework_id
+		) update_id
+	FROM
+		xl_homework_student_score hss
+	WHERE
+		hss.homework_id = #{value}
+	GROUP BY hss.student_id
   </select>
   
   <select id="selectHomeworkStudentScore" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" >

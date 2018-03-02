@@ -22,7 +22,7 @@ public class HomeworkStudentScoreEntity {
     private Long createId;
 
     private Date createDate;
-
+    /** 在查询报告中特殊用了一下 **/
     private Long updateId;
 
     private Date updateDate;

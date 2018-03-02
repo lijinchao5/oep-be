@@ -9,8 +9,9 @@ public class PageBean {
 	private List<?> rows; // 记录信息
 	private int pageSize;
 	private Integer total;
+	private Integer countPage;
 	public PageBean(Integer page, Integer pageSize) {
-		if (null!= pageSize && pageSize >= 1) {
+		if (null!= pageSize && pageSize > 1) {
 			this.pageSize = pageSize;
 		}else {
 			this.pageSize = 10;
@@ -49,8 +50,17 @@ public class PageBean {
 		}else {
 			rowTo = page * pageSize;
 		}
+		this.countPage = countPage;
 //		System.out.println(rowFrom + "----------->" + rowTo);
 //		System.out.println(rowFrom + "----------->" + pageSize);
+	}
+
+	public Integer getCountPage() {
+		return countPage;
+	}
+
+	public void setCountPage(Integer countPage) {
+		this.countPage = countPage;
 	}
 
 	public Integer getPage() {

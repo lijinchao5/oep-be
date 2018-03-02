@@ -14,6 +14,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
@@ -72,6 +73,8 @@ public class ReportService extends BaseService {
 			HomeworkStudentEntity studentEntity = new HomeworkStudentEntity();
 			studentEntity.setHomeworkId(homeworkId);
 			studentEntity.setStudentId(studentId);
+			//updateID在查询中特殊使用了一下,因为没有预留字段
+			studentEntity.setWorkTime(homeworkStudentScoreEntity.getUpdateId());
 			BigDecimal b = new BigDecimal(studentScore);
 			studentScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 			studentEntity.setScore(studentScore);

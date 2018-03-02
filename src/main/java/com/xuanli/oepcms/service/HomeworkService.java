@@ -108,6 +108,7 @@ public class HomeworkService extends BaseService{
 				homeworkStudentEntity.setCreateId(createId);
 				homeworkStudentEntity.setHomeworkId(homeworkId);
 				homeworkStudentEntity.setCreateDate(createDate);
+				homeworkStudentEntity.setWorkTime(new Long(0));
 				homeworkStudentEntity.setStudentId(userEntity.getId());
 				homeworkStudentEntity.setWorkComplate("F");
 				homeworkStudentEntities.add(homeworkStudentEntity);
@@ -282,6 +283,8 @@ public class HomeworkService extends BaseService{
 				}
 			}
 			homeworkStudentScoreEntity.setEnableFlag("T");
+			homeworkStudentScoreEntity.setCreateDate(new Date());
+			homeworkStudentScoreEntity.setCreateId(studentId);
 			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(homeworkStudentScoreEntity);
 			return homeworkStudentScoreEntity;
 		}
