@@ -18,11 +18,11 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource(value = { "classpath:quartz.properties" }, encoding = "utf-8")
 public class QuartzConfig {
-	@Value("${quartz.id}")
-	public String id;
-
-	@PostConstruct
-	public void init() {
-		System.out.println("读取配置文件id:" + id);
-	}
+//	@Value("${quartz.id}")
+//	public String id;
+//
+//	@PostConstruct
+//	public void init() {
+//		System.out.println("读取配置文件id:" + id);
+//	}
 }

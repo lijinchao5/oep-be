@@ -73,6 +73,7 @@ public class SessionFilter implements Filter {
 		notFilter.add("/test");
 		notFilter.add("/paper");
 		notFilter.add("/syncBook");
+		notFilter.add("/job");
 
 		String uri = request.getRequestURI();
 		boolean doFilter = true;
