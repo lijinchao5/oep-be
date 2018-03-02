@@ -43,7 +43,7 @@ public class JobController {
 
 	public void addJob(String jobClassName, String jobGroupName, String cronExpression) throws Exception {
 		JobDataMap jobDataMap = new JobDataMap();
-		jobDataMap.put("homeWorkId", "66");
+		jobDataMap.put("homeworkId", "66");
 		// 构建job信息
 		JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobClassName, jobGroupName).setJobData(jobDataMap).build();
 		// 表达式调度构建器(即任务执行的时间)

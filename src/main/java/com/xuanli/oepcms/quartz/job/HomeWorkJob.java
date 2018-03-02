@@ -27,7 +27,6 @@ public class HomeWorkJob implements BaseJob{
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		Long homeworkId = jobDataMap.getLong("homeworkId");
-		System.out.println(homeworkId);
 		ReportService reportService = ApplicationContextRegister.getApplicationContext().getBean(ReportService.class);
 		reportService.generatorHomeworkReport(homeworkId, null);
 	}
