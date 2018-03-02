@@ -17,7 +17,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.quartz.JobDataMap;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -169,10 +168,8 @@ public class HomeworkService extends BaseService{
 			}
 			//添加一个定时化任务到指定的时间点后 执行该操作
 			String cron = QuartzUtil.cron(endTime);
-			JobDataMap jobDataMap = new JobDataMap(new HashMap<String,Long>());
-			jobDataMap.put("homeworkId", homeworkId);
 			try {
-				QuartzUtil.addJob(scheduler, "com.xuanli.oepcms.quartz.job.HomeWorkJob", "homeworkReport_"+homeworkId+"_"+UUID.randomUUID().toString(), cron, jobDataMap);
+				QuartzUtil.addHomeworkJob(scheduler, "com.xuanli.oepcms.quartz.job.HomeWorkJob", "homeworkReport_"+homeworkId+"_"+UUID.randomUUID().toString(), cron, homeworkId);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("布置作业定时化任务失败.出现错误.",e);

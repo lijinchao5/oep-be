@@ -42,23 +42,19 @@ public class JobController {
 	}
 
 	public void addJob(String jobClassName, String jobGroupName, String cronExpression) throws Exception {
-
-		// 启动调度器
-		scheduler.start();
-		JobDataMap jobDataMap = new JobDataMap(new HashMap<String, Long>());
-		jobDataMap.put("homeWorkId", 66);
+		JobDataMap jobDataMap = new JobDataMap();
+		jobDataMap.put("homeWorkId", "66");
 		// 构建job信息
 		JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobClassName, jobGroupName).setJobData(jobDataMap).build();
-
 		// 表达式调度构建器(即任务执行的时间)
 		CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
-
 		// 按新的cronExpression表达式构建一个新的trigger
 		CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobClassName, jobGroupName).withSchedule(scheduleBuilder).build();
-
 		try {
+			trigger.getJobDataMap();
 			scheduler.scheduleJob(jobDetail, trigger);
-
+			// 启动调度器
+			scheduler.start();
 		} catch (SchedulerException e) {
 			System.out.println("创建定时任务失败" + e);
 			throw new Exception("创建定时任务失败");
