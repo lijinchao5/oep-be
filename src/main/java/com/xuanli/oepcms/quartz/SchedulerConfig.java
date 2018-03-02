@@ -41,7 +41,7 @@ public class SchedulerConfig {
 	/*
 	 * 通过SchedulerFactoryBean获取Scheduler的实例
 	 */
-	@Bean(name = "Scheduler")
+	@Bean(name = "scheduler")
 	public Scheduler scheduler() throws IOException {
 		return schedulerFactoryBean().getScheduler();
 	}

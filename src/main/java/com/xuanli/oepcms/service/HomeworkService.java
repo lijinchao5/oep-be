@@ -12,12 +12,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.quartz.JobDataMap;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -40,6 +44,7 @@ import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreSymbolEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreWordEntityMapper;
 import com.xuanli.oepcms.mapper.SectionDetailMapper;
+import com.xuanli.oepcms.quartz.QuartzUtil;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiSubWords;
@@ -54,6 +59,7 @@ import com.xuanli.oepcms.vo.RestResult;
  * @author QiaoYu
  */
 @Service
+@Transactional
 public class HomeworkService extends BaseService{
 	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
@@ -76,7 +82,8 @@ public class HomeworkService extends BaseService{
 	HomeworkStudentScoreWordEntityMapper HomeworkStudentScoreWordEntityDao;
 	@Autowired
 	SectionDetailMapper sectionDetailMapper;
-
+	@Autowired
+	private Scheduler scheduler;
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
@@ -160,7 +167,20 @@ public class HomeworkService extends BaseService{
 			if (null != homeworkDetailEntities && homeworkDetailEntities.size() > 0) {
 				homeworkDetailDao.inserHomeworkDetailBatch(homeworkDetailEntities);
 			}
+			//添加一个定时化任务到指定的时间点后 执行该操作
+			String cron = QuartzUtil.cron(endTime);
+			JobDataMap jobDataMap = new JobDataMap(new HashMap<String,Long>());
+			jobDataMap.put("homeworkId", homeworkId);
+			try {
+				QuartzUtil.addJob(scheduler, "com.xuanli.oepcms.quartz.job.HomeWorkJob", "homeworkReport_"+homeworkId+"_"+UUID.randomUUID().toString(), cron, jobDataMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("布置作业定时化任务失败.出现错误.",e);
+			}
 		}
+		
+		
+		
 	}
 
 	/**
