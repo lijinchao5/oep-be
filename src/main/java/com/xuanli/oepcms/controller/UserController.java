@@ -415,7 +415,7 @@ public class UserController extends BaseController {
             userEntity.setName(name);
             userEntity.setSex(sex);
             userEntity.setBirthDate(birthDate);
-            userService.updateUserInfo(userEntity, ImageUtil.decodeToBytes(picfile));
+            userService.updateUserInfo(userEntity, StringUtil.isEmpty(picfile) ? null : ImageUtil.decodeToBytes(picfile));
             return okNoResult("操作成功");
         } catch (Exception e) {
             e.printStackTrace();
