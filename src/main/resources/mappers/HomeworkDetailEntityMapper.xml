@@ -175,7 +175,7 @@
 				WHERE
 					homework_id = #{homeworkId}
 			) hd
-		LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id LEFT JOIN xl_homework_student_score hss ON hss.section_id = hd.id
+		LEFT JOIN xl_section_detail sd ON hd.section_detail_id = sd.id LEFT JOIN xl_homework_student_score hss ON hss.section_id = hd.id and hss.student_id=#{studentId}
 		ORDER BY
 			hd.homework_type,hd.id
   </select>

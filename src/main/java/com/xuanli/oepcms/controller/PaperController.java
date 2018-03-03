@@ -44,7 +44,7 @@ public class PaperController extends BaseController{
 		@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") 
 	})
 	@RequestMapping(value = "findPaperByPage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findPaperByPage(Integer rows,Integer page,Integer gradeLevelId,Integer term,Integer addressArea,Integer questionType,Integer paperType) {
+	public RestResult<PageBean> findPaperByPage(String ob,String sb,Integer rows,Integer page,Integer gradeLevelId,Integer term,Integer addressArea,Integer questionType,Integer paperType) {
 		PageBean pageBean = initPageBean(page, rows);
 		Map<String, Object> requestMap = new HashMap<String, Object>();
 		Map<String, String[]> requestMap1 = request.getParameterMap();

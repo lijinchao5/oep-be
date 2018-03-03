@@ -542,13 +542,14 @@ public class HomeworkService extends BaseService{
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月9日 下午3:54:08
 	 */
-	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId) {
+	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId,Long studentId) {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		//查询作业信息信息
 		HomeworkEntity homeworkEntity = homeworkDao.getById(homeworkId);
 		//获取作业详细信息
 		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
 		homeworkScoreBean.setHomeworkId(homeworkId);
+		homeworkScoreBean.setStudentId(studentId);
 		List<HomeworkScoreBean> homeworkDetails = homeworkDetailDao.getHomeworkDetail(homeworkScoreBean);
 		resultMap.put("homeworkEntity", homeworkEntity);
 		resultMap.put("homeworkDetails", homeworkDetails);

@@ -181,7 +181,8 @@ public class HomeworkController extends BaseController {
 	})
 	@RequestMapping(value = "getHomeworkDetail.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId){
-		return homeworkService.getHomeworkDetail(homeworkId);
+		Long studentId = getCurrentUser().getId();
+		return homeworkService.getHomeworkDetail(homeworkId,studentId);
 	}
 
 	
