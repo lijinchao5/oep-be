@@ -267,7 +267,8 @@
 			WHERE
 				hs1.student_id = hss.student_id
 			AND hs1.homework_id = hss.homework_id
-		) update_id
+		) update_id,
+		MAX(hss.update_date) update_date
 	FROM
 		xl_homework_student_score hss
 	WHERE

@@ -193,6 +193,7 @@ public class HomeworkService extends BaseService{
 		scoreEntity.setStudentId(studentId);
 		scoreEntity.setSectionId(sectionId);
 		scoreEntity.setHomeworkId(homeworkId);
+		scoreEntity.setUpdateDate(new Date());
 		scoreEntity.setText(text);
 		//如果作业已做过，更新
 		List<HomeworkStudentScoreEntity> homeworkStudentScore = homeworkStudentScoreDao.selectHomeworkStudentScore(scoreEntity);
@@ -302,6 +303,8 @@ public class HomeworkService extends BaseService{
 			homeworkStudentScoreEntity.setEnableFlag("T");
 			homeworkStudentScoreEntity.setCreateDate(new Date());
 			homeworkStudentScoreEntity.setCreateId(studentId);
+			homeworkStudentScoreEntity.setUpdateDate(new Date());
+			homeworkStudentScoreEntity.setUpdateId(studentId);
 			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(homeworkStudentScoreEntity);
 			return homeworkStudentScoreEntity;
 		}

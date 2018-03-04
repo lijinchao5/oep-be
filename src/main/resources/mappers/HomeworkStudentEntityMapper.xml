@@ -148,25 +148,39 @@
 	</insert>
 	
   <update id="updateHomeworkStudentEntityBatch" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity">
- 	   update xl_homework_student set work_complate = 'T',  score = #{score},work_time = #{workTime} where student_id = #{studentId} and homework_id= #{homeworkId}
+ 	   update xl_homework_student
+    <set>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="workComplate != null">
+        work_complate = #{workComplate,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    	where student_id = #{studentId} and homework_id= #{homeworkId}
   </update>
   
   <select id="selectHomeworkStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
     select 
-    <include refid="Base_Column_List" />
-    from xl_homework_student
-    where 1=1 
-    <if test="homeworkId != null">
-        and homework_id = #{homeworkId,jdbcType=BIGINT}
-    </if>
-    <if test="workComplate != null">
-        and work_complate = #{workComplate,jdbcType=VARCHAR}
-    </if>
-    order by score desc
-  </select>
-    <select id="selectStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
-	    SELECT
-		id,
+    	id,
 		homework_id,
 		student_id,
 		(
@@ -185,13 +199,50 @@
 		create_date,
 		update_id,
 		update_date,
-		enable_flag
-	FROM
-		xl_homework_student
-	WHERE
-		homework_id = #{homeworkId}
-	ORDER BY
-		score DESC
+		enable_flag,
+		(
+			SELECT
+				count(id) + 1
+			FROM
+				xl_homework_student s
+			WHERE
+				s.score > hs.score and s.homework_id = #{homeworkId}
+		) rank
+    from xl_homework_student hs
+    where homework_id = #{homeworkId,jdbcType=BIGINT}
+    <if test="workComplate != null">
+        and work_complate = #{workComplate,jdbcType=VARCHAR}
+    </if>
+    order by score desc
+  </select>
+    <select id="selectStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+	    SELECT
+			id,
+			homework_id,
+			student_id,
+			(
+				SELECT
+					xu. NAME
+				FROM
+					xl_user xu
+				WHERE
+					xu.id = student_id
+			) studentname,
+			remark,
+			work_complate,
+			work_time,
+			score,
+			create_id,
+			create_date,
+			update_id,
+			update_date,
+			enable_flag
+		FROM
+			xl_homework_student
+		WHERE
+			homework_id = #{homeworkId}
+		ORDER BY
+			score DESC
   </select>
   
   <update id="updateHomewordStudentEntityRemark" parameterType="java.util.List">
