@@ -26,6 +26,26 @@ public class HomeworkStudentEntity {
     private Date updateDate;
     
     private String studentName;
+    
+    private Integer rank;
+    private String studentPic;
+    
+
+	public Integer getRank() {
+		return rank;
+	}
+
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
+
+	public String getStudentPic() {
+		return studentPic;
+	}
+
+	public void setStudentPic(String studentPic) {
+		this.studentPic = studentPic;
+	}
 
 	public Long getId() {
 		return id;

@@ -178,11 +178,11 @@
     	where student_id = #{studentId} and homework_id= #{homeworkId}
   </update>
   
-  <select id="selectHomeworkStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+  <select id="selectHomeworkStudentEntity" resultType="com.xuanli.oepcms.entity.HomeworkStudentEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
     select 
     	id,
-		homework_id,
-		student_id,
+		homework_id homeworkId,
+		student_id studentId,
 		(
 			SELECT
 				IFNULL(
@@ -193,16 +193,24 @@
 				xl_user xu
 			WHERE
 				xu.id = hs.student_id
-		) studentname,
+		) studentName,
+		(
+			SELECT
+				xu.photo
+			FROM
+				xl_user xu
+			WHERE
+				xu.id = hs.student_id
+		) studentPic,
 		remark,
-		work_complate,
-		work_time,
+		work_complate workComplate,
+		work_time workTime,
 		score,
-		create_id,
-		create_date,
-		update_id,
-		update_date,
-		enable_flag,
+		create_id createId,
+		create_date createDate,
+		update_id updateId,
+		update_date updateDate,
+		enable_flag enableFlag,
 		(
 			SELECT
 				count(id) + 1
@@ -218,30 +226,41 @@
     </if>
     order by score desc
   </select>
-    <select id="selectStudentEntity" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
+    <select id="selectStudentEntity" resultType="com.xuanli.oepcms.entity.HomeworkStudentEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentEntity" >
 	    SELECT
 			id,
-			homework_id,
-			student_id,
+			homework_id homeworkId,
+			student_id studentId,
 			(
 				SELECT
-					xu. NAME
+					IFNULL(
+						IFNULL(xu. NAME, xu.mobile),
+						xu.name_num
+					)
 				FROM
 					xl_user xu
 				WHERE
-					xu.id = student_id
-			) studentname,
+					xu.id = hs.student_id
+			) studentName,
+			(
+				SELECT
+					xu.photo
+				FROM
+					xl_user xu
+				WHERE
+					xu.id = hs.student_id
+			) studentPic,
 			remark,
-			work_complate,
-			work_time,
+			work_complate workComplate,
+			work_time workTime,
 			score,
-			create_id,
-			create_date,
-			update_id,
-			update_date,
-			enable_flag
+			create_id createId,
+			create_date createDate,
+			update_id updateId,
+			update_date updateDate,
+			enable_flag enableFlag
 		FROM
-			xl_homework_student
+			xl_homework_student hs
 		WHERE
 			homework_id = #{homeworkId}
 		ORDER BY
