@@ -398,17 +398,8 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "sex", value = "性别  W:女,M:男", required = true, dataType = "String"),
             @ApiImplicitParam(name = "birthDate", value = "出生日期 yyyy-MM-dd", required = true, dataType = "String") })
     @RequestMapping(value = "updatePersionalInfo.do", method = RequestMethod.POST)
-    public RestResult<String> updatePersionalInfo(String name, String sex, Date birthDate,
+    public RestResult<String> updatePersionalInfo(@RequestParam(required = false)String name, @RequestParam(required = false)String sex, @RequestParam(required = false)Date birthDate,
             @RequestParam(required = false, value = "picfile") String picfile) {
-        if (StringUtil.isEmpty(name)) {
-            return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "真实姓名不能为空");
-        }
-        if (StringUtil.isEmpty(sex)) {
-            return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "性别不能为空");
-        }
-        if (null == birthDate) {
-            return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "出生日期不能为空");
-        }
         try {
             UserEntity userEntity = new UserEntity();
             userEntity.setId(getCurrentUser().getId());
