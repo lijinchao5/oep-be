@@ -244,7 +244,10 @@
       </if>
     </set>
     where student_id = #{studentId,jdbcType=BIGINT} 
-    AND homework_id = #{homeworkId,jdbcType=BIGINT} AND section_id = #{sectionId,jdbcType=BIGINT}
+    AND homework_id = #{homeworkId,jdbcType=BIGINT} 
+    <if test="sectionId != null">
+      AND section_id = #{sectionId,jdbcType=BIGINT}
+    </if>
   </update>
   
   <select id="reportStudentScore" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -273,6 +276,7 @@
 		xl_homework_student_score hss
 	WHERE
 		hss.homework_id = #{value}
+		AND hss.enable_flag = 'T'
 	GROUP BY hss.student_id
   </select>
   

@@ -104,6 +104,24 @@ public class HomeworkController extends BaseController {
 		}
 	}
 
+	
+	@ApiOperation(value = "学生提交作业", notes = "学生提交作业方法")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
+	})
+	@RequestMapping(value = "submitHomework.do", method = RequestMethod.POST)
+	public RestResult<String> doHomeWork(Long homeworkId) {
+		try {
+			Long studentId = getCurrentUser().getId();
+			String result = homeworkService.submitHomework(studentId, homeworkId);
+			return okNoResult(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("布置家庭作业出现异常", e);
+			return failed(ExceptionCode.UNKNOW_CODE, "布置家庭作业出现异常");
+		}
+	}
+	
 	/**
 	 * 学生做作业
 	 * 

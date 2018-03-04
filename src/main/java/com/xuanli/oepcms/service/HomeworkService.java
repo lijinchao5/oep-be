@@ -188,7 +188,7 @@ public class HomeworkService extends BaseService{
 	public HomeworkStudentScoreEntity doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
 		HomeworkStudentScoreEntity scoreEntity = new HomeworkStudentScoreEntity();
 		scoreEntity.setAudioPath(file);
-		scoreEntity.setEnableFlag("T");
+		scoreEntity.setEnableFlag("F");
 		scoreEntity.setCreateId(studentId);
 		scoreEntity.setStudentId(studentId);
 		scoreEntity.setSectionId(sectionId);
@@ -300,7 +300,7 @@ public class HomeworkService extends BaseService{
 
 				}
 			}
-			homeworkStudentScoreEntity.setEnableFlag("T");
+			homeworkStudentScoreEntity.setEnableFlag("F");
 			homeworkStudentScoreEntity.setCreateDate(new Date());
 			homeworkStudentScoreEntity.setCreateId(studentId);
 			homeworkStudentScoreEntity.setUpdateDate(new Date());
@@ -598,5 +598,20 @@ public class HomeworkService extends BaseService{
 	 */
 	public List<Map<String, Object>> getStudentAvgScore(Map<String, Object> requestMap) {
 		return homeworkStudentDao.getStudentAvgScore(requestMap);
+	}
+
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月4日 下午4:21:33
+	 */
+	public String submitHomework(Long studentId, Long homeworkId) {
+		HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
+		homeworkStudentScoreEntity.setEnableFlag("T");
+		homeworkStudentScoreEntity.setCreateDate(new Date());
+		homeworkStudentScoreEntity.setCreateId(studentId);
+		homeworkStudentScoreEntity.setUpdateDate(new Date());
+		homeworkStudentScoreEntity.setUpdateId(studentId);
+		homeworkStudentScoreDao.updateHomeworkStudentScore(homeworkStudentScoreEntity);
+		return "0";
 	}
 }
