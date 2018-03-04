@@ -11,7 +11,7 @@ public class PageBean {
 	private Integer total;
 	private Integer countPage;
 	public PageBean(Integer page, Integer pageSize) {
-		if (null!= pageSize && pageSize > 1) {
+		if (null!= pageSize && pageSize > 0) {
 			this.pageSize = pageSize;
 		}else {
 			this.pageSize = 10;

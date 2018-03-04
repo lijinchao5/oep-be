@@ -69,7 +69,7 @@ public abstract class BaseController {
 			page = 1;
 		}
 		if (null == rows || rows.intValue() == 0) {
-			rows = 1;
+			rows = 10;
 		}
 		PageBean pageBean = new PageBean(page, rows);
 		return pageBean;
