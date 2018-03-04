@@ -40,6 +40,12 @@ public interface ClasEntityMapper {
 	 */
 	List<ClasEntity> findClasByPage(ClasEntity clasEntity);
 
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月4日 下午1:39:10
+	 */
+	ClasEntity getClasInfoById(Long clasId);
+
 	/**Title: selectClass 
 	 * Description:  
 	 * @date 2018年2月9日 下午5:33:32

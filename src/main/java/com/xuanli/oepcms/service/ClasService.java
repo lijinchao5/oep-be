@@ -57,7 +57,7 @@ public class ClasService {
 	}
 	
 	public ClasEntity selectById(Long clasId) {
-		return clasDao.selectById(clasId);
+		return clasDao.getClasInfoById(clasId);
 	}
 	/**
 	 * @Description:  TODO 获取教师创建的班级
