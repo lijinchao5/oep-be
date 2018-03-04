@@ -259,6 +259,7 @@
 		LEFT JOIN xl_homework_student hs ON xh.id = hs.homework_id
 		WHERE
 			hs.student_id = #{studentId}
+		order by xh.create_date desc
 		limit #{start},#{end}
 	</select>
 	
