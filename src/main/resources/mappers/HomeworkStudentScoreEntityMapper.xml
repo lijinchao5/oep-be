@@ -344,7 +344,6 @@
 		hss.id id,
 		hss.student_id studentid,
 		hss.homework_id homeworkid,
-		hss.section_id sectionid,
 		hss.audio_path audiopath,
 		hss.text studenttext,
 		hss.score studentscore,
@@ -356,7 +355,9 @@
 		sd.w_audio_path standerwaudiopath,
 		sd.word_mean standerwordmean,
 		hd.dialog_name dialogName,
-		sd.name name
+		sd.name name,
+		sd.section_id sectionId,
+		sd.dialog_num dialogNum
 	FROM
 		(
 			SELECT
@@ -381,6 +382,7 @@
   <if test="homeworkType!=null">
 	 and homework_type=#{homeworkType}
   </if>
+  order by hd.section_detail_id
   </select>
   
   

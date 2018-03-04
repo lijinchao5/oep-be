@@ -98,8 +98,6 @@ public class ReportService extends BaseService {
 		List<HomeworkScoreBean> studentHomeworkDetail = homeworkService.getStudentHomework(homeworkId, userId, null);
 		//算出来平均分
 		List<Map<String, Object>> studentAvgScore = homeworkService.getStudentAvgScore(requestMap);
-		
-		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("studentHomeworkInfo", studentHomeworkInfo);
 		resultMap.put("studentHomeworkDetail", studentHomeworkDetail);

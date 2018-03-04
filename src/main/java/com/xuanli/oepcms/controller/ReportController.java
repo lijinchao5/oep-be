@@ -64,7 +64,7 @@ public class ReportController extends BaseController{
 		return reportService.homeworkReport(homeworkId);
 	}
 	
-	@ApiOperation(value = "获取学生作业报告信息", notes = "获取学生作业报告信息")
+	@ApiOperation(value = "获取学生作业报告信息[学生端使用]", notes = "获取学生作业报告信息")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")})
 	@RequestMapping(value = "getStudentHomeworkReport.do", method = RequestMethod.GET)
@@ -75,6 +75,21 @@ public class ReportController extends BaseController{
 		Long userId = getCurrentUser().getId();
 		return reportService.getStudentHomeworkReport(userId,homeworkId);
 	}
+
+	@ApiOperation(value = "获取学生作业报告信息[教师端使用]", notes = "获取学生作业报告信息")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long")
+	})
+	@RequestMapping(value = "getStudentHomeworkReportMsg.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> getStudentHomeworkReportMsg(@RequestParam Long homeworkId,@RequestParam Long studentId) {
+		if(null==homeworkId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择作业");
+		}
+		return reportService.getStudentHomeworkReport(studentId,homeworkId);
+	}
+	
+	
 	
 	
 	
