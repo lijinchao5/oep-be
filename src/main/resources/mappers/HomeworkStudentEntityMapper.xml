@@ -185,11 +185,14 @@
 		student_id,
 		(
 			SELECT
-				xu. NAME
+				IFNULL(
+					IFNULL(xu. NAME, xu.mobile),
+					xu.name_num
+				)
 			FROM
 				xl_user xu
 			WHERE
-				xu.id = student_id
+				xu.id = hs.student_id
 		) studentname,
 		remark,
 		work_complate,
