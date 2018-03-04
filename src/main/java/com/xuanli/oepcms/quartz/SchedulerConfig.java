@@ -13,7 +13,6 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @Configuration
 public class SchedulerConfig {
-
 	@Bean(name = "SchedulerFactory")
 	public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();

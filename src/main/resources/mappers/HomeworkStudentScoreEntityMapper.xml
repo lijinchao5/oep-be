@@ -384,7 +384,7 @@
   	SELECT
 		hd.homework_type homeworktype,
 		hd.id id,
-		CONCAT(sd.text) text,
+		CONCAT(sd.name) name,
 		sum(hss.score) / count(hss.id) score,
 		sum(hss.fluency) fluency,
 		sum(hss.integrity) integrity,

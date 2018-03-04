@@ -16,6 +16,14 @@ public class HomeworkPicScoreBean {
 	private double fluency;
 	private double intergrity;
 	private double pronunciation;
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getHomeworktype() {
 		return homeworktype;
 	}
