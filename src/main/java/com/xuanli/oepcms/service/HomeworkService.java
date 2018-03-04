@@ -609,11 +609,19 @@ public class HomeworkService extends BaseService{
 		homeworkStudentScoreEntity.setEnableFlag("T");
 		homeworkStudentScoreEntity.setCreateDate(new Date());
 		homeworkStudentScoreEntity.setCreateId(studentId);
-		homeworkStudentScoreEntity.setUpdateDate(new Date());
-		homeworkStudentScoreEntity.setUpdateId(studentId);
 		homeworkStudentScoreEntity.setHomeworkId(homeworkId);
 		homeworkStudentScoreEntity.setStudentId(studentId);
 		homeworkStudentScoreDao.updateHomeworkStudentScore(homeworkStudentScoreEntity);
+		
+		
+		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
+		homeworkStudentEntity.setHomeworkId(homeworkId);
+		homeworkStudentEntity.setStudentId(studentId);
+		homeworkStudentEntity.setWorkComplate("T");
+		
+		homeworkStudentDao.updateHomeworkStudentEntity(homeworkStudentEntity);
+		
+		
 		return "0";
 	}
 }

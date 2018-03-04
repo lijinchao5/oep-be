@@ -78,7 +78,7 @@ public class ReportService extends BaseService {
 			BigDecimal b = new BigDecimal(studentScore);
 			studentScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 			studentEntity.setScore(studentScore);
-			studentEntity.setWorkComplate("T");
+			//studentEntity.setWorkComplate("T");
 			// 保存本次学生的分数
 			homeworkService.updateHomeworkStudentScoreEntityBatch(studentEntity);
 		}

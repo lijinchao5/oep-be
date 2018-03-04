@@ -214,6 +214,7 @@
 				and NOW() > h.end_time
 			</if>
 		</if>
+		order by h.id desc
 	</select>
 	
 	<select id="findStudentHomeworkByPageTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
