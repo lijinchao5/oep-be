@@ -113,13 +113,13 @@
     from xl_homework_student_score_word
     where 1=1
     <if test="homeworkId != null">
-        homework_id = #{homeworkId,jdbcType=BIGINT},
+        and homework_id = #{homeworkId,jdbcType=BIGINT}
       </if>
       <if test="homeworkDetailId != null">
-        homework_detail_id = #{homeworkDetailId,jdbcType=BIGINT},
+         and homework_detail_id = #{homeworkDetailId,jdbcType=BIGINT}
       </if>
       <if test="studentId != null">
-        student_id = #{studentId,jdbcType=BIGINT},
+        and student_id = #{studentId,jdbcType=BIGINT}
       </if>
   </select>
 
