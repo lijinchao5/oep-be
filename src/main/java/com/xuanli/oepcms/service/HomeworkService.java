@@ -532,7 +532,23 @@ public class HomeworkService extends BaseService {
 	 * @return
 	 */
 	public List<HomeworkScoreBean> getStudentHomework(Long homeworkId, Long studentId, Integer homeworkType) {
-		return homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
+		List<HomeworkScoreBean> homeworkScoreBeans = homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
+		HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
+		homeworkStudentScoreWordEntity.setStudentId(studentId);
+		homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
+		List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = HomeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
+		for (HomeworkScoreBean homeworkScoreBean : homeworkScoreBeans) {
+			List<HomeworkStudentScoreWordEntity> tempList = new ArrayList<HomeworkStudentScoreWordEntity>();
+			for (HomeworkStudentScoreWordEntity hsswe : homeworkStudentScoreWordEntities) {
+				if (hsswe.getHomeworkDetailId().longValue() == homeworkScoreBean.getSectionId().longValue()
+						&& hsswe.getStudentId().longValue() == homeworkScoreBean.getStudentId().longValue()
+						&& hsswe.getHomeworkId().longValue() == homeworkScoreBean.getHomeworkId().longValue()) {
+					tempList.add(hsswe);
+				}
+			}
+			homeworkScoreBean.setHomeworkStudentScoreWordEntities(tempList);
+		}
+		return homeworkScoreBeans;
 	}
 
 	/**

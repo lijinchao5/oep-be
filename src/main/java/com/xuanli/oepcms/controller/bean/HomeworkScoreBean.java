@@ -4,7 +4,11 @@
  * @CreateName:  QiaoYu 
  * @CreateDate:  2018年1月22日 下午3:46:27
  */ 
-package com.xuanli.oepcms.controller.bean; 
+package com.xuanli.oepcms.controller.bean;
+
+import java.util.List;
+
+import com.xuanli.oepcms.entity.HomeworkStudentScoreWordEntity;
 
 /** 
  * @author  QiaoYu 
@@ -29,8 +33,15 @@ public class HomeworkScoreBean {
 	private String dialogName;
 	private Integer dialogNum;
 	
+	private List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities;
 	
 	
+	public List<HomeworkStudentScoreWordEntity> getHomeworkStudentScoreWordEntities() {
+		return homeworkStudentScoreWordEntities;
+	}
+	public void setHomeworkStudentScoreWordEntities(List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities) {
+		this.homeworkStudentScoreWordEntities = homeworkStudentScoreWordEntities;
+	}
 	public Integer getDialogNum() {
 		return dialogNum;
 	}
