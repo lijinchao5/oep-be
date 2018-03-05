@@ -591,7 +591,7 @@ public class HomeworkService extends BaseService {
 					tempList.add(hsswe);
 				}
 			}
-			homeworkScoreBean.setHomeworkStudentScoreWordEntities(tempList);
+			hsb.setHomeworkStudentScoreWordEntities(tempList);
 		}
 		resultMap.put("homeworkEntity", homeworkEntity);
 		resultMap.put("homeworkDetails", homeworkDetails);
