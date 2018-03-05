@@ -189,7 +189,7 @@ public class HomeworkService extends BaseService {
 	public RestResult<Map<String, Object>> doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
 
 		int timeOutCount = homeworkDao.getTimeOutCount(homeworkId);
-		if (timeOutCount > 0) {
+		if (timeOutCount == 0) {
 			return failed(ExceptionCode.HOME_WORK_TIME_OUT, "现已超出作业提交时限,无法提交!");
 		}
 
@@ -629,7 +629,7 @@ public class HomeworkService extends BaseService {
 	 */
 	public RestResult<String> submitHomework(Long studentId, Long homeworkId) {
 		int timeOutCount = homeworkDao.getTimeOutCount(homeworkId);
-		if (timeOutCount > 0) {
+		if (timeOutCount == 0) {
 			return failed(ExceptionCode.UNKNOW_CODE, "现已超出作业提交时限,无法提交!");
 		}
 		HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
