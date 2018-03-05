@@ -68,4 +68,13 @@ public interface HomeworkStudentScoreEntityMapper {
 	 * @CreateDate:  2018年2月28日 下午5:10:29
 	 */
 	List<HomeworkScoreBean> getStudentHomework1(HomeworkScoreBean homeworkScoreBean);
+	
+	/**
+	 * Title: getTimeOut 
+	 * Description:  
+	 * @date 2018年3月5日 下午2:58:24
+	 * @param homeworkId
+	 * @return
+	 */
+	int deleteHomeworkStudentScore(Long homeworkId);
 }

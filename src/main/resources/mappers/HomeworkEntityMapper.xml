@@ -263,5 +263,13 @@
 		order by xh.create_date desc
 		limit #{start},#{end}
 	</select>
-	
+	<select id="getTimeOutCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT
+			count(id)
+		FROM
+			xl_homework h
+		WHERE
+			h.id = #{id}
+		AND h.end_time > now()
+	</select>
 </mapper>

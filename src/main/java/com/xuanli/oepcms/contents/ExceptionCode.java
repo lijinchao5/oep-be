@@ -51,6 +51,8 @@ public class ExceptionCode {
 	/**添加教材错误*/
 	public static final Integer ADD_BOOK_ERROR = 2001;
 	
+	/**作业超时*/
+	public static final Integer HOME_WORK_TIME_OUT = 3001;
 	
 	/**用户未登陆**/
 	public static final Integer USER_NO_LOGIN = 99998;
