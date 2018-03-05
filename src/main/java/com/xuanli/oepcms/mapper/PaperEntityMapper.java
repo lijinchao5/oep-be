@@ -58,5 +58,15 @@ public interface PaperEntityMapper {
 	 * @CreateDate:  2018年2月27日 上午9:41:14
 	 */
 	List<Map<String, Object>> getPaperDetail(Long paperId);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月5日 上午9:58:49
+	 */
+	int findPaperDetailByPageCount(Map<String, Object> requestMap);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月5日 上午9:58:54
+	 */
+	List<Map<String, Object>> findPaperDetailByPage(Map<String, Object> requestMap);
 
 }

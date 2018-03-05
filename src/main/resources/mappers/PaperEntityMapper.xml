@@ -36,7 +36,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertPaperEntity" parameterType="com.xuanli.oepcms.entity.PaperEntity">
+  <insert id="insertPaperEntity" parameterType="com.xuanli.oepcms.entity.PaperEntity" keyProperty="id" useGeneratedKeys="true">
     insert into xl_paper
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -303,7 +303,7 @@
       </if>
       limit #{start},#{end}
   </select>
-	<select id="getPaperDetail" parameterType="java.lang.Long" resultType="java.util.Map">
+  <select id="getPaperDetail" parameterType="java.lang.Long" resultType="java.util.Map">
 		SELECT
 			p.id,
 			ps.audio,
@@ -327,4 +327,117 @@
 		WHERE
 			p.id = #{value}
 	</select>
+	
+	
+	
+	<select id="findPaperDetailByPageCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+   		SELECT
+			count(ps.id)
+		FROM
+			xl_paper p
+		LEFT JOIN xl_paper_subject ps ON p.id = ps.paper_id
+		LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
+		LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
+		where p.cms_id is not null
+	    <if test="studySectionId != null">
+	        and p.study_section_id = #{studySectionId,jdbcType=INTEGER}
+	      </if>
+	      <if test="gradeLevelId != null">
+	        and p.grade_level_id = #{gradeLevelId,jdbcType=INTEGER}
+	      </if>
+	      <if test="addressProvince != null">
+	        and p.address_province = #{addressProvince,jdbcType=INTEGER}
+	      </if>
+	      <if test="term != null">
+	        and p.term = #{term,jdbcType=INTEGER}
+	      </if>
+	      <if test="examType != null">
+	        and p.exam_type = #{examType,jdbcType=INTEGER}
+	      </if>
+	      <if test="questionType != null">
+	        and p.question_type = #{questionType,jdbcType=INTEGER}
+	      </if>
+  </select>
+  <select id="findPaperDetailByPage" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+		ps.id,
+		ps.type,
+		ps.question_score questionScore,
+		ps.audio subjectAudio,
+		psd.guide guide,
+		psd.question,
+		psd.guide_audio guideAudio,
+		psd.type detailType,
+		psd.read_time readTime,
+		psd.write_time writeTime,
+		psd.original_text,
+		psd.repeat_count repeatCount,
+		psd.question_no questionNo,
+		po.result,
+		po.point_result pointResult,
+		po.correct_result correntResult,
+		ps.used_count useTotal,
+		ps.create_date createDate
+	FROM
+		xl_paper p
+	LEFT JOIN xl_paper_subject ps ON p.id = ps.paper_id
+	LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
+	LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
+	where p.cms_id is not null 
+	 <if test="studySectionId != null">
+        and p.study_section_id = #{studySectionId,jdbcType=INTEGER}
+      </if>
+      <if test="gradeLevelId != null">
+        and p.grade_level_id = #{gradeLevelId,jdbcType=INTEGER}
+      </if>
+      <if test="addressProvince != null">
+        and p.address_province = #{addressProvince,jdbcType=INTEGER}
+      </if>
+      <if test="term != null">
+        and p.term = #{term,jdbcType=INTEGER}
+      </if>
+      <if test="examType != null">
+        and p.exam_type = #{examType,jdbcType=INTEGER}
+      </if>
+      <if test="questionType != null">
+        and p.question_type = #{questionType,jdbcType=INTEGER}
+      </if>
+	ORDER BY
+		<if test="ob!=null">
+			<if test="ob=='createDate'">
+	      		ps.create_date
+	      	</if>
+			<if test="ob=='usedCount'">
+	      		ps.used_count
+	      	</if>
+	      	<if test="sb!=null">
+	      		<if test="sb=='asc'">
+	      			asc
+		      	</if>
+		      	<if test="sb=='desc'">
+	      			desc
+		      	</if>
+	      	</if>
+	      	,
+      	</if>
+		ps.id,
+		psd.id
+      limit #{start},#{end}
+  </select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

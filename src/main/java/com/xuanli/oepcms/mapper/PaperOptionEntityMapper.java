@@ -45,5 +45,10 @@ public interface PaperOptionEntityMapper {
 	 * @CreateDate:  2018年2月6日 下午4:26:50
 	 */
 	List<PaperOptionEntity> selectByDetailId(PaperOptionEntity record);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月5日 下午3:21:20
+	 */
+	List<PaperOptionEntity> getSubjectOptionByDetailId(Long id);
 
 }

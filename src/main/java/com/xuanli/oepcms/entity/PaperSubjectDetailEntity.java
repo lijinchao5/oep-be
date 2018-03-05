@@ -3,163 +3,191 @@ package com.xuanli.oepcms.entity;
 import java.util.Date;
 
 public class PaperSubjectDetailEntity {
-    private Long id;
+	private Long id;
 
-    private Long subjectId;
+	private Long subjectId;
 
-    private Integer type;
+	private Integer type;
 
-    private String guide;
+	private String guide;
 
-    private String question;
+	private String question;
 
-    private String guideAudio;
+	private String guideAudio;
 
-    private Integer readTime;
+	private Integer readTime;
 
-    private String questionAudio;
+	private String questionAudio;
 
-    private Integer writeTime;
+	private Integer writeTime;
 
-    private Double score;
+	private Double score;
 
-    private String originalText;
+	private String originalText;
 
-    private Long createId;
+	private Long createId;
 
-    private Date createDate;
+	private Date createDate;
 
-    private Long updateId;
+	private Long updateId;
 
-    private Date updateDate;
+	private Date updateDate;
 
-    private String enableFlag;
+	private String enableFlag;
 
-    public Long getId() {
-        return id;
-    }
+	private Long cmsId;
+	private Integer questionNo;
+	private Integer repeatCount;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getCmsId() {
+		return cmsId;
+	}
 
-    public Long getSubjectId() {
-        return subjectId;
-    }
+	public void setCmsId(Long cmsId) {
+		this.cmsId = cmsId;
+	}
 
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
-    }
+	public Integer getQuestionNo() {
+		return questionNo;
+	}
 
-    public Integer getType() {
-        return type;
-    }
+	public void setQuestionNo(Integer questionNo) {
+		this.questionNo = questionNo;
+	}
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+	public Integer getRepeatCount() {
+		return repeatCount;
+	}
 
-    public String getGuide() {
-        return guide;
-    }
+	public void setRepeatCount(Integer repeatCount) {
+		this.repeatCount = repeatCount;
+	}
 
-    public void setGuide(String guide) {
-        this.guide = guide;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getQuestion() {
-        return question;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
+	public Long getSubjectId() {
+		return subjectId;
+	}
 
-    public String getGuideAudio() {
-        return guideAudio;
-    }
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
 
-    public void setGuideAudio(String guideAudio) {
-        this.guideAudio = guideAudio;
-    }
+	public Integer getType() {
+		return type;
+	}
 
-    public Integer getReadTime() {
-        return readTime;
-    }
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
-    public void setReadTime(Integer readTime) {
-        this.readTime = readTime;
-    }
+	public String getGuide() {
+		return guide;
+	}
 
-    public String getQuestionAudio() {
-        return questionAudio;
-    }
+	public void setGuide(String guide) {
+		this.guide = guide;
+	}
 
-    public void setQuestionAudio(String questionAudio) {
-        this.questionAudio = questionAudio;
-    }
+	public String getQuestion() {
+		return question;
+	}
 
-    public Integer getWriteTime() {
-        return writeTime;
-    }
+	public void setQuestion(String question) {
+		this.question = question;
+	}
 
-    public void setWriteTime(Integer writeTime) {
-        this.writeTime = writeTime;
-    }
+	public String getGuideAudio() {
+		return guideAudio;
+	}
 
-    public Double getScore() {
-        return score;
-    }
+	public void setGuideAudio(String guideAudio) {
+		this.guideAudio = guideAudio;
+	}
 
-    public void setScore(Double score) {
-        this.score = score;
-    }
+	public Integer getReadTime() {
+		return readTime;
+	}
 
-    public String getOriginalText() {
-        return originalText;
-    }
+	public void setReadTime(Integer readTime) {
+		this.readTime = readTime;
+	}
 
-    public void setOriginalText(String originalText) {
-        this.originalText = originalText;
-    }
+	public String getQuestionAudio() {
+		return questionAudio;
+	}
 
-    public Long getCreateId() {
-        return createId;
-    }
+	public void setQuestionAudio(String questionAudio) {
+		this.questionAudio = questionAudio;
+	}
 
-    public void setCreateId(Long createId) {
-        this.createId = createId;
-    }
+	public Integer getWriteTime() {
+		return writeTime;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setWriteTime(Integer writeTime) {
+		this.writeTime = writeTime;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public Double getScore() {
+		return score;
+	}
 
-    public Long getUpdateId() {
-        return updateId;
-    }
+	public void setScore(Double score) {
+		this.score = score;
+	}
 
-    public void setUpdateId(Long updateId) {
-        this.updateId = updateId;
-    }
+	public String getOriginalText() {
+		return originalText;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public void setOriginalText(String originalText) {
+		this.originalText = originalText;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public Long getCreateId() {
+		return createId;
+	}
 
-    public String getEnableFlag() {
-        return enableFlag;
-    }
+	public void setCreateId(Long createId) {
+		this.createId = createId;
+	}
 
-    public void setEnableFlag(String enableFlag) {
-        this.enableFlag = enableFlag;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Long getUpdateId() {
+		return updateId;
+	}
+
+	public void setUpdateId(Long updateId) {
+		this.updateId = updateId;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getEnableFlag() {
+		return enableFlag;
+	}
+
+	public void setEnableFlag(String enableFlag) {
+		this.enableFlag = enableFlag;
+	}
 }

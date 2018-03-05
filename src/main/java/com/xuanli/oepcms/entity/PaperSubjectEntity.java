@@ -31,7 +31,37 @@ public class PaperSubjectEntity {
 
     private String enableFlag;
 
-    public Long getId() {
+    
+    private Long cmsId;
+    private Long subjectId;
+    private Integer usedCount;
+    
+    
+    public Long getCmsId() {
+		return cmsId;
+	}
+
+	public void setCmsId(Long cmsId) {
+		this.cmsId = cmsId;
+	}
+
+	public Long getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
+
+	public Integer getUsedCount() {
+		return usedCount;
+	}
+
+	public void setUsedCount(Integer usedCount) {
+		this.usedCount = usedCount;
+	}
+
+	public Long getId() {
         return id;
     }
 

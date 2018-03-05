@@ -34,7 +34,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertPaperSubjectDetailEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectDetailEntity">
+  <insert id="insertPaperSubjectDetailEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectDetailEntity" useGeneratedKeys="true" keyProperty="id">
     insert into xl_paper_subject_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -189,4 +189,11 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+  <select id="findSubjectDetailBySubjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from xl_paper_subject_detail
+    where subject_id = #{subjectId,jdbcType=BIGINT}
+    order by id
+  </select>
 </mapper>

@@ -45,5 +45,10 @@ public interface PaperSubjectEntityMapper {
 	 * @CreateDate:  2018年2月23日 下午4:17:58
 	 */
 	List<PaperSubjectEntity> getPaperSubjectEntity(PaperSubjectEntity paperSubjectEntity);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月5日 下午2:42:35
+	 */
+	void updatePaperSubjectUsedCount(Long id);
 
 }

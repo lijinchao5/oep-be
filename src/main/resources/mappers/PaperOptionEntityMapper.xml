@@ -138,4 +138,10 @@
        and  detail_id = #{detailId,jdbcType=BIGINT}
      </if>
   </select>
+  <select id="getSubjectOptionByDetailId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_paper_option
+    where  detail_id = #{value}
+  </select>
 </mapper>

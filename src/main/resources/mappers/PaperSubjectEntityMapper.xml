@@ -41,7 +41,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insertPaperSubjectEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity">
+  <insert id="insertPaperSubjectEntity" parameterType="com.xuanli.oepcms.entity.PaperSubjectEntity" keyProperty="id" useGeneratedKeys="true">
     insert into xl_paper_subject
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -177,5 +177,9 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+<update id="updatePaperSubjectUsedCount">
+	update xl_paper_subject set user_count = user_count+1 where id = #{id,jdbcType=BIGINT}
+</update>
 
 </mapper>
