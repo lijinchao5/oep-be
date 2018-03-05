@@ -25,9 +25,10 @@ public interface HomeworkStudentScoreWordEntityMapper {
      * @return
      */
     int deleteHomeworkStudentScoreWord(HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity);
-	/**@Description:  TODO
+	/**@param homeworkStudentScoreWordEntity 
+	 * @Description:  TODO
 	 * @CreateName:  codelion[QiaoYu]
 	 * @CreateDate:  2018年3月5日 下午4:01:36
 	 */
-	List<HomeworkStudentScoreWordEntity> getHomeworkStudentScoreWord();
+	List<HomeworkStudentScoreWordEntity> getHomeworkStudentScoreWord(HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity);
 }

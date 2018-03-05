@@ -320,7 +320,7 @@ public class HomeworkService extends BaseService {
 			homeworkStudentScoreWordEntity.setStudentId(studentId);
 			homeworkStudentScoreWordEntity.setHomeworkDetailId(sectionId);
 			homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
-			List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = HomeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord();
+			List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = HomeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
 			// 返回句子等信息
 			map.put("homeworkStudentScoreWordEntities", homeworkStudentScoreWordEntities);
 			// 返回分数等信息
