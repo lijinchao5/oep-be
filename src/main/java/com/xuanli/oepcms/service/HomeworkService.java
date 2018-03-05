@@ -585,9 +585,9 @@ public class HomeworkService extends BaseService {
 		for (HomeworkScoreBean hsb : homeworkDetails) {
 			List<HomeworkStudentScoreWordEntity> tempList = new ArrayList<HomeworkStudentScoreWordEntity>();
 			for (HomeworkStudentScoreWordEntity hsswe : homeworkStudentScoreWordEntities) {
-				if (hsswe.getHomeworkDetailId().longValue() == hsb.getSectionId().longValue()
-						&& hsswe.getStudentId().longValue() == hsb.getStudentId().longValue()
-						&& hsswe.getHomeworkId().longValue() == hsb.getHomeworkId().longValue()) {
+				if (hsswe.getHomeworkDetailId().longValue() == hsb.getSectionDetailId().longValue()
+						&& hsswe.getStudentId().longValue() == studentId
+						&& hsswe.getHomeworkId().longValue() == homeworkId) {
 					tempList.add(hsswe);
 				}
 			}
