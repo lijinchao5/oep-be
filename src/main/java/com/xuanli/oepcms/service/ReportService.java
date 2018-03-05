@@ -19,6 +19,8 @@ import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
+import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
+import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
 import com.xuanli.oepcms.vo.RestResult;
 
 /**
@@ -28,6 +30,8 @@ import com.xuanli.oepcms.vo.RestResult;
 public class ReportService extends BaseService {
 	@Autowired
 	HomeworkService homeworkService;
+	@Autowired
+	HomeworkStudentScoreEntityMapper HomeworkStudentScoreDao;
 	public static final int TOTALSCORE = 100;
 
 	/**
@@ -58,7 +62,8 @@ public class ReportService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月22日 上午9:41:19
 	 */
-	public RestResult<String> generatorHomeworkReport(long homeworkId, Long id) {
+	public RestResult<String> generatorHomeworkReport(Long homeworkId, Long id) {
+		HomeworkStudentScoreDao.deleteHomeworkStudentScore(homeworkId);
 		// 生成学生作业分数
 		// --获取题目数量
 		int subjectSize = homeworkService.reportHomeworkDetail(homeworkId);// 一共十个题

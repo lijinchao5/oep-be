@@ -46,5 +46,11 @@ public interface HomeworkEntityMapper {
 	 * @CreateDate:  2018年2月26日 下午8:46:58
 	 */
 	List<Map<String, Object>> findStudentHomeworkByPage(Map<String, Object> requestMap);
-
+	/**
+	 * Title: getTimeOut 
+	 * Description:  作业超时
+	 * @date 2018年3月5日 下午2:41:13
+	 * @return
+	 */
+	int getTimeOutCount(Long homeworkId);
 }

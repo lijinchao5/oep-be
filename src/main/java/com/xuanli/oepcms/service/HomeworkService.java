@@ -605,6 +605,10 @@ public class HomeworkService extends BaseService{
 	 * @CreateDate:  2018年3月4日 下午4:21:33
 	 */
 	public String submitHomework(Long studentId, Long homeworkId) {
+		int timeOutCount = getTimeOutCount(homeworkId);
+		if(timeOutCount>0) {
+			return "现已超出作业提交时限,无法提交!";
+		}
 		HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
 		homeworkStudentScoreEntity.setEnableFlag("T");
 		homeworkStudentScoreEntity.setCreateDate(new Date());
@@ -612,7 +616,6 @@ public class HomeworkService extends BaseService{
 		homeworkStudentScoreEntity.setHomeworkId(homeworkId);
 		homeworkStudentScoreEntity.setStudentId(studentId);
 		homeworkStudentScoreDao.updateHomeworkStudentScore(homeworkStudentScoreEntity);
-		
 		
 		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
 		homeworkStudentEntity.setHomeworkId(homeworkId);
@@ -623,5 +626,8 @@ public class HomeworkService extends BaseService{
 		
 		
 		return "0";
+	}
+	public int getTimeOutCount(Long homeworkId) {
+		return homeworkDao.getTimeOutCount(homeworkId);
 	}
 }

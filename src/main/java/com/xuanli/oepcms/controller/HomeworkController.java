@@ -113,12 +113,11 @@ public class HomeworkController extends BaseController {
 	public RestResult<String> doHomeWork(Long homeworkId) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			String result = homeworkService.submitHomework(studentId, homeworkId);
-			return okNoResult(result);
+			return okNoResult(homeworkService.submitHomework(studentId, homeworkId));
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("布置家庭作业出现异常", e);
-			return failed(ExceptionCode.UNKNOW_CODE, "布置家庭作业出现异常");
+			logger.error("学生提交作业出现异常", e);
+			return failed(ExceptionCode.UNKNOW_CODE, "学生提交作业出现异常");
 		}
 	}
 	
@@ -137,13 +136,17 @@ public class HomeworkController extends BaseController {
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
 	public RestResult<HomeworkStudentScoreEntity> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
 		try {
+			int timeOutCount = homeworkService.getTimeOutCount(homeworkId);
+			if(timeOutCount>0) {
+				return failed(ExceptionCode.HOME_WORK_TIME_OUT, "现已超出作业提交时限,无法提交!");
+			}
 			Long studentId = getCurrentUser().getId();
 			HomeworkStudentScoreEntity result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
 			return ok(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("布置家庭作业出现异常", e);
-			return failed(ExceptionCode.UNKNOW_CODE, "布置家庭作业出现异常");
+			logger.error("学生做作业出现异常", e);
+			return failed(ExceptionCode.UNKNOW_CODE, "学生做作业出现异常");
 		}
 	}
 
