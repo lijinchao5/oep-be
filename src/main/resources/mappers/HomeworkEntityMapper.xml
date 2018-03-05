@@ -269,7 +269,7 @@
 		FROM
 			xl_homework h
 		WHERE
-			h.id = #{id}
+			h.id = #{value}
 		AND h.end_time > now()
 	</select>
 </mapper>

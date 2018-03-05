@@ -23,7 +23,6 @@ import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
-import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
 import com.xuanli.oepcms.service.HomeworkService;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.util.StringUtil;
@@ -113,7 +112,7 @@ public class HomeworkController extends BaseController {
 	public RestResult<String> doHomeWork(Long homeworkId) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			return okNoResult(homeworkService.submitHomework(studentId, homeworkId));
+			return homeworkService.submitHomework(studentId, homeworkId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("学生提交作业出现异常", e);
@@ -134,15 +133,10 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
-	public RestResult<HomeworkStudentScoreEntity> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
+	public RestResult<Map<String, Object>> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
 		try {
-			int timeOutCount = homeworkService.getTimeOutCount(homeworkId);
-			if(timeOutCount>0) {
-				return failed(ExceptionCode.HOME_WORK_TIME_OUT, "现已超出作业提交时限,无法提交!");
-			}
 			Long studentId = getCurrentUser().getId();
-			HomeworkStudentScoreEntity result = homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
-			return ok(result);
+			return homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("学生做作业出现异常", e);

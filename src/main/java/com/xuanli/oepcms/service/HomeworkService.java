@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.controller.bean.HomeworkBean;
 import com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
@@ -59,7 +60,7 @@ import com.xuanli.oepcms.vo.RestResult;
  */
 @Service
 @Transactional
-public class HomeworkService extends BaseService{
+public class HomeworkService extends BaseService {
 	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	HomeworkEntityMapper homeworkDao;
@@ -83,6 +84,7 @@ public class HomeworkService extends BaseService{
 	SectionDetailMapper sectionDetailMapper;
 	@Autowired
 	private Scheduler scheduler;
+
 	/**
 	 * @Description: TODO
 	 * @CreateName: QiaoYu
@@ -127,8 +129,8 @@ public class HomeworkService extends BaseService{
 			for (HomeworkBean homeworkBean : homeworkBeans) {
 				String[] sections = homeworkBean.getSubjects().split(",");
 				if (homeworkBean.getType() == 4) {
-					//查看对话有几个.分别插入到数据库中
-					//获取全部对话 type为4 
+					// 查看对话有几个.分别插入到数据库中
+					// 获取全部对话 type为4
 					for (String sec : sections) {
 						SectionDetail sectionDetail = new SectionDetail();
 						sectionDetail.setType(4);
@@ -151,7 +153,7 @@ public class HomeworkService extends BaseService{
 						homeworkDetailEntity.setDialogName("T");
 						homeworkDetailDao.updateHomeworkDetailEntityDialog(homeworkDetailEntity);
 					}
-				}else {
+				} else {
 					for (String sec : sections) {
 						HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
 						homeworkDetailEntity.setCreateId(createId);
@@ -166,18 +168,17 @@ public class HomeworkService extends BaseService{
 			if (null != homeworkDetailEntities && homeworkDetailEntities.size() > 0) {
 				homeworkDetailDao.inserHomeworkDetailBatch(homeworkDetailEntities);
 			}
-			//添加一个定时化任务到指定的时间点后 执行该操作
+			// 添加一个定时化任务到指定的时间点后 执行该操作
 			String cron = QuartzUtil.cron(endTime);
 			try {
-				QuartzUtil.addHomeworkJob(scheduler, "com.xuanli.oepcms.quartz.job.HomeWorkJob", "homeworkReport_"+homeworkId+"_"+UUID.randomUUID().toString(), cron, homeworkId);
+				QuartzUtil.addHomeworkJob(scheduler, "com.xuanli.oepcms.quartz.job.HomeWorkJob", "homeworkReport_" + homeworkId + "_" + UUID.randomUUID().toString(), cron,
+						homeworkId);
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.error("布置作业定时化任务失败.出现错误.",e);
+				logger.error("布置作业定时化任务失败.出现错误.", e);
 			}
 		}
-		
-		
-		
+
 	}
 
 	/**
@@ -185,7 +186,14 @@ public class HomeworkService extends BaseService{
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年1月19日 上午9:41:12
 	 */
-	public HomeworkStudentScoreEntity doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
+	public RestResult<Map<String, Object>> doHomeWork(Long studentId, Long sectionId, Long homeworkId, String file, String text, HttpServletRequest request) {
+
+		int timeOutCount = homeworkDao.getTimeOutCount(homeworkId);
+		if (timeOutCount > 0) {
+			return failed(ExceptionCode.HOME_WORK_TIME_OUT, "现已超出作业提交时限,无法提交!");
+		}
+
+		Map<String, Object> map = new HashMap<String, Object>();
 		HomeworkStudentScoreEntity scoreEntity = new HomeworkStudentScoreEntity();
 		scoreEntity.setAudioPath(file);
 		scoreEntity.setEnableFlag("F");
@@ -195,11 +203,11 @@ public class HomeworkService extends BaseService{
 		scoreEntity.setHomeworkId(homeworkId);
 		scoreEntity.setUpdateDate(new Date());
 		scoreEntity.setText(text);
-		//如果作业已做过，更新
+		// 如果作业已做过，更新
 		List<HomeworkStudentScoreEntity> homeworkStudentScore = homeworkStudentScoreDao.selectHomeworkStudentScore(scoreEntity);
-		if(null!=homeworkStudentScore&&homeworkStudentScore.size()>0) {
+		if (null != homeworkStudentScore && homeworkStudentScore.size() > 0) {
 			homeworkStudentScoreDao.updateHomeworkStudentScore(scoreEntity);
-		}else {
+		} else {
 			homeworkStudentScoreDao.insertHomeworkStudentScoreEntity(scoreEntity);
 		}
 		// 开始调用SDK计算分数
@@ -238,15 +246,15 @@ public class HomeworkService extends BaseService{
 							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
-							//删除word评分
+							// 删除word评分
 							HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity1 = new HomeworkStudentScoreWordEntity();
 							homeworkStudentScoreWordEntity1.setHomeworkId(homeworkId);
 							homeworkStudentScoreWordEntity1.setHomeworkDetailId(result.getSectionId());
 							homeworkStudentScoreWordEntity1.setStudentId(studentId);
 							HomeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
-							for(YunZhiline line:yunZhilines) {
+							for (YunZhiline line : yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
-								for(YunZhiWords word : yunZhiSubWords) {
+								for (YunZhiWords word : yunZhiSubWords) {
 									int type = word.getType();
 									String text1 = word.getText();
 									double score = word.getScore();
@@ -254,15 +262,17 @@ public class HomeworkService extends BaseService{
 									homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
 									homeworkStudentScoreWordEntity.setHomeworkDetailId(result.getSectionId());
 									homeworkStudentScoreWordEntity.setStudentId(studentId);
-									homeworkStudentScoreWordEntity.setType(type+"");
+									homeworkStudentScoreWordEntity.setType(type + "");
 									homeworkStudentScoreWordEntity.setText(text1);
-									homeworkStudentScoreWordEntity.setScore(score);
+									double sc = score * 10;
+									sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+									homeworkStudentScoreWordEntity.setScore(sc);
 									HomeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
 								}
 							}
 						}
 					} else {
-						//删除音标评分
+						// 删除音标评分
 						HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity1 = new HomeworkStudentScoreSymbolEntity();
 						homeworkStudentScoreSymbolEntity1.setHomeworkId(homeworkId);
 						homeworkStudentScoreSymbolEntity1.setHomeworkDetailId(result.getSectionId());
@@ -286,7 +296,7 @@ public class HomeworkService extends BaseService{
 											if (subWord.getSubtext().trim().equals("") || subWord.getSubtext().trim().equals("'") || subWord.getSubtext().trim().equals("ˌ")) {
 											} else {
 												homeworkStudentScoreSymbolEntity.setSymbol(subWord.getSubtext());
-												double sc = subWord.getScore()*10;
+												double sc = subWord.getScore() * 10;
 												sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 												homeworkStudentScoreSymbolEntity.setScore(sc);
 												homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
@@ -306,9 +316,18 @@ public class HomeworkService extends BaseService{
 			homeworkStudentScoreEntity.setUpdateDate(new Date());
 			homeworkStudentScoreEntity.setUpdateId(studentId);
 			homeworkStudentScoreDao.updateHomeworkStudentScoreEntity(homeworkStudentScoreEntity);
-			return homeworkStudentScoreEntity;
+			HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
+			homeworkStudentScoreWordEntity.setStudentId(studentId);
+			homeworkStudentScoreWordEntity.setHomeworkDetailId(sectionId);
+			homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
+			List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = HomeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord();
+			// 返回句子等信息
+			map.put("homeworkStudentScoreWordEntities", homeworkStudentScoreWordEntities);
+			// 返回分数等信息
+			map.put("homeworkStudentScoreEntity", homeworkStudentScoreEntity);
+			return ok(map);
 		}
-		return null;
+		return failed(ExceptionCode.UNKNOW_CODE, "未知错误.");
 	}
 
 	public void test(long homeworkId, long studentId) {
@@ -347,23 +366,23 @@ public class HomeworkService extends BaseService{
 							homeworkStudentScoreEntity.setFluency(yunZhiline.getFluency());
 							homeworkStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
 							homeworkStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
-							//删除word评分
+							// 删除word评分
 							HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity1 = new HomeworkStudentScoreWordEntity();
 							homeworkStudentScoreWordEntity1.setHomeworkId(homeworkId);
 							homeworkStudentScoreWordEntity1.setHomeworkDetailId(result.getSectionId());
 							homeworkStudentScoreWordEntity1.setStudentId(studentId);
 							HomeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
-							for(YunZhiline line:yunZhilines) {
+							for (YunZhiline line : yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
-								for(YunZhiWords word : yunZhiSubWords) {
+								for (YunZhiWords word : yunZhiSubWords) {
 									int type = word.getType();
 									String text1 = word.getText();
-									double score = word.getScore()*10.0;
+									double score = word.getScore() * 10.0;
 									HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
 									homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
 									homeworkStudentScoreWordEntity.setHomeworkDetailId(result.getSectionId());
 									homeworkStudentScoreWordEntity.setStudentId(studentId);
-									homeworkStudentScoreWordEntity.setType(type+"");
+									homeworkStudentScoreWordEntity.setType(type + "");
 									homeworkStudentScoreWordEntity.setText(text1);
 									homeworkStudentScoreWordEntity.setScore(score);
 									HomeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
@@ -371,7 +390,7 @@ public class HomeworkService extends BaseService{
 							}
 						}
 					} else {
-						//删除音标评分
+						// 删除音标评分
 						HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity1 = new HomeworkStudentScoreSymbolEntity();
 						homeworkStudentScoreSymbolEntity1.setHomeworkId(homeworkId);
 						homeworkStudentScoreSymbolEntity1.setHomeworkDetailId(result.getSectionId());
@@ -395,7 +414,7 @@ public class HomeworkService extends BaseService{
 											if (subWord.getSubtext().trim().equals("") || subWord.getSubtext().trim().equals("'") || subWord.getSubtext().trim().equals("ˌ")) {
 											} else {
 												homeworkStudentScoreSymbolEntity.setSymbol(subWord.getSubtext());
-												double sc = subWord.getScore()*10;
+												double sc = subWord.getScore() * 10;
 												sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 												homeworkStudentScoreSymbolEntity.setScore(sc);
 												homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
@@ -441,95 +460,98 @@ public class HomeworkService extends BaseService{
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月23日 下午2:45:54
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月23日 下午2:45:54
 	 */
 	public List<HomeworkSymbolScore> getHomeworkSymbolScore(long homeworkId) {
 		return homeworkStudentScoreSymbolEntityDao.getHomeworkSymbolScore(homeworkId);
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月23日 下午2:46:21
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月23日 下午2:46:21
 	 */
 	public List<HomeworkPicScoreBean> getHomeworkPicScore(long homeworkId) {
 		return homeworkStudentScoreDao.getHomeworkPickScore(homeworkId);
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月23日 下午2:52:15
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月23日 下午2:52:15
 	 */
 	public List<HomeworkPicScoreBean> getHomeworkPicTypeScore(long homeworkId) {
 		return homeworkStudentScoreDao.getHomeworkPicTypeScore(homeworkId);
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月23日 下午2:57:29
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月23日 下午2:57:29
 	 */
 	public List<HomeworkStudentScoreEntity> getHomeworkStudentScoreByHomeworkId(long homeworkId) {
 		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
 		homeworkStudentEntity.setHomeworkId(homeworkId);
 		return homeworkStudentDao.selectHomeworkStudentEntity(homeworkStudentEntity);
 	}
-	
-	/**老师写评语
-	 * @return */
-	public String updateHomewordStudentEntityRemark(String userIds,Long homeworkId,String remark) {
+
+	/**
+	 * 老师写评语
+	 * 
+	 * @return
+	 */
+	public String updateHomewordStudentEntityRemark(String userIds, Long homeworkId, String remark) {
 		HomeworkStudentEntity homeworkStudentEntity1 = new HomeworkStudentEntity();
 		homeworkStudentEntity1.setHomeworkId(homeworkId);
 		homeworkStudentEntity1.setRemark(remark);
-		//1.验证参数的有效性
-		if(StringUtil.isEmpty(userIds)){
+		// 1.验证参数的有效性
+		if (StringUtil.isEmpty(userIds)) {
 			return "1";
 		}
-		//2.执行更新操作
+		// 2.执行更新操作
 		String[] userId = userIds.split(",");
 		int rows = homeworkStudentDao.updateHomewordStudentEntityRemark(userId, homeworkId, remark);
 
-		//3.验证更新结果(成功,失败)
-		if(rows<=0){
+		// 3.验证更新结果(成功,失败)
+		if (rows <= 0) {
 			return "2";
-		}else {
+		} else {
 			return "0";
 		}
 	}
-	
+
 	/**
-	 * Title: getStudentHomeworkDetail 
-	 * Description:  查看学生作业详情
+	 * Title: getStudentHomeworkDetail Description: 查看学生作业详情
+	 * 
 	 * @date 2018年2月10日 下午3:10:27
 	 * @param homeworkId
 	 * @param studentId
 	 * @param homeworkType
 	 * @return
 	 */
-	public List<HomeworkScoreBean> getStudentHomework(Long homeworkId,Long studentId,Integer homeworkType) {
+	public List<HomeworkScoreBean> getStudentHomework(Long homeworkId, Long studentId, Integer homeworkType) {
 		return homeworkStudentScoreDao.getStudentHomework(homeworkId, studentId, homeworkType);
 	}
-	
+
 	/**
-	 * Title: selectStudentDetail 
-	 * Description:  作业报告,学生详情
+	 * Title: selectStudentDetail Description: 作业报告,学生详情
+	 * 
 	 * @date 2018年2月10日 下午3:10:39
 	 * @param homeworkId
 	 * @return
 	 */
-	public List<HomeworkStudentEntity> selectStudentEntity(Long homeworkId){
+	public List<HomeworkStudentEntity> selectStudentEntity(Long homeworkId) {
 		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
 		homeworkStudentEntity.setHomeworkId(homeworkId);
 		return homeworkStudentDao.selectStudentEntity(homeworkStudentEntity);
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月6日 上午9:32:14
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月6日 上午9:32:14
 	 */
 	public void findHomeworkPage(HomeworkEntity homeworkEntity, PageBean pageBean) {
 		int total = homeworkDao.findHomeworkPageTotal(homeworkEntity);
@@ -541,15 +563,15 @@ public class HomeworkService extends BaseService{
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月9日 下午3:54:08
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月9日 下午3:54:08
 	 */
-	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId,Long studentId) {
-		Map<String,Object> resultMap = new HashMap<String,Object>();
-		//查询作业信息信息
+	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId, Long studentId) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		// 查询作业信息信息
 		HomeworkEntity homeworkEntity = homeworkDao.getById(homeworkId);
-		//获取作业详细信息
+		// 获取作业详细信息
 		HomeworkScoreBean homeworkScoreBean = new HomeworkScoreBean();
 		homeworkScoreBean.setHomeworkId(homeworkId);
 		homeworkScoreBean.setStudentId(studentId);
@@ -560,9 +582,9 @@ public class HomeworkService extends BaseService{
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月26日 下午8:45:12
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月26日 下午8:45:12
 	 */
 	public void getStudentHomeWorkList(Map<String, Object> requestMap, PageBean pageBean) {
 		int total = homeworkDao.findStudentHomeworkByPageTotal(requestMap);
@@ -574,40 +596,41 @@ public class HomeworkService extends BaseService{
 	}
 
 	/**
-	 * @Description:  TODO 获取学生家庭作业信息
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月27日 下午12:29:44
+	 * @Description: TODO 获取学生家庭作业信息
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月27日 下午12:29:44
 	 */
 	public Map<String, Object> getStudentHomeworkInfo(Map<String, Object> requestMap) {
 		return homeworkStudentDao.getStudentHomeworkInfo(requestMap);
 	}
 
 	/**
-	 * @Description:  TODO 获取学生家庭作业详细信息
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月27日 下午12:33:17
+	 * @Description: TODO 获取学生家庭作业详细信息
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月27日 下午12:33:17
 	 */
 	public List<Map<String, Object>> getStudentHomeworkDetail(Map<String, Object> requestMap) {
 		return homeworkStudentDao.getStudentHomeworkDetail(requestMap);
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月28日 下午6:05:40
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月28日 下午6:05:40
 	 */
 	public List<Map<String, Object>> getStudentAvgScore(Map<String, Object> requestMap) {
 		return homeworkStudentDao.getStudentAvgScore(requestMap);
 	}
 
-	/**@Description:  TODO
-	 * @CreateName:  codelion[QiaoYu]
-	 * @CreateDate:  2018年3月4日 下午4:21:33
+	/**
+	 * @Description: TODO
+	 * @CreateName: codelion[QiaoYu]
+	 * @CreateDate: 2018年3月4日 下午4:21:33
 	 */
-	public String submitHomework(Long studentId, Long homeworkId) {
-		int timeOutCount = getTimeOutCount(homeworkId);
-		if(timeOutCount>0) {
-			return "现已超出作业提交时限,无法提交!";
+	public RestResult<String> submitHomework(Long studentId, Long homeworkId) {
+		int timeOutCount = homeworkDao.getTimeOutCount(homeworkId);
+		if (timeOutCount > 0) {
+			return failed(ExceptionCode.UNKNOW_CODE, "现已超出作业提交时限,无法提交!");
 		}
 		HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
 		homeworkStudentScoreEntity.setEnableFlag("T");
@@ -616,18 +639,11 @@ public class HomeworkService extends BaseService{
 		homeworkStudentScoreEntity.setHomeworkId(homeworkId);
 		homeworkStudentScoreEntity.setStudentId(studentId);
 		homeworkStudentScoreDao.updateHomeworkStudentScore(homeworkStudentScoreEntity);
-		
 		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
 		homeworkStudentEntity.setHomeworkId(homeworkId);
 		homeworkStudentEntity.setStudentId(studentId);
 		homeworkStudentEntity.setWorkComplate("T");
-		
 		homeworkStudentDao.updateHomeworkStudentEntity(homeworkStudentEntity);
-		
-		
-		return "0";
-	}
-	public int getTimeOutCount(Long homeworkId) {
-		return homeworkDao.getTimeOutCount(homeworkId);
+		return okNoResult("");
 	}
 }

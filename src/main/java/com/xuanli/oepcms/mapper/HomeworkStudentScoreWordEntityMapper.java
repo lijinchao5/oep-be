@@ -1,5 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.HomeworkStudentScoreWordEntity;
@@ -23,4 +25,9 @@ public interface HomeworkStudentScoreWordEntityMapper {
      * @return
      */
     int deleteHomeworkStudentScoreWord(HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月5日 下午4:01:36
+	 */
+	List<HomeworkStudentScoreWordEntity> getHomeworkStudentScoreWord();
 }

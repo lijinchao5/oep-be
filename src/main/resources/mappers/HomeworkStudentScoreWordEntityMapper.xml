@@ -107,4 +107,20 @@
         and student_id = #{studentId,jdbcType=BIGINT}
   </delete>
 
+  <select id="getHomeworkStudentScoreWord" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreWordEntity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_homework_student_score_word
+    where 1=1
+    <if test="homeworkId != null">
+        homework_id = #{homeworkId,jdbcType=BIGINT},
+      </if>
+      <if test="homeworkDetailId != null">
+        homework_detail_id = #{homeworkDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+  </select>
+
 </mapper>
