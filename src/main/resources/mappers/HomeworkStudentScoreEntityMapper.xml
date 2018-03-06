@@ -461,7 +461,7 @@
 	GROUP BY
 		hd.homework_type
   </select>
-  <select id="deleteHomeworkStudentScore" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  <select id="deleteHomeworkStudentScore" parameterType="java.lang.Long">
 		DELETE
 		FROM
 			xl_homework_student_score
