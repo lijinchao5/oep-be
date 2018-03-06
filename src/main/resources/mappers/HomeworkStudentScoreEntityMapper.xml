@@ -461,13 +461,13 @@
 	GROUP BY
 		hd.homework_type
   </select>
-  <select id="deleteHomeworkStudentScore" parameterType="java.lang.Long">
+  <delete id="deleteHomeworkStudentScore" parameterType="java.lang.Long">
 		DELETE
 		FROM
 			xl_homework_student_score
 		WHERE
 			homework_id = #{homeworkId} 
 		AND enable_flag = "F"
-  </select>
+  </delete>
   
 </mapper>
