@@ -414,10 +414,10 @@
   <select id="getHomeworkPicTypeScore" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.HomeworkPicScoreBean">
   	SELECT
 		hd.homework_type homeworktype,
-		sum(hss.score) / count(hss.id) score,
-		sum(hss.fluency) fluency,
-		sum(hss.integrity) intergrity,
-		sum(hss.pronunciation) pronunciation
+		avg(hss.score) score,
+		avg(hss.fluency) fluency,
+		avg(hss.integrity) intergrity,
+		avg(hss.pronunciation) pronunciation
 	FROM
 		(
 			SELECT
