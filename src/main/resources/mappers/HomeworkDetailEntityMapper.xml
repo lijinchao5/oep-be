@@ -146,7 +146,19 @@
 	</insert>
 
 	<select id="reportHomeworkDetail" parameterType="java.lang.Long" resultType="java.lang.Integer">
-		select count(id) from xl_homework_detail where homework_id = #{homeworkId}
+		SELECT
+			count(id)
+		FROM
+			xl_homework_detail
+		WHERE
+			homework_id = #{homeworkId}
+		AND (
+			homework_type IN (1, 2, 3, 5)
+			OR (
+				homework_type = 4
+				AND dialog_name = 'T'
+			)
+		)
 	</select>
 
 

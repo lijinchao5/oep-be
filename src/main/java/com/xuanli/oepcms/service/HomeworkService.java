@@ -651,16 +651,33 @@ public class HomeworkService extends BaseService {
 		}
 		HomeworkStudentScoreEntity homeworkStudentScoreEntity = new HomeworkStudentScoreEntity();
 		homeworkStudentScoreEntity.setEnableFlag("T");
-		homeworkStudentScoreEntity.setCreateDate(new Date());
 		homeworkStudentScoreEntity.setCreateId(studentId);
 		homeworkStudentScoreEntity.setHomeworkId(homeworkId);
 		homeworkStudentScoreEntity.setStudentId(studentId);
 		homeworkStudentScoreDao.updateHomeworkStudentScore(homeworkStudentScoreEntity);
-		HomeworkStudentEntity homeworkStudentEntity = new HomeworkStudentEntity();
-		homeworkStudentEntity.setHomeworkId(homeworkId);
-		homeworkStudentEntity.setStudentId(studentId);
-		homeworkStudentEntity.setWorkComplate("T");
-		homeworkStudentDao.updateHomeworkStudentEntity(homeworkStudentEntity);
+		
+		
+		List<HomeworkStudentScoreEntity> studentScoreEntities = homeworkStudentScoreDao.reportStudentScoreByStudent(homeworkId,studentId);
+		int subjectSize = reportHomeworkDetail(homeworkId);// 一共十个题
+		for (HomeworkStudentScoreEntity hsse : studentScoreEntities) {
+			Long sdId = hsse.getStudentId();
+			Double score = hsse.getScore();
+			double studentScore = score / subjectSize;
+			// 更新数据库
+			HomeworkStudentEntity studentEntity = new HomeworkStudentEntity();
+			studentEntity.setHomeworkId(homeworkId);
+			studentEntity.setStudentId(sdId);
+			//updateID在查询中特殊使用了一下,因为没有预留字段
+			studentEntity.setWorkTime(hsse.getUpdateId());
+			studentEntity.setUpdateDate(hsse.getUpdateDate());
+			BigDecimal b = new BigDecimal(studentScore);
+			studentScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+			studentEntity.setScore(studentScore);
+			studentEntity.setWorkComplate("T");
+			// 保存本次学生的分数
+			updateHomeworkStudentScoreEntityBatch(studentEntity);
+		}
+		
 		return okNoResult("");
 	}
 }

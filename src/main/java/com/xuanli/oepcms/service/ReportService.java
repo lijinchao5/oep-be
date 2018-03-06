@@ -19,7 +19,6 @@ import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
-import com.xuanli.oepcms.mapper.HomeworkStudentEntityMapper;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
 import com.xuanli.oepcms.vo.RestResult;
 

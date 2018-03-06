@@ -279,6 +279,36 @@
 		AND hss.enable_flag = 'T'
 	GROUP BY hss.student_id
   </select>
+  <select id="reportStudentScoreByStudent" resultMap="BaseResultMap">
+  	SELECT
+		hss.student_id,
+		SUM(score) score,
+		(
+			SELECT
+				IFNULL(
+					TIMESTAMPDIFF(
+						SECOND,
+						MIN(hs1.create_date),
+						MAX(hs1.create_date)
+					),
+					0
+				) clacTimes
+			FROM
+				xl_homework_student_score hs1
+			WHERE
+				hs1.student_id = hss.student_id
+			AND hs1.homework_id = hss.homework_id
+		) update_id,
+		MAX(hss.update_date) update_date
+	FROM
+		xl_homework_student_score hss
+	WHERE
+		hss.homework_id = #{homeworkId}
+	AND hss.enable_flag = 'T'
+	and hss.student_id = #{studentId}
+	GROUP BY
+		hss.student_id
+  </select>
   
   <select id="selectHomeworkStudentScore" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.controller.bean.HomeworkScoreBean" >
     select 

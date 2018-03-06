@@ -77,4 +77,10 @@ public interface HomeworkStudentScoreEntityMapper {
 	 * @return
 	 */
 	int deleteHomeworkStudentScore(Long homeworkId);
+
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月6日 上午11:43:06
+	 */
+	List<HomeworkStudentScoreEntity> reportStudentScoreByStudent(@Param("homeworkId")Long homeworkId,@Param("studentId")Long studentId);
 }
