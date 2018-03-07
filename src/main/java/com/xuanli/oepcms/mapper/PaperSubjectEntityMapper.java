@@ -50,5 +50,11 @@ public interface PaperSubjectEntityMapper {
 	 * @CreateDate:  2018年3月5日 下午2:42:35
 	 */
 	void updatePaperSubjectUsedCount(Long id);
-
+	/**Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年3月5日 下午6:31:28  
+	 */
+	PaperSubjectEntity selectByCmsId(Long id);
+	
+	int updateSyncPaperSubjectEntity(PaperSubjectEntity record);
 }

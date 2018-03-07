@@ -12,6 +12,7 @@
     <result column="grade_level_id" jdbcType="INTEGER" property="gradeLevelId" />
     <result column="address_province" jdbcType="INTEGER" property="addressProvince" />
     <result column="term" jdbcType="INTEGER" property="term" />
+    <result column="paper_type" jdbcType="INTEGER" property="paperType" />
     <result column="exam_type" jdbcType="INTEGER" property="examType" />
     <result column="question_type" jdbcType="INTEGER" property="questionType" />
     <result column="create_id" jdbcType="BIGINT" property="createId" />
@@ -19,11 +20,12 @@
     <result column="update_id" jdbcType="BIGINT" property="updateId" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="cms_id" jdbcType="BIGINT" property="cmsId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, paper_num, name, notice, total_score, total_time, study_section_id, grade_level_id, 
-    address_province, term, exam_type, question_type, create_id, create_date, update_id, 
-    update_date, enable_flag
+    address_province, term, paper_type, exam_type, question_type, create_id, create_date, update_id, 
+    update_date, enable_flag,cms_id
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -69,6 +71,9 @@
       <if test="term != null">
         term,
       </if>
+      <if test="paperType != null">
+        paper_type,
+      </if>
       <if test="examType != null">
         exam_type,
       </if>
@@ -89,6 +94,9 @@
       </if>
       <if test="enableFlag != null">
         enable_flag,
+      </if>
+      <if test="cmsId != null">
+        cms_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -122,6 +130,9 @@
       <if test="term != null">
         #{term,jdbcType=INTEGER},
       </if>
+      <if test="paperType != null">
+        #{paperType,jdbcType=INTEGER},
+      </if>
       <if test="examType != null">
         #{examType,jdbcType=INTEGER},
       </if>
@@ -142,6 +153,9 @@
       </if>
       <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cmsId != null">
+        #{cmsId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -175,6 +189,69 @@
       <if test="term != null">
         term = #{term,jdbcType=INTEGER},
       </if>
+      <if test="paperType != null">
+        paper_type = #{paperType,jdbcType=INTEGER},
+      </if>
+      <if test="examType != null">
+        exam_type = #{examType,jdbcType=INTEGER},
+      </if>
+      <if test="questionType != null">
+        question_type = #{questionType,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cmsId != null">
+        cms_id = #{cmsId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSyncPaperEntity" parameterType="com.xuanli.oepcms.entity.PaperEntity">
+    update xl_paper
+    <set>
+      <if test="paperNum != null">
+        paper_num = #{paperNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null">
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null">
+        total_score = #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="totalTime != null">
+        total_time = #{totalTime,jdbcType=INTEGER},
+      </if>
+      <if test="studySectionId != null">
+        study_section_id = #{studySectionId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeLevelId != null">
+        grade_level_id = #{gradeLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="addressProvince != null">
+        address_province = #{addressProvince,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=INTEGER},
+      </if>
+      <if test="paperType != null">
+        paper_type = #{paperType,jdbcType=INTEGER},
+      </if>
       <if test="examType != null">
         exam_type = #{examType,jdbcType=INTEGER},
       </if>
@@ -197,7 +274,7 @@
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where cms_id = #{cmsId,jdbcType=BIGINT}
   </update>
 
   <select id="findPaperByPageTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
@@ -234,6 +311,9 @@
       <if test="term != null">
         and term = #{term,jdbcType=INTEGER}
       </if>
+      <if test="paperType != null">
+        and paper_type = #{paperType,jdbcType=INTEGER}
+      </if>
       <if test="examType != null">
         and exam_type = #{examType,jdbcType=INTEGER}
       </if>
@@ -244,7 +324,7 @@
   <select id="findPaperByPage" parameterType="java.util.Map" resultType="java.util.Map">
     select 
     	 id, paper_num paperNum, name, notice, total_score totalScore, total_time totalTime, study_section_id, grade_level_id, 
-	    address_province, term, exam_type, question_type questionType, create_id, create_date, update_id, 
+	    address_province, term, paper_type, exam_type, question_type questionType, create_id, create_date, update_id, 
 	    update_date, enable_flag
     from
     	 (
@@ -288,6 +368,9 @@
       </if>
       <if test="term != null">
         and term = #{term,jdbcType=INTEGER}
+      </if>
+      <if test="paperType != null">
+        and paper_type = #{paperType,jdbcType=INTEGER}
       </if>
       <if test="examType != null">
         and exam_type = #{examType,jdbcType=INTEGER}
@@ -425,7 +508,12 @@
       limit #{start},#{end}
   </select>
 	
-	
+  <select id="selectByCmsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_paper
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </select>
 	
 	
 	

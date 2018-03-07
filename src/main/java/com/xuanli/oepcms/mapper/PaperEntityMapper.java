@@ -68,5 +68,21 @@ public interface PaperEntityMapper {
 	 * @CreateDate:  2018年3月5日 上午9:58:54
 	 */
 	List<Map<String, Object>> findPaperDetailByPage(Map<String, Object> requestMap);
-
+	
+	/**
+	 * Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年3月5日 下午5:27:26
+	 * @param id
+	 * @return
+	 */
+	PaperEntity selectByCmsId(Long id);
+	/**
+	 * Title: updateSyncPaperEntity 
+	 * Description:  根据cmsId更新试卷
+	 * @date 2018年3月5日 下午5:27:35
+	 * @param record
+	 * @return
+	 */
+	int updateSyncPaperEntity(PaperEntity record);
 }

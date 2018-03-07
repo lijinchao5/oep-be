@@ -50,5 +50,20 @@ public interface PaperOptionEntityMapper {
 	 * @CreateDate:  2018年3月5日 下午3:21:20
 	 */
 	List<PaperOptionEntity> getSubjectOptionByDetailId(Long id);
-
+	/**
+	 * Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年3月6日 上午9:51:48
+	 * @param id
+	 * @return
+	 */
+	PaperOptionEntity selectByCmsId(Long id);
+	/**
+	 * Title: updateSyncPaperOptionEntity 
+	 * Description:  
+	 * @date 2018年3月6日 上午9:52:04
+	 * @param record
+	 * @return
+	 */
+	int updateSyncPaperOptionEntity(PaperOptionEntity record);
 }

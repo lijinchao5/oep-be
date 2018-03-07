@@ -22,8 +22,18 @@ public class PaperOptionEntity {
     private Date updateDate;
 
     private String enableFlag;
+    
+    private Long cmsId;
+    
+    public Long getCmsId() {
+		return cmsId;
+	}
 
-    public Long getId() {
+	public void setCmsId(Long cmsId) {
+		this.cmsId = cmsId;
+	}
+
+	public Long getId() {
         return id;
     }
 

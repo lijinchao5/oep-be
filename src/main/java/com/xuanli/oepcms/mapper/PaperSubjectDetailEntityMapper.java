@@ -44,5 +44,20 @@ public interface PaperSubjectDetailEntityMapper {
 	 * @CreateDate:  2018年3月5日 下午2:22:53
 	 */
 	List<PaperSubjectDetailEntity> findSubjectDetailBySubjectId(String subject);
-
+	
+	/**Title: selectByCmsId 
+	 * Description:  
+	 * @date 2018年3月6日 上午9:28:24
+	 * @param id  
+	 */
+	PaperSubjectDetailEntity selectByCmsId(Long id);
+	
+	/**
+	 * Title: updateSyncPaperSubjectDetailEntity 
+	 * Description:  
+	 * @date 2018年3月6日 上午9:52:31
+	 * @param paperSubjectDetailEntity
+	 * @return
+	 */
+	int updateSyncPaperSubjectDetailEntity(PaperSubjectDetailEntity paperSubjectDetailEntity);
 }

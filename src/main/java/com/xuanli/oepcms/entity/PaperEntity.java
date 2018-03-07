@@ -22,8 +22,14 @@ public class PaperEntity {
     private Integer addressProvince;
 
     private Integer term;
-
-    private Integer examType;
+    
+    private Integer paperType;
+    
+    private Integer addressCity;
+    
+    private Integer addressArea;
+    
+	private Integer examType;
 
     private Integer questionType;
 
@@ -36,8 +42,42 @@ public class PaperEntity {
     private Date updateDate;
 
     private String enableFlag;
+    
+    private Long cmsId;
+    
+    public Integer getAddressCity() {
+		return addressCity;
+	}
 
-    public Long getId() {
+	public void setAddressCity(Integer addressCity) {
+		this.addressCity = addressCity;
+	}
+
+	public Integer getAddressArea() {
+		return addressArea;
+	}
+
+	public void setAddressArea(Integer addressArea) {
+		this.addressArea = addressArea;
+	}
+
+	public Integer getPaperType() {
+		return paperType;
+	}
+
+	public void setPaperType(Integer paperType) {
+		this.paperType = paperType;
+	}
+    
+	public Long getCmsId() {
+		return cmsId;
+	}
+
+	public void setCmsId(Long cmsId) {
+		this.cmsId = cmsId;
+	}
+
+	public Long getId() {
         return id;
     }
 

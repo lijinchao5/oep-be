@@ -48,8 +48,10 @@ public class ExceptionCode {
 	/**手机号码错误*/
 	public static final Integer MOBILE_ERROR_CODE = 9003;
 	
-	/**添加教材错误*/
+	/**同步教材错误*/
 	public static final Integer ADD_BOOK_ERROR = 2001;
+	/**同步试卷错误*/
+	public static final Integer SYNC_PAPER_ERROR = 2002;
 	
 	/**作业超时*/
 	public static final Integer HOME_WORK_TIME_OUT = 3001;
