@@ -44,15 +44,15 @@ public class SyncPaperService {
 	PaperSubjectDetailEntityMapper PaperSubjectDetailDao;
 	@Autowired
 	PaperOptionEntityMapper PaperOptionDao;
-	
+
 	@Transactional(readOnly = false)
 	public String syncPapers() {
 		String paperJson = SyncUtil.sendPostUTF8(systemConfig.PAPER_URL, null);
-		SyncPaperBean syncPaperBean = JSONObject.parseObject(paperJson,SyncPaperBean.class);
-		if(null!=syncPaperBean && syncPaperBean.getCode()==0) {
+		SyncPaperBean syncPaperBean = JSONObject.parseObject(paperJson, SyncPaperBean.class);
+		if (null != syncPaperBean && syncPaperBean.getCode() == 0) {
 			List<PaperBeans> paperBeans = syncPaperBean.getResult();
-			if(null!=paperBeans&&paperBeans.size()>0) {
-				for(PaperBeans paperBean : paperBeans) {
+			if (null != paperBeans && paperBeans.size() > 0) {
+				for (PaperBeans paperBean : paperBeans) {
 					PaperEntity paperEntity = new PaperEntity();
 					paperEntity.setCmsId(paperBean.getId());
 					paperEntity.setPaperNum(paperBean.getPaperNum());
@@ -73,15 +73,15 @@ public class SyncPaperService {
 					paperEntity.setAddressCity(paperBean.getAddressCity());
 					paperEntity.setAddressArea(paperBean.getAddressArea());
 					PaperEntity resultPaperEntity = paperDao.selectByCmsId(paperBean.getId());
-					if(null!=resultPaperEntity) {
+					if (null != resultPaperEntity) {
 						paperDao.updateSyncPaperEntity(paperEntity);
-					}else {
+					} else {
 						paperDao.insertPaperEntity(paperEntity);
 					}
 					String paperDetailJson = SyncUtil.sendPostUTF8(systemConfig.PAPER_CONTENT + "?paperId=" + paperBean.getId().longValue(), null);
-					SyncPaperDetailBean syncPaperDetailBean = JSONObject.parseObject(paperDetailJson,SyncPaperDetailBean.class);
-					if(null!=syncPaperDetailBean&&syncPaperDetailBean.getCode()==0) {
-						for(PaperSubjectBean paperSubjectBean:syncPaperDetailBean.getResult().getSubjects()) {
+					SyncPaperDetailBean syncPaperDetailBean = JSONObject.parseObject(paperDetailJson, SyncPaperDetailBean.class);
+					if (null != syncPaperDetailBean && syncPaperDetailBean.getCode() == 0) {
+						for (PaperSubjectBean paperSubjectBean : syncPaperDetailBean.getResult().getSubjects()) {
 							PaperSubjectEntity paperSubject = new PaperSubjectEntity();
 							paperSubject.setCmsId(paperSubjectBean.getId());
 							paperSubject.setPaperId(paperEntity.getId());
@@ -96,74 +96,75 @@ public class SyncPaperService {
 							paperSubject.setUpdateDate(paperSubjectBean.getUpdateDate());
 							paperSubject.setEnableFlag(paperSubjectBean.getEnableFlag());
 							PaperSubjectEntity SyncPaperSubjectEntity = PaperSubjectDao.selectByCmsId(paperSubjectBean.getId());
-							if(null!=SyncPaperSubjectEntity) {
+							if (null != SyncPaperSubjectEntity) {
 								PaperSubjectDao.updateSyncPaperSubjectEntity(paperSubject);
-							}else {
+							} else {
 								PaperSubjectDao.insertPaperSubjectEntity(paperSubject);
 							}
-							for(PaperSubjectDetailBean subjectDetailBean:syncPaperDetailBean.getResult().getDetails()) {
-								PaperSubjectDetailEntity subjectDetail = new PaperSubjectDetailEntity();
-								subjectDetail.setCmsId(subjectDetailBean.getId());
-								subjectDetail.setSubjectId(paperSubject.getId());
-								subjectDetail.setType(subjectDetailBean.getType());
-								subjectDetail.setGuide(subjectDetailBean.getGuide());
-								subjectDetail.setQuestion(subjectDetailBean.getQuestion());
-								subjectDetail.setGuideAudio(subjectDetailBean.getGuideAudio());
-								subjectDetail.setReadTime(subjectDetailBean.getReadTime());
-								subjectDetail.setQuestionAudio(subjectDetailBean.getQuestionAudio());
-								subjectDetail.setWriteTime(subjectDetailBean.getWriteTime());
-								subjectDetail.setScore(subjectDetailBean.getScore());
-								subjectDetail.setOriginalText(subjectDetailBean.getOriginalText());
-								subjectDetail.setCreateId(subjectDetailBean.getCreateId());
-								subjectDetail.setCreateDate(subjectDetailBean.getCreateDate());
-								subjectDetail.setUpdateId(subjectDetailBean.getUpdateId());
-								subjectDetail.setUpdateDate(subjectDetailBean.getUpdateDate());
-								subjectDetail.setEnableFlag(subjectDetailBean.getEnableFlag());
-								subjectDetail.setQuestionNo(subjectDetailBean.getQuestionNo());
-								subjectDetail.setRepeatCount(subjectDetailBean.getRepeatCount());
-								PaperSubjectDetailEntity SyncPaperSubjectDetailEntity = PaperSubjectDetailDao.selectByCmsId(subjectDetailBean.getId());
-								if(subjectDetailBean.getSubjectId()==paperSubjectBean.getId()) {
-									if(null!=SyncPaperSubjectDetailEntity) {
+							for (PaperSubjectDetailBean subjectDetailBean : syncPaperDetailBean.getResult().getDetails()) {
+								if (subjectDetailBean.getSubjectId() != null && null != paperSubjectBean.getId()
+										&& subjectDetailBean.getSubjectId().longValue() == paperSubjectBean.getId().longValue()) {
+									PaperSubjectDetailEntity subjectDetail = new PaperSubjectDetailEntity();
+									subjectDetail.setCmsId(subjectDetailBean.getId());
+									subjectDetail.setSubjectId(paperSubject.getId());
+									subjectDetail.setType(subjectDetailBean.getType());
+									subjectDetail.setGuide(subjectDetailBean.getGuide());
+									subjectDetail.setQuestion(subjectDetailBean.getQuestion());
+									subjectDetail.setGuideAudio(subjectDetailBean.getGuideAudio());
+									subjectDetail.setReadTime(subjectDetailBean.getReadTime());
+									subjectDetail.setQuestionAudio(subjectDetailBean.getQuestionAudio());
+									subjectDetail.setWriteTime(subjectDetailBean.getWriteTime());
+									subjectDetail.setScore(subjectDetailBean.getScore());
+									subjectDetail.setOriginalText(subjectDetailBean.getOriginalText());
+									subjectDetail.setCreateId(subjectDetailBean.getCreateId());
+									subjectDetail.setCreateDate(subjectDetailBean.getCreateDate());
+									subjectDetail.setUpdateId(subjectDetailBean.getUpdateId());
+									subjectDetail.setUpdateDate(subjectDetailBean.getUpdateDate());
+									subjectDetail.setEnableFlag(subjectDetailBean.getEnableFlag());
+									subjectDetail.setQuestionNo(subjectDetailBean.getQuestionNo());
+									subjectDetail.setRepeatCount(subjectDetailBean.getRepeatCount());
+									PaperSubjectDetailEntity SyncPaperSubjectDetailEntity = PaperSubjectDetailDao.selectByCmsId(subjectDetailBean.getId());
+									if (null != SyncPaperSubjectDetailEntity) {
 										PaperSubjectDetailDao.updateSyncPaperSubjectDetailEntity(subjectDetail);
-									}else {
+									} else {
 										PaperSubjectDetailDao.insertPaperSubjectDetailEntity(subjectDetail);
 									}
-								}
-								for(PaperOptionBean paperOptionBean:syncPaperDetailBean.getResult().getOptions()) {
-									PaperOptionEntity paperOption = new PaperOptionEntity();
-									paperOption.setCmsId(paperOptionBean.getId());
-									paperOption.setDetailId(subjectDetail.getId());
-									paperOption.setPointResult(paperOptionBean.getPointResult());
-									paperOption.setResult(paperOptionBean.getResult());
-									paperOption.setCorrectResult(paperOptionBean.getCorrectResult());
-									paperOption.setCreateId(paperOptionBean.getCreateId());
-									paperOption.setCreateDate(paperOptionBean.getCreateDate());
-									paperOption.setUpdateId(paperOptionBean.getUpdateId());
-									paperOption.setUpdateDate(paperOptionBean.getUpdateDate());
-									paperOption.setEnableFlag(paperOptionBean.getEnableFlag());
-									PaperOptionEntity SyncPaperOption = PaperOptionDao.selectByCmsId(paperOptionBean.getId());
-									if(subjectDetailBean.getId()==paperOptionBean.getDetailId()) {
-										if(null!=SyncPaperOption) {
-											PaperOptionDao.updateSyncPaperOptionEntity(paperOption);
-										}else {
-											PaperOptionDao.insertPaperOptionEntity(paperOption);
+									for (PaperOptionBean paperOptionBean : syncPaperDetailBean.getResult().getOptions()) {
+										if (subjectDetailBean.getId().longValue() == paperOptionBean.getDetailId().longValue()) {
+											PaperOptionEntity paperOption = new PaperOptionEntity();
+											paperOption.setCmsId(paperOptionBean.getId());
+											paperOption.setDetailId(subjectDetail.getId());
+											paperOption.setPointResult(paperOptionBean.getPointResult());
+											paperOption.setResult(paperOptionBean.getResult());
+											paperOption.setCorrectResult(paperOptionBean.getCorrectResult());
+											paperOption.setCreateId(paperOptionBean.getCreateId());
+											paperOption.setCreateDate(paperOptionBean.getCreateDate());
+											paperOption.setUpdateId(paperOptionBean.getUpdateId());
+											paperOption.setUpdateDate(paperOptionBean.getUpdateDate());
+											paperOption.setEnableFlag(paperOptionBean.getEnableFlag());
+											PaperOptionEntity SyncPaperOption = PaperOptionDao.selectByCmsId(paperOptionBean.getId());
+											if (null != SyncPaperOption) {
+												PaperOptionDao.updateSyncPaperOptionEntity(paperOption);
+											} else {
+												PaperOptionDao.insertPaperOptionEntity(paperOption);
+											}
 										}
 									}
 								}
 							}
 						}
-					}else {
+					} else {
 						System.out.println("paperDetailBean是空的!");
 						return "3";
 					}
 				}
-			}else {
+			} else {
 				System.out.println("paperBean是空的!");
 				return "2";
 			}
 			return "1";
-		}else {
-			//失败
+		} else {
+			// 失败
 			return "0";
 		}
 	}
