@@ -46,17 +46,17 @@ public class HomeworkController extends BaseController {
 	@ApiOperation(value = "教师作业列表", notes = "教师作业列表")
 	@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "status", value = "状态 1:进行中,2:已完成", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "clasId", value = "班级ids 使用,隔开", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "clasId", value = "班级ids 使用,隔开", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") 
 	})
 	@RequestMapping(value = "findHomeworkPage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findHomeworkPage(String status, String clasId, Integer rows, Integer page) {
+	public RestResult<PageBean> findHomeworkPage(String status, Long clasId, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		// 保证这个班是这个老师创建的
 		HomeworkEntity homeworkEntity = new HomeworkEntity();
 		homeworkEntity.setStatus(status);
-		homeworkEntity.setClasIds(clasId);
+		homeworkEntity.setClasId(clasId);
 		homeworkEntity.setCreateId(getCurrentUser().getId());
 		homeworkService.findHomeworkPage(homeworkEntity, pageBean);
 		return ok(pageBean);

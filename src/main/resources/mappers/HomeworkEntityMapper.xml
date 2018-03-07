@@ -215,6 +215,7 @@
 			</if>
 		</if>
 		order by h.id desc
+		limit #{start},#{end}
 	</select>
 	
 	<select id="findStudentHomeworkByPageTotal" resultType="java.lang.Integer" parameterType="java.util.Map">

@@ -15,7 +15,7 @@
     <result column="cms_id" jdbcType="BIGINT" property="cmsId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, grade, book_volume, create_id, create_date, update_id, update_date, enable_flag,cms_id
+    id, name, grade, book_volume,book_version, create_id, create_date, update_id, update_date, enable_flag,cms_id
   </sql>
   <select id="selectBooks" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -152,12 +152,22 @@
   
   
   <!-- 查询书籍的信息 -->
-  <select id="getBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity" resultMap="BaseResultMap">
-    select 
-    	<include refid="Base_Column_List" />
-    from xl_book
-    where 
-    	enable_flag='T'
+  <select id="getBookEntity" parameterType="com.xuanli.oepcms.entity.BookEntity" resultType="com.xuanli.oepcms.entity.BookEntity">
+    SELECT
+		id,
+		(select name from xl_dic_detail dd where dd.dic_id=3 and dd.name_val = b.book_version and dd.enable_flag = 'T') name,
+		grade,
+		book_volume bookVolume,
+		book_version bookVersion,
+		create_id createId,
+		create_date createDate,
+		update_id updateId,
+		update_date updateDate,
+		enable_flag enableFlag
+	FROM
+		xl_book b
+	WHERE
+		enable_flag = 'T'
       <if test="grade != null">
         and grade = #{grade,jdbcType=VARCHAR}
       </if>

@@ -87,7 +87,7 @@ public class ExamController extends BaseController {
 	}
 	
 	
-	//查看布置作业详情
+	//查看考试详情
 	@RequestMapping(value = "getExamDetail.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> getExamDetail(Long examId){
 		return examService.getExamDetail(examId);
