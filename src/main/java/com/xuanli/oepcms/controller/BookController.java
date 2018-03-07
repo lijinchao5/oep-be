@@ -144,8 +144,8 @@ public class BookController extends BaseController {
 
 	@ApiOperation(value = "根据id查询教材信息", notes = "根据id查询教材信息")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "bookId", value = "教材id", required = true, dataType = "Long") })
-	@RequestMapping(value = "getBooksById.do", method = RequestMethod.GET)
-	public RestResult<BookEntity> getBooksById(Long bookId) {
+	@RequestMapping(value = "getBookById.do", method = RequestMethod.GET)
+	public RestResult<BookEntity> getBookById(Long bookId) {
 		if (null == bookId) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "bookId不能为空");
 		}

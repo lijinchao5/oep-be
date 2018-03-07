@@ -377,6 +377,7 @@
 		hss.audio_path audiopath,
 		hss.text studenttext,
 		hss.score studentscore,
+		hd.id homeworkDetailId,
 		hd.homework_type homeworktype,
 		hd.section_detail_id sectiondetailid,
 		sd.audio_path standeraudiopath,
