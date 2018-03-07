@@ -41,4 +41,11 @@ public interface BookEntityMapper {
     int updateSyncBookEntity(BookEntity record);
     
     List<BookEntity> selectBooks();
+	/**Title: getBookById 
+	 * Description:  
+	 * @date 2018年3月7日 下午2:27:27
+	 * @param bookId
+	 * @return  
+	 */
+	BookEntity getBookById(Long bookId);
 }

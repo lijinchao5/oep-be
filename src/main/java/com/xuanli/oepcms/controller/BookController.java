@@ -3,7 +3,7 @@
  * @Description:  TODO
  * @CreateName:  QiaoYu 
  * @CreateDate:  2018年1月18日 上午9:29:20
- */ 
+ */
 package com.xuanli.oepcms.controller;
 
 import java.util.List;
@@ -29,13 +29,13 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-/** 
- * @author  QiaoYu 
+/**
+ * @author QiaoYu
  */
 @RestController()
-//@RequestMapping(value = "/book/", method = RequestMethod.POST)
+// @RequestMapping(value = "/book/", method = RequestMethod.POST)
 @RequestMapping(value = "/book/")
-public class BookController extends BaseController{
+public class BookController extends BaseController {
 	@Autowired
 	BookService bookService;
 	@Autowired
@@ -44,20 +44,18 @@ public class BookController extends BaseController{
 	BookSectionService bookSectionService;
 	@Autowired
 	BookSectionDetailService bookSectionDetailService;
-	
+
 	/**
-	 * @Description:  TODO 查询课本信息
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月18日 上午9:50:50
+	 * @Description: TODO 查询课本信息
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月18日 上午9:50:50
 	 */
-	
-	@ApiOperation(value="更换教材", notes="查询教材信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "bookVolume", value = "教材册别", required = true, dataType = "String"),
-    })
+
+	@ApiOperation(value = "更换教材", notes = "查询教材信息")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "grade", value = "年级", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "bookVolume", value = "教材册别", required = true, dataType = "String"), })
 	@RequestMapping(value = "getBooks.do", method = RequestMethod.GET)
-	public RestResult<List<BookEntity>> getBooks(String grade,String bookVolume){
+	public RestResult<List<BookEntity>> getBooks(String grade, String bookVolume) {
 		try {
 			BookEntity bookEntity = new BookEntity();
 			bookEntity.setGrade(grade);
@@ -70,22 +68,18 @@ public class BookController extends BaseController{
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
-	
-	
+
 	/**
-	 * @Description:  TODO 查询单元信息
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月18日 上午9:50:37
+	 * @Description: TODO 查询单元信息
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月18日 上午9:50:37
 	 */
-	@ApiOperation(value="查询单元", notes="查询教材的单元信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "bookId", value = "教材Id", required = true, dataType = "String"),
-    })
+	@ApiOperation(value = "查询单元", notes = "查询教材的单元信息")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "bookId", value = "教材Id", required = true, dataType = "String"), })
 	@RequestMapping(value = "getUnits.do", method = RequestMethod.GET)
-	public RestResult<List<UnitEntity>> getUnits(String bookId){
-		if(StringUtil.isEmpty(bookId)) {
-			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择教材");
+	public RestResult<List<UnitEntity>> getUnits(String bookId) {
+		if (StringUtil.isEmpty(bookId)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请先选择教材");
 		}
 		UnitEntity unitEntity = new UnitEntity();
 		unitEntity.setBookId(bookId);
@@ -98,20 +92,18 @@ public class BookController extends BaseController{
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
+
 	/**
-	 * @Description:  TODO 查询单元详细信息
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月18日 上午9:50:37
+	 * @Description: TODO 查询单元详细信息
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月18日 上午9:50:37
 	 */
-	@ApiOperation(value="查询单元详情", notes="查询教材的单元信息的详情")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "unitId", value = "教材单元Id", required = true, dataType = "String"),
-    })
+	@ApiOperation(value = "查询单元详情", notes = "查询教材的单元信息的详情")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "unitId", value = "教材单元Id", required = true, dataType = "String"), })
 	@RequestMapping(value = "getSections.do", method = RequestMethod.GET)
-	public RestResult<List<SectionEntity>> getSections(String unitId){
-		if(StringUtil.isEmpty(unitId)) {
-			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择教材单元");
+	public RestResult<List<SectionEntity>> getSections(String unitId) {
+		if (StringUtil.isEmpty(unitId)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请先选择教材单元");
 		}
 		try {
 			SectionEntity sectionEntity = new SectionEntity();
@@ -124,20 +116,19 @@ public class BookController extends BaseController{
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
+
 	/**
-	 * @Description:  TODO 获取题目信息
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年1月18日 上午10:16:41
+	 * @Description: TODO 获取题目信息
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年1月18日 上午10:16:41
 	 */
-	@ApiOperation(value="查询单元章节内容", notes="查询单元章节内容")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "sectionId", value = "教材单元章节Id", required = true, dataType = "String"),
-    })
+	@ApiOperation(value = "查询单元章节内容", notes = "查询单元章节内容")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "sectionId", value = "教材单元章节Id", required = true, dataType = "String"), })
 	@RequestMapping(value = "getSectionDetail.do", method = RequestMethod.GET)
-	public RestResult<List<SectionDetail>> getSectionDetail(String sectionId){
-		if(StringUtil.isEmpty(sectionId)) {
-			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"请先选择教材章节");
+	public RestResult<List<SectionDetail>> getSectionDetail(String sectionId) {
+		if (StringUtil.isEmpty(sectionId)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请先选择教材章节");
 		}
 		try {
 			SectionDetail sectionDetail = new SectionDetail();
@@ -150,10 +141,16 @@ public class BookController extends BaseController{
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
-	
-	
-	
-	
-	
+
+	@ApiOperation(value = "根据id查询教材信息", notes = "根据id查询教材信息")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "bookId", value = "教材id", required = true, dataType = "Long") })
+	@RequestMapping(value = "getBooksById.do", method = RequestMethod.GET)
+	public RestResult<BookEntity> getBooksById(Long bookId) {
+		if (null == bookId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "bookId不能为空");
+		}
+		BookEntity bookEntity = bookService.getBookById(bookId);
+		return ok(bookEntity);
+	}
+
 }

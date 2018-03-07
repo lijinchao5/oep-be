@@ -209,5 +209,33 @@
     </set>
     where cms_id = #{cmsId,jdbcType=BIGINT}
   </update>
-
+	
+	
+  <select id="getBookById" parameterType="com.xuanli.oepcms.entity.BookEntity" resultType="com.xuanli.oepcms.entity.BookEntity">
+	    SELECT
+		id,
+		(
+			SELECT
+				NAME
+			FROM
+				xl_dic_detail dd
+			WHERE
+				dd.dic_id = 3
+			AND dd.name_val = b.book_version
+			AND dd.enable_flag = 'T'
+		) NAME,
+		grade,
+		book_volume bookVolume,
+		book_version bookVersion,
+		create_id createId,
+		create_date createDate,
+		update_id updateId,
+		update_date updateDate,
+		enable_flag enableFlag
+	FROM
+		xl_book b
+	WHERE
+		enable_flag = 'T'
+	AND id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>
