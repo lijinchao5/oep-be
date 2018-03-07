@@ -112,7 +112,7 @@ public class ReportService extends BaseService {
 		for (HomeworkScoreBean hsb : studentHomeworkDetail) {
 			List<HomeworkStudentScoreWordEntity> tempList = new ArrayList<HomeworkStudentScoreWordEntity>();
 			for (HomeworkStudentScoreWordEntity hsswe : homeworkStudentScoreWordEntities) {
-				if (hsswe.getHomeworkDetailId().longValue() == hsb.getSectionDetailId().longValue()
+				if (hsswe.getHomeworkDetailId().longValue() == hsb.getSectionId().longValue()
 						&& hsswe.getStudentId().longValue() == userId
 						&& hsswe.getHomeworkId().longValue() == homeworkId) {
 					tempList.add(hsswe);
