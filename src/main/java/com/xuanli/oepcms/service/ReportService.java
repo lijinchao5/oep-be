@@ -7,6 +7,7 @@
 package com.xuanli.oepcms.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,9 @@ import com.xuanli.oepcms.controller.bean.HomeworkScoreBean;
 import com.xuanli.oepcms.controller.bean.HomeworkSymbolScore;
 import com.xuanli.oepcms.entity.HomeworkStudentEntity;
 import com.xuanli.oepcms.entity.HomeworkStudentScoreEntity;
+import com.xuanli.oepcms.entity.HomeworkStudentScoreWordEntity;
 import com.xuanli.oepcms.mapper.HomeworkStudentScoreEntityMapper;
+import com.xuanli.oepcms.mapper.HomeworkStudentScoreWordEntityMapper;
 import com.xuanli.oepcms.vo.RestResult;
 
 /**
@@ -30,9 +33,10 @@ public class ReportService extends BaseService {
 	@Autowired
 	HomeworkService homeworkService;
 	@Autowired
-	HomeworkStudentScoreEntityMapper HomeworkStudentScoreDao;
+	HomeworkStudentScoreEntityMapper homeworkStudentScoreDao;
+	@Autowired
+	HomeworkStudentScoreWordEntityMapper homeworkStudentScoreWordEntityDao;
 	public static final int TOTALSCORE = 100;
-
 	/**
 	 * @Description: TODO 获取作业报告
 	 * @CreateName: QiaoYu
@@ -62,7 +66,7 @@ public class ReportService extends BaseService {
 	 * @CreateDate: 2018年1月22日 上午9:41:19
 	 */
 	public RestResult<String> generatorHomeworkReport(Long homeworkId, Long id) {
-		HomeworkStudentScoreDao.deleteHomeworkStudentScore(homeworkId);
+		homeworkStudentScoreDao.deleteHomeworkStudentScore(homeworkId);
 		// 生成学生作业分数
 		// --获取题目数量
 		int subjectSize = homeworkService.reportHomeworkDetail(homeworkId);// 一共十个题
@@ -100,6 +104,24 @@ public class ReportService extends BaseService {
 		requestMap.put("homeworkId", homeworkId);
 		Map<String, Object> studentHomeworkInfo = homeworkService.getStudentHomeworkInfo(requestMap);
 		List<HomeworkScoreBean> studentHomeworkDetail = homeworkService.getStudentHomework(homeworkId, userId, null);
+		
+		HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
+		homeworkStudentScoreWordEntity.setStudentId(userId);
+		homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
+		List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = homeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
+		for (HomeworkScoreBean hsb : studentHomeworkDetail) {
+			List<HomeworkStudentScoreWordEntity> tempList = new ArrayList<HomeworkStudentScoreWordEntity>();
+			for (HomeworkStudentScoreWordEntity hsswe : homeworkStudentScoreWordEntities) {
+				if (hsswe.getHomeworkDetailId().longValue() == hsb.getSectionDetailId().longValue()
+						&& hsswe.getStudentId().longValue() == userId
+						&& hsswe.getHomeworkId().longValue() == homeworkId) {
+					tempList.add(hsswe);
+				}
+			}
+			hsb.setHomeworkStudentScoreWordEntities(tempList);
+		}
+		
+		
 		//算出来平均分
 		List<Map<String, Object>> studentAvgScore = homeworkService.getStudentAvgScore(requestMap);
 		Map<String, Object> resultMap = new HashMap<String, Object>();

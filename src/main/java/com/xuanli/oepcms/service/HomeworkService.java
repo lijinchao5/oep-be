@@ -79,7 +79,7 @@ public class HomeworkService extends BaseService {
 	@Autowired
 	HomeworkStudentScoreSymbolEntityMapper homeworkStudentScoreSymbolEntityDao;
 	@Autowired
-	HomeworkStudentScoreWordEntityMapper HomeworkStudentScoreWordEntityDao;
+	HomeworkStudentScoreWordEntityMapper homeworkStudentScoreWordEntityDao;
 	@Autowired
 	SectionDetailMapper sectionDetailMapper;
 	@Autowired
@@ -251,7 +251,7 @@ public class HomeworkService extends BaseService {
 							homeworkStudentScoreWordEntity1.setHomeworkId(homeworkId);
 							homeworkStudentScoreWordEntity1.setHomeworkDetailId(result.getSectionId());
 							homeworkStudentScoreWordEntity1.setStudentId(studentId);
-							HomeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
+							homeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
 							for (YunZhiline line : yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
 								for (YunZhiWords word : yunZhiSubWords) {
@@ -267,7 +267,7 @@ public class HomeworkService extends BaseService {
 									double sc = score * 10;
 									sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 									homeworkStudentScoreWordEntity.setScore(sc);
-									HomeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
+									homeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
 								}
 							}
 						}
@@ -320,7 +320,7 @@ public class HomeworkService extends BaseService {
 			homeworkStudentScoreWordEntity.setStudentId(studentId);
 			homeworkStudentScoreWordEntity.setHomeworkDetailId(sectionId);
 			homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
-			List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = HomeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
+			List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = homeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
 			// 返回句子等信息
 			map.put("homeworkStudentScoreWordEntities", homeworkStudentScoreWordEntities);
 			// 返回分数等信息
@@ -371,7 +371,7 @@ public class HomeworkService extends BaseService {
 							homeworkStudentScoreWordEntity1.setHomeworkId(homeworkId);
 							homeworkStudentScoreWordEntity1.setHomeworkDetailId(result.getSectionId());
 							homeworkStudentScoreWordEntity1.setStudentId(studentId);
-							HomeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
+							homeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
 							for (YunZhiline line : yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
 								for (YunZhiWords word : yunZhiSubWords) {
@@ -385,7 +385,7 @@ public class HomeworkService extends BaseService {
 									homeworkStudentScoreWordEntity.setType(type + "");
 									homeworkStudentScoreWordEntity.setText(text1);
 									homeworkStudentScoreWordEntity.setScore(score);
-									HomeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
+									homeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
 								}
 							}
 						}
@@ -581,7 +581,7 @@ public class HomeworkService extends BaseService {
 		HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
 		homeworkStudentScoreWordEntity.setStudentId(studentId);
 		homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
-		List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = HomeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
+		List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = homeworkStudentScoreWordEntityDao.getHomeworkStudentScoreWord(homeworkStudentScoreWordEntity);
 		for (HomeworkScoreBean hsb : homeworkDetails) {
 			List<HomeworkStudentScoreWordEntity> tempList = new ArrayList<HomeworkStudentScoreWordEntity>();
 			for (HomeworkStudentScoreWordEntity hsswe : homeworkStudentScoreWordEntities) {
