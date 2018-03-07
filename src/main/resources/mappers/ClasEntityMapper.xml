@@ -240,7 +240,7 @@
 			WHERE
 				u.id IN (
 					SELECT
-						uc.id
+						uc.user_id
 					FROM
 						xl_user_clas uc
 					WHERE

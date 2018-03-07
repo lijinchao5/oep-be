@@ -338,34 +338,36 @@
   </select>
   
   <select id="findStudentByPageTotal" parameterType="com.xuanli.oepcms.entity.UserEntity" resultType="java.lang.Integer">
-	  select
+	  	select
 			count(*)
 		FROM
-			xl_user where id in (
+			xl_user u
+		WHERE
+			u.id IN (
 				SELECT
-					user_id
+					uc.user_id
 				FROM
-					xl_user_clas
+					xl_user_clas uc
 				WHERE
-					clas_id = #{clasId,jdbcType=VARCHAR} and clas_id in (
-						select id from xl_clas where create_id=#{clasCreateId}
-					)
+					uc.clas_id = #{clasId,jdbcType=VARCHAR}
 			)
+		AND u.update_date IS NOT NULL
   </select>
   <select id="findStudentByPage" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity" >
     	select 
     		<include refid="Base_Column_List" />
 		FROM
-			xl_user where id in (
+			xl_user u
+		WHERE
+			u.id IN (
 				SELECT
-					user_id
+					uc.user_id
 				FROM
-					xl_user_clas
+					xl_user_clas uc
 				WHERE
-					clas_id = #{clasId,jdbcType=VARCHAR} and clas_id in (
-						select id from xl_clas where create_id=#{clasCreateId}
-					)
+					uc.clas_id = #{clasId,jdbcType=VARCHAR}
 			)
+		AND u.update_date IS NOT NULL
 		limit #{start},#{end}
   </select>
   
