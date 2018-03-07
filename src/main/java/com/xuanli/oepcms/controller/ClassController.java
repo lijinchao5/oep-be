@@ -106,7 +106,7 @@ public class ClassController extends BaseController {
 	 */
 	@ApiOperation(value="获取班级信息", notes="获取班级方法")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String")
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "Long")
     })
 	@RequestMapping(value = "selectClass.do", method = RequestMethod.GET)
 	public RestResult<ClasEntity> selectClass(Long classId) {
@@ -114,4 +114,32 @@ public class ClassController extends BaseController {
 		return ok(clasEntity);
 	}
 	
+	@ApiOperation(value="更换班级", notes="更换班级")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String")
+    })
+	@RequestMapping(value = "updateClass.do", method = RequestMethod.PUT)
+	public RestResult<String> updateClass(@RequestParam String classId) {
+		if(StringUtil.isEmpty(classId)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"班级编号不能为空");
+		}
+		try {
+			ClasEntity clasEntity = clasService.selectByClassId(classId);
+			if(null==clasEntity) {
+				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE,"班级编号不存在");
+			}
+			String result = clasService.updateUserClass(classId,getCurrentUser().getId());
+			if(result.equals("1")) {
+				return ok("更换班级成功");
+			}else if(result.equals("0")) {
+				return failed(ExceptionCode.UNKNOW_CODE,"更换班级失败!");
+			}else {
+				return failed(ExceptionCode.UNKNOW_CODE,"未知错误，请联系管理员");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("更换班级失败.",e);
+			return failed(ExceptionCode.UNKNOW_CODE,e.getMessage());
+		}
+	}
 }

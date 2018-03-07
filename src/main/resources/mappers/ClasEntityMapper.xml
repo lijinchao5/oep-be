@@ -142,6 +142,19 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
+  <update id="updateUserClass" >
+	UPDATE xl_user_clas xuc
+	SET xuc.clas_id = (
+		SELECT
+			id
+		FROM
+			xl_clas xc
+		WHERE
+			xc.clas_id = #{clasId,jdbcType=VARCHAR}
+	)
+	WHERE
+		xuc.user_id = #{userId,jdbcType=BIGINT}
+  </update>
   
   
   
@@ -257,7 +270,14 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   
-  
+  <select id="selectByClassId" resultType="com.xuanli.oepcms.entity.ClasEntity" parameterType="java.lang.String" >
+	SELECT
+	<include refid="Base_Column_List" />
+	FROM
+	xl_clas
+	WHERE
+	clas_id = #{clasId,jdbcType=VARCHAR}
+  </select>
   
   
   

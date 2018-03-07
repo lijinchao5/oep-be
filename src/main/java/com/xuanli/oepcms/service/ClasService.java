@@ -73,4 +73,27 @@ public class ClasService {
 		pageBean.setRows(clasEntities);
 		
 	}
+	/**Title: updateUserClass 
+	 * Description:  更换班级
+	 * @date 2018年3月7日 下午3:19:54
+	 * @param classId  
+	 */
+	public String updateUserClass(String classId ,Long userId) {
+		int updateUserClass = clasDao.updateUserClass(classId,userId);
+		if(updateUserClass>0) {
+			return "1";
+		}else {
+			return "0";
+		}
+	}
+	/**
+	 * Title: selectByClassId 
+	 * Description:  判断classId是否存在
+	 * @date 2018年3月7日 下午4:52:27
+	 * @param classId
+	 * @return
+	 */
+	public ClasEntity selectByClassId(String classId) {
+		return clasDao.selectByClassId(classId);
+	}
 }

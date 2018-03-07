@@ -3,6 +3,7 @@ package com.xuanli.oepcms.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.xuanli.oepcms.entity.ClasEntity;
 @Mapper
@@ -46,11 +47,19 @@ public interface ClasEntityMapper {
 	 */
 	ClasEntity getClasInfoById(Long clasId);
 
-	/**Title: selectClass 
+	/**Title: updateUserClass 
+	 * Description:  更换班级
+	 * @date 2018年3月7日 下午3:20:52
+	 * @param classId  
+	 */
+	int updateUserClass(@Param("clasId")String classId, @Param("userId")Long userId);
+
+	/**Title: selectByClassId 
 	 * Description:  
-	 * @date 2018年2月9日 下午5:33:32
+	 * @date 2018年3月7日 下午4:02:51
 	 * @param classId
 	 * @return  
 	 */
+	ClasEntity selectByClassId(String classId);
 	
 }
