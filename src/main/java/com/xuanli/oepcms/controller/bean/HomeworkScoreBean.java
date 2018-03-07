@@ -32,7 +32,15 @@ public class HomeworkScoreBean {
 	//电脑说的为F,需要人为录音的为T
 	private String dialogName;
 	private Integer dialogNum;
+	private Long homeworkDetailId;
 	
+	
+	public Long getHomeworkDetailId() {
+		return homeworkDetailId;
+	}
+	public void setHomeworkDetailId(Long homeworkDetailId) {
+		this.homeworkDetailId = homeworkDetailId;
+	}
 	private List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities;
 	
 	
