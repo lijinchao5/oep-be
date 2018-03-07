@@ -48,6 +48,7 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.AliOSSUtil;
+import com.xuanli.oepcms.util.MapUtil;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.vo.RestResult;
 
@@ -410,6 +411,8 @@ public class ExamService extends BaseService {
 			examEntity.setEndTime(endTime);
 			examEntity.setPaperId(paperId);
 			examEntity.setClassId(Long.parseLong(clasId));
+			//模拟考试
+			examEntity.setType("1");
 			examEntity.setCreateId(userId);
 			examEntity.setCreateDate(new Date());
 			examEntityMapper.insertExamEntity(examEntity);
@@ -501,9 +504,46 @@ public class ExamService extends BaseService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		map.put("examDetail", examEntity);
-		map.put("paperDetail", paperEntityMapper.getPaperDetail(examEntity.getPaperId()));
+		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
+		for (Map<String, Object> map2 : maps1) {
+			MapUtil.printMap(map2);
+		}
+		map.put("paperDetail", maps1);
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
 		return ok(map);
 	}
 
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月7日 下午3:38:05
+	 */
+	public void findStudentExamByPage(Long studentId, PageBean pageBean) {
+		Map<String, Object> requiredMap = new HashMap<String, Object>();
+		requiredMap.put("studentId", studentId);
+		int total = examEntityMapper.findStudentExamByPageTotal(studentId);
+		pageBean.setTotal(total);
+		requiredMap.put("start", pageBean.getRowFrom());
+		requiredMap.put("end", pageBean.getPageSize());
+		List<Map<String, Object>> resultMap = examEntityMapper.findStudentExamByPage(requiredMap);
+		pageBean.setRows(resultMap);
+	}
+
+	
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年2月28日 上午9:43:34
+	 */
+	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId,Long studentId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ExamEntity examEntity = examEntityMapper.selectById(examId);
+		map.put("examDetail", examEntity);
+		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
+		for (Map<String, Object> map2 : maps1) {
+			MapUtil.printMap(map2);
+		}
+		map.put("paperDetail", maps1);
+		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
+		return ok(map);
+	}
 }

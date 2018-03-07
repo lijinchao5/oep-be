@@ -1,6 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -58,4 +59,14 @@ public interface ExamEntityMapper {
 	 * @CreateDate:  2018年2月24日 上午9:53:41
 	 */
 	ExamBean getExamInfo(Long examId);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月7日 下午3:41:09
+	 */
+	int findStudentExamByPageTotal(Long studentId);
+	/**@Description:  TODO
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月7日 下午4:54:23
+	 */
+	List<Map<String, Object>> findStudentExamByPage(Map<String, Object> requiredMap);
 }

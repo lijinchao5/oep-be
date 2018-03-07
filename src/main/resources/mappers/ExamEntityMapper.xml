@@ -282,4 +282,29 @@
 			psd.id
 	</select>
 
+  <select id="findStudentExamByPageTotal" parameterType="map" resultType="java.lang.Integer">
+  		SELECT
+			count(*)
+		FROM
+			xl_exam h
+		LEFT JOIN xl_exam_student es ON h.id = es.exam_id
+		and es.student_id = #{studentId}
+  </select>
+  <select id="findStudentExamByPage" parameterType="map" resultType="map">
+  		SELECT
+			h.id examId,
+			h. NAME examName,
+			h.notice examNotice,
+			h.start_time startTime,
+			h.end_time endTime,
+			h.class_id classId,
+			es.score score,
+			es.complate
+		FROM
+			xl_exam h
+		LEFT JOIN xl_exam_student es ON h.id = es.exam_id
+		WHERE
+			es.student_id = #{studentId}
+		AND h.type = 1
+  </select>
 </mapper>

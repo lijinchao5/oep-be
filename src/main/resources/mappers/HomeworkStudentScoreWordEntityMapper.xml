@@ -121,6 +121,7 @@
       <if test="studentId != null">
         and student_id = #{studentId,jdbcType=BIGINT}
       </if>
+      order by id
   </select>
 
 </mapper>

@@ -389,6 +389,8 @@
   <select id="getPaperDetail" parameterType="java.lang.Long" resultType="java.util.Map">
 		SELECT
 			p.id,
+			ps.id paperSubjectId,
+			psd.id paperSubjectDetailId,
 			ps.audio,
 			ps.type type,
 			psd.guide,
@@ -409,6 +411,7 @@
 		LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
 		WHERE
 			p.id = #{value}
+		order by ps.id,psd.id
 	</select>
 	
 	

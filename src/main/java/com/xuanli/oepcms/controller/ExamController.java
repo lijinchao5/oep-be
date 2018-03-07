@@ -80,18 +80,33 @@ public class ExamController extends BaseController {
 		UserEntity userEntity = getCurrentUser();
 		return examService.generatorExamReport(examId, userEntity.getId());
 	}
+
 	// 统计作业信息
 	@RequestMapping(value = "getExamReport.do", method = RequestMethod.GET)
-	public RestResult<Map<String, Object>> getExamReport(Long examId){
+	public RestResult<Map<String, Object>> getExamReport(Long examId) {
 		return examService.getExamReport(examId);
 	}
-	
-	
-	//查看考试详情
+
+	// 查看考试详情
 	@RequestMapping(value = "getExamDetail.do", method = RequestMethod.GET)
-	public RestResult<Map<String, Object>> getExamDetail(Long examId){
+	public RestResult<Map<String, Object>> getExamDetail(Long examId) {
 		return examService.getExamDetail(examId);
 	}
-	
-	
+
+	// 学生模拟考试列表
+	@RequestMapping(value = "findStudentExamByPage.do", method = RequestMethod.GET)
+	public RestResult<PageBean> findStudentExamByPage(Integer rows, Integer page) {
+		PageBean pageBean = initPageBean(page, rows);
+		// 保证这个班是这个老师创建的
+		Long userId = getCurrentUser().getId();
+		examService.findStudentExamByPage(userId, pageBean);
+		return ok(pageBean);
+	}
+
+	// 查看学生考试详情
+	@RequestMapping(value = "findStudentExamDetail.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId) {
+		return examService.findStudentExamDetail(examId, getCurrentUser().getId());
+	}
+
 }
