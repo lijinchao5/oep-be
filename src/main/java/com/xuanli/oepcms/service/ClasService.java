@@ -78,8 +78,8 @@ public class ClasService {
 	 * @date 2018年3月7日 下午3:19:54
 	 * @param classId  
 	 */
-	public String updateUserClass(String classId ,Long userId) {
-		int updateUserClass = clasDao.updateUserClass(classId,userId);
+	public String updateUserClass(String clasId ,Long userId) {
+		int updateUserClass = clasDao.updateUserClass(clasId,userId);
 		if(updateUserClass>0) {
 			return "1";
 		}else {
@@ -93,7 +93,7 @@ public class ClasService {
 	 * @param classId
 	 * @return
 	 */
-	public ClasEntity selectByClassId(String classId) {
-		return clasDao.selectByClassId(classId);
+	public ClasEntity selectByClassId(String clasId) {
+		return clasDao.selectByClassId(clasId);
 	}
 }
