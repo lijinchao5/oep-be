@@ -107,7 +107,7 @@ public class ClassController extends BaseController {
 
 	@ApiOperation(value = "更换班级", notes = "更换班级")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String") })
-	@RequestMapping(value = "updateClass.do", method = RequestMethod.PUT)
+	@RequestMapping(value = "updateClass.do", method = RequestMethod.POST)
 	public RestResult<String> updateClass(@RequestParam String clasId) {
 		if (StringUtil.isEmpty(clasId)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "班级编号不能为空");
