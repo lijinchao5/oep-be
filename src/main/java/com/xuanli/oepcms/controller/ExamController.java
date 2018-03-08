@@ -60,12 +60,12 @@ public class ExamController extends BaseController {
 
 	// 分页查询考试信息
 	@RequestMapping(value = "findExamByPage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findExamByPage(String status, String clasId, Integer rows, Integer page) {
+	public RestResult<PageBean> findExamByPage(String status, Long clasId, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		// 保证这个班是这个老师创建的
 		ExamEntity examEntity = new ExamEntity();
 		examEntity.setStatus(status);
-		examEntity.setClasIds(clasId);
+		examEntity.setClassId(clasId);
 		examEntity.setCreateId(getCurrentUser().getId());
 		examService.findExamByPage(examEntity, pageBean);
 		return ok(pageBean);
