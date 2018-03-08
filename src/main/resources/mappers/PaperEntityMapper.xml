@@ -390,6 +390,7 @@
 		SELECT
 			p.id paperId,
 			ps.id paperSubjectId,
+			ps.subject_num subjectNum,
 			ps.`subject` `subject`,
 			psd.id paperSubjectDetailId,
 			ps.audio,
