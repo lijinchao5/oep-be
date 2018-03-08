@@ -7,6 +7,7 @@
 package com.xuanli.oepcms.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
+import com.xuanli.oepcms.controller.bean.ExamAnswerBean;
 import com.xuanli.oepcms.entity.ExamEntity;
 import com.xuanli.oepcms.entity.UserEntity;
 import com.xuanli.oepcms.service.ExamService;
@@ -46,11 +47,10 @@ public class ExamController extends BaseController {
 
 	// 提交试卷
 	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)
-	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String detailIds, @RequestParam(required = false) String answer, @RequestParam Integer timeout,
-			@RequestParam(required = false, value = "audiofile") MultipartFile file) {
+	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam List<ExamAnswerBean> answers, @RequestParam Integer timeout) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			examService.submitExam(studentId, examId, detailIds, answer, file, timeout);
+			examService.submitExam(studentId, examId, answers, timeout);
 			return okNoResult("提交完成");
 		} catch (Exception e) {
 			e.printStackTrace();

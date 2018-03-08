@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
+import com.xuanli.oepcms.controller.bean.ExamAnswerBean;
 import com.xuanli.oepcms.controller.bean.ExamBean;
 import com.xuanli.oepcms.controller.bean.ExamStudentBean;
 import com.xuanli.oepcms.controller.bean.ExamStudentScoreBean;
@@ -86,10 +87,10 @@ public class ExamService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月6日 下午3:03:03
 	 */
-	public void submitExam(Long studentId, Long examId, String detailIds, String answer, MultipartFile file, Integer timeout) {
-		String[] detailIds1 = detailIds.split(",");
-		for (int i = 0; i < detailIds1.length; i++) {
-			long detailId = Long.parseLong(detailIds1[i]);
+	public void submitExam(Long studentId, Long examId, List<ExamAnswerBean> answers, Integer timeout) {
+		for (int i = 0; i < answers.size(); i++) {
+			ExamAnswerBean answer = answers.get(i);
+			long detailId = answer.getKey();
 			// 获取题目详情
 			PaperSubjectDetailEntity paperSubjectDetailEntity = paperSubjectDetailEntityMapper.selectById(detailId);
 			PaperOptionEntity record = new PaperOptionEntity();
@@ -102,86 +103,55 @@ public class ExamService extends BaseService {
 			examStudentScoreEntity.setSubjectDetailId(detailId);
 			examStudentScoreEntity.setExamId(examId);
 			examStudentScoreEntity.setStudentId(studentId);
-			/** TODO   生成分数前删除旧score分数   **/ 
+			/** TODO 生成分数前删除旧score分数 **/
 			examStudentScoreEntityMapper.deleteExamStudentScore(examStudentScoreEntity);
 			// 听后回答
-			String fileId = null;
+			String fileId = answer.getValue();
 			String text = null;
 			Double score = 0.00;
-			InputStream inputStream = null;
 			// 听后回答是有音频的---- type --1(听后回答)
-			ByteArrayOutputStream baos = null;
 			if (paperSubjectDetailEntity.getType().intValue() == 1) {
 				try {
-					if (null != file && !file.isEmpty()) {
-						baos = new ByteArrayOutputStream();
-						inputStream = file.getInputStream();
-						byte[] buffer = new byte[1024];
-						int len;
-						while ((len = inputStream.read(buffer)) > -1) {
-							baos.write(buffer, 0, len);
+					// 计算分数
+					// 获取本地答案的详细信息
+					for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
+						String correnctResult = paperOptionEntity.getCorrectResult();
+						if (null == correnctResult || StringUtils.isEmpty(correnctResult)) {
+							continue;
 						}
-						baos.flush();
-						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
-						// 计算分数
-						// 获取本地答案的详细信息
-						for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
-							String correnctResult = paperOptionEntity.getCorrectResult();
-							if (null == correnctResult || StringUtils.isEmpty(correnctResult)) {
-								continue;
-							}
-							String correncts[] = correnctResult.split("\\|\\|");
-							for (String correnct : correncts) {
-								String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
-								if (null == json || json.trim().equals("")) {
-									System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
-								} else {
-									YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-									if (yunZhiBean.getScore() > score) {
-										score = yunZhiBean.getScore();
-									}
+						String correncts[] = correnctResult.split("\\|\\|");
+						for (String correnct : correncts) {
+							String json = yunZhiSDK.generatorStudentExamScore(fileId, correnct, "A");
+							if (null == json || json.trim().equals("")) {
+								System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
+							} else {
+								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
+								if (yunZhiBean.getScore() > score) {
+									score = yunZhiBean.getScore();
 								}
 							}
 						}
-						for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
-							String correnctResult = paperOptionEntity.getPointResult();
-							if (null == correnctResult || StringUtils.isEmpty(correnctResult)) {
-								continue;
-							}
-							String correncts[] = correnctResult.split("\\|\\|");
-							for (String correnct : correncts) {
-								String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
-								if (null == json || json.trim().equals("")) {
-									System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
-								} else {
-									YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-									if (yunZhiBean.getScore() * pointScore > score) {
-										score = yunZhiBean.getScore();
-									}
-								}
-							}
-						}
-
 					}
-				} catch (IOException e) {
+					for (PaperOptionEntity paperOptionEntity : paperOptionEntities) {
+						String correnctResult = paperOptionEntity.getPointResult();
+						if (null == correnctResult || StringUtils.isEmpty(correnctResult)) {
+							continue;
+						}
+						String correncts[] = correnctResult.split("\\|\\|");
+						for (String correnct : correncts) {
+							String json = yunZhiSDK.generatorStudentExamScore(fileId, correnct, "A");
+							if (null == json || json.trim().equals("")) {
+								System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
+							} else {
+								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
+								if (yunZhiBean.getScore() * pointScore > score) {
+									score = yunZhiBean.getScore();
+								}
+							}
+						}
+					}
+				} catch (Exception e) {
 					e.printStackTrace();
-					fileId = "";
-				} finally {
-					if (null != inputStream) {
-						try {
-							inputStream.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						inputStream = null;
-					}
-					if (null != baos) {
-						try {
-							baos.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setScore(score);
@@ -194,7 +164,7 @@ public class ExamService extends BaseService {
 				// 听后选择---- type --2(选择题)
 			} else if (paperSubjectDetailEntity.getType().intValue() == 2) {
 				// 传入的为ABCDEF这种参数-
-				String textStr = answer.split(",")[i];
+				String textStr = answer.getValue();
 				if (paperOptionEntities.get(0).getCorrectResult().trim().equalsIgnoreCase(textStr.trim())) {
 					score = 100.00;
 				} else {
@@ -211,7 +181,7 @@ public class ExamService extends BaseService {
 				// 听后填空题---- type --3(填空题)
 			} else if (paperSubjectDetailEntity.getType().intValue() == 3) {
 				// 传入的为填空题的答案
-				String textStr = answer.split(",")[i];
+				String textStr = answer.getValue();
 				if (paperOptionEntities.get(0).getCorrectResult().trim().indexOf(textStr.trim()) >= 0) {
 					score = 100.00;
 				} else {
@@ -229,51 +199,23 @@ public class ExamService extends BaseService {
 			} else if (paperSubjectDetailEntity.getType().intValue() == 4) {
 				// 听后转述是有音频的
 				try {
-					if (null != file && !file.isEmpty()) {
-						inputStream = file.getInputStream();
-						baos = new ByteArrayOutputStream();
-						byte[] buffer = new byte[1024];
-						int len;
-						while ((len = inputStream.read(buffer)) > -1) {
-							baos.write(buffer, 0, len);
+					// 计算分数 //按照比例去计算分数
+					double thisScore = 0.00;
+					double picScore = paperSubjectDetailEntity.getScore() / paperOptionEntities.size();
+					String correnctResult = paperOptionEntities.get(0).getCorrectResult();
+					String correncts[] = correnctResult.split("\\|\\|");
+					for (String correnct : correncts) {
+						String json = yunZhiSDK.generatorStudentExamScore(fileId, correnct, "A");
+						if (null == json || json.trim().equals("")) {
+							System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
+						} else {
+							YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
+							thisScore = thisScore + (yunZhiBean.getScore() * picScore / 100);
 						}
-						baos.flush();
-						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
-						// 计算分数 //按照比例去计算分数
-						double thisScore = 0.00;
-						double picScore = paperSubjectDetailEntity.getScore() / paperOptionEntities.size();
-						String correnctResult = paperOptionEntities.get(0).getCorrectResult();
-						String correncts[] = correnctResult.split("\\|\\|");
-						for (String correnct : correncts) {
-							String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), correnct, "A");
-							if (null == json || json.trim().equals("")) {
-								System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
-							} else {
-								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-								thisScore = thisScore + (yunZhiBean.getScore() * picScore / 100);
-							}
-						}
-						examStudentScoreEntity.setScore(thisScore);
 					}
-				} catch (IOException e) {
+					examStudentScoreEntity.setScore(thisScore);
+				} catch (Exception e) {
 					e.printStackTrace();
-					fileId = "";
-				} finally {
-					if (null != inputStream) {
-						try {
-							inputStream.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						inputStream = null;
-					}
-					if (null != baos) {
-						try {
-							baos.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
 				}
 				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(text);
@@ -285,70 +227,42 @@ public class ExamService extends BaseService {
 				// 朗读短文---- type --5(朗读短文)
 				// 阅读是有音频的
 				try {
-					if (null != file && !file.isEmpty()) {
-						inputStream = file.getInputStream();
-						baos = new ByteArrayOutputStream();
-						byte[] buffer = new byte[1024];
-						int len;
-						while ((len = inputStream.read(buffer)) > -1) {
-							baos.write(buffer, 0, len);
-						}
-						baos.flush();
-						fileId = ossUtils.uploadFile(new ByteArrayInputStream(baos.toByteArray()), "exam_student", "mp3");
-						// 阅读 直接把问题text传入即可
-						String json = yunZhiSDK.generatorStudentExamScore(new ByteArrayInputStream(baos.toByteArray()), paperSubjectDetailEntity.getQuestion(), "E");
-						if (null == json || json.trim().equals("")) {
-							System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
-						} else {
-							YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-							score = yunZhiBean.getScore();
-							// 这里要弄一下流利度流畅度完整度三个信息
-							if (null != yunZhiBean.getLines() && yunZhiBean.getLines().size() > 0) {
-								/** TODO   生成分数前删除旧word分数   **/ 
-								ExamStudentScoreWordEntity examStudentScoreWordEntity1 = new ExamStudentScoreWordEntity();
-								examStudentScoreWordEntity1.setExamId(examId);
-								examStudentScoreWordEntity1.setStudentId(studentId);
-								examStudentScoreWordEntity1.setExamDetailId(paperSubjectDetailEntity.getId());
-								examStudentScoreWordEntityMapper.deleteExamStudentScoreWord(examStudentScoreWordEntity1);
-								YunZhiline yunZhiline = yunZhiBean.getLines().get(0);
-								examStudentScoreEntity.setFluency(yunZhiline.getFluency());
-								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
-								examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
-								List<YunZhiWords> yunZhiWords = yunZhiline.getWords();
-								for (YunZhiWords yunZhiWord : yunZhiWords) {
-									// yunZhiWord.
-									ExamStudentScoreWordEntity examStudentScoreWordEntity = new ExamStudentScoreWordEntity();
-									examStudentScoreWordEntity.setExamDetailId(paperSubjectDetailEntity.getId());
-									examStudentScoreWordEntity.setExamId(examId);
-									examStudentScoreWordEntity.setScore(yunZhiWord.getScore());
-									examStudentScoreWordEntity.setType(yunZhiWord.getType()+"");
-									examStudentScoreWordEntity.setText(yunZhiWord.getText());
-									examStudentScoreWordEntity.setStudentId(studentId);
-									examStudentScoreWordEntityMapper.insertSelective(examStudentScoreWordEntity);
-								}
-
+					// 阅读 直接把问题text传入即可
+					String json = yunZhiSDK.generatorStudentExamScore(fileId, paperSubjectDetailEntity.getQuestion(), "E");
+					if (null == json || json.trim().equals("")) {
+						System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
+					} else {
+						YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
+						score = yunZhiBean.getScore();
+						// 这里要弄一下流利度流畅度完整度三个信息
+						if (null != yunZhiBean.getLines() && yunZhiBean.getLines().size() > 0) {
+							/** TODO 生成分数前删除旧word分数 **/
+							ExamStudentScoreWordEntity examStudentScoreWordEntity1 = new ExamStudentScoreWordEntity();
+							examStudentScoreWordEntity1.setExamId(examId);
+							examStudentScoreWordEntity1.setStudentId(studentId);
+							examStudentScoreWordEntity1.setExamDetailId(paperSubjectDetailEntity.getId());
+							examStudentScoreWordEntityMapper.deleteExamStudentScoreWord(examStudentScoreWordEntity1);
+							YunZhiline yunZhiline = yunZhiBean.getLines().get(0);
+							examStudentScoreEntity.setFluency(yunZhiline.getFluency());
+							examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
+							examStudentScoreEntity.setPronunciation(yunZhiline.getPronunciation());
+							List<YunZhiWords> yunZhiWords = yunZhiline.getWords();
+							for (YunZhiWords yunZhiWord : yunZhiWords) {
+								// yunZhiWord.
+								ExamStudentScoreWordEntity examStudentScoreWordEntity = new ExamStudentScoreWordEntity();
+								examStudentScoreWordEntity.setExamDetailId(paperSubjectDetailEntity.getId());
+								examStudentScoreWordEntity.setExamId(examId);
+								examStudentScoreWordEntity.setScore(yunZhiWord.getScore());
+								examStudentScoreWordEntity.setType(yunZhiWord.getType() + "");
+								examStudentScoreWordEntity.setText(yunZhiWord.getText());
+								examStudentScoreWordEntity.setStudentId(studentId);
+								examStudentScoreWordEntityMapper.insertSelective(examStudentScoreWordEntity);
 							}
+
 						}
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
-					fileId = "";
-				} finally {
-					if (null != inputStream) {
-						try {
-							inputStream.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						inputStream = null;
-					}
-					if (null != baos) {
-						try {
-							baos.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setScore(score);
@@ -418,7 +332,7 @@ public class ExamService extends BaseService {
 			examEntity.setEndTime(endTime);
 			examEntity.setPaperId(paperId);
 			examEntity.setClassId(Long.parseLong(clasId));
-			//模拟考试
+			// 模拟考试
 			examEntity.setType("1");
 			examEntity.setCreateId(userId);
 			examEntity.setCreateDate(new Date());
@@ -473,7 +387,7 @@ public class ExamService extends BaseService {
 		List<ExamStudentBean> examStudentBeans = examStudentEntityMapper.getStudentExamScore(examStudentBean);
 		// 获取学生考试的详细信息
 		List<ExamStudentScoreBean> examStudentScoreBeans = examStudentEntityMapper.getStudentExamScoreDetail(examStudentBean);
-		//获取学生朗读短文的每个句子的得分
+		// 获取学生朗读短文的每个句子的得分
 		ExamStudentScoreWordEntity examStudentScoreWordEntity = new ExamStudentScoreWordEntity();
 		examStudentScoreWordEntity.setExamId(examId);
 		examStudentScoreWordEntity.setStudentId(studentId);
@@ -491,21 +405,17 @@ public class ExamService extends BaseService {
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.getExamStudentRank(examStudentEntity);
-		//查询
-		
-		
-		
-		
-		
+		// 查询
+
 		// 学生排名等信息
 		resultMap.put("examStudents", examStudentEntities);
 		return ok(resultMap);
 	}
 
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月28日 上午9:43:34
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月28日 上午9:43:34
 	 */
 	public RestResult<Map<String, Object>> getExamDetail(Long examId) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -517,9 +427,10 @@ public class ExamService extends BaseService {
 		return ok(map);
 	}
 
-	/**@Description:  TODO
-	 * @CreateName:  codelion[QiaoYu]
-	 * @CreateDate:  2018年3月7日 下午3:38:05
+	/**
+	 * @Description: TODO
+	 * @CreateName: codelion[QiaoYu]
+	 * @CreateDate: 2018年3月7日 下午3:38:05
 	 */
 	public void findStudentExamByPage(Long studentId, PageBean pageBean) {
 		Map<String, Object> requiredMap = new HashMap<String, Object>();
@@ -532,22 +443,21 @@ public class ExamService extends BaseService {
 		pageBean.setRows(resultMap);
 	}
 
-	
 	/**
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月28日 上午9:43:34
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月28日 上午9:43:34
 	 */
-	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId,Long studentId) {
+	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId, Long studentId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
-		//学生做题的信息
+		// 学生做题的信息
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setStudentId(studentId);
 		examStudentEntity.setExamId(examId);
 		ExamStudentEntity examStudentInfo = examStudentEntityMapper.getExamStudentInfo(examStudentEntity);
-		map.put("examStudentInfo",examStudentInfo);
+		map.put("examStudentInfo", examStudentInfo);
 		map.put("paperDetail", maps1);
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
 		map.put("examDetail", examEntity);
