@@ -52,7 +52,7 @@ public interface ClasEntityMapper {
 	 * @date 2018年3月7日 下午3:20:52
 	 * @param classId  
 	 */
-	int updateUserClass(@Param("clasId")String clasId, @Param("userId")Long userId);
+	int updateUserClass(@Param("clasId")Long clasId, @Param("userId")Long userId);
 
 	/**Title: selectByClassId 
 	 * Description:  

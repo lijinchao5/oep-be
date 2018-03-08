@@ -505,9 +505,6 @@ public class ExamService extends BaseService {
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		map.put("examDetail", examEntity);
 		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
-		for (Map<String, Object> map2 : maps1) {
-			MapUtil.printMap(map2);
-		}
 		map.put("paperDetail", maps1);
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
 		return ok(map);
@@ -539,9 +536,6 @@ public class ExamService extends BaseService {
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		map.put("examDetail", examEntity);
 		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
-		for (Map<String, Object> map2 : maps1) {
-			MapUtil.printMap(map2);
-		}
 		map.put("paperDetail", maps1);
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
 		return ok(map);

@@ -117,7 +117,7 @@ public class ClassController extends BaseController {
 			if (null == clasEntity) {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "班级编号不存在");
 			}
-			String result = clasService.updateUserClass(clasId, getCurrentUser().getId());
+			String result = clasService.updateUserClass(clasEntity.getId(), getCurrentUser().getId());
 			if (result.equals("1")) {
 				return ok("更换班级成功");
 			} else if (result.equals("0")) {

@@ -78,7 +78,7 @@ public class ClasService {
 	 * @date 2018年3月7日 下午3:19:54
 	 * @param classId  
 	 */
-	public String updateUserClass(String clasId ,Long userId) {
+	public String updateUserClass(Long clasId ,Long userId) {
 		int updateUserClass = clasDao.updateUserClass(clasId,userId);
 		if(updateUserClass>0) {
 			return "1";

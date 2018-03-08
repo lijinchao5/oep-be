@@ -388,8 +388,9 @@
   </select>
   <select id="getPaperDetail" parameterType="java.lang.Long" resultType="java.util.Map">
 		SELECT
-			p.id,
+			p.id paperId,
 			ps.id paperSubjectId,
+			ps.`subject` `subject`,
 			psd.id paperSubjectDetailId,
 			ps.audio,
 			ps.type type,

@@ -144,14 +144,7 @@
   
   <update id="updateUserClass" >
 	UPDATE xl_user_clas xuc
-	SET xuc.clas_id = (
-		SELECT
-			id
-		FROM
-			xl_clas xc
-		WHERE
-			xc.clas_id = #{clasId,jdbcType=VARCHAR}
-	)
+	SET xuc.clas_id = #{clasId}
 	WHERE
 		xuc.user_id = #{userId,jdbcType=BIGINT}
   </update>
