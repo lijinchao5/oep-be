@@ -40,6 +40,15 @@
     delete from xl_exam_student_score_word
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteExamStudentScoreWord" parameterType="java.lang.Long">
+  	DELETE
+	FROM
+		xl_exam_student_score_word
+	WHERE
+        exam_id = #{examId,jdbcType=BIGINT}
+        and exam_detail_id = #{examDetailId,jdbcType=BIGINT}
+        and student_id = #{studentId,jdbcType=BIGINT}
+  </delete>
   <insert id="insert" parameterType="com.xuanli.oepcms.entity.ExamStudentScoreWordEntity">
     insert into xl_exam_student_score_word (id, exam_id, exam_detail_id, 
       student_id, score, type, 

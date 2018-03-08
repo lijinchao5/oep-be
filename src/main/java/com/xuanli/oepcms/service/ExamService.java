@@ -102,8 +102,8 @@ public class ExamService extends BaseService {
 			examStudentScoreEntity.setSubjectDetailId(detailId);
 			examStudentScoreEntity.setExamId(examId);
 			examStudentScoreEntity.setStudentId(studentId);
-
-			/** TODO   删除   **/ 
+			/** TODO   生成分数前删除旧score分数   **/ 
+			examStudentScoreEntityMapper.deleteExamStudentScore(examStudentScoreEntity);
 			// 听后回答
 			String fileId = null;
 			String text = null;
@@ -304,7 +304,12 @@ public class ExamService extends BaseService {
 							score = yunZhiBean.getScore();
 							// 这里要弄一下流利度流畅度完整度三个信息
 							if (null != yunZhiBean.getLines() && yunZhiBean.getLines().size() > 0) {
-								/** TODO   删除   **/ 
+								/** TODO   生成分数前删除旧word分数   **/ 
+								ExamStudentScoreWordEntity examStudentScoreWordEntity1 = new ExamStudentScoreWordEntity();
+								examStudentScoreWordEntity1.setExamId(examId);
+								examStudentScoreWordEntity1.setStudentId(studentId);
+								examStudentScoreWordEntity1.setExamDetailId(paperSubjectDetailEntity.getId());
+								examStudentScoreWordEntityMapper.deleteExamStudentScoreWord(examStudentScoreWordEntity1);
 								YunZhiline yunZhiline = yunZhiBean.getLines().get(0);
 								examStudentScoreEntity.setFluency(yunZhiline.getFluency());
 								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());

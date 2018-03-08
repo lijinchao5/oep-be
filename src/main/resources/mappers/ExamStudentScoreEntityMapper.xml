@@ -35,6 +35,15 @@
     delete from xl_exam_student_score
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteExamStudentScore" parameterType="java.lang.Long">
+  	DELETE
+	FROM
+		xl_exam_student_score
+	WHERE
+        exam_id = #{examId,jdbcType=BIGINT}
+        and subject_detail_id = #{subjectDetailId,jdbcType=BIGINT}
+        and student_id = #{studentId,jdbcType=BIGINT}
+  </delete>
 
   <insert id="insertExamStudentScoreEntity" parameterType="com.xuanli.oepcms.entity.ExamStudentScoreEntity">
     insert into xl_exam_student_score

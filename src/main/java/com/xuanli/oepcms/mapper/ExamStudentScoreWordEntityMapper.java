@@ -25,4 +25,11 @@ public interface ExamStudentScoreWordEntityMapper {
 	 * @CreateDate:  2018年2月24日 上午11:49:27
 	 */
 	List<ExamStudentScoreWordEntity> getExamStudentWords(ExamStudentScoreWordEntity examStudentScoreWordEntity);
+
+	/**Title: deleteExamStudentScoreWord 
+	 * Description:  
+	 * @date 2018年3月8日 下午5:02:44
+	 * @param examStudentScoreWordEntity  
+	 */
+	void deleteExamStudentScoreWord(ExamStudentScoreWordEntity examStudentScoreWordEntity);
 }

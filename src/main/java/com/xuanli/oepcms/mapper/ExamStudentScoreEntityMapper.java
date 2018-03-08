@@ -37,5 +37,11 @@ public interface ExamStudentScoreEntityMapper {
      * @return
      */
     int updateExamStudentScoreEntity(ExamStudentScoreEntity record);
+	/**Title: deleteExamStudentScore 
+	 * Description:  
+	 * @date 2018年3月8日 下午4:53:52
+	 * @param examStudentScoreEntity  
+	 */
+	void deleteExamStudentScore(ExamStudentScoreEntity examStudentScoreEntity);
 
 }
