@@ -317,5 +317,18 @@
 		ORDER BY
 			ps.id,
 			psd.id
-	</select>	
+	</select>
+	
+	 <select id="getExamStudentInfo" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from xl_exam_student
+	    where 1=1
+	    <if test="examId != null">
+	        and exam_id = #{examId,jdbcType=BIGINT}
+	      </if>
+	      <if test="studentId != null">
+	        and student_id = #{studentId,jdbcType=BIGINT}
+	      </if>
+	  </select>	
 </mapper>

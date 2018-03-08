@@ -48,7 +48,6 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.AliOSSUtil;
-import com.xuanli.oepcms.util.MapUtil;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.vo.RestResult;
 
@@ -99,6 +98,7 @@ public class ExamService extends BaseService {
 			// 获取考试详情
 			ExamEntity examEntity = examEntityMapper.selectById(examId);
 			double pointScore = examEntity.getPointScore().doubleValue();
+			/** TODO   删除   **/ 
 			ExamStudentScoreEntity examStudentScoreEntity = new ExamStudentScoreEntity();
 			examStudentScoreEntity.setSubjectDetailId(detailId);
 			examStudentScoreEntity.setExamId(examId);
@@ -280,9 +280,9 @@ public class ExamService extends BaseService {
 				examStudentScoreEntity.setCreateDate(new Date());
 				examStudentScoreEntity.setCreateId(studentId);
 				examStudentScoreEntityMapper.insertExamStudentScoreEntity(examStudentScoreEntity);
-				// 朗读短文---- type --4(朗读短文)
 			} else if (paperSubjectDetailEntity.getType().intValue() == 5) {
-				// 听后阅读是有音频的
+				// 朗读短文---- type --5(朗读短文)
+				// 阅读是有音频的
 				try {
 					if (null != file && !file.isEmpty()) {
 						inputStream = file.getInputStream();
@@ -303,6 +303,7 @@ public class ExamService extends BaseService {
 							score = yunZhiBean.getScore();
 							// 这里要弄一下流利度流畅度完整度三个信息
 							if (null != yunZhiBean.getLines() && yunZhiBean.getLines().size() > 0) {
+								/** TODO   删除   **/ 
 								YunZhiline yunZhiline = yunZhiBean.getLines().get(0);
 								examStudentScoreEntity.setFluency(yunZhiline.getFluency());
 								examStudentScoreEntity.setIntegrity(yunZhiline.getIntegrity());
@@ -534,10 +535,16 @@ public class ExamService extends BaseService {
 	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId,Long studentId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
-		map.put("examDetail", examEntity);
 		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
+		//学生做题的信息
+		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
+		examStudentEntity.setStudentId(studentId);
+		examStudentEntity.setExamId(examId);
+		ExamStudentEntity examStudentInfo = examStudentEntityMapper.getExamStudentInfo(examStudentEntity);
+		map.put("examStudentInfo",examStudentInfo);
 		map.put("paperDetail", maps1);
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
+		map.put("examDetail", examEntity);
 		return ok(map);
 	}
 }
