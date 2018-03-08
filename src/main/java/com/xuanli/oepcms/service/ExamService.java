@@ -98,11 +98,12 @@ public class ExamService extends BaseService {
 			// 获取考试详情
 			ExamEntity examEntity = examEntityMapper.selectById(examId);
 			double pointScore = examEntity.getPointScore().doubleValue();
-			/** TODO   删除   **/ 
 			ExamStudentScoreEntity examStudentScoreEntity = new ExamStudentScoreEntity();
 			examStudentScoreEntity.setSubjectDetailId(detailId);
 			examStudentScoreEntity.setExamId(examId);
 			examStudentScoreEntity.setStudentId(studentId);
+
+			/** TODO   删除   **/ 
 			// 听后回答
 			String fileId = null;
 			String text = null;
