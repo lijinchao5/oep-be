@@ -56,9 +56,6 @@ public class PaperService extends BaseService {
 		requestMap.put("start", pageBean.getRowFrom());
 		requestMap.put("end", pageBean.getPageSize());
 		List<Map<String, Object>> resultMap = paperEntityMapper.findPaperByPage(requestMap);
-		for (Map<String, Object> map : resultMap) {
-			System.out.println(map.get("id"));
-		}
 		pageBean.setRows(resultMap);
 	}
 
