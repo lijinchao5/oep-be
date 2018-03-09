@@ -336,7 +336,7 @@
 		WHERE
 			es.student_id = #{studentId}
 		AND h.type = 1
-		order by h.id desc
+		order by h.end_time desc
 		limit #{start},#{end}
   </select>
 </mapper>

@@ -393,13 +393,21 @@ public class ExamService extends BaseService {
 		return okNoResult("成功布置模拟考试!");
 	}
 
-	// 考试预览题目信息
+	/**
+	 *  考试预览题目信息
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月9日 上午10:15:41
+	 */
 	public RestResult<ExamBean> getExamInfo(Long examId) {
 		ExamBean examBean = examEntityMapper.getExamInfo(examId);
 		return ok(examBean);
 	}
 
-	// 获取学生考试的详细信息
+	/**
+	 *  获取学生考试的详细信息
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月9日 上午10:15:35
+	 */
 	public RestResult<Map<String, Object>> getStudentExamInfo(Long examId, Long studentId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		// 获取学生考试的分数信息
@@ -421,7 +429,11 @@ public class ExamService extends BaseService {
 		return ok(resultMap);
 	}
 
-	// 获取报告内容
+	/**
+	 *  获取报告内容
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月9日 上午10:15:48
+	 */
 	public RestResult<Map<String, Object>> getExamReport(Long examId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
@@ -436,7 +448,6 @@ public class ExamService extends BaseService {
 	}
 
 	/**
-	 * @Description: TODO
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月28日 上午9:43:34
 	 */
@@ -451,7 +462,7 @@ public class ExamService extends BaseService {
 	}
 
 	/**
-	 * @Description: TODO
+	 * 获取学生考试列表
 	 * @CreateName: codelion[QiaoYu]
 	 * @CreateDate: 2018年3月7日 下午3:38:05
 	 */
@@ -467,7 +478,7 @@ public class ExamService extends BaseService {
 	}
 
 	/**
-	 * @Description: TODO
+	 * 获取学生做题的详细信息
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月28日 上午9:43:34
 	 */
