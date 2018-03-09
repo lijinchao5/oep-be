@@ -10,6 +10,7 @@ package com.xuanli.oepcms.controller.bean;
  * @author  QiaoYu 
  */
 public class ExamStudentBean {
+	private Long id;
 	private Long examId;
 	private Long studentId;
 	private Integer type;
@@ -22,6 +23,21 @@ public class ExamStudentBean {
 	//仅供查询是的结果--学生名次
 	private Integer rank;
 	
+	private Integer studentRank;
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Integer getStudentRank() {
+		return studentRank;
+	}
+	public void setStudentRank(Integer studentRank) {
+		this.studentRank = studentRank;
+	}
 	public String getStudentName() {
 		return studentName;
 	}

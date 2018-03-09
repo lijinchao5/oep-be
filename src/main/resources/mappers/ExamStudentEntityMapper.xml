@@ -69,6 +69,9 @@
       <if test="enableFlag != null">
         enable_flag,
       </if>
+      <if test="studentRank != null">
+        student_rank,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -106,6 +109,9 @@
       </if>
       <if test="enableFlag != null">
         #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="studentRank != null">
+        #{studentRank,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -145,20 +151,40 @@
       <if test="enableFlag != null">
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="studentRank != null">
+        student_rank = #{studentRank,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
 	<select id="generatorExamReport" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity" resultType="com.xuanli.oepcms.entity.ExamStudentEntity">
 		SELECT
-			sum(score) score,
-			student_id studentId,
-			exam_id examId
-			FROM
-				xl_exam_student_score ess
-			where exam_id = exam_id = #{examId,jdbcType=BIGINT}
-		GROUP BY
 			ess.student_id,
-			ess.exam_id
+			SUM(score) score,
+			(
+				SELECT
+					IFNULL(
+						TIMESTAMPDIFF(
+							SECOND,
+							MIN(es1.create_date),
+							MAX(es1.create_date)
+						),
+						0
+					) clacTimes
+				FROM
+					xl_exam_student_score es1
+				WHERE
+					es1.student_id = ess.student_id
+				AND es1.exam_id = ess.exam_id
+			) update_id,
+			MAX(ess.update_date) update_date
+		FROM
+			xl_exam_student_score ess
+		WHERE
+			ess.exam_id = #{examId}
+		AND ess.enable_flag = 'T'
+		GROUP BY
+			ess.student_id
 	</select>
 	
 	<update id="updateExamStudentEntityByExamId" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity">
@@ -182,7 +208,7 @@
         	and  exam_id = #{examId,jdbcType=BIGINT}
 	</update>
 	
-	<select id="getExamStudentRank" parameterType="java.lang.Long" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
+	<select id="getExamStudentRank" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
 	    SELECT
 			id,
 			exam_id examid,
@@ -212,7 +238,8 @@
 					xl_exam_student s
 				WHERE
 					s.score > es.score
-			) rank
+			) rank,
+			es.student_rank studentRank
 	    from 
 	    	xl_exam_student es
 	    where exam_id = #{examId,jdbcType=BIGINT}

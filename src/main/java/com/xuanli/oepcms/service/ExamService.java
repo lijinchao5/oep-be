@@ -10,7 +10,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.apache.log4j.Logger;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +42,7 @@ import com.xuanli.oepcms.mapper.PaperEntityMapper;
 import com.xuanli.oepcms.mapper.PaperOptionEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectDetailEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectEntityMapper;
+import com.xuanli.oepcms.quartz.QuartzUtil;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.YunZhiSDK;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
@@ -52,6 +56,7 @@ import com.xuanli.oepcms.vo.RestResult;
  */
 @Service
 public class ExamService extends BaseService {
+	public final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	PaperSubjectDetailEntityMapper paperSubjectDetailEntityMapper;
 	@Autowired
@@ -76,6 +81,8 @@ public class ExamService extends BaseService {
 	ExamSubjectEntityMapper examSubjectEntityMapper;
 	@Autowired
 	ExamStudentScoreWordEntityMapper examStudentScoreWordEntityMapper;
+	@Autowired
+	private Scheduler scheduler;
 
 	/**
 	 * @Description: TODO
@@ -304,7 +311,17 @@ public class ExamService extends BaseService {
 		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.generatorExamReport(examStudentEntity);
 		for (ExamStudentEntity ese : examStudentEntities) {
 			ese.setComplate("T");
+			ese.setExamId(examId);
+			ese.setEnableFlag("T");
 			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
+		}
+		// TODO 更新名次信息
+		List<ExamStudentBean> examStudentBeans =  examStudentEntityMapper.getExamStudentRank(examStudentEntity);
+		for (ExamStudentBean examStudentBean : examStudentBeans) {
+			ExamStudentEntity examStudentEntity2 = new ExamStudentEntity();
+			examStudentEntity2.setId(examStudentBean.getId());
+			examStudentEntity2.setStudentRank(examStudentBean.getRank());
+			examStudentEntityMapper.updateExamStudentEntity(examStudentEntity2);
 		}
 		return okNoResult("成功");
 	}
@@ -332,6 +349,7 @@ public class ExamService extends BaseService {
 			examEntity.setCreateId(userId);
 			examEntity.setCreateDate(new Date());
 			examEntityMapper.insertExamEntity(examEntity);
+			Long examId = examEntity.getId();
 			// 考题信息
 			PaperEntity paperEntity = paperEntityMapper.selectById(paperId); // 获取试卷信息
 			Integer timeOut = paperEntity.getTotalTime();
@@ -361,6 +379,15 @@ public class ExamService extends BaseService {
 				examStudentEntity.setTimeOut(timeOut);
 				examStudentEntity.setScore(0.00);
 				examStudentEntityMapper.insertExamStudentEntity(examStudentEntity);
+			}
+			// 添加一个定时化任务到指定的时间点后 执行该操作
+			String cron = QuartzUtil.cron(endTime);
+			try {
+				QuartzUtil.addExamJob(scheduler, "com.xuanli.oepcms.quartz.job.ExamJob", "examReport_" + examId.longValue() + "_" + UUID.randomUUID().toString(), cron,
+						examId);
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("布置作业定时化任务失败.出现错误.", e);
 			}
 		}
 		return okNoResult("成功布置模拟考试!");
@@ -399,11 +426,12 @@ public class ExamService extends BaseService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setExamId(examId);
-		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.getExamStudentRank(examStudentEntity);
+		List<ExamStudentBean> examStudentBeans = examStudentEntityMapper.getExamStudentRank(examStudentEntity);
 		// 查询
+		
 
 		// 学生排名等信息
-		resultMap.put("examStudents", examStudentEntities);
+		resultMap.put("examStudents", examStudentBeans);
 		return ok(resultMap);
 	}
 

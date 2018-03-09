@@ -3,123 +3,133 @@ package com.xuanli.oepcms.entity;
 import java.util.Date;
 
 public class ExamStudentEntity {
-    private Long id;
+	private Long id;
 
-    private Long examId;
+	private Long examId;
 
-    private Long studentId;
+	private Long studentId;
 
-    private Double score;
+	private Double score;
 
-    private Integer timeOut;
+	private Integer timeOut;
 
-    private String complate;
+	private String complate;
 
-    private String remark;
+	private String remark;
 
-    private Long createId;
+	private Long createId;
 
-    private Date createDate;
+	private Date createDate;
 
-    private Long updateId;
+	private Long updateId;
 
-    private Date updateDate;
+	private Date updateDate;
 
-    private String enableFlag;
+	private String enableFlag;
 
-    public Long getId() {
-        return id;
-    }
+	private Integer studentRank;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Integer getStudentRank() {
+		return studentRank;
+	}
 
-    public Long getExamId() {
-        return examId;
-    }
+	public void setStudentRank(Integer studentRank) {
+		this.studentRank = studentRank;
+	}
 
-    public void setExamId(Long examId) {
-        this.examId = examId;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getStudentId() {
-        return studentId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
+	public Long getExamId() {
+		return examId;
+	}
 
-    public Double getScore() {
-        return score;
-    }
+	public void setExamId(Long examId) {
+		this.examId = examId;
+	}
 
-    public void setScore(Double score) {
-        this.score = score;
-    }
+	public Long getStudentId() {
+		return studentId;
+	}
 
-    public Integer getTimeOut() {
-        return timeOut;
-    }
+	public void setStudentId(Long studentId) {
+		this.studentId = studentId;
+	}
 
-    public void setTimeOut(Integer timeOut) {
-        this.timeOut = timeOut;
-    }
+	public Double getScore() {
+		return score;
+	}
 
-    public String getComplate() {
-        return complate;
-    }
+	public void setScore(Double score) {
+		this.score = score;
+	}
 
-    public void setComplate(String complate) {
-        this.complate = complate;
-    }
+	public Integer getTimeOut() {
+		return timeOut;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setTimeOut(Integer timeOut) {
+		this.timeOut = timeOut;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public String getComplate() {
+		return complate;
+	}
 
-    public Long getCreateId() {
-        return createId;
-    }
+	public void setComplate(String complate) {
+		this.complate = complate;
+	}
 
-    public void setCreateId(Long createId) {
-        this.createId = createId;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public Long getCreateId() {
+		return createId;
+	}
 
-    public Long getUpdateId() {
-        return updateId;
-    }
+	public void setCreateId(Long createId) {
+		this.createId = createId;
+	}
 
-    public void setUpdateId(Long updateId) {
-        this.updateId = updateId;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public Long getUpdateId() {
+		return updateId;
+	}
 
-    public String getEnableFlag() {
-        return enableFlag;
-    }
+	public void setUpdateId(Long updateId) {
+		this.updateId = updateId;
+	}
 
-    public void setEnableFlag(String enableFlag) {
-        this.enableFlag = enableFlag;
-    }
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getEnableFlag() {
+		return enableFlag;
+	}
+
+	public void setEnableFlag(String enableFlag) {
+		this.enableFlag = enableFlag;
+	}
 }

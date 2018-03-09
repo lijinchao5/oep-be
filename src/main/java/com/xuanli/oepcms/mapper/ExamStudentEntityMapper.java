@@ -58,7 +58,7 @@ public interface ExamStudentEntityMapper {
 	 * @CreateName:  QiaoYu 
 	 * @CreateDate:  2018年2月24日 上午9:06:08
 	 */
-	List<ExamStudentEntity> getExamStudentRank(ExamStudentEntity examStudentEntity);
+	List<ExamStudentBean> getExamStudentRank(ExamStudentEntity examStudentEntity);
 	/**
 	 * @Description:  TODO
 	 * @CreateName:  QiaoYu 
