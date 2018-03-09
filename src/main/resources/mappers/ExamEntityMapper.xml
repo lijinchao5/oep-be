@@ -185,8 +185,8 @@
 			xl_exam h
 		where
 			create_id = #{createId}
-		<if test="clasIds != null">
-			and class_Id in (#{clasIds})
+		<if test="classId != null">
+			and class_Id = #{classId}
 		</if>
 		<if test="type != null">
 			and type = #{type}
@@ -231,8 +231,8 @@
 			xl_exam
 		WHERE
 			create_id = #{createId}
-		<if test="clasIds != null">
-			and class_Id in (#{clasIds})
+		<if test="classId != null">
+			and class_Id = #{classId}
 		</if>
 		<if test="type != null">
 			and type = #{type}

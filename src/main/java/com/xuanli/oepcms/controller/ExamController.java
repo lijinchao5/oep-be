@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.controller.bean.ExamAnswerBean;
 import com.xuanli.oepcms.entity.ExamEntity;
@@ -61,12 +62,13 @@ public class ExamController extends BaseController {
 	@ApiOperation(value = "提及试卷", notes = "提及试卷方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "answers", value = " 格式: [{\"key\":1,\"value\":\"A\"},{\"key\":2,\"value\":\"B\"}] key:subjectDetailId value:答案", dataType = "String"),
-			@ApiImplicitParam(name = "timeout", value = "剩余时间", required = true, dataType = "Integer") })
+			@ApiImplicitParam(name = "timeOut", value = "剩余时间", required = true, dataType = "Integer") })
 	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)
-	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam List<ExamAnswerBean> answers, @RequestParam Integer timeout) {
+	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String answers, @RequestParam Integer timeOut) {
 		try {
+			List<ExamAnswerBean> answerBeans = JSONArray.parseArray(answers,ExamAnswerBean.class);
 			Long studentId = getCurrentUser().getId();
-			examService.submitExam(studentId, examId, answers, timeout);
+			examService.submitExam(studentId, examId, answerBeans, timeOut);
 			return okNoResult("提交完成");
 		} catch (Exception e) {
 			e.printStackTrace();

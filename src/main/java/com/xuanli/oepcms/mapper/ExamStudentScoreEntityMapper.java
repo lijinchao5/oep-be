@@ -1,5 +1,8 @@
 package com.xuanli.oepcms.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.ExamStudentScoreEntity;
@@ -43,5 +46,10 @@ public interface ExamStudentScoreEntityMapper {
 	 * @param examStudentScoreEntity  
 	 */
 	void deleteExamStudentScore(ExamStudentScoreEntity examStudentScoreEntity);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月9日 下午4:13:16
+	 */
+	List<Map<String, Object>> getExamSubjectTypeScore(Map<String, Object> map1);
 
 }

@@ -321,7 +321,7 @@
         and question_type = #{questionType,jdbcType=INTEGER}
       </if>
   </select>
-  <select id="findPaperByPage" parameterType="java.util.Map" resultType="java.util.Map">
+  <select id="findPaperByPage" parameterType="map" resultType="map">
     select 
     	 id, paper_num paperNum, name, notice, total_score totalScore, total_time totalTime, study_section_id, grade_level_id, 
 	    address_province, term, paper_type, exam_type, question_type questionType, create_id, create_date, update_id, 
@@ -379,9 +379,9 @@
         and question_type = #{questionType,jdbcType=INTEGER}
       </if>
       <if test="ob!=null">
-      	order by #{ob}
+      	order by ${ob}
       	<if test="sb!=null">
-      		#{sb}
+      		${sb}
       	</if>
       </if>
       limit #{start},#{end}

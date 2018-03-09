@@ -174,7 +174,6 @@ public class ExamService extends BaseService {
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setScore(score);
-				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(textStr);
 				examStudentScoreEntity.setEnableFlag("T");
 				examStudentScoreEntity.setCreateDate(new Date());
@@ -191,7 +190,6 @@ public class ExamService extends BaseService {
 				}
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setScore(score);
-				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(textStr);
 				examStudentScoreEntity.setEnableFlag("T");
 				examStudentScoreEntity.setCreateDate(new Date());
@@ -439,7 +437,16 @@ public class ExamService extends BaseService {
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentBean> examStudentBeans = examStudentEntityMapper.getExamStudentRank(examStudentEntity);
-		// 查询
+		// 获取每个题型平均得分
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		List<Map<String, Object>> examSubjectTypeScore = examStudentScoreEntityMapper.getExamSubjectTypeScore(map1);
+		//获取每个小题得分
+		
+		//获取
+		
+		
+		
+		
 		
 
 		// 学生排名等信息

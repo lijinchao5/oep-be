@@ -208,5 +208,9 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-
+	<select id="getExamSubjectTypeScore" resultType="map" parameterType="map">
+	
+	
+	
+	</select>
 </mapper>
