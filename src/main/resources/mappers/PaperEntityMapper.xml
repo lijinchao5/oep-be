@@ -402,10 +402,8 @@
 			psd.question_audio questionAudio,
 			psd.write_time writeTime,
 			psd.score,
-			psd.original_text originalText,
 			po.result,
-			po.point_result pointResult,
-			po.correct_result correntResult
+			psd.repeat_count repeatCount
 		FROM
 			xl_paper p
 		LEFT JOIN xl_paper_subject ps ON ps.paper_id = p.id
