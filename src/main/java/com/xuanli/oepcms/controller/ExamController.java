@@ -58,7 +58,7 @@ public class ExamController extends BaseController {
 		}
 	}
 
-	// 提交试卷
+	// 做试卷
 	@ApiOperation(value = "提及试卷", notes = "提及试卷方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "answers", value = " 格式: [{\"key\":1,\"value\":\"A\"},{\"key\":2,\"value\":\"B\"}] key:subjectDetailId value:答案", dataType = "String"),
@@ -75,6 +75,20 @@ public class ExamController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
+	
+	//提交试卷
+	@RequestMapping(value = "commitExam.do", method = RequestMethod.POST)
+	public RestResult<String> commitExam(@RequestParam Long examId) {
+		try {
+			Long studentId = getCurrentUser().getId();
+			examService.commitExam(studentId, examId);
+			return okNoResult("提交完成");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
+		}
+	}
+	
 
 	// 分页查询考试信息
 	@ApiOperation(value = "分页查询考试信息", notes = "分页查询考试信息")

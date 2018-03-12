@@ -37,7 +37,17 @@ public class ExamStudentScoreEntity {
 
     private Long studentId;
 
-    public Long getId() {
+    private Double percentScore;
+    
+    public Double getPercentScore() {
+		return percentScore;
+	}
+
+	public void setPercentScore(Double percentScore) {
+		this.percentScore = percentScore;
+	}
+
+	public Long getId() {
         return id;
     }
 

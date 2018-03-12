@@ -99,6 +99,9 @@
       <if test="studentId != null">
         student_id,
       </if>
+      <if test="percentScore != null">
+        percent_score,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -151,6 +154,9 @@
       </if>
       <if test="studentId != null">
         #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="percentScore != null">
+        #{percentScore},
       </if>
     </trim>
   </insert>

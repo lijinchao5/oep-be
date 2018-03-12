@@ -186,6 +186,13 @@
 		GROUP BY
 			ess.student_id
 	</select>
+	<select id="getExamStudentEntityByStudent" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity"  resultMap="BaseResultMap">
+		select 
+	    	<include refid="Base_Column_List" />
+	    from xl_exam_student
+	    where 
+        exam_id = #{examId,jdbcType=BIGINT} and student_id = #{studentId,jdbcType=BIGINT}
+	</select>
 	
 	<update id="updateExamStudentEntityByExamId" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity">
 		update xl_exam_student
@@ -200,7 +207,13 @@
 	        update_date = #{updateDate,jdbcType=TIMESTAMP},
 	      </if>
 	      <if test="timeOut != null">
-	        time_out = #{timeOut,jdbcType=INTEGER},
+	        <!-- time_out = #{timeOut,jdbcType=INTEGER}, -->
+	        time_out = CASE
+			WHEN #{timeOut} > time_out THEN
+				#{timeOut}
+			WHEN time_out > #{timeOut} THEN
+				time_out
+			END,
 	      </if>
       	</set>
 		where

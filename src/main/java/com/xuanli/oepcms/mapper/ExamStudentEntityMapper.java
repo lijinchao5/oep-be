@@ -76,5 +76,10 @@ public interface ExamStudentEntityMapper {
 	 * @CreateDate:  2018年3月8日 下午4:32:03
 	 */
 	ExamStudentEntity getExamStudentInfo(ExamStudentEntity examStudentEntity);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月12日 下午5:39:31
+	 */
+	List<ExamStudentEntity> getExamStudentEntityByStudent(ExamStudentEntity examStudentEntity);
 
 }

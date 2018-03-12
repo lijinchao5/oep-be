@@ -154,8 +154,10 @@ public class ExamService extends BaseService {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				double realScore = score;
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setScore(score);
+				examStudentScoreEntity.setPercentScore(realScore);
 				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(text);
 				examStudentScoreEntity.setEnableFlag("T");
@@ -171,8 +173,10 @@ public class ExamService extends BaseService {
 				} else {
 					score = 0.00;
 				}
+				double realScore = score;
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setScore(score);
+				examStudentScoreEntity.setPercentScore(realScore);
 				examStudentScoreEntity.setText(textStr);
 				examStudentScoreEntity.setEnableFlag("T");
 				examStudentScoreEntity.setCreateDate(new Date());
@@ -187,7 +191,9 @@ public class ExamService extends BaseService {
 				} else {
 					score = 0.00;
 				}
+				double realScore = score;
 				score = score * paperSubjectDetailEntity.getScore() / 100;
+				examStudentScoreEntity.setPercentScore(realScore);
 				examStudentScoreEntity.setScore(score);
 				examStudentScoreEntity.setText(textStr);
 				examStudentScoreEntity.setEnableFlag("T");
@@ -200,6 +206,7 @@ public class ExamService extends BaseService {
 				try {
 					// 计算分数 //按照比例去计算分数
 					double thisScore = 0.00;
+					double realScore = 0.00;
 					double picScore = paperSubjectDetailEntity.getScore() / paperOptionEntities.size();
 					String correnctResult = paperOptionEntities.get(0).getCorrectResult();
 					String correncts[] = correnctResult.split("\\|\\|");
@@ -210,9 +217,11 @@ public class ExamService extends BaseService {
 						} else {
 							YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
 							thisScore = thisScore + (yunZhiBean.getScore() * picScore / 100);
+							realScore = realScore + yunZhiBean.getScore();
 						}
 					}
 					examStudentScoreEntity.setScore(thisScore);
+					examStudentScoreEntity.setPercentScore(realScore);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -263,7 +272,9 @@ public class ExamService extends BaseService {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				double realScore = score;
 				score = score * paperSubjectDetailEntity.getScore() / 100;
+				examStudentScoreEntity.setPercentScore(realScore);
 				examStudentScoreEntity.setScore(score);
 				examStudentScoreEntity.setAudioPath(fileId);
 				examStudentScoreEntity.setText(text);
@@ -504,5 +515,22 @@ public class ExamService extends BaseService {
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
 		map.put("examDetail", examEntity);
 		return ok(map);
+	}
+
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月12日 下午5:37:08
+	 */
+	public void commitExam(Long studentId, Long examId) {
+		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
+		examStudentEntity.setStudentId(studentId);
+		examStudentEntity.setExamId(examId);
+		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.getExamStudentEntityByStudent(examStudentEntity);
+		for (ExamStudentEntity ese : examStudentEntities) {
+			ese.setComplate("S");
+			ese.setExamId(examId);
+			ese.setEnableFlag("T");
+			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
+		}
 	}
 }
