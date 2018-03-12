@@ -28,7 +28,6 @@ import com.xuanli.oepcms.entity.ExamStudentEntity;
 import com.xuanli.oepcms.entity.ExamStudentScoreEntity;
 import com.xuanli.oepcms.entity.ExamStudentScoreWordEntity;
 import com.xuanli.oepcms.entity.ExamSubjectEntity;
-import com.xuanli.oepcms.entity.PaperEntity;
 import com.xuanli.oepcms.entity.PaperOptionEntity;
 import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
 import com.xuanli.oepcms.entity.PaperSubjectEntity;
@@ -349,8 +348,8 @@ public class ExamService extends BaseService {
 			examEntityMapper.insertExamEntity(examEntity);
 			Long examId = examEntity.getId();
 			// 考题信息
-			PaperEntity paperEntity = paperEntityMapper.selectById(paperId); // 获取试卷信息
-			Integer timeOut = paperEntity.getTotalTime();
+			//PaperEntity paperEntity = paperEntityMapper.selectById(paperId); // 获取试卷信息
+			//Integer timeOut = paperEntity.getTotalTime();
 			PaperSubjectEntity paperSubjectEntity = new PaperSubjectEntity();
 			paperSubjectEntity.setPaperId(paperId);
 			List<PaperSubjectEntity> paperSubjectEntities = paperSubjectEntityMapper.getPaperSubjectEntity(paperSubjectEntity); // 获取试卷详细信息
@@ -374,7 +373,7 @@ public class ExamService extends BaseService {
 				examStudentEntity.setCreateId(userId);
 				examStudentEntity.setExamId(examEntity.getId());
 				examStudentEntity.setStudentId(userEntity.getId());
-				examStudentEntity.setTimeOut(timeOut);
+				examStudentEntity.setTimeOut(0);
 				examStudentEntity.setScore(0.00);
 				examStudentEntityMapper.insertExamStudentEntity(examStudentEntity);
 			}
