@@ -85,4 +85,9 @@ public interface PaperEntityMapper {
 	 * @return
 	 */
 	int updateSyncPaperEntity(PaperEntity record);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月12日 上午9:55:08
+	 */
+	List<Map<String, Object>> getPaperDetailByTeacher(Long paperId);
 }

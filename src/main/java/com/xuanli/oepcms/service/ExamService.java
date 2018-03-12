@@ -437,20 +437,22 @@ public class ExamService extends BaseService {
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentBean> examStudentBeans = examStudentEntityMapper.getExamStudentRank(examStudentEntity);
-		// 获取每个题型平均得分
 		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("examId", examId);
 		List<Map<String, Object>> examSubjectTypeScore = examStudentScoreEntityMapper.getExamSubjectTypeScore(map1);
-		//获取每个小题得分
-		
-		//获取
-		
-		
-		
-		
-		
-
-		// 学生排名等信息
+		List<Map<String, Object>> examSubjectDetailScore = examStudentScoreEntityMapper.examSubjectDetailScore(map1);
+		ExamEntity examEntity = examEntityMapper.selectById(examId);
+		List<Map<String, Object>> paperDetails = paperEntityMapper.getPaperDetailByTeacher(examEntity.getPaperId());
+		//获取本次考试的所有题型信息
+		resultMap.put("paperDetails", paperDetails);
+		//获取每个小题平均得分
+		resultMap.put("examSubjectDetailScore", examSubjectDetailScore);
+		// 获取每个大题型平均得分--需求以外部分
+		resultMap.put("examSubjectTypeScore", examSubjectTypeScore);
+		// 学生排名等信息=-===参加考试的学生信息
 		resultMap.put("examStudents", examStudentBeans);
+		//获取考试的详细信息
+		resultMap.put("examDetail", examEntity);
 		return ok(resultMap);
 	}
 

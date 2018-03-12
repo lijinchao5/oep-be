@@ -19,10 +19,12 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
     <result column="cms_id" jdbcType="BIGINT" property="cmsId" />
+    <result column="question_no" jdbcType="INTEGER" property="questionNo" />
+    <result column="repeat_count" jdbcType="INTEGER" property="repeatCount" />
   </resultMap>
   <sql id="Base_Column_List">
     id, subject_id, type, guide, question, guide_audio, read_time, question_audio, write_time, 
-    score, original_text, create_id, create_date, update_id, update_date, enable_flag, cms_id
+    score, original_text, create_id, create_date, update_id, update_date, enable_flag, cms_id,question_no,repeat_count
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -95,6 +97,12 @@
       <if test="cmsId != null">
         cms_id,
       </if>
+      <if test="repeatCount != null">
+        repeat_count,
+      </if>
+      <if test="questionNo != null">
+        question_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -147,6 +155,12 @@
       </if>
       <if test="cmsId != null">
         #{cmsId,jdbcType=BIGINT},
+      </if>
+      <if test="repeatCount != null">
+        #{repeatCount},
+      </if>
+      <if test="questionNo != null">
+        #{questionNo},
       </if>
     </trim>
   </insert>
@@ -201,6 +215,12 @@
       <if test="cmsId != null">
         cms_id = #{cmsId,jdbcType=BIGINT},
       </if>
+      <if test="repeatCount != null">
+        repeat_count = #{repeatCount},
+      </if>
+      <if test="questionNo != null">
+       question_no = #{questionNo},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -251,6 +271,12 @@
       </if>
       <if test="enableFlag != null">
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="repeatCount != null">
+        repeat_count = #{repeatCount},
+      </if>
+      <if test="questionNo != null">
+       question_no = #{questionNo},
       </if>
     </set>
     where cms_id = #{cmsId,jdbcType=BIGINT}

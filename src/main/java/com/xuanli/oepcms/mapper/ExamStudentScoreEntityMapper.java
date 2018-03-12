@@ -51,5 +51,10 @@ public interface ExamStudentScoreEntityMapper {
 	 * @CreateDate:  2018年3月9日 下午4:13:16
 	 */
 	List<Map<String, Object>> getExamSubjectTypeScore(Map<String, Object> map1);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月12日 上午9:50:12
+	 */
+	List<Map<String, Object>> examSubjectDetailScore(Map<String, Object> map1);
 
 }
