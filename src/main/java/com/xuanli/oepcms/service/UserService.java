@@ -202,6 +202,12 @@ public class UserService extends BaseService {
             // 学生角色id为4
             userEntity.setRoleId(new Integer(4));
             userDao.insertUserEntity(userEntity);
+            //生成学生编号
+            UserEntity userEntity2 = new UserEntity();
+            userEntity2.setId(userEntity.getId());
+            userEntity2.setNameNum(userEntity.getId().longValue() + StringUtil.getRandomZM(2));
+            userDao.updateUserEntity(userEntity2);
+            
             // 添加学生和班级关系
             UserClasEntity userClasEntity = new UserClasEntity();
             userClasEntity.setClasId(result.getId());
