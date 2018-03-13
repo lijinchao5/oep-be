@@ -220,12 +220,12 @@
 			) complateStudent,
 			CASE
 			WHEN NOW() > end_time THEN
-				0
+				2
 			WHEN NOW() > start_time
 			AND end_time > NOW() THEN
 				1
 			WHEN start_time > NOW() THEN
-				2
+				0
 			END status
 		FROM
 			xl_exam
