@@ -248,6 +248,8 @@
 				and NOW() > end_time
 			</if>
 		</if>
+		ORDER BY create_date desc
+		limit #{start},#{end}
   </select>
 
 
@@ -336,7 +338,7 @@
 		WHERE
 			es.student_id = #{studentId}
 		AND h.type = 1
-		order by h.end_time desc
+		order by h.create_date desc
 		limit #{start},#{end}
   </select>
 </mapper>
