@@ -3,6 +3,8 @@
  */
 package com.xuanli.oepcms.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
-import com.xuanli.oepcms.entity.ExerciseDetailEntity;
 import com.xuanli.oepcms.entity.ReadArticleEntity;
 import com.xuanli.oepcms.entity.ReadSentenceEntity;
 import com.xuanli.oepcms.service.ExerciseService;
@@ -48,6 +49,14 @@ public class ExerciseController extends BaseController{
 		exerciseService.findReadArticlePage(readArticleEntity, pageBean);
 		return ok(pageBean);
 	}
+	
+	//获取文章的详细信息
+	@RequestMapping(value = "findArtcileEntityById.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> findArtcileEntityById(Long id){
+		return exerciseService.findArtcileEntityById(id);
+	}
+	
+	
 	
 	@ApiOperation(value = "段落详情", notes = "段落详情")
 	@ApiImplicitParams({ 

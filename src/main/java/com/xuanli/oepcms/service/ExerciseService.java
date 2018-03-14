@@ -6,6 +6,7 @@ package com.xuanli.oepcms.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.entity.ExerciseDetailEntity;
 import com.xuanli.oepcms.entity.ExerciseDetailWordEntity;
 import com.xuanli.oepcms.entity.ExerciseEntity;
-import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.ReadArticleEntity;
 import com.xuanli.oepcms.entity.ReadSentenceEntity;
 import com.xuanli.oepcms.mapper.ExerciseDetailEntityMapper;
@@ -61,7 +61,7 @@ public class ExerciseService extends BaseService {
 		pageBean.setTotal(findReadArticlePageTotal);
 		readArticleEntity.setStart(pageBean.getRowFrom());
 		readArticleEntity.setEnd(pageBean.getPageSize());
-		List<ReadArticleEntity> findReadArticlePage = readArticleDao.findReadArticlePage(readArticleEntity);
+		List<Map<String, Object>> findReadArticlePage = readArticleDao.findReadArticlePage(readArticleEntity);
 		pageBean.setRows(findReadArticlePage);
 	}
 
@@ -197,5 +197,16 @@ public class ExerciseService extends BaseService {
 			exerciseDao.insertExerciseEntity(exerceseEntity);
 		}
 		return okNoResult("完成提交");
+	}
+
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月14日 下午12:12:44
+	 */
+	public RestResult<Map<String, Object>> findArtcileEntityById(Long artId) {
+		ReadArticleEntity readArticleEntity = new ReadArticleEntity();
+		readArticleEntity.setId(artId);
+		Map<String, Object> result = readArticleDao.findArtcileEntityById(readArticleEntity);
+		return ok(result);
 	}
 }

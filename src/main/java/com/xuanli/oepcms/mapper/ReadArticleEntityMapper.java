@@ -1,10 +1,10 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.xuanli.oepcms.entity.HomeworkEntity;
 import com.xuanli.oepcms.entity.ReadArticleEntity;
 @Mapper
 public interface ReadArticleEntityMapper {
@@ -53,6 +53,11 @@ public interface ReadArticleEntityMapper {
 	 * @param readArticleEntity
 	 * @return  
 	 */
-	List<ReadArticleEntity> findReadArticlePage(ReadArticleEntity readArticleEntity);
+	List<Map<String, Object>> findReadArticlePage(ReadArticleEntity readArticleEntity);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月14日 下午12:14:29
+	 */
+	Map<String, Object> findArtcileEntityById(ReadArticleEntity readArticleEntity);
 
 }

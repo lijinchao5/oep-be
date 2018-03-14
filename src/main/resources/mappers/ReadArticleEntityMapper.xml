@@ -153,20 +153,60 @@
 		</if>
   </select>
   
-  <select id="findReadArticlePage" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="com.xuanli.oepcms.entity.ReadArticleEntity">
+  <select id="findReadArticlePage" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="map">
 		SELECT
-			*
+			xra.id,
+			xra. NAME name,
+			xra.word_num wordNum,
+			xra.picture_path picturePath,
+			xra.type,
+			xra. LEVEL level,
+			xra.create_id createId,
+			xra.create_date createDate,
+			xra.update_id updateId,
+			xra.update_date updateDate,
+			xra.enable_flag enableFlag,
+			dd. NAME levelName,
+			dd1. NAME typeName
 		FROM
 			xl_read_article xra
+		LEFT JOIN xl_dic_detail dd ON dd.dic_id = 15
+		AND dd.name_val = xra.`level`
+		LEFT JOIN xl_dic_detail dd1 ON dd1.dic_id = 16
+		AND dd1.name_val = xra.type
 		WHERE
 			1=1
 		<if test="level != null">
-			and level = #{level,jdbcType=String}
+			and xra.level = #{level,jdbcType=String}
 		</if>
 		<if test="type != null">
-			and type = #{type,jdbcType=String}
+			and xra.type = #{type,jdbcType=String}
 		</if>
 		order by xra.id desc
 		limit #{start},#{end}
+  </select>
+  <select id="findArtcileEntityById" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="map">
+		SELECT
+			xra.id,
+			xra. NAME name,
+			xra.word_num wordNum,
+			xra.picture_path picturePath,
+			xra.type,
+			xra. LEVEL level,
+			xra.create_id createId,
+			xra.create_date createDate,
+			xra.update_id updateId,
+			xra.update_date updateDate,
+			xra.enable_flag enableFlag,
+			dd. NAME levelName,
+			dd1. NAME typeName
+		FROM
+			xl_read_article xra
+		LEFT JOIN xl_dic_detail dd ON dd.dic_id = 15
+		AND dd.name_val = xra.`level`
+		LEFT JOIN xl_dic_detail dd1 ON dd1.dic_id = 16
+		AND dd1.name_val = xra.type
+		WHERE
+			xra.id = #{id,jdbcType=VARCHAR}
   </select>
 </mapper>
