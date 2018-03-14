@@ -218,7 +218,7 @@
 				FROM
 					xl_exam_student
 				WHERE
-					complate = 'T'
+					complate in ('T','S')
 			) complateStudent,
 			CASE
 			WHEN NOW() > end_time THEN
