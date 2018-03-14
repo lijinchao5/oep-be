@@ -46,13 +46,13 @@ public interface ReadArticleEntityMapper {
 	 * @param readArticleEntity
 	 * @return  
 	 */
-	int findHomeworkPageTotal(ReadArticleEntity readArticleEntity);
+	int findReadArticlePageTotal(ReadArticleEntity readArticleEntity);
 	/**Title: findHomeworkPage 
 	 * Description:  
 	 * @date 2018年3月13日 上午11:04:43
 	 * @param readArticleEntity
 	 * @return  
 	 */
-	List<HomeworkEntity> findHomeworkPage(ReadArticleEntity readArticleEntity);
+	List<ReadArticleEntity> findReadArticlePage(ReadArticleEntity readArticleEntity);
 
 }

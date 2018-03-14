@@ -138,7 +138,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <select id="findHomeworkPageTotal" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="java.lang.Integer">
+    <select id="findReadArticlePageTotal" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="java.lang.Integer">
 		SELECT
 			count(*)
 		FROM
@@ -153,7 +153,7 @@
 		</if>
   </select>
   
-  <select id="findHomeworkPage" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="com.xuanli.oepcms.entity.ReadArticleEntity">
+  <select id="findReadArticlePage" parameterType="com.xuanli.oepcms.entity.ReadArticleEntity" resultType="com.xuanli.oepcms.entity.ReadArticleEntity">
 		SELECT
 			*
 		FROM

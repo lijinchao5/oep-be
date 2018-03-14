@@ -57,12 +57,12 @@ public class ExerciseService extends BaseService {
 	 * @param pageBean
 	 */
 	public void findReadArticlePage(ReadArticleEntity readArticleEntity, PageBean pageBean) {
-		int findHomeworkPageTotal = readArticleDao.findHomeworkPageTotal(readArticleEntity);
-		pageBean.setTotal(findHomeworkPageTotal);
+		int findReadArticlePageTotal = readArticleDao.findReadArticlePageTotal(readArticleEntity);
+		pageBean.setTotal(findReadArticlePageTotal);
 		readArticleEntity.setStart(pageBean.getRowFrom());
 		readArticleEntity.setEnd(pageBean.getPageSize());
-		List<HomeworkEntity> findHomeworkPage = readArticleDao.findHomeworkPage(readArticleEntity);
-		pageBean.setRows(findHomeworkPage);
+		List<ReadArticleEntity> findReadArticlePage = readArticleDao.findReadArticlePage(readArticleEntity);
+		pageBean.setRows(findReadArticlePage);
 	}
 
 	/**
