@@ -403,7 +403,9 @@
 			psd.write_time writeTime,
 			psd.score,
 			po.result,
-			psd.repeat_count repeatCount
+			po.correct_result correntResult,
+			psd.repeat_count repeatCount,
+			psd.type detailType
 		FROM
 			xl_paper p
 		LEFT JOIN xl_paper_subject ps ON ps.paper_id = p.id
