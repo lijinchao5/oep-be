@@ -191,12 +191,14 @@
 		<if test="type != null">
 			and type = #{type}
 		</if>
-		<if test="status != null">
-			<if test="status == '1'">
-				and end_time > NOW()
+		<if test="status != null and status != ''">
+			<if test="status == 0">
+				and start_time > NOW()
 			</if>
-			
-			<if test="status == '2'">
+			<if test="status == 1">
+				and end_time > NOW() and NOW() > start_time
+			</if>
+			<if test="status == 2">
 				and NOW() > end_time
 			</if>
 		</if>
@@ -237,7 +239,7 @@
 		<if test="type != null">
 			and type = #{type}
 		</if>
-		<if test="status != null">
+		<if test="status != null and status != ''">
 			<if test="status == 0">
 				and start_time > NOW()
 			</if>
