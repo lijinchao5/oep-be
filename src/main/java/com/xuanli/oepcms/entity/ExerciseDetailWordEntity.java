@@ -7,7 +7,9 @@ public class ExerciseDetailWordEntity {
 
     private Long studentId;
 
-    private Long exerciseId;
+    private Long articleId;
+
+    private Long sentenceId;
 
     private Long detailId;
 
@@ -41,12 +43,20 @@ public class ExerciseDetailWordEntity {
         this.studentId = studentId;
     }
 
-    public Long getExerciseId() {
-        return exerciseId;
+    public Long getArticleId() {
+        return articleId;
     }
 
-    public void setExerciseId(Long exerciseId) {
-        this.exerciseId = exerciseId;
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
+    }
+
+    public Long getSentenceId() {
+        return sentenceId;
+    }
+
+    public void setSentenceId(Long sentenceId) {
+        this.sentenceId = sentenceId;
     }
 
     public Long getDetailId() {

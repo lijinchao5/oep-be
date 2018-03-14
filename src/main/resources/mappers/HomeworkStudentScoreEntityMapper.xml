@@ -10,6 +10,10 @@
     <result column="text" property="text" jdbcType="VARCHAR" />
     <result column="score" property="score" jdbcType="DOUBLE" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="integrity" property="integrity" jdbcType="DOUBLE" />
+    <result column="pronunciation" property="pronunciation" jdbcType="DOUBLE" />
+    <result column="fluency" property="fluency" jdbcType="DOUBLE" />
+    <result column="similar_score" property="similarScore" jdbcType="DOUBLE" />
     <result column="create_id" property="createId" jdbcType="BIGINT" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_id" property="updateId" jdbcType="BIGINT" />
@@ -17,8 +21,8 @@
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, student_id, homework_id, section_id, audio_path, text, score, remark, create_id, 
-    create_date, update_id, update_date, enable_flag
+    id, student_id, homework_id, section_id, audio_path, text, score, remark, create_id, integrity,pronunciation,
+    fluency, similar_score, create_date, update_id, update_date, enable_flag
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -90,6 +94,9 @@
       <if test="fluency != null">
         fluency,
       </if>
+      <if test="similarScore != null">
+        similar_score,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -140,6 +147,9 @@
       <if test="fluency != null">
         #{fluency,jdbcType=DOUBLE},
       </if>
+      <if test="similarScore != null">
+        #{similarScore,jdbcType=DOUBLE},
+      </if>
      </trim>
   </insert>
   <update id="updateHomeworkStudentScoreEntity" parameterType="com.xuanli.oepcms.entity.HomeworkStudentScoreEntity" >
@@ -189,6 +199,9 @@
       </if>
       <if test="fluency != null">
         fluency = #{fluency,jdbcType=DOUBLE},
+      </if>
+      <if test="similarScore != null">
+        similar_score = #{similarScore,jdbcType=DOUBLE},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -241,6 +254,9 @@
       </if>
       <if test="fluency != null">
         fluency = #{fluency,jdbcType=DOUBLE},
+      </if>
+      <if test="similarScore != null">
+        similar_score = #{similarScore,jdbcType=DOUBLE},
       </if>
     </set>
     where student_id = #{studentId,jdbcType=BIGINT} 

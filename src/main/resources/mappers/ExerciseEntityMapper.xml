@@ -219,4 +219,13 @@
 		order by xe.id desc
 		limit #{start},#{end}
   </select>
+  <select id="selectExerciseEntity" resultType="com.xuanli.oepcms.entity.ExerciseEntity">
+	SELECT
+		<include refid="Base_Column_List" />
+	FROM
+		xl_exercise
+	WHERE
+		student_id = #{studentId}
+	AND read_article_id = #{readArticleId}
+  </select>
 </mapper>

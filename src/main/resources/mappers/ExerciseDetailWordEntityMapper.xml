@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="com.xuanli.oepcms.entity.ExerciseDetailWordEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="student_id" jdbcType="BIGINT" property="studentId" />
-    <result column="exercise_id" jdbcType="BIGINT" property="exerciseId" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="sentence_id" jdbcType="BIGINT" property="sentenceId" />
     <result column="detail_id" jdbcType="BIGINT" property="detailId" />
     <result column="score" jdbcType="DOUBLE" property="score" />
     <result column="word" jdbcType="VARCHAR" property="word" />
@@ -15,8 +16,8 @@
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, student_id, exercise_id, detail_id, score, word, create_id, create_date, update_id, 
-    update_date, enable_flag
+    id, student_id, article_id, sentence_id, detail_id, score, word, create_id, 
+    create_date, update_id, update_date, enable_flag
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -38,8 +39,11 @@
       <if test="studentId != null">
         student_id,
       </if>
-      <if test="exerciseId != null">
-        exercise_id,
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="sentenceId != null">
+        sentence_id,
       </if>
       <if test="detailId != null">
         detail_id,
@@ -73,8 +77,11 @@
       <if test="studentId != null">
         #{studentId,jdbcType=BIGINT},
       </if>
-      <if test="exerciseId != null">
-        #{exerciseId,jdbcType=BIGINT},
+      <if test="articleId != null">
+        #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="sentenceId != null">
+        #{sentenceId,jdbcType=BIGINT},
       </if>
       <if test="detailId != null">
         #{detailId,jdbcType=BIGINT},
@@ -108,8 +115,11 @@
       <if test="studentId != null">
         student_id = #{studentId,jdbcType=BIGINT},
       </if>
-      <if test="exerciseId != null">
-        exercise_id = #{exerciseId,jdbcType=BIGINT},
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="sentenceId != null">
+        sentence_id = #{sentenceId,jdbcType=BIGINT},
       </if>
       <if test="detailId != null">
         detail_id = #{detailId,jdbcType=BIGINT},
@@ -138,5 +148,13 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-
+  <delete id="deleteDetailWordEntity" parameterType="com.xuanli.oepcms.entity.ExerciseDetailWordEntity">
+	DELETE
+	FROM
+		xl_exercise_detail_word
+	WHERE
+        article_id = #{articleId,jdbcType=BIGINT}
+        and sentence_id = #{sentenceId,jdbcType=BIGINT}
+        and student_id = #{studentId,jdbcType=BIGINT}
+  </delete>
 </mapper>

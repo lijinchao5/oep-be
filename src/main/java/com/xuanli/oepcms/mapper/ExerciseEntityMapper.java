@@ -56,5 +56,12 @@ public interface ExerciseEntityMapper {
      * @return
      */
     List<HomeworkEntity> findHomeworkPage(ExerciseEntity exerciseEntity);
+	/**Title: selectExerciseEntity 
+	 * Description:  
+	 * @date 2018年3月13日 下午8:02:46
+	 * @param exerceseEntity
+	 * @return  
+	 */
+	ExerciseEntity selectExerciseEntity(ExerciseEntity exerceseEntity);
     
 }

@@ -18,11 +18,12 @@
     <result column="integrity" jdbcType="DOUBLE" property="integrity" />
     <result column="pronunciation" jdbcType="DOUBLE" property="pronunciation" />
     <result column="fluency" jdbcType="DOUBLE" property="fluency" />
+    <result column="similar_score" jdbcType="DOUBLE" property="similarScore" />
     <result column="student_id" jdbcType="BIGINT" property="studentId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, exam_id, subject_detail_id, subject_option_id, text, audio_path, score, create_date, 
-    create_id, update_date, update_id, enable_flag, remark, integrity, pronunciation, 
+    create_id, update_date, update_id, enable_flag, remark, integrity, pronunciation, similar_score,
     fluency, student_id
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -96,6 +97,9 @@
       <if test="fluency != null">
         fluency,
       </if>
+      <if test="similarScore != null">
+        similar_score,
+      </if>
       <if test="studentId != null">
         student_id,
       </if>
@@ -152,6 +156,9 @@
       <if test="fluency != null">
         #{fluency,jdbcType=DOUBLE},
       </if>
+      <if test="similarScore != null">
+        #{similarScore,jdbcType=DOUBLE},
+      </if>
       <if test="studentId != null">
         #{studentId,jdbcType=BIGINT},
       </if>
@@ -207,6 +214,9 @@
       </if>
       <if test="fluency != null">
         fluency = #{fluency,jdbcType=DOUBLE},
+      </if>
+      <if test="similarScore != null">
+        similar_score = #{similarScore,jdbcType=DOUBLE},
       </if>
       <if test="studentId != null">
         student_id = #{studentId,jdbcType=BIGINT},

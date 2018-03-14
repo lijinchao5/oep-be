@@ -40,19 +40,28 @@ public interface ExerciseDetailEntityMapper {
      * @return
      */
     int updateExerciseDetailEntity(ExerciseDetailEntity record);
-	/**Title: getExerciseDetail 
+    /**
+     * Title: selectExerciseDetailEntity 
+     * Description:  
+     * @date 2018年3月13日 下午3:41:00
+     * @param exerciseDetailEntity
+     * @return
+     */
+    ExerciseDetailEntity selectExerciseDetailEntity(ExerciseDetailEntity exerciseDetailEntity);
+	/**Title: getExerciseDetailScore 
 	 * Description:  
-	 * @date 2018年3月12日 上午11:05:14
-	 * @param exerciseDetail
+	 * @param articleId 
+	 * @param studentId 
+	 * @date 2018年3月13日 下午6:07:35
 	 * @return  
 	 */
-	ExerciseDetailEntity getExerciseDetail(ExerciseDetailEntity exerciseDetail);
-	/**Title: getExerciseDetailEntity 
+	List<ExerciseDetailEntity> getExerciseDetailScore(Long studentId, Long articleId);
+	/**Title: getExerciseDetailScore 
 	 * Description:  
-	 * @date 2018年3月12日 下午3:45:55
-	 * @param wordEntity
+	 * @date 2018年3月13日 下午6:08:49
+	 * @param exerciseDetailEntity
 	 * @return  
 	 */
-	List<ExerciseDetailEntity> getExerciseDetailEntity(ExerciseDetailWordEntity wordEntity);
-    
+	ExerciseDetailEntity getExerciseDetailScore(ExerciseDetailEntity exerciseDetailEntity);
+	
 }

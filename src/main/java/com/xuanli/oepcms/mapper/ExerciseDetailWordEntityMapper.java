@@ -37,5 +37,6 @@ public interface ExerciseDetailWordEntityMapper {
      * @return
      */
     int updateExerciseDetailWordEntity(ExerciseDetailWordEntity record);
-
+    
+    int deleteDetailWordEntity(ExerciseDetailWordEntity exerciseDetailWordEntity);
 }

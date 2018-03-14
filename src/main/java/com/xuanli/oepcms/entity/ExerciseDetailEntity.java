@@ -13,8 +13,6 @@ public class ExerciseDetailEntity {
 
     private Double score;
     
-    private String AudioPath;
-    
     private String studentAudioPath;
 
     private Double integrity;
@@ -22,6 +20,8 @@ public class ExerciseDetailEntity {
     private Double pronunciation;
 
     private Double fluency;
+    
+    private Double similarScore;
 
     private Long createId;
 
@@ -32,8 +32,18 @@ public class ExerciseDetailEntity {
     private Date updateDate;
 
     private String enableFlag;
+    
+    private Long articleId;
+    
+    public Long getArticleId() {
+		return articleId;
+	}
 
-    public Long getId() {
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -72,14 +82,6 @@ public class ExerciseDetailEntity {
     public void setScore(Double score) {
         this.score = score;
     }
-    
-    public String getAudioPath() {
-		return AudioPath;
-	}
-
-	public void setAudioPath(String audioPath) {
-		AudioPath = audioPath;
-	}
 
 	public String getStudentAudioPath() {
         return studentAudioPath;
@@ -97,7 +99,15 @@ public class ExerciseDetailEntity {
         this.integrity = integrity;
     }
 
-    public Double getPronunciation() {
+    public Double getSimilarScore() {
+		return similarScore;
+	}
+
+	public void setSimilarScore(Double similarScore) {
+		this.similarScore = similarScore;
+	}
+
+	public Double getPronunciation() {
         return pronunciation;
     }
 

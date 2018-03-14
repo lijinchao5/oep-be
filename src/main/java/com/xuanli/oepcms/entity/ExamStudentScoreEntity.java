@@ -39,7 +39,17 @@ public class ExamStudentScoreEntity {
 
     private Double percentScore;
     
-    public Double getPercentScore() {
+    private Double similarScore;
+    
+    public Double getSimilarScore() {
+		return similarScore;
+	}
+
+	public void setSimilarScore(Double similarScore) {
+		this.similarScore = similarScore;
+	}
+
+	public Double getPercentScore() {
 		return percentScore;
 	}
 

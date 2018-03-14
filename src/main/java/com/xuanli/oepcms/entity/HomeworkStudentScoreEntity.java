@@ -34,8 +34,18 @@ public class HomeworkStudentScoreEntity {
     private Double pronunciation;
 
     private Double fluency;
+    
+    private Double similarScore;
 
-    public Long getId() {
+    public Double getSimilarScore() {
+		return similarScore;
+	}
+
+	public void setSimilarScore(Double similarScore) {
+		this.similarScore = similarScore;
+	}
+
+	public Long getId() {
         return id;
     }
 

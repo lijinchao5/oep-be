@@ -22,6 +22,8 @@ public class ExerciseEntity extends BasePageBean{
     private Double integrity;
 
     private Double pronunciation;
+    
+    private Double similarScore;
 
     private Double fluency;
 
@@ -110,7 +112,15 @@ public class ExerciseEntity extends BasePageBean{
         this.audioPath = audioPath;
     }
 
-    public Double getIntegrity() {
+    public Double getSimilarScore() {
+		return similarScore;
+	}
+
+	public void setSimilarScore(Double similarScore) {
+		this.similarScore = similarScore;
+	}
+
+	public Double getIntegrity() {
         return integrity;
     }
 
