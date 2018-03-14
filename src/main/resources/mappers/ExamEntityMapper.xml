@@ -330,7 +330,7 @@
 					xl_exam_student es
 				WHERE
 					es.exam_id = h.id
-				AND es.complate = 'T'
+				AND es.complate in ('T','S')
 			) complateStudent,
 			es.student_rank studentRank,
 			es.score score
