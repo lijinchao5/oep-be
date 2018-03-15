@@ -343,4 +343,14 @@
 		order by h.create_date desc
 		limit #{start},#{end}
   </select>
+	<select id="getTimeOutCount" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+		SELECT
+		count(id)
+		FROM
+		xl_exam 
+		WHERE
+		id = #{value}
+		AND end_time > now()
+	</select>
 </mapper>
