@@ -72,7 +72,7 @@ public class SessionFilter implements Filter {
 		notFilter.add("/syncUser");
 		notFilter.add("/test");
 		notFilter.add("/paper");
-		notFilter.add("/sync");
+		notFilter.add("/resourceSync");
 		notFilter.add("/job");
 		
 		String uri = request.getRequestURI();
