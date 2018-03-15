@@ -382,12 +382,31 @@
   </delete>
   <select id="exportNameNum" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity">
 		SELECT
-			xu.id, xu.name, xu.mobile, xu.password, xu.sex, xu.birth_date, xu.study_section_id, xu.grade__level_id, xu.book_version_id,xu.role_id,
-			xu.name_num, xu.remark, xu.create_id, xu.create_date, xu.update_id, xu.update_date, xu.enable_flag
+			xu.id,
+			xu. NAME,
+			xu.mobile,
+			xu. PASSWORD,
+			xu.sex,
+			xu.birth_date,
+			xu.study_section_id,
+			xu.grade__level_id,
+			xu.book_version_id,
+			xu.role_id,
+			xu.name_num,
+			xu.remark,
+			xu.create_id,
+			xu.create_date,
+			xu.update_id,
+			xu.update_date,
+			xu.enable_flag
 		FROM
-			xl_user_clas xuc LEFT JOIN xl_user xu ON xuc.user_id = xu.id
-			WHERE
-		xuc.clas_id = #{clasId} AND xu.name_num is NOT NULL
+			xl_user xu
+		LEFT JOIN xl_user_clas xuc ON xuc.user_id = xu.id
+		WHERE
+			xuc.clas_id = #{clasId}
+		AND xu.user_batch = 1
+		and xu.update_date is null
+		
 	</select>
   <select id="getClasUserStudent" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.UserEntity">
 		select 
