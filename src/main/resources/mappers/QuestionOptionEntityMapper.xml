@@ -24,6 +24,12 @@
     from xl_question_option
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByCmsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_question_option
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </select>
   <delete id="deleteQuestionOptionEntity" parameterType="java.lang.Long">
     delete from xl_question_option
     where id = #{id,jdbcType=BIGINT}
@@ -137,6 +143,39 @@
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSyncQuestionOptionEntity" parameterType="com.xuanli.oepcms.entity.QuestionOptionEntity">
+    update xl_question_option
+    <set>
+      <if test="detailId != null">
+        detail_id = #{detailId,jdbcType=BIGINT},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="pointResult != null">
+        point_result = #{pointResult,jdbcType=VARCHAR},
+      </if>
+      <if test="correctResult != null">
+        correct_result = #{correctResult,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cms_id = #{cmsId,jdbcType=BIGINT}
   </update>
 
 </mapper>

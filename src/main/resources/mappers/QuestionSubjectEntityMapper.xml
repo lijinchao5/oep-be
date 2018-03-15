@@ -29,6 +29,12 @@
     from xl_question_subject
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectCmsById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_question_subject
+    where cms_id = #{cmsId,jdbcType=BIGINT}
+  </select>
   <delete id="deleteQuestionSubjectEntity" parameterType="java.lang.Long">
     delete from xl_question_subject
     where id = #{id,jdbcType=BIGINT}
@@ -187,6 +193,54 @@
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSyncQuestionSubjectEntity" parameterType="com.xuanli.oepcms.entity.QuestionSubjectEntity">
+    update xl_question_subject
+    <set>
+      <if test="subjectNum != null">
+        subject_num = #{subjectNum,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null">
+        total_score = #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="questionScore != null">
+        question_score = #{questionScore,jdbcType=DOUBLE},
+      </if>
+      <if test="audio != null">
+        audio = #{audio,jdbcType=VARCHAR},
+      </if>
+      <if test="totalTime != null">
+        total_time = #{totalTime,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="gradeLevelId != null">
+        grade_level_id = #{gradeLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cms_id = #{cmsId,jdbcType=BIGINT}
   </update>
 
 
