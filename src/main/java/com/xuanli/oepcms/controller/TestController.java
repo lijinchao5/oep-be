@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xuanli.oepcms.service.UserService;
 import com.xuanli.oepcms.websocket.StudentWebSocketServer;
 
 import springfox.documentation.annotations.ApiIgnore;
@@ -24,7 +25,9 @@ import springfox.documentation.annotations.ApiIgnore;
 public class TestController {
 	@Autowired
 	StudentWebSocketServer studentWebSocketServer;
-
+	@Autowired
+	UserService userService;
+	
 	@ApiIgnore
 	@RequestMapping(value = "testWebSocket.do")
 	public String testwebSocket() {
@@ -35,5 +38,11 @@ public class TestController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+	@ApiIgnore
+	@RequestMapping(value = "login.do")
+	public String login(String username) {
+		String result = userService.loginTest(username);
+		return result;
 	}
 }

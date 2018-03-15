@@ -121,6 +121,9 @@
       <if test="areaid != null" >
         areaid,
       </if>
+      <if test="userBatch != null" >
+        user_batch,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -182,6 +185,9 @@
       </if>
       <if test="areaid != null" >
         #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="userBatch != null" >
+        #{userBatch},
       </if>
     </trim>
   </insert>
@@ -464,5 +470,53 @@
 	WHERE
 		u.id = #{id}
   </select>
+  
+  
+  
+  
+  
+  
+  <select id="findStudentUsedByPageTotal" parameterType="com.xuanli.oepcms.entity.UserEntity" resultType="java.lang.Integer">
+	  	SELECT
+			count(*)
+		FROM
+			xl_user u
+		LEFT JOIN xl_user_clas uc ON u.id = uc.user_id
+		WHERE
+			u.user_batch = 1
+		AND uc.clas_id = #{clasId}
+		<if test="userUsed != null" >
+			<if test="userUsed == 0" >
+      			and u.update_date is null
+      		</if>
+      		<if test="userUsed == 1" >
+      			and u.update_date is not null
+      		</if>
+    	</if>
+  </select>
+  <select id="findStudentUsedByPage" resultType="map" parameterType="com.xuanli.oepcms.entity.UserEntity" >
+    	SELECT
+			u. NAME NAME,
+			u.mobile mobile,
+			u.name_num,
+			IF (u.update_date IS NULL, 0, 1) used
+		FROM
+			xl_user u
+		LEFT JOIN xl_user_clas uc ON u.id = uc.user_id
+		WHERE
+			u.user_batch = 1
+		AND uc.clas_id = #{clasId}
+		<if test="userUsed != null" >
+			<if test="userUsed == 0" >
+      			and u.update_date is null
+      		</if>
+      		<if test="userUsed == 1" >
+      			and u.update_date is not null
+      		</if>
+    	</if>
+		limit #{start},#{end}
+  </select>
+  
+  
   
 </mapper>

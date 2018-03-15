@@ -47,8 +47,28 @@ public class UserEntity extends BasePageBean{
     
     private String tokenId;
     
+    private Integer userBatch;
     
-    public String getTokenId() {
+    private Integer userUsed;
+    
+    
+    public Integer getUserUsed() {
+		return userUsed;
+	}
+
+	public void setUserUsed(Integer userUsed) {
+		this.userUsed = userUsed;
+	}
+
+	public Integer getUserBatch() {
+		return userBatch;
+	}
+
+	public void setUserBatch(Integer userBatch) {
+		this.userBatch = userBatch;
+	}
+
+	public String getTokenId() {
 		return tokenId;
 	}
 

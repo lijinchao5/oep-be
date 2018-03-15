@@ -112,4 +112,14 @@ public interface UserEntityMapper {
 	 * @CreateDate:  2018年2月24日 下午2:11:51
 	 */
 	Map<String, Object> getStudentInfo(UserEntity userEntity);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月15日 下午3:28:27
+	 */
+	int findStudentUsedByPageTotal(UserEntity userEntity);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月15日 下午3:28:46
+	 */
+	List<Map<String, Object>> findStudentUsedByPage(UserEntity userEntity);
 }
