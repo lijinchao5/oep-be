@@ -72,9 +72,8 @@ public class SessionFilter implements Filter {
 		notFilter.add("/syncUser");
 		notFilter.add("/test");
 		notFilter.add("/paper");
-		notFilter.add("/syncBook");
+		notFilter.add("/sync");
 		notFilter.add("/job");
-		notFilter.add("/syncPaper");
 		
 		String uri = request.getRequestURI();
 		boolean doFilter = true;

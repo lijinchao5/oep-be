@@ -30,6 +30,8 @@ public class SystemConfig implements EnvironmentAware {
 	public String BOOK_CONTENT = "";
 	public String PAPER_URL = "";
 	public String PAPER_CONTENT = "";
+	public String ARTICLE_URL = "";
+	public String SENTENCE_CONTENT_URL = "";
 	
 	@PostConstruct
 	public void initMethod() {
@@ -41,6 +43,8 @@ public class SystemConfig implements EnvironmentAware {
 		BOOK_CONTENT = propertyResolver.getProperty("sync_url.book_content");
 		PAPER_URL = propertyResolver.getProperty("sync_url.paper");
 		PAPER_CONTENT = propertyResolver.getProperty("sync_url.paper_content");
+		ARTICLE_URL = propertyResolver.getProperty("sync_url.article_url");
+		SENTENCE_CONTENT_URL = propertyResolver.getProperty("sync_url.sentence_content_url");
 		logger.debug("初始化完成系统配置信息...");
 	}
 

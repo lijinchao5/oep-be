@@ -49,9 +49,11 @@ public class ExceptionCode {
 	public static final Integer MOBILE_ERROR_CODE = 9003;
 	
 	/**同步教材错误*/
-	public static final Integer ADD_BOOK_ERROR = 2001;
+	public static final Integer SYNC_BOOK_ERROR = 2001;
 	/**同步试卷错误*/
 	public static final Integer SYNC_PAPER_ERROR = 2002;
+	/**同步自主练习文章错误*/
+	public static final Integer SYNC_ARTICLE_ERROR = 2003;
 	
 	/**作业超时*/
 	public static final Integer HOME_WORK_TIME_OUT = 3001;

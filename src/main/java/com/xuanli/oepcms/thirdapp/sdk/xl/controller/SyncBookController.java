@@ -42,7 +42,7 @@ import io.swagger.annotations.ApiOperation;
  * @date 2018年2月26日 下午7:55:07
  */
 @RestController
-@RequestMapping(value = "/syncBook/")
+@RequestMapping(value = "/resourceSync/")
 public class SyncBookController extends BaseController {
 	@Autowired
 	SyncBookService syncBookService;
@@ -52,18 +52,18 @@ public class SyncBookController extends BaseController {
 	public RestResult<String> syncBook() {
 		try {
 			String result = syncBookService.syncBooks();
-			if(result.equals("1")) {
+			if (result.equals("1")) {
 				return okNoResult("同步教材成功");
-			}else if(result.equals("2")) {
+			} else if (result.equals("2")) {
 				return okNoResult("同步失败,获取教材信息为空!");
-			}else if(result.equals("0")){
-				return failed(ExceptionCode.ADD_BOOK_ERROR, "同步教材失败!");
-			}else {
+			} else if (result.equals("0")) {
+				return failed(ExceptionCode.SYNC_BOOK_ERROR, "同步教材失败!");
+			} else {
 				return failed(ExceptionCode.UNKNOW_CODE, "未知错误，请联系管理员!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return failed(ExceptionCode.ADD_BOOK_ERROR, "同步教材失败!");
+			return failed(ExceptionCode.SYNC_BOOK_ERROR, "同步教材失败!");
 		}
 	}
 

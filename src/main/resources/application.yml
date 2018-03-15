@@ -117,6 +117,8 @@ systemconfig:
     book_content: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncBookContent.do
     paper: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncPapers.do
     paper_content: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncPaperContent.do
+    article_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncReads.do
+    sentence_content_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncReadContent.do
 # 日志输出
 logging:
   level: 

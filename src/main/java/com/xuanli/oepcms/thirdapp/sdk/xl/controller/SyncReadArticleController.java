@@ -10,40 +10,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.controller.BaseController;
-import com.xuanli.oepcms.thirdapp.sdk.xl.service.SyncPaperService;
+import com.xuanli.oepcms.thirdapp.sdk.xl.service.SyncReadArticleService;
 import com.xuanli.oepcms.vo.RestResult;
 
 import io.swagger.annotations.ApiOperation;
 
 /**
  * @author lijinchao
- * @date 2018年3月5日 下午12:31:53
+ * @date 2018年3月14日 下午4:45:14
  */
 @RestController
 @RequestMapping(value = "/resourceSync/")
-public class SyncPaperController extends BaseController {
+public class SyncReadArticleController extends BaseController {
 	@Autowired
-	SyncPaperService syncPaperService;
+	SyncReadArticleService syncReadArticleService;
 
-	@ApiOperation(value = "同步试卷", notes = "同步试卷方法")
-	@RequestMapping(value = "syncPaper.do", method = RequestMethod.POST)
-	public RestResult<String> syncPaper() {
+	@ApiOperation(value = "同步练习文章", notes = "同步练习文章")
+	@RequestMapping(value = "syncReadArticle.do", method = RequestMethod.GET)
+	public RestResult<String> syncReadArticle() {
 		try {
-			String result = syncPaperService.syncPapers();
+			String result = syncReadArticleService.syncReadArticle();
 			if (result.equals("1")) {
-				return okNoResult("同步试卷成功");
+				return okNoResult("同步练习文章成功");
 			} else if (result.equals("2")) {
-				return okNoResult("同步试卷失败,获取试卷信息为空!");
+				return okNoResult("同步练习文章失败,获取文章信息为空!");
 			} else if (result.equals("0")) {
-				return failed(ExceptionCode.SYNC_PAPER_ERROR, "同步试卷失败。");
+				return failed(ExceptionCode.SYNC_ARTICLE_ERROR, "同步练习文章失败。");
 			} else if (result.equals("3")) {
-				return failed(ExceptionCode.SYNC_PAPER_ERROR, "同步试卷失败,获取试卷详情为空!");
+				return failed(ExceptionCode.SYNC_ARTICLE_ERROR, "同步练习文章,获取文章详情为空!");
 			} else {
 				return failed(ExceptionCode.UNKNOW_CODE, "未知错误，请联系管理员!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return failed(ExceptionCode.SYNC_PAPER_ERROR, "同步试卷失败!");
+			return failed(ExceptionCode.SYNC_ARTICLE_ERROR, "同步练习文章失败!");
 		}
 	}
 }
