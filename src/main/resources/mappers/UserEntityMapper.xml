@@ -514,6 +514,7 @@
       			and u.update_date is not null
       		</if>
     	</if>
+    	order by u.update_date desc
 		limit #{start},#{end}
   </select>
   
