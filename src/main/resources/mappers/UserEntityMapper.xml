@@ -496,9 +496,9 @@
   </select>
   <select id="findStudentUsedByPage" resultType="map" parameterType="com.xuanli.oepcms.entity.UserEntity" >
     	SELECT
-			u. NAME NAME,
+			u. NAME name,
 			u.mobile mobile,
-			u.name_num,
+			u.name_num nameNum,
 			IF (u.update_date IS NULL, 0, 1) used
 		FROM
 			xl_user u
