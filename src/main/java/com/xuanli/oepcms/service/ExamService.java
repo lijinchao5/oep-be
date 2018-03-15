@@ -505,6 +505,15 @@ public class ExamService extends BaseService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
+		for (Map<String, Object> map1 : maps1) {
+			Object object = map1.get("correntResult");
+			if (null == object) {
+			}else {
+				String correntResult = (String) object;
+				int size = correntResult.split("\\|\\|").length;
+				map1.put("correntResult",size);
+			}
+		}
 		// 学生做题的信息
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setStudentId(studentId);

@@ -26,7 +26,7 @@ public class SyncPaperController extends BaseController {
 	SyncPaperService syncPaperService;
 
 	@ApiOperation(value = "同步试卷", notes = "同步试卷方法")
-	@RequestMapping(value = "syncPaper.do", method = RequestMethod.POST)
+	@RequestMapping(value = "syncPaper.do", method = RequestMethod.GET)
 	public RestResult<String> syncPaper() {
 		try {
 			String result = syncPaperService.syncPapers();
