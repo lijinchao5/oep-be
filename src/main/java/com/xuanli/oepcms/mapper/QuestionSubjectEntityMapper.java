@@ -1,7 +1,12 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.QuestionSubjectEntity;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.xuanli.oepcms.entity.QuestionSubjectEntity;
+@Mapper
 public interface QuestionSubjectEntityMapper {
 	/**
 	 * Title: deleteQuestionSubjectEntity 
@@ -35,5 +40,20 @@ public interface QuestionSubjectEntityMapper {
      * @return
      */
     int updateQuestionSubjectEntity(QuestionSubjectEntity record);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月15日 上午10:39:57
+	 */
+	int findQuestionDetailByPageCount(Map<String, Object> requestMap);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月15日 上午10:40:02
+	 */
+	List<Map<String, Object>> findQuestionDetailByPage(Map<String, Object> requestMap);
+	/**
+	 * @CreateName:  codelion[QiaoYu]
+	 * @CreateDate:  2018年3月15日 上午10:49:21
+	 */
+	void updateQuestionSubjectUsedCount(Long id);
 
 }

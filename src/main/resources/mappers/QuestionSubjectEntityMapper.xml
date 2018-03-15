@@ -189,4 +189,91 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+
+
+
+
+
+	<select id="findPaperDetailByPageCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(ps.id)
+		FROM
+			xl_question_subject ps
+		LEFT JOIN xl_question_subject_detail psd ON ps.id = psd.subject_id
+		LEFT JOIN xl_question_option po ON psd.id = po.detail_id
+		WHERE
+			1 = 1
+		<if test="gradeLevelId != null">
+		  and ps.grade_level_id = #{gradeLevelId,jdbcType=INTEGER}
+		</if>
+		<if test="term != null">
+		  and ps.term = #{term,jdbcType=INTEGER}
+		</if>
+		<if test="type != null">
+		  and ps.type = #{type,jdbcType=INTEGER}
+		</if>
+  </select>
+  <select id="findPaperDetailByPage" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+		ps.id,
+		ps.type,
+		ps.question_score questionScore,
+		ps.audio subjectAudio,
+		psd.guide guide,
+		psd.question,
+		psd.guide_audio guideAudio,
+		psd.type detailType,
+		psd.read_time readTime,
+		psd.write_time writeTime,
+		psd.original_text,
+		psd.repeat_count repeatCount,
+		psd.question_no questionNo,
+		po.result,
+		po.point_result pointResult,
+		po.correct_result correntResult,
+		ps.used_count useTotal,
+		ps.create_date createDate
+	FROM
+		xl_question_subject ps
+	LEFT JOIN xl_question_subject_detail psd ON ps.id = psd.subject_id
+	LEFT JOIN xl_question_option po ON psd.id = po.detail_id
+	WHERE
+		1 = 1
+	<if test="gradeLevelId != null">
+	  and ps.grade_level_id = #{gradeLevelId,jdbcType=INTEGER}
+	</if>
+	<if test="term != null">
+	  and ps.term = #{term,jdbcType=INTEGER}
+	</if>
+	<if test="type != null">
+	  and ps.type = #{type,jdbcType=INTEGER}
+	</if>
+	ORDER BY
+		<if test="ob!=null">
+			<if test="ob=='createDate'">
+	      		ps.create_date
+	      	</if>
+			<if test="ob=='usedCount'">
+	      		ps.used_count
+	      	</if>
+	      	<if test="sb!=null">
+	      		<if test="sb=='asc'">
+	      			asc
+		      	</if>
+		      	<if test="sb=='desc'">
+	      			desc
+		      	</if>
+	      	</if>
+	      	,
+      	</if>
+		ps.id,
+		psd.id
+      limit #{start},#{end}
+  </select>
+
+<update id="updateQuestionSubjectUsedCount">
+	update xl_question_subject set used_count = used_count+1 where id = #{id,jdbcType=BIGINT}
+</update>
+
+
 </mapper>

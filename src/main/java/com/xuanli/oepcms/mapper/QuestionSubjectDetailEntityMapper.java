@@ -1,7 +1,9 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.QuestionSubjectDetailEntity;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.entity.QuestionSubjectDetailEntity;
+@Mapper
 public interface QuestionSubjectDetailEntityMapper {
 	/**
 	 * Title: deleteQuestionSubjectDetailEntity 

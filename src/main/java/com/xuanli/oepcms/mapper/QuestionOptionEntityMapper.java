@@ -1,7 +1,9 @@
 package com.xuanli.oepcms.mapper;
 
-import com.xuanli.oepcms.entity.QuestionOptionEntity;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.xuanli.oepcms.entity.QuestionOptionEntity;
+@Mapper
 public interface QuestionOptionEntityMapper {
 	/**
 	 * Title: deleteQuestionOptionEntity 

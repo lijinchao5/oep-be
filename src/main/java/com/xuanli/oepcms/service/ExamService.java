@@ -474,7 +474,7 @@ public class ExamService extends BaseService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		map.put("examDetail", examEntity);
-		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
+		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail1(examEntity.getPaperId());
 		map.put("paperDetail", maps1);
 		map.put("paperInfo", paperEntityMapper.selectById(examEntity.getPaperId()));
 		return ok(map);
@@ -504,7 +504,11 @@ public class ExamService extends BaseService {
 	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId, Long studentId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
-		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(examEntity.getPaperId());
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("paperId", examEntity.getPaperId());
+		map2.put("examId", examId);
+		map2.put("studentId", studentId);
+		List<Map<String, Object>> maps1 = paperEntityMapper.getPaperDetail(map2);
 		for (Map<String, Object> map1 : maps1) {
 			Object object = map1.get("correntResult");
 			if (null == object) {

@@ -22,10 +22,14 @@ import com.xuanli.oepcms.entity.PaperEntity;
 import com.xuanli.oepcms.entity.PaperOptionEntity;
 import com.xuanli.oepcms.entity.PaperSubjectDetailEntity;
 import com.xuanli.oepcms.entity.PaperSubjectEntity;
+import com.xuanli.oepcms.entity.QuestionSubjectEntity;
 import com.xuanli.oepcms.mapper.PaperEntityMapper;
 import com.xuanli.oepcms.mapper.PaperOptionEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectDetailEntityMapper;
 import com.xuanli.oepcms.mapper.PaperSubjectEntityMapper;
+import com.xuanli.oepcms.mapper.QuestionOptionEntityMapper;
+import com.xuanli.oepcms.mapper.QuestionSubjectDetailEntityMapper;
+import com.xuanli.oepcms.mapper.QuestionSubjectEntityMapper;
 import com.xuanli.oepcms.util.BeanUtil;
 import com.xuanli.oepcms.util.PageBean;
 import com.xuanli.oepcms.vo.RestResult;
@@ -44,6 +48,13 @@ public class PaperService extends BaseService {
 	PaperSubjectEntityMapper paperSubjectEntityMapper;
 	@Autowired
 	PaperOptionEntityMapper paperOptionEntityMapper;
+	
+	@Autowired
+	QuestionSubjectEntityMapper questionSubjectEntityMapper;
+	@Autowired
+	QuestionSubjectDetailEntityMapper questionSubjectDetailEntityMapper;
+	@Autowired
+	QuestionOptionEntityMapper questionOptionEntityMapper;
 
 	/**
 	 * @Description: TODO
@@ -66,7 +77,7 @@ public class PaperService extends BaseService {
 	 */
 	public RestResult<Map<String, Object>> getPaperDetail(Long paperId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("paperDetail", paperEntityMapper.getPaperDetail(paperId));
+		map.put("paperDetail", paperEntityMapper.getPaperDetail1(paperId));
 		map.put("paperInfo", paperEntityMapper.selectById(paperId));
 		return ok(map);
 	}
@@ -106,24 +117,23 @@ public class PaperService extends BaseService {
 			for (PaperBean paperBean : paperBeans) {
 				// 可以保存试卷信息了
 				// 获取papersubject信息
-				PaperSubjectEntity resultPSE = paperSubjectEntityMapper.selectById(paperBean.getSubjectId());
+				QuestionSubjectEntity resultQSE = questionSubjectEntityMapper.selectById(paperBean.getSubjectId());
 				PaperSubjectEntity paperSubjectEntity = new PaperSubjectEntity();
-				BeanUtil.copyBean(resultPSE, paperSubjectEntity);
+				BeanUtil.copyBean(resultQSE, paperSubjectEntity);
 				paperSubjectEntity.setId(null);
 				paperSubjectEntity.setCreateDate(new Date());
 				paperSubjectEntity.setCreateId(userId);
 				paperSubjectEntity.setPaperId(paperEntity.getId());
-				paperSubjectEntity.setSubjectId(resultPSE.getId());
 				// 保存subject信息
 				paperSubjectEntityMapper.insertPaperSubjectEntity(paperSubjectEntity);
-				paperSubjectEntityMapper.updatePaperSubjectUsedCount(resultPSE.getId());
+				questionSubjectEntityMapper.updateQuestionSubjectUsedCount(resultQSE.getId());
 				// 获取paperdetailInfo
-				List<PaperSubjectDetailEntity> paperSubjectDetailEntities = paperSubjectDetailEntityMapper.findSubjectDetailBySubjectId(resultPSE.getSubject());
+				List<PaperSubjectDetailEntity> paperSubjectDetailEntities = paperSubjectDetailEntityMapper.findSubjectDetailBySubjectId(resultQSE.getSubject());
 				for (PaperSubjectDetailEntity resultPSDE : paperSubjectDetailEntities) {
 					String[] score = paperBean.getScore().split(",");
 					PaperSubjectDetailEntity paperSubjectDetailEntity = new PaperSubjectDetailEntity();
 					BeanUtil.copyBean(resultPSDE, paperSubjectDetailEntity);
-					if (resultPSE.getType().intValue() == 3) {
+					if (resultQSE.getType().intValue() == 3) {
 						// 听后填空 听后回答
 						if (resultPSDE.getType().intValue() == 3) {
 							Double typeScore1 = Double.parseDouble(score[0]);

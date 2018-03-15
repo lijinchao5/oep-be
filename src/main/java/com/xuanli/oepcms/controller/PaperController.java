@@ -95,10 +95,11 @@ public class PaperController extends BaseController {
 
 	// 组卷
 	@ApiOperation(value = "组卷", notes = "组卷")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "name", value = "排序顺序 asc,desc", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "notice", value = "每页显示条数", required = true, dataType = "String"),
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "name", value = "试卷名字", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "notice", value = "试卷须知", required = false, dataType = "String"),
 			@ApiImplicitParam(name = "paperInfo", value = "组卷信息 \"[{\"subjectId\":1,\"score\":\"1\"},{\"subjectId\":2,\"score\":\"1,3\"}]\"", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "totalTime", value = "页数", required = true, dataType = "Integer") })
+			@ApiImplicitParam(name = "totalTime", value = "总时长", required = true, dataType = "Integer") })
 	public RestResult<String> generatorPaper(String name, String notice, Integer totalTime, String paperInfo) {
 		Long userId = getCurrentUser().getId();
 		return paperService.generatorPaper(userId, name, notice, totalTime, paperInfo);
