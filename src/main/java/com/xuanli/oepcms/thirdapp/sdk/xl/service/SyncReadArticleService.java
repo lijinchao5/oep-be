@@ -61,10 +61,8 @@ public class SyncReadArticleService {
 					} else {
 						readArticleDao.insertReadArticleEntity(readArticleEntity);
 					}
-					String ReadSentenceJson = SyncUtil.sendPostUTF8(
-							systemConfig.SENTENCE_CONTENT_URL + "?readId=" + readArticleBean.getId().longValue(), null);
-					SyncReadSentenceBean syncReadSentenceBean = JSONObject.parseObject(ReadSentenceJson,
-							SyncReadSentenceBean.class);
+					String ReadSentenceJson = SyncUtil.sendPostUTF8(systemConfig.SENTENCE_CONTENT_URL + "?readId=" + readArticleBean.getId().longValue(), null);
+					SyncReadSentenceBean syncReadSentenceBean = JSONObject.parseObject(ReadSentenceJson, SyncReadSentenceBean.class);
 					if (null != syncReadSentenceBean && syncReadSentenceBean.getCode() == 0) {
 						List<ReadSentenceBean> readSentenceBeans = syncReadSentenceBean.getResult().getSections();
 						for (ReadSentenceBean readSentenceBean : readSentenceBeans) {
@@ -83,8 +81,7 @@ public class SyncReadArticleService {
 							readSentenceEntity.setUpdateDate(readSentenceBean.getUpdateDate());
 							readSentenceEntity.setUpdateId(readSentenceBean.getUpdateId());
 							readSentenceEntity.setWordNum(readSentenceBean.getWordNum());
-							ReadSentenceEntity resultSentenceEntity = readSentenceDao
-									.selectById(readSentenceBean.getId());
+							ReadSentenceEntity resultSentenceEntity = readSentenceDao.selectById(readSentenceBean.getId());
 							if (null != resultSentenceEntity) {
 								readSentenceDao.updateReadSentenceEntity(readSentenceEntity);
 							} else {
@@ -93,7 +90,6 @@ public class SyncReadArticleService {
 						}
 					} else {
 						System.out.println("syncReadSentenceBean是空的");
-						return "3";
 					}
 				}
 			} else {
