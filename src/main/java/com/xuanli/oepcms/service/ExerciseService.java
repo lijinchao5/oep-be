@@ -109,6 +109,7 @@ public class ExerciseService extends BaseService {
 		ReadSentenceEntity readSentenceEntity = readSentenceDao.selectById(sentenceId);
 		String text = readSentenceEntity.getSentenceCont();
 		String json = yunZhiSDK.generatorExerciseScore(text, file);
+		System.out.println(json);
 		if (null == json || json.trim().equals("")) {
 			System.out.println(readSentenceEntity.getId() + "---出现问题,不能计算");
 		} else {
