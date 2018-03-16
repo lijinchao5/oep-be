@@ -198,9 +198,7 @@
 	FROM
 		xl_read_sentence xrs
 	LEFT JOIN xl_exercise_detail xed ON xed.read_sentence_id = xrs.id
-	WHERE xrs.article_id = #{articleId}
-    <if test="studentId != null">
         and student_id = #{studentId,jdbcType=BIGINT}
-    </if>
+	WHERE xrs.article_id = #{articleId}
   </select>
 </mapper>
