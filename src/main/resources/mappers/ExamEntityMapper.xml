@@ -205,20 +205,35 @@
   </select>
   <select id="findExamByPage" parameterType="com.xuanli.oepcms.entity.ExamEntity" resultType="com.xuanli.oepcms.entity.ExamEntity">
   		SELECT
-			id, name, notice, start_time starttime, end_time endtime, class_id classId , type, point_score pointscore, create_id createid, 
-    		create_date createdate, update_id updateid, update_date updatedate, enable_flag enableflag, (
+			id,
+			NAME,
+			notice,
+			start_time starttime,
+			end_time endtime,
+			class_id classId,
+			type,
+			point_score pointscore,
+			create_id createid,
+			create_date createdate,
+			update_id updateid,
+			update_date updatedate,
+			enable_flag enableflag,
+			(
 				SELECT
 					count(id)
 				FROM
-					xl_exam_student
+					xl_exam_student es
+				WHERE
+					es.exam_id = e.id
 			) totalStudent,
 			(
 				SELECT
 					count(id)
 				FROM
-					xl_exam_student
+					xl_exam_student es
 				WHERE
-					complate in ('T','S')
+					complate IN ('T', 'S')
+				AND es.exam_id = e.id
 			) complateStudent,
 			CASE
 			WHEN NOW() > end_time THEN
@@ -230,7 +245,7 @@
 				0
 			END status
 		FROM
-			xl_exam
+			xl_exam e
 		WHERE
 			create_id = #{createId}
 		<if test="classId != null">
@@ -343,4 +358,14 @@
 		order by h.create_date desc
 		limit #{start},#{end}
   </select>
+	<select id="getTimeOutCount" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+		SELECT
+		count(id)
+		FROM
+		xl_exam 
+		WHERE
+		id = #{value}
+		AND end_time > now()
+	</select>
 </mapper>

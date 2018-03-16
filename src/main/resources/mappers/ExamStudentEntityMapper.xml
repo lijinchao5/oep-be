@@ -159,7 +159,7 @@
   </update>
 	<select id="generatorExamReport" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity" resultType="com.xuanli.oepcms.entity.ExamStudentEntity">
 		SELECT
-			ess.student_id,
+			ess.student_id studentId,
 			SUM(score) score,
 			(
 				SELECT
@@ -176,8 +176,8 @@
 				WHERE
 					es1.student_id = ess.student_id
 				AND es1.exam_id = ess.exam_id
-			) update_id,
-			MAX(ess.update_date) update_date
+			) updateId,
+			MAX(ess.update_date) updateDate
 		FROM
 			xl_exam_student_score ess
 		WHERE

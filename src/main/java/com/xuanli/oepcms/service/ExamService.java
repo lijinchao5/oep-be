@@ -88,7 +88,11 @@ public class ExamService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月6日 下午3:03:03
 	 */
-	public void submitExam(Long studentId, Long examId, List<ExamAnswerBean> answers, Integer timeout) {
+	public RestResult<String> submitExam(Long studentId, Long examId, List<ExamAnswerBean> answers, Integer timeout) {
+		int timeOutCount = examEntityMapper.getTimeOutCount(examId);
+		if (timeOutCount == 0) {
+			return failed(ExceptionCode.HOME_WORK_TIME_OUT, "现已超出考试时限,无法提交");
+		}
 		for (int i = 0; i < answers.size(); i++) {
 			ExamAnswerBean answer = answers.get(i);
 			long detailId = answer.getKey();
@@ -236,7 +240,8 @@ public class ExamService extends BaseService {
 				// 阅读是有音频的
 				try {
 					// 阅读 直接把问题text传入即可
-					String json = yunZhiSDK.generatorStudentExamScore(fileId, paperSubjectDetailEntity.getQuestion(), "E");
+					String json = yunZhiSDK.generatorStudentExamScore(fileId, paperSubjectDetailEntity.getQuestion(),
+							"E");
 					if (null == json || json.trim().equals("")) {
 						System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
 					} else {
@@ -291,6 +296,7 @@ public class ExamService extends BaseService {
 		examStudentEntity.setUpdateDate(new Date());
 		examStudentEntity.setTimeOut(timeout);
 		examStudentEntityMapper.updateExamStudentEntityByExamId(examStudentEntity);
+		return okNoResult("完成考试");
 	}
 
 	/**
@@ -318,7 +324,7 @@ public class ExamService extends BaseService {
 		examStudentEntity.setExamId(examId);
 		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.generatorExamReport(examStudentEntity);
 		for (ExamStudentEntity ese : examStudentEntities) {
-			ese.setComplate("T");
+			ese.setComplate("E");
 			ese.setExamId(examId);
 			ese.setEnableFlag("T");
 			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
@@ -339,7 +345,8 @@ public class ExamService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月23日 下午2:53:36
 	 */
-	public RestResult<String> genteratorExam(Long userId, String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
+	public RestResult<String> genteratorExam(Long userId, String name, String notice, String classIds, Date startTime,
+			Date endTime, Long paperId) {
 		String clasIds[] = classIds.split(",");
 		for (int i = 0; i < clasIds.length; i++) {
 			String clasId = clasIds[i];
@@ -534,16 +541,22 @@ public class ExamService extends BaseService {
 	 * @CreateName:  codelion[QiaoYu]
 	 * @CreateDate:  2018年3月12日 下午5:37:08
 	 */
-	public void commitExam(Long studentId, Long examId) {
+	public RestResult<String> commitExam(Long studentId, Long examId) {
+		int timeOutCount = examEntityMapper.getTimeOutCount(examId);
+		if (timeOutCount == 0) {
+			return failed(ExceptionCode.HOME_WORK_TIME_OUT, "现已超出考试时限,无法提交");
+		}
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setStudentId(studentId);
 		examStudentEntity.setExamId(examId);
-		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.getExamStudentEntityByStudent(examStudentEntity);
+		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper
+				.getExamStudentEntityByStudent(examStudentEntity);
 		for (ExamStudentEntity ese : examStudentEntities) {
 			ese.setComplate("S");
 			ese.setExamId(examId);
 			ese.setEnableFlag("T");
 			examStudentEntityMapper.updateExamStudentEntityByExamId(ese);
 		}
+		return okNoResult("作业提交");
 	}
 }
