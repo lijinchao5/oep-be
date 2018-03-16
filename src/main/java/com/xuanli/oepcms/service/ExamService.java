@@ -568,4 +568,36 @@ public class ExamService extends BaseService {
 		}
 		return okNoResult("作业提交");
 	}
+
+	/**
+	 * 获取学生考试报告
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年3月16日 上午9:56:53
+	 */
+	public RestResult<Map<String, Object>> getStudentExamReport(Long examId, Long studentId) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		//获取学生基本信息
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("examId", examId);
+		map1.put("studentId", studentId);
+		ExamEntity examEntity = examEntityMapper.selectById(examId);
+		Map<String, Object>  examStudentMap = examStudentEntityMapper.getStudentExamReport(map1);
+		List<Map<String, Object>>  examStudentTypeMap = examStudentEntityMapper.getStudentExamTypeReport(map1);
+		
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("paperId", examEntity.getPaperId());
+		map2.put("examId", examId);
+		map2.put("studentId", studentId);
+		List<Map<String, Object>> examStudentScoreMap = paperEntityMapper.getPaperDetailAndScore(map2);
+		
+		
+		
+		//考试学生信息
+		resultMap.put("examStudentScore", examStudentScoreMap);
+		//考试学生信息
+		resultMap.put("examStudentInfo", examStudentMap);
+		//考试类型信息
+		resultMap.put("examTypeScoreList", examStudentTypeMap);
+		return ok(resultMap);
+	}
 }

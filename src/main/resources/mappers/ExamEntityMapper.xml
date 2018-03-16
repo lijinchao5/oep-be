@@ -307,7 +307,9 @@
 		FROM
 			xl_exam h
 		LEFT JOIN xl_exam_student es ON h.id = es.exam_id
-		and es.student_id = #{studentId}
+		where 
+			es.student_id = #{studentId}
+		AND h.type = 1
   </select>
   <select id="findStudentExamByPage" parameterType="map" resultType="map">
   		SELECT

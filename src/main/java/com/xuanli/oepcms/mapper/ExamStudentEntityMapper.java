@@ -1,6 +1,7 @@
 package com.xuanli.oepcms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -81,5 +82,15 @@ public interface ExamStudentEntityMapper {
 	 * @CreateDate:  2018年3月12日 下午5:39:31
 	 */
 	List<ExamStudentEntity> getExamStudentEntityByStudent(ExamStudentEntity examStudentEntity);
+	/**
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年3月16日 上午10:00:59
+	 */
+	Map<String, Object> getStudentExamReport(Map<String, Object> map1);
+	/**
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年3月16日 上午10:23:31
+	 */
+	List<Map<String, Object>> getStudentExamTypeReport(Map<String, Object> map1);
 
 }

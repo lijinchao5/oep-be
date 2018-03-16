@@ -371,4 +371,87 @@
 	        and student_id = #{studentId,jdbcType=BIGINT}
 	      </if>
 	  </select>	
+	 <select id="getStudentExamReport" parameterType="map" resultType="map">
+	    SELECT
+			id id,
+			exam_id examId,
+			student_id studentId,
+			score score,
+			time_out timeOut,
+			complate,
+			remark,
+			create_id createId,
+			create_date createDate,
+			update_id updateId,
+			update_date updateDate,
+			enable_flag enableFlag,
+			student_rank studentRank
+		FROM
+			xl_exam_student
+	    where 1=1
+	    <if test="examId != null">
+	        and exam_id = #{examId,jdbcType=BIGINT}
+	      </if>
+	      <if test="studentId != null">
+	        and student_id = #{studentId,jdbcType=BIGINT}
+	      </if>
+	  </select>	
+	 <select id="getStudentExamTypeReport" parameterType="map" resultType="map">
+	    SELECT
+			type,
+			(
+				SELECT
+					dd. NAME
+				FROM
+					xl_dic_detail dd
+				WHERE
+					dd.name_val = al.type
+				AND dd.dic_id = 12
+			) typeName,
+			SUM(score) totalScore,
+			SUM(studentScore) studentScore
+		FROM
+			(
+				SELECT
+					es.id,
+					es.exam_id examId,
+					es.subject_id subjectId,
+					ps.audio,
+					ps.type type,
+					psd.guide,
+					psd.question,
+					psd.guide_audio guideAudio,
+					psd.read_time readTime,
+					psd.question_audio questionAudio,
+					psd.write_time writeTime,
+					psd.score,
+					psd.original_text originalText,
+					po.result,
+					po.point_result pointResult,
+					po.correct_result correntResult,
+					ess.audio_path,
+					ess.fluency,
+					ess.integrity,
+					ess.pronunciation,
+					ess.remark,
+					ess.text,
+					ess.audio_path audioPath,
+					IFNULL(ess.score, 0) studentScore
+				FROM
+					xl_exam e
+				LEFT JOIN xl_exam_subject es ON e.id = es.exam_id
+				LEFT JOIN xl_paper_subject ps ON ps.id = es.subject_id
+				LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
+				LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
+				LEFT JOIN xl_exam_student_score ess ON ess.subject_detail_id = psd.id
+				AND ess.student_id = #{studentId} and ess.exam_id=#{examId}
+				WHERE
+					e.id = #{examId}
+				ORDER BY
+					ps.id,
+					psd.id
+			) al
+		GROUP BY
+			al.type
+	  </select>	
 </mapper>
