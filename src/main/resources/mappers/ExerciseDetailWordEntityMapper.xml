@@ -157,4 +157,20 @@
         and sentence_id = #{sentenceId,jdbcType=BIGINT}
         and student_id = #{studentId,jdbcType=BIGINT}
   </delete>
+  <select id="getExerciseDetailWord" parameterType="com.xuanli.oepcms.entity.ExerciseDetailWordEntity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xl_exercise_detail_word
+    where 1=1
+    <if test="articleId != null">
+        and article_id = #{articleId,jdbcType=BIGINT}
+      </if>
+      <if test="sentenceId != null">
+         and sentence_id = #{sentenceId,jdbcType=BIGINT}
+      </if>
+      <if test="studentId != null">
+        and student_id = #{studentId,jdbcType=BIGINT}
+      </if>
+      order by id
+  </select>
 </mapper>

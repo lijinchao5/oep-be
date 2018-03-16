@@ -54,4 +54,6 @@ public interface ReadSentenceEntityMapper {
 	 */
 	List<Map<String, Object>> getReadSentence(Map<String, Object> resultMap);
 
+	List<Map<String, Object>> getReadSentenceScore(Map<String, Object> resultMap);
+
 }

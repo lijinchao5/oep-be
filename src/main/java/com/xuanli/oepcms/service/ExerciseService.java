@@ -4,7 +4,9 @@
 package com.xuanli.oepcms.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +76,20 @@ public class ExerciseService extends BaseService {
 	 * @return
 	 */
 	public List<Map<String, Object>> getReadSentence(Map<String, Object> requestMap) {
-		return readSentenceDao.getReadSentence(requestMap);
+		List<Map<String, Object>> readSentence = readSentenceDao.getReadSentence(requestMap);
+		List<Map<String, Object>> readSentenceScore = readSentenceDao.getReadSentenceScore(requestMap);
+		for (Map<String, Object> map : readSentence) {
+			String id = map.get("id") + "";
+			List<Map<String, Object>> list = new ArrayList<>();
+			for (Map<String, Object> map2 : readSentenceScore) {
+				String sentenceId = map2.get("sentence_id") + "";
+				if (id.equals(sentenceId)) {
+					list.add(map2);
+				}
+			}
+			map.put("readSentenceScore", list);
+		}
+		return readSentence;
 	}
 
 	/**
@@ -87,7 +102,8 @@ public class ExerciseService extends BaseService {
 	 * @param file
 	 * @return
 	 */
-	public String doExercise(Long studentId, Long articleId, Long sentenceId, String file) {
+	public RestResult<Map<String, Object>> doExercise(Long studentId, Long articleId, Long sentenceId, String file) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		ExerciseDetailEntity exerciseDetailEntity = new ExerciseDetailEntity();
 		exerciseDetailEntity.setStudentId(studentId);
 		exerciseDetailEntity.setCreateId(studentId);
@@ -126,11 +142,11 @@ public class ExerciseService extends BaseService {
 				exerciseDetailEntity.setIntegrity(yunZhiline.getIntegrity());
 				exerciseDetailEntity.setPronunciation(yunZhiline.getPronunciation());
 				// 删除word评分
-				ExerciseDetailWordEntity exercisedetailWordEntity = new ExerciseDetailWordEntity();
-				exercisedetailWordEntity.setArticleId(articleId);
-				exercisedetailWordEntity.setStudentId(studentId);
-				exercisedetailWordEntity.setSentenceId(sentenceId);
-				exerciseDetailWordDao.deleteDetailWordEntity(exercisedetailWordEntity);
+				ExerciseDetailWordEntity exerciseDetailWordEntity = new ExerciseDetailWordEntity();
+				exerciseDetailWordEntity.setArticleId(articleId);
+				exerciseDetailWordEntity.setStudentId(studentId);
+				exerciseDetailWordEntity.setSentenceId(sentenceId);
+				exerciseDetailWordDao.deleteDetailWordEntity(exerciseDetailWordEntity);
 				for (YunZhiline line : yunZhilines) {
 					List<YunZhiWords> yunZhiSubWords = line.getWords();
 					for (YunZhiWords word : yunZhiSubWords) {
@@ -150,12 +166,15 @@ public class ExerciseService extends BaseService {
 				}
 			}
 		}
-		int resultCount = exerciseDetailDao.updateExerciseDetailEntity(exerciseDetailEntity);
-		if (resultCount > 0) {
-			return "1";
-		} else {
-			return "0";
-		}
+		ExerciseDetailWordEntity detailWordEntity = new ExerciseDetailWordEntity();
+		detailWordEntity.setArticleId(articleId);
+		detailWordEntity.setSentenceId(sentenceId);
+		detailWordEntity.setStudentId(studentId);
+		List<ExerciseDetailWordEntity> exerciseDetailWords = exerciseDetailWordDao.getExerciseDetailWord(detailWordEntity);
+		exerciseDetailDao.updateExerciseDetailEntity(exerciseDetailEntity);
+		map.put("exerciseDetailEntity", exerciseDetailEntity);
+		map.put("exerciseDetailWords", exerciseDetailWords);
+		return ok(map);
 	}
 
 	/**
@@ -166,7 +185,7 @@ public class ExerciseService extends BaseService {
 	 * @param articleId
 	 * @return
 	 */
-	public RestResult<String> submitExercise(Long studentId, Long articleId) {
+	public RestResult<ExerciseEntity> submitExercise(Long studentId, Long articleId) {
 		ExerciseEntity exerceseEntity = new ExerciseEntity();
 		exerceseEntity.setEnableFlag("T");
 		exerceseEntity.setCreateId(studentId);
@@ -192,7 +211,7 @@ public class ExerciseService extends BaseService {
 		} else {
 			exerciseDao.insertExerciseEntity(exerceseEntity);
 		}
-		return okNoResult("完成提交");
+		return ok(exerceseEntity);
 	}
 
 	/**

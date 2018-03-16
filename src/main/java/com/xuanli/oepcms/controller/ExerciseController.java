@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
+import com.xuanli.oepcms.entity.ExerciseEntity;
 import com.xuanli.oepcms.entity.ReadArticleEntity;
 import com.xuanli.oepcms.service.ExerciseService;
 import com.xuanli.oepcms.util.PageBean;
@@ -40,8 +41,7 @@ public class ExerciseController extends BaseController {
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
 	@RequestMapping(value = "findExercisePage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findExercisePage(String level, String type, Long studentId, Integer rows,
-			Integer page) {
+	public RestResult<PageBean> findExercisePage(String level, String type, Long studentId, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		ReadArticleEntity readArticleEntity = new ReadArticleEntity();
 		readArticleEntity.setType(type);
@@ -73,16 +73,11 @@ public class ExerciseController extends BaseController {
 			@ApiImplicitParam(name = "sentenceId", value = "段落id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doExercise.do", method = RequestMethod.POST)
-	public RestResult<String> doExercise(@RequestParam Long articleId, @RequestParam Long sentenceId,
-			@RequestParam String file) {
+	public RestResult<Map<String, Object>> doExercise(@RequestParam Long articleId, @RequestParam Long sentenceId, @RequestParam String file) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			String result = exerciseService.doExercise(studentId, articleId, sentenceId, file);
-			if (result.equals("1")) {
-				return ok("成功");
-			} else {
-				return failed(ExceptionCode.UNKNOW_CODE, "练习出现异常");
-			}
+			return exerciseService.doExercise(studentId, articleId, sentenceId, file);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("练习出现异常", e);
@@ -93,7 +88,7 @@ public class ExerciseController extends BaseController {
 	@ApiOperation(value = "学生提交练习", notes = "学生提交练习")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "Long") })
 	@RequestMapping(value = "submitExercise.do", method = RequestMethod.POST)
-	public RestResult<String> submitExercise(@RequestParam Long articleId) {
+	public RestResult<ExerciseEntity> submitExercise(@RequestParam Long articleId) {
 		if (null == articleId) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "文章id不能为空");
 		}
