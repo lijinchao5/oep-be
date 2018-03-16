@@ -3,6 +3,7 @@ package com.xuanli.oepcms.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.xuanli.oepcms.entity.ExamStudentScoreWordEntity;
 @Mapper
@@ -32,4 +33,10 @@ public interface ExamStudentScoreWordEntityMapper {
 	 * @param examStudentScoreWordEntity  
 	 */
 	void deleteExamStudentScoreWord(ExamStudentScoreWordEntity examStudentScoreWordEntity);
+
+	/**
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年3月16日 下午5:45:53
+	 */
+	List<ExamStudentScoreWordEntity> findByDetailId(@Param("allIds")List<ExamStudentScoreWordEntity> allIds,@Param("studentId") Long studentId,@Param("examId") Long examId);
 }

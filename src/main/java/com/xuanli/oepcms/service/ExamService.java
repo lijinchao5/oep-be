@@ -6,6 +6,7 @@
  */
 package com.xuanli.oepcms.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -266,7 +267,7 @@ public class ExamService extends BaseService {
 								ExamStudentScoreWordEntity examStudentScoreWordEntity = new ExamStudentScoreWordEntity();
 								examStudentScoreWordEntity.setExamDetailId(paperSubjectDetailEntity.getId());
 								examStudentScoreWordEntity.setExamId(examId);
-								examStudentScoreWordEntity.setScore(yunZhiWord.getScore());
+								examStudentScoreWordEntity.setScore(yunZhiWord.getScore()*10);
 								examStudentScoreWordEntity.setType(yunZhiWord.getType() + "");
 								examStudentScoreWordEntity.setText(yunZhiWord.getText());
 								examStudentScoreWordEntity.setStudentId(studentId);
@@ -583,15 +584,30 @@ public class ExamService extends BaseService {
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
 		Map<String, Object>  examStudentMap = examStudentEntityMapper.getStudentExamReport(map1);
 		List<Map<String, Object>>  examStudentTypeMap = examStudentEntityMapper.getStudentExamTypeReport(map1);
-		
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("paperId", examEntity.getPaperId());
 		map2.put("examId", examId);
 		map2.put("studentId", studentId);
 		List<Map<String, Object>> examStudentScoreMap = paperEntityMapper.getPaperDetailAndScore(map2);
+		List<ExamStudentScoreWordEntity> allIds = new ArrayList<ExamStudentScoreWordEntity>();
+		for (Map<String, Object> map : examStudentScoreMap) {
+			ExamStudentScoreWordEntity e = new ExamStudentScoreWordEntity();
+			Long detailId = (Long) map.get("paperSubjectDetailId");
+			e.setExamDetailId(detailId);
+			allIds.add(e);
+		}
+		List<ExamStudentScoreWordEntity> examStudentScoreWordEntities = examStudentScoreWordEntityMapper.findByDetailId(allIds,studentId,examId);
 		
-		
-		
+		for (Map<String, Object> map : examStudentScoreMap) {
+			Long detailId = (Long) map.get("paperSubjectDetailId");
+			List<ExamStudentScoreWordEntity> ews = new ArrayList<ExamStudentScoreWordEntity>();
+			for (ExamStudentScoreWordEntity examStudentScoreWordEntity : examStudentScoreWordEntities) {
+				if (detailId.longValue() == examStudentScoreWordEntity.getExamDetailId().longValue()) {
+					ews.add(examStudentScoreWordEntity);
+				}
+			}
+			map.put("words", ews);
+		}
 		//考试学生信息
 		resultMap.put("examStudentScore", examStudentScoreMap);
 		//考试学生信息

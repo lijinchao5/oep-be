@@ -140,4 +140,16 @@
       text = #{text,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findByDetailId" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from xl_exam_student_score_word
+    where exam_detail_id in
+    <foreach collection="allIds" item="item" index="index"
+        open="(" close=")" separator=",">
+        #{item.examDetailId}
+    </foreach>
+    and student_id = #{studentId,jdbcType=BIGINT} and exam_id = #{examId,jdbcType=BIGINT}
+    order by id
+  </select>
 </mapper>

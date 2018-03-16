@@ -615,7 +615,15 @@
 			po.correct_result correntResult,
 			psd.repeat_count repeatCount,
 			psd.type detailType,
-			ess.id essId
+			ess.id essId,
+			ess.text studentResult,
+			ess.audio_path studentAudio,
+			psd.original_text originalText,
+			po.point_result pointResult,
+			ess.score studentScore,
+			ess.integrity,
+			ess.fluency,
+			ess.pronunciation
 		FROM
 			xl_paper p
 		LEFT JOIN xl_paper_subject ps ON ps.paper_id = p.id
