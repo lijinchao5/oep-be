@@ -595,4 +595,35 @@
 	
 	
 	
+	<select id="getPaperDetailAndScore" parameterType="map" resultType="map">
+		SELECT
+			p.id paperId,
+			ps.id paperSubjectId,
+			ps.subject_num subjectNum,
+			ps.`subject` `subject`,
+			psd.id paperSubjectDetailId,
+			ps.audio,
+			ps.type type,
+			psd.guide,
+			psd.question,
+			psd.guide_audio guideAudio,
+			psd.read_time readTime,
+			psd.question_audio questionAudio,
+			psd.write_time writeTime,
+			psd.score,
+			po.result,
+			po.correct_result correntResult,
+			psd.repeat_count repeatCount,
+			psd.type detailType,
+			ess.id essId
+		FROM
+			xl_paper p
+		LEFT JOIN xl_paper_subject ps ON ps.paper_id = p.id
+		LEFT JOIN xl_paper_subject_detail psd ON ps.id = psd.subject_id
+		LEFT JOIN xl_paper_option po ON psd.id = po.detail_id
+		left JOIN xl_exam_student_score ess ON ess.student_id = #{studentId} and ess.exam_id = #{examId} and ess.subject_detail_id = psd.id
+		WHERE
+			p.id = #{paperId}
+		order by ps.id,psd.id
+	</select>
 </mapper>

@@ -154,5 +154,15 @@ public class ExamController extends BaseController {
 	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId) {
 		return examService.findStudentExamDetail(examId, getCurrentUser().getId());
 	}
+	
+	/**
+	 * 学生报告信息
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年3月16日 上午9:53:36
+	 */
+	@RequestMapping(value = "getStudentExamReport.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> getStudentExamReport(Long examId) {
+		return examService.getStudentExamReport(examId, getCurrentUser().getId());
+	}
 
 }

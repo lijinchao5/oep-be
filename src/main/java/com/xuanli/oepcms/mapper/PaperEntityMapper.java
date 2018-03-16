@@ -96,4 +96,9 @@ public interface PaperEntityMapper {
 	 * @CreateDate:  2018年3月12日 上午9:55:08
 	 */
 	List<Map<String, Object>> getPaperDetailByTeacher(Long paperId);
+	/**
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年3月16日 下午12:42:27
+	 */
+	List<Map<String, Object>> getPaperDetailAndScore(Map<String, Object> map2);
 }
