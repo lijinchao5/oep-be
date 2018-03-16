@@ -118,36 +118,34 @@ public class ExerciseService extends BaseService {
 			// 开始分析作业分数并且更新到数据库中
 			// 设置分数
 			exerciseDetailEntity.setScore(yunZhiBean.getScore());
-			if (null != exerciseDetailEntity.getStudentAudioPath()) {
-				// 这里有句子的流畅度完整度流利度
-				List<YunZhiline> yunZhilines = yunZhiBean.getLines();
-				if (null != yunZhilines && yunZhilines.size() > 0) {
-					YunZhiline yunZhiline = yunZhilines.get(0);
-					exerciseDetailEntity.setFluency(yunZhiline.getFluency());
-					exerciseDetailEntity.setIntegrity(yunZhiline.getIntegrity());
-					exerciseDetailEntity.setPronunciation(yunZhiline.getPronunciation());
-					// 删除word评分
-					ExerciseDetailWordEntity exercisedetailWordEntity = new ExerciseDetailWordEntity();
-					exercisedetailWordEntity.setArticleId(articleId);
-					exercisedetailWordEntity.setStudentId(studentId);
-					exercisedetailWordEntity.setSentenceId(sentenceId);
-					exerciseDetailWordDao.deleteDetailWordEntity(exercisedetailWordEntity);
-					for (YunZhiline line : yunZhilines) {
-						List<YunZhiWords> yunZhiSubWords = line.getWords();
-						for (YunZhiWords word : yunZhiSubWords) {
-							double score = word.getScore();
-							String text1 = word.getText();
-							ExerciseDetailWordEntity detailWordEntity = new ExerciseDetailWordEntity();
-							detailWordEntity.setArticleId(articleId);
-							detailWordEntity.setSentenceId(sentenceId);
-							detailWordEntity.setDetailId(exerciseDetailEntity.getId());
-							detailWordEntity.setStudentId(studentId);
-							detailWordEntity.setWord(text1);
-							double sc = score * 10;
-							sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-							detailWordEntity.setScore(sc);
-							exerciseDetailWordDao.insertExerciseDetailWordEntity(detailWordEntity);
-						}
+			// 这里有句子的流畅度完整度流利度
+			List<YunZhiline> yunZhilines = yunZhiBean.getLines();
+			if (null != yunZhilines && yunZhilines.size() > 0) {
+				YunZhiline yunZhiline = yunZhilines.get(0);
+				exerciseDetailEntity.setFluency(yunZhiline.getFluency());
+				exerciseDetailEntity.setIntegrity(yunZhiline.getIntegrity());
+				exerciseDetailEntity.setPronunciation(yunZhiline.getPronunciation());
+				// 删除word评分
+				ExerciseDetailWordEntity exercisedetailWordEntity = new ExerciseDetailWordEntity();
+				exercisedetailWordEntity.setArticleId(articleId);
+				exercisedetailWordEntity.setStudentId(studentId);
+				exercisedetailWordEntity.setSentenceId(sentenceId);
+				exerciseDetailWordDao.deleteDetailWordEntity(exercisedetailWordEntity);
+				for (YunZhiline line : yunZhilines) {
+					List<YunZhiWords> yunZhiSubWords = line.getWords();
+					for (YunZhiWords word : yunZhiSubWords) {
+						double score = word.getScore();
+						String text1 = word.getText();
+						ExerciseDetailWordEntity detailWordEntity = new ExerciseDetailWordEntity();
+						detailWordEntity.setArticleId(articleId);
+						detailWordEntity.setSentenceId(sentenceId);
+						detailWordEntity.setDetailId(exerciseDetailEntity.getId());
+						detailWordEntity.setStudentId(studentId);
+						detailWordEntity.setWord(text1);
+						double sc = score * 10;
+						sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+						detailWordEntity.setScore(sc);
+						exerciseDetailWordDao.insertExerciseDetailWordEntity(detailWordEntity);
 					}
 				}
 			}
