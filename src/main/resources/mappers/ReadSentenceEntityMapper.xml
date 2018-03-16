@@ -168,7 +168,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="getReadSentence" parameterType="com.xuanli.oepcms.entity.ReadSentenceEntity" resultType="com.xuanli.oepcms.entity.ReadSentenceEntity">
+  <select id="getReadSentence" parameterType="java.util.Map" resultType="java.util.Map">
 	  	SELECT
 		xrs.id,
 		xrs.article_id,
@@ -185,7 +185,6 @@
 		xrs.update_date,
 		xed.id,
 		xed.student_id,
-		xed.audio_path,
 		xed.create_id,
 		xed.enable_flag,
 		xed.exercise_id,
@@ -199,5 +198,9 @@
 	FROM
 		xl_read_sentence xrs
 	LEFT JOIN xl_exercise_detail xed ON xed.read_sentence_id = xrs.id
+	WHERE xrs.article_id = #{articleId}
+    <if test="studentId != null">
+        and student_id = #{studentId,jdbcType=BIGINT}
+    </if>
   </select>
 </mapper>

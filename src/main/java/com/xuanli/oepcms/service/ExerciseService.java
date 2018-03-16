@@ -73,11 +73,8 @@ public class ExerciseService extends BaseService {
 	 * @param studentId
 	 * @return
 	 */
-	public ReadSentenceEntity getReadSentence(Long articleId, Long studentId) {
-		ReadSentenceEntity readSentenceEntity = new ReadSentenceEntity();
-		readSentenceEntity.setArticleId(articleId);
-		readSentenceEntity.setStudentId(studentId);
-		return readSentenceDao.getReadSentence(readSentenceEntity);
+	public List<Map<String, Object>> getReadSentence(Map<String, Object> requestMap) {
+		return readSentenceDao.getReadSentence(requestMap);
 	}
 
 	/**
@@ -161,10 +158,10 @@ public class ExerciseService extends BaseService {
 			return "0";
 		}
 	}
-	
+
 	/**
-	 * Title: submitExercise 
-	 * Description:  提交练习
+	 * Title: submitExercise Description: 提交练习
+	 * 
 	 * @date 2018年3月13日 下午9:06:48
 	 * @param studentId
 	 * @param articleId
@@ -178,30 +175,30 @@ public class ExerciseService extends BaseService {
 		exerceseEntity.setStudentId(studentId);
 		exerceseEntity.setEndTime(new Date());
 		exerceseEntity.setUpdateDate(new Date());
-		
+
 		ExerciseDetailEntity exerciseDetailEntity = new ExerciseDetailEntity();
 		exerciseDetailEntity.setStudentId(studentId);
 		exerciseDetailEntity.setArticleId(articleId);
-		//统计平均分
+		// 统计平均分
 		ExerciseDetailEntity exerciseDetailEntitity = exerciseDetailDao.getExerciseDetailScore(exerciseDetailEntity);
 		exerceseEntity.setScore(exerciseDetailEntitity.getScore());
 		exerceseEntity.setIntegrity(exerciseDetailEntitity.getIntegrity());
 		exerceseEntity.setFluency(exerciseDetailEntitity.getFluency());
 		exerceseEntity.setPronunciation(exerciseDetailEntitity.getPronunciation());
-		
+
 		ExerciseEntity exerciseEntity1 = exerciseDao.selectExerciseEntity(exerceseEntity);
-		if(null!=exerciseEntity1) {
+		if (null != exerciseEntity1) {
 			exerceseEntity.setId(exerciseEntity1.getId());
 			exerciseDao.updateExerciseEntity(exerceseEntity);
-		}else {
+		} else {
 			exerciseDao.insertExerciseEntity(exerceseEntity);
 		}
 		return okNoResult("完成提交");
 	}
 
 	/**
-	 * @CreateName:  codelion[QiaoYu]
-	 * @CreateDate:  2018年3月14日 下午12:12:44
+	 * @CreateName: codelion[QiaoYu]
+	 * @CreateDate: 2018年3月14日 下午12:12:44
 	 */
 	public RestResult<Map<String, Object>> findArtcileEntityById(Long artId) {
 		ReadArticleEntity readArticleEntity = new ReadArticleEntity();
