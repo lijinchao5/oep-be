@@ -185,7 +185,7 @@ public class ExerciseService extends BaseService {
 	 * @param articleId
 	 * @return
 	 */
-	public RestResult<String> submitExercise(Long studentId, Long articleId) {
+	public RestResult<ExerciseEntity> submitExercise(Long studentId, Long articleId) {
 		ExerciseEntity exerceseEntity = new ExerciseEntity();
 		exerceseEntity.setEnableFlag("T");
 		exerceseEntity.setCreateId(studentId);
@@ -211,7 +211,7 @@ public class ExerciseService extends BaseService {
 		} else {
 			exerciseDao.insertExerciseEntity(exerceseEntity);
 		}
-		return okNoResult("完成提交");
+		return ok(exerceseEntity);
 	}
 
 	/**

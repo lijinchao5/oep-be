@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
+import com.xuanli.oepcms.entity.ExerciseEntity;
 import com.xuanli.oepcms.entity.ReadArticleEntity;
 import com.xuanli.oepcms.service.ExerciseService;
 import com.xuanli.oepcms.util.PageBean;
@@ -87,7 +88,7 @@ public class ExerciseController extends BaseController {
 	@ApiOperation(value = "学生提交练习", notes = "学生提交练习")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "Long") })
 	@RequestMapping(value = "submitExercise.do", method = RequestMethod.POST)
-	public RestResult<String> submitExercise(@RequestParam Long articleId) {
+	public RestResult<ExerciseEntity> submitExercise(@RequestParam Long articleId) {
 		if (null == articleId) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "文章id不能为空");
 		}
