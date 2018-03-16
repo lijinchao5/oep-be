@@ -40,8 +40,7 @@ public class ExerciseController extends BaseController {
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
 	@RequestMapping(value = "findExercisePage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findExercisePage(String level, String type, Long studentId, Integer rows,
-			Integer page) {
+	public RestResult<PageBean> findExercisePage(String level, String type, Long studentId, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		ReadArticleEntity readArticleEntity = new ReadArticleEntity();
 		readArticleEntity.setType(type);
@@ -73,16 +72,11 @@ public class ExerciseController extends BaseController {
 			@ApiImplicitParam(name = "sentenceId", value = "段落id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doExercise.do", method = RequestMethod.POST)
-	public RestResult<String> doExercise(@RequestParam Long articleId, @RequestParam Long sentenceId,
-			@RequestParam String file) {
+	public RestResult<Map<String, Object>> doExercise(@RequestParam Long articleId, @RequestParam Long sentenceId, @RequestParam String file) {
 		try {
 			Long studentId = getCurrentUser().getId();
-			String result = exerciseService.doExercise(studentId, articleId, sentenceId, file);
-			if (result.equals("1")) {
-				return ok("成功");
-			} else {
-				return failed(ExceptionCode.UNKNOW_CODE, "练习出现异常");
-			}
+			return exerciseService.doExercise(studentId, articleId, sentenceId, file);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("练习出现异常", e);
