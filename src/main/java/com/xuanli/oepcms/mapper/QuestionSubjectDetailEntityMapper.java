@@ -37,4 +37,18 @@ public interface QuestionSubjectDetailEntityMapper {
      * @return
      */
     int updateQuestionSubjectDetailEntity(QuestionSubjectDetailEntity record);
+    /**
+     * Title: selectByCmsId 
+     * Description:  
+     * @date 2018年3月15日 下午12:06:38
+     * @param cmsId
+     * @return
+     */
+    QuestionSubjectDetailEntity selectByCmsId(Long cmsId);
+	/**Title: updateSyncQuestionSubjectDetailEntity 
+	 * Description:  
+	 * @date 2018年3月15日 下午12:28:27
+	 * @param questionSubjectDetailEntity  
+	 */
+	int updateSyncQuestionSubjectDetailEntity(QuestionSubjectDetailEntity questionSubjectDetailEntity);
 }

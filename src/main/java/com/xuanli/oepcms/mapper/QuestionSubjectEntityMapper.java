@@ -55,5 +55,12 @@ public interface QuestionSubjectEntityMapper {
 	 * @CreateDate:  2018年3月15日 上午10:49:21
 	 */
 	void updateQuestionSubjectUsedCount(Long id);
-
+	
+	QuestionSubjectEntity selectByCmsId(Long cmsId);
+	/**Title: updateSyncQuestionSubjectEntity 
+	 * Description:  
+	 * @date 2018年3月15日 下午12:09:36
+	 * @param questionSubjectEntity  
+	 */
+	int updateSyncQuestionSubjectEntity(QuestionSubjectEntity questionSubjectEntity);
 }

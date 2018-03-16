@@ -48,7 +48,8 @@ public class ExamController extends BaseController {
 			@ApiImplicitParam(name = "endTime", value = "作业完成时间 格式 yyyy-MM-dd HH:mm:ss", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "paperId", value = "作业列表", required = true, dataType = "Long") })
 	@RequestMapping(value = "genteratorExam.do", method = RequestMethod.POST)
-	public RestResult<String> genteratorExam(String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
+	public RestResult<String> genteratorExam(String name, String notice, String classIds, Date startTime, Date endTime,
+			Long paperId) {
 		try {
 			Long userId = getCurrentUser().getId();
 			return examService.genteratorExam(userId, name, notice, classIds, startTime, endTime, paperId);
@@ -59,14 +60,15 @@ public class ExamController extends BaseController {
 	}
 
 	// 做试卷
-	@ApiOperation(value = "提及试卷", notes = "提及试卷方法")
+	@ApiOperation(value = "做试卷", notes = "做试卷方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "answers", value = " 格式: [{\"key\":1,\"value\":\"A\"},{\"key\":2,\"value\":\"B\"}] key:subjectDetailId value:答案", dataType = "String"),
 			@ApiImplicitParam(name = "timeOut", value = "剩余时间", required = true, dataType = "Integer") })
 	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)
-	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String answers, @RequestParam Integer timeOut) {
+	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String answers,
+			@RequestParam Integer timeOut) {
 		try {
-			List<ExamAnswerBean> answerBeans = JSONArray.parseArray(answers,ExamAnswerBean.class);
+			List<ExamAnswerBean> answerBeans = JSONArray.parseArray(answers, ExamAnswerBean.class);
 			Long studentId = getCurrentUser().getId();
 			examService.submitExam(studentId, examId, answerBeans, timeOut);
 			return okNoResult("提交完成");
@@ -75,8 +77,8 @@ public class ExamController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
-	//提交试卷
+
+	// 提交试卷
 	@RequestMapping(value = "commitExam.do", method = RequestMethod.POST)
 	public RestResult<String> commitExam(@RequestParam Long examId) {
 		try {
@@ -88,11 +90,11 @@ public class ExamController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}
-	
 
 	// 分页查询考试信息
 	@ApiOperation(value = "分页查询考试信息", notes = "分页查询考试信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "status", value = "考试状态: start_time > NOW():未开始; NOW() > start_time:进行中; NOW() > end_time:结束", required = false, dataType = "String"),
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "status", value = "考试状态: start_time > NOW():未开始; NOW() > start_time:进行中; NOW() > end_time:结束", required = false, dataType = "String"),
 			@ApiImplicitParam(name = "clasId", value = "班级id", required = false, dataType = "Long"),
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
