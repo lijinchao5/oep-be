@@ -86,6 +86,10 @@ public class LoginController extends BaseController {
 			@ApiImplicitParam(name = "randomKey", value = "用户id/用户手机号/用户名", required = false, dataType = "String"), })
 	@RequestMapping(value = "picture.do", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public byte[] getCaptcha(HttpServletResponse response, @RequestParam String type, @RequestParam String randomKey) {
+		response.setDateHeader("Expires", 0);
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+        response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+        response.setHeader("Pragma", "no-cache");
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			if (StringUtil.isEmpty(randomKey)) {

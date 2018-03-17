@@ -192,11 +192,16 @@ public class ExamService extends BaseService {
 			} else if (paperSubjectDetailEntity.getType().intValue() == 3) {
 				// 传入的为填空题的答案
 				String textStr = answer.getValue();
-				if (paperOptionEntities.get(0).getCorrectResult().trim().indexOf(textStr.trim()) >= 0) {
-					score = 100.00;
-				} else {
+				if (null == textStr || textStr.trim().equals("")) {
 					score = 0.00;
+				} else {
+					if (paperOptionEntities.get(0).getCorrectResult().trim().equalsIgnoreCase(textStr.trim())) {
+						score = 100.00;
+					} else {
+						score = 0.00;
+					}
 				}
+
 				double realScore = score;
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setPercentScore(realScore);
@@ -242,8 +247,7 @@ public class ExamService extends BaseService {
 				// 阅读是有音频的
 				try {
 					// 阅读 直接把问题text传入即可
-					String json = yunZhiSDK.generatorStudentExamScore(fileId, paperSubjectDetailEntity.getQuestion(),
-							"E");
+					String json = yunZhiSDK.generatorStudentExamScore(fileId, paperSubjectDetailEntity.getQuestion(), "E");
 					if (null == json || json.trim().equals("")) {
 						System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
 					} else {
@@ -267,7 +271,7 @@ public class ExamService extends BaseService {
 								ExamStudentScoreWordEntity examStudentScoreWordEntity = new ExamStudentScoreWordEntity();
 								examStudentScoreWordEntity.setExamDetailId(paperSubjectDetailEntity.getId());
 								examStudentScoreWordEntity.setExamId(examId);
-								examStudentScoreWordEntity.setScore(yunZhiWord.getScore()*10);
+								examStudentScoreWordEntity.setScore(yunZhiWord.getScore() * 10);
 								examStudentScoreWordEntity.setType(yunZhiWord.getType() + "");
 								examStudentScoreWordEntity.setText(yunZhiWord.getText());
 								examStudentScoreWordEntity.setStudentId(studentId);
@@ -347,8 +351,7 @@ public class ExamService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月23日 下午2:53:36
 	 */
-	public RestResult<String> genteratorExam(Long userId, String name, String notice, String classIds, Date startTime,
-			Date endTime, Long paperId) {
+	public RestResult<String> genteratorExam(Long userId, String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
 		String clasIds[] = classIds.split(",");
 		for (int i = 0; i < clasIds.length; i++) {
 			String clasId = clasIds[i];
@@ -372,8 +375,7 @@ public class ExamService extends BaseService {
 			// Integer timeOut = paperEntity.getTotalTime();
 			PaperSubjectEntity paperSubjectEntity = new PaperSubjectEntity();
 			paperSubjectEntity.setPaperId(paperId);
-			List<PaperSubjectEntity> paperSubjectEntities = paperSubjectEntityMapper
-					.getPaperSubjectEntity(paperSubjectEntity); // 获取试卷详细信息
+			List<PaperSubjectEntity> paperSubjectEntities = paperSubjectEntityMapper.getPaperSubjectEntity(paperSubjectEntity); // 获取试卷详细信息
 			for (PaperSubjectEntity paperSubjectEntity2 : paperSubjectEntities) {
 				ExamSubjectEntity examSubjectEntity = new ExamSubjectEntity();
 				examSubjectEntity.setCreateDate(new Date());
@@ -401,8 +403,7 @@ public class ExamService extends BaseService {
 			// 添加一个定时化任务到指定的时间点后 执行该操作
 			String cron = QuartzUtil.cron(endTime);
 			try {
-				QuartzUtil.addExamJob(scheduler, "com.xuanli.oepcms.quartz.job.ExamJob",
-						"examReport_" + examId.longValue() + "_" + UUID.randomUUID().toString(), cron, examId);
+				QuartzUtil.addExamJob(scheduler, "com.xuanli.oepcms.quartz.job.ExamJob", "examReport_" + examId.longValue() + "_" + UUID.randomUUID().toString(), cron, examId);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("布置作业定时化任务失败.出现错误.", e);
@@ -436,14 +437,12 @@ public class ExamService extends BaseService {
 		examStudentBean.setStudentId(studentId);
 		List<ExamStudentBean> examStudentBeans = examStudentEntityMapper.getStudentExamScore(examStudentBean);
 		// 获取学生考试的详细信息
-		List<ExamStudentScoreBean> examStudentScoreBeans = examStudentEntityMapper
-				.getStudentExamScoreDetail(examStudentBean);
+		List<ExamStudentScoreBean> examStudentScoreBeans = examStudentEntityMapper.getStudentExamScoreDetail(examStudentBean);
 		// 获取学生朗读短文的每个句子的得分
 		ExamStudentScoreWordEntity examStudentScoreWordEntity = new ExamStudentScoreWordEntity();
 		examStudentScoreWordEntity.setExamId(examId);
 		examStudentScoreWordEntity.setStudentId(studentId);
-		List<ExamStudentScoreWordEntity> examStudentScoreWordEntities = examStudentScoreWordEntityMapper
-				.getExamStudentWords(examStudentScoreWordEntity);
+		List<ExamStudentScoreWordEntity> examStudentScoreWordEntities = examStudentScoreWordEntityMapper.getExamStudentWords(examStudentScoreWordEntity);
 		// 获取到学生按照题型的分数(包括学生未做题目的分数)
 		resultMap.put("examStudentScores", examStudentBeans);
 		resultMap.put("examStudentScoreDetails", examStudentScoreBeans);
@@ -559,8 +558,7 @@ public class ExamService extends BaseService {
 		ExamStudentEntity examStudentEntity = new ExamStudentEntity();
 		examStudentEntity.setStudentId(studentId);
 		examStudentEntity.setExamId(examId);
-		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper
-				.getExamStudentEntityByStudent(examStudentEntity);
+		List<ExamStudentEntity> examStudentEntities = examStudentEntityMapper.getExamStudentEntityByStudent(examStudentEntity);
 		for (ExamStudentEntity ese : examStudentEntities) {
 			ese.setComplate("S");
 			ese.setExamId(examId);
@@ -572,18 +570,19 @@ public class ExamService extends BaseService {
 
 	/**
 	 * 获取学生考试报告
-	 * @CreateName:  QiaoYu[www.codelion.cn]
-	 * @CreateDate:  2018年3月16日 上午9:56:53
+	 * 
+	 * @CreateName: QiaoYu[www.codelion.cn]
+	 * @CreateDate: 2018年3月16日 上午9:56:53
 	 */
 	public RestResult<Map<String, Object>> getStudentExamReport(Long examId, Long studentId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		//获取学生基本信息
+		// 获取学生基本信息
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("examId", examId);
 		map1.put("studentId", studentId);
 		ExamEntity examEntity = examEntityMapper.selectById(examId);
-		Map<String, Object>  examStudentMap = examStudentEntityMapper.getStudentExamReport(map1);
-		List<Map<String, Object>>  examStudentTypeMap = examStudentEntityMapper.getStudentExamTypeReport(map1);
+		Map<String, Object> examStudentMap = examStudentEntityMapper.getStudentExamReport(map1);
+		List<Map<String, Object>> examStudentTypeMap = examStudentEntityMapper.getStudentExamTypeReport(map1);
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("paperId", examEntity.getPaperId());
 		map2.put("examId", examId);
@@ -596,8 +595,8 @@ public class ExamService extends BaseService {
 			e.setExamDetailId(detailId);
 			allIds.add(e);
 		}
-		List<ExamStudentScoreWordEntity> examStudentScoreWordEntities = examStudentScoreWordEntityMapper.findByDetailId(allIds,studentId,examId);
-		
+		List<ExamStudentScoreWordEntity> examStudentScoreWordEntities = examStudentScoreWordEntityMapper.findByDetailId(allIds, studentId, examId);
+
 		for (Map<String, Object> map : examStudentScoreMap) {
 			Long detailId = (Long) map.get("paperSubjectDetailId");
 			List<ExamStudentScoreWordEntity> ews = new ArrayList<ExamStudentScoreWordEntity>();
@@ -608,11 +607,11 @@ public class ExamService extends BaseService {
 			}
 			map.put("words", ews);
 		}
-		//考试学生信息
+		// 考试学生信息
 		resultMap.put("examStudentScore", examStudentScoreMap);
-		//考试学生信息
+		// 考试学生信息
 		resultMap.put("examStudentInfo", examStudentMap);
-		//考试类型信息
+		// 考试类型信息
 		resultMap.put("examTypeScoreList", examStudentTypeMap);
 		return ok(resultMap);
 	}
