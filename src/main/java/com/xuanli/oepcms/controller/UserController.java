@@ -73,8 +73,7 @@ public class UserController extends BaseController {
 	 */
 	@ApiOperation(value = "教师注册", notes = "教师注册方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "schoolId", value = "校区id", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "mobile", value = "教师手机号", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "mobile", value = "教师手机号", required = true, dataType = "String"), @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key不能为空", required = true, dataType = "String") })
@@ -123,8 +122,7 @@ public class UserController extends BaseController {
 	 */
 	@ApiOperation(value = "学生注册", notes = "学生注册方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "mobile", value = "学生手机号", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "mobile", value = "学生手机号", required = true, dataType = "String"), @ApiImplicitParam(name = "randomStr", value = "图片验证码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "mobileRandomStr", value = "手机短信验证码", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "randomKey", value = "随机验证码关键Key不能为空", required = true, dataType = "String") })
@@ -167,8 +165,7 @@ public class UserController extends BaseController {
 	/** 完善用户信息 */
 	@ApiOperation(value = "完善用户信息", notes = "完善用户信息方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "name", value = "真实姓名", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "birthDate", value = "生日", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "sex", value = "性别", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "birthDate", value = "生日", required = false, dataType = "String"), @ApiImplicitParam(name = "sex", value = "性别", required = false, dataType = "String"),
 			@ApiImplicitParam(name = "studySectionId", value = "学段(小初高)", required = false, dataType = "Integer"),
 			@ApiImplicitParam(name = "gradeLevelId", value = "年级", required = false, dataType = "Integer"),
 			@ApiImplicitParam(name = "bookVersionId", value = "教材版本", required = false, dataType = "Integer") })
@@ -202,10 +199,8 @@ public class UserController extends BaseController {
 	/** 完善用户信息 */
 	@ApiOperation(value = "完善用户信息", notes = "完善用户信息方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", value = "用户id", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "name", value = "真实姓名", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "birthDate", value = "生日", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "sex", value = "性别", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "studySectionId", value = "学段(小初高)", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "name", value = "真实姓名", required = false, dataType = "String"), @ApiImplicitParam(name = "birthDate", value = "生日", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "sex", value = "性别", required = false, dataType = "String"), @ApiImplicitParam(name = "studySectionId", value = "学段(小初高)", required = false, dataType = "Integer"),
 			@ApiImplicitParam(name = "gradeLevelId", value = "年级", required = false, dataType = "Integer"),
 			@ApiImplicitParam(name = "bookVersionId", value = "教材版本", required = false, dataType = "Integer") })
 	@RequestMapping(value = "complateUserInfo.do", method = RequestMethod.PUT)
@@ -236,13 +231,11 @@ public class UserController extends BaseController {
 	}
 
 	@ApiOperation(value = "获取班级学生使用情况", notes = "分页查询方法")
-	@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "userUsed", value = "0:未使用,1:使用,null:全部", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "classId", value = "用户id", required = true, dataType = "Long"),
-			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userUsed", value = "0:未使用,1:使用,null:全部", required = true, dataType = "Integer"),
+			@ApiImplicitParam(name = "classId", value = "用户id", required = true, dataType = "Long"), @ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") })
 	@RequestMapping(value = "findStudentUsedByPage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findStudentUsedByPage(Integer userUsed,Long classId,Integer rows,Integer page) {
+	public RestResult<PageBean> findStudentUsedByPage(Integer userUsed, Long classId, Integer rows, Integer page) {
 		UserEntity userEntity = new UserEntity();
 		PageBean pageBean = initPageBean(page, rows);
 		// 保证这个班是这个老师创建的
@@ -260,8 +253,7 @@ public class UserController extends BaseController {
 	 */
 	@ApiOperation(value = "班级学生信息分页查询", notes = "分页查询方法")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "classId", value = "用户id", required = true, dataType = "Long"),
-			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") })
+			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"), @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") })
 	@RequestMapping(value = "findStudentByPage.do", method = RequestMethod.GET)
 	public RestResult<PageBean> findStudentByPage(@RequestParam Long classId, @RequestParam Integer rows, @RequestParam Integer page) {
 		UserEntity userEntity = new UserEntity();
@@ -409,8 +401,8 @@ public class UserController extends BaseController {
 			@ApiImplicitParam(name = "sex", value = "性别  W:女,M:男", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "birthDate", value = "出生日期 yyyy-MM-dd", required = true, dataType = "String") })
 	@RequestMapping(value = "updatePersionalInfo.do", method = RequestMethod.POST)
-	public RestResult<String> updatePersionalInfo(@RequestParam(required = false) String name, @RequestParam(required = false) String sex,
-			@RequestParam(required = false) Date birthDate, @RequestParam(required = false, value = "picfile") String picfile) {
+	public RestResult<String> updatePersionalInfo(@RequestParam(required = false) String name, @RequestParam(required = false) String sex, @RequestParam(required = false) Date birthDate,
+			@RequestParam(required = false, value = "picfile") String picfile) {
 		try {
 			UserEntity userEntity = new UserEntity();
 			userEntity.setId(getCurrentUser().getId());
@@ -539,9 +531,22 @@ public class UserController extends BaseController {
 			@ApiImplicitParam(name = "homeworkId", value = "家庭作业Id", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "type", value = "消息类型1:催收作业", required = true, dataType = "String") })
 	@RequestMapping(value = "pushMsgByClass.do", method = RequestMethod.POST)
-	public RestResult<String> pushMsgByClass(Long classId, Long homeworkId, String type) {
+	public RestResult<String> pushMsgByClass(Long classId, Long homeworkId, String content, String type) {
 		try {
-			userService.pushMsgByClass(classId, homeworkId, type);
+			userService.pushMsgByClass(classId, homeworkId, content, type);
+			return okNoResult("发送成功");
+		} catch (Exception e) {
+			return failed(ExceptionCode.UNKNOW_CODE, "发送消息错误");
+		}
+	}
+
+	@ApiOperation(value = "根据模考发送消息给学生", notes = "根据模考发送消息给学生")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "type", value = "消息类型1:催收模考信息", required = true, dataType = "String") })
+	@RequestMapping(value = "pushMsgByExam.do", method = RequestMethod.POST)
+	public RestResult<String> pushMsgByExam(Long examId, String content, String type) {
+		try {
+			userService.pushMsgByExam(examId, content, type);
 			return okNoResult("发送成功");
 		} catch (Exception e) {
 			return failed(ExceptionCode.UNKNOW_CODE, "发送消息错误");

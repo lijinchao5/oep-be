@@ -368,7 +368,7 @@ public class UserService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月9日 下午4:09:27
 	 */
-	public void pushMsgByClass(Long classId, Long homeworkId, String type) {
+	public void pushMsgByClass(Long classId, Long homeworkId,String content, String type) {
 		logger.info("发送消息" + classId);
 	}
 
@@ -416,5 +416,14 @@ public class UserService extends BaseService {
 		userEntity.setEnd(pageBean.getPageSize());
 		List<Map<String, Object>> userEntities = userDao.findStudentUsedByPage(userEntity);
 		pageBean.setRows(userEntities);
+	}
+
+	/**
+	 * @Description:  TODO
+	 * @CreateName:  QiaoYu 
+	 * @CreateDate:  2018年3月17日 上午11:42:21
+	 */
+	public void pushMsgByExam(Long examId, String content, String type) {
+		logger.info("发送消息" + examId);
 	}
 }
