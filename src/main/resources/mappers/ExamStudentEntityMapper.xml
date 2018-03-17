@@ -454,4 +454,14 @@
 		GROUP BY
 			al.type
 	  </select>	
+	  <update id="updateExamStudentEntityRemark" parameterType="java.util.List">
+		UPDATE xl_exam_student
+		SET remark = #{remark}
+		WHERE
+			exam_id = #{examId}
+		AND student_id IN
+		<foreach collection="stuIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	  </update>
 </mapper>

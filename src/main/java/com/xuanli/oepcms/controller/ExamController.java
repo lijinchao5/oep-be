@@ -122,7 +122,7 @@ public class ExamController extends BaseController {
 	}
 
 	// 统计作业信息
-	@ApiOperation(value = "统计作业信息", notes = "统计作业信息")
+	@ApiOperation(value = "统计模拟考试报告信息", notes = "统计模拟考试报告信息")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long") })
 	@RequestMapping(value = "getExamReport.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> getExamReport(Long examId) {
@@ -148,6 +148,16 @@ public class ExamController extends BaseController {
 		return ok(pageBean);
 	}
 
+	// 教师查看学生考试详情
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "studentId", value = "学生Id", required = true, dataType = "Long") 
+	})
+	@RequestMapping(value = "findStudentExamDetailByTeacher.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> findStudentExamDetailByTeacher(Long examId,Long studentId) {
+		return examService.findStudentExamDetail(examId, studentId);
+	}
+	
 	// 查看学生考试详情
 	@ApiIgnore
 	@RequestMapping(value = "findStudentExamDetail.do", method = RequestMethod.GET)
@@ -165,4 +175,26 @@ public class ExamController extends BaseController {
 		return examService.getStudentExamReport(examId, getCurrentUser().getId());
 	}
 
+	// 评语
+	@ApiOperation(value = "模考评语", notes = "模考评语")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
+			@ApiImplicitParam(name = "studentIds", value = "要写评语的学生id 用,隔开:例1,2,3", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "remark", value = "评语内容", required = true, dataType = "String") })
+	@RequestMapping(value = "remark.do", method = RequestMethod.PUT)
+	public RestResult<String> updateExamStudentEntityRemark(Long examId, String studentIds, String remark) {
+		if (null == examId) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请选择考试信息");
+		}
+		if (null == studentIds) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请选择学生信息");
+		}
+		String result = examService.updateExamStudentEntityRemark(studentIds, examId, remark);
+		if (result.equals("1")) {
+			return okNoResult("写评语成功");
+		} else if (result.equals("0")) {
+			return failed(ExceptionCode.UPDATE_BATCH_REMARK_ERROR, "写评语失败!");
+		} else {
+			return failed(ExceptionCode.UNKNOW_CODE, "未知错误");
+		}
+	}
 }

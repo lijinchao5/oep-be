@@ -29,6 +29,16 @@ public class ExamStudentEntity {
 
 	private Integer studentRank;
 
+	private String[] stuIds;
+
+	public String[] getStuIds() {
+		return stuIds;
+	}
+
+	public void setStuIds(String[] stuIds) {
+		this.stuIds = stuIds;
+	}
+
 	public Integer getStudentRank() {
 		return studentRank;
 	}
