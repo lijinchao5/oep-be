@@ -34,7 +34,7 @@ public class FileController extends BaseController {
 
 	@RequestMapping(value = "download.do", method = RequestMethod.GET)
 	public void download(String type, String id) {
-		if (null == id || id.trim().equals("") || null == type || type.trim().endsWith("")) {
+		if (null == id || id.trim().equals("")) {
 		}else{
 			String filename = UUID.randomUUID().toString().replace("-", "");
 			if (type.equals("mp3")) {
