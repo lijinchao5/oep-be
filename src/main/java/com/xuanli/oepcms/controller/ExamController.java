@@ -122,7 +122,7 @@ public class ExamController extends BaseController {
 	}
 
 	// 统计作业信息
-	@ApiOperation(value = "统计作业信息", notes = "统计作业信息")
+	@ApiOperation(value = "统计模拟考试报告信息", notes = "统计模拟考试报告信息")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long") })
 	@RequestMapping(value = "getExamReport.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> getExamReport(Long examId) {
