@@ -34,30 +34,42 @@ public class FileController extends BaseController {
 
 	@RequestMapping(value = "download.do", method = RequestMethod.GET)
 	public void download(String type, String id) {
-		String filename = UUID.randomUUID().toString().replace("-", "");
-		if (type.equals("mp3")) {
-			filename = filename + ".mp3";
-			response.setContentType("audio/mpeg");
-		} else {
-			filename = filename + ".jpg";
-			response.setContentType("image/jpeg");
-		}
-		if (StringUtil.isNotNullUnDefined(id)) {
-			InputStream inputStream = aliOSSUtil.downloadFile(id);
-			OutputStream outputStream;
-			try {
-				outputStream = response.getOutputStream();
-				int read = 0;
-				byte[] bytes = new byte[1024];
-				while ((read = inputStream.read(bytes)) != -1) {
-					outputStream.write(bytes, 0, read);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				logger.error("下载文件出现错误!");
+		if (null == id || id.trim().equals("") || null == type || type.trim().endsWith("")) {
+		}else{
+			String filename = UUID.randomUUID().toString().replace("-", "");
+			if (type.equals("mp3")) {
+				filename = filename + ".mp3";
+				response.setContentType("audio/mpeg");
+			} else {
+				filename = filename + ".jpg";
+				response.setContentType("image/jpeg");
 			}
-		}else {
-			logger.info("文件id不能为空!");
+			if (StringUtil.isNotNullUnDefined(id)) {
+				InputStream inputStream = aliOSSUtil.downloadFile(id);
+				OutputStream outputStream = null;
+				try {
+					outputStream = response.getOutputStream();
+					int read = 0;
+					byte[] bytes = new byte[1024];
+					while ((read = inputStream.read(bytes)) != -1) {
+						outputStream.write(bytes, 0, read);
+					}
+					outputStream.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+					logger.error("下载文件出现错误!");
+				}finally {
+					try {
+						if (null!=outputStream) {
+							outputStream.close();
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}else {
+				logger.info("文件id不能为空!");
+			}
 		}
 		
 		

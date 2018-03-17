@@ -223,27 +223,22 @@
 	
 	<select id="getExamStudentRank" parameterType="com.xuanli.oepcms.entity.ExamStudentEntity" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
 	    SELECT
-			id,
-			exam_id examid,
-			student_id studentid,
-			(
-				SELECT
-					NAME
-				FROM
-					xl_user u
-				WHERE
-					u.id = es.student_id
-				AND u.enable_flag = 'T'
+			es.id,
+			es.exam_id examid,
+			es.student_id studentid,
+			IFNULL(
+				IFNULL(u. NAME, u.mobile),
+				u.name_num
 			) studentName,
-			score,
-			time_out timeout,
-			complate,
-			remark,
-			create_id createid,
-			create_date createdate,
-			update_id updateid,
-			update_date updatedate,
-			enable_flag enableflag,
+			es.score,
+			es.time_out timeout,
+			es.complate,
+			es.remark,
+			es.create_id createid,
+			es.create_date createdate,
+			es.update_id updateid,
+			es.update_date updatedate,
+			es.enable_flag enableflag,
 			(
 				SELECT
 					count(id) + 1
@@ -253,9 +248,10 @@
 					s.score > es.score
 			) rank,
 			es.student_rank studentRank
-	    from 
-	    	xl_exam_student es
-	    where exam_id = #{examId,jdbcType=BIGINT}
+		FROM
+			xl_exam_student es
+		LEFT JOIN xl_user u ON u.id = es.student_id
+	    where es.exam_id = #{examId,jdbcType=BIGINT}
   	</select>
   	<select id="getStudentExamScore" parameterType="com.xuanli.oepcms.controller.bean.ExamStudentBean" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
   		SELECT
