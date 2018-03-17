@@ -225,11 +225,12 @@
 	    SELECT
 			es.id,
 			es.exam_id examid,
-			es.student_id studentid,
+			es.student_id studentId,
 			IFNULL(
 				IFNULL(u. NAME, u.mobile),
 				u.name_num
 			) studentName,
+			u.photo studentPhoto,
 			es.score,
 			es.time_out timeout,
 			es.complate,
