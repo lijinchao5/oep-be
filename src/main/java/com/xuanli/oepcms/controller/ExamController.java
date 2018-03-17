@@ -155,7 +155,7 @@ public class ExamController extends BaseController {
 	})
 	@RequestMapping(value = "findStudentExamDetailByTeacher.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> findStudentExamDetailByTeacher(Long examId,Long studentId) {
-		return examService.findStudentExamDetail(examId, studentId);
+		return examService.getStudentExamReport(examId, studentId);
 	}
 	
 	// 查看学生考试详情
