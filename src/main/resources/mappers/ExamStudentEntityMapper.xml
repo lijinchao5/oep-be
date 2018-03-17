@@ -231,7 +231,7 @@
 				u.name_num
 			) studentName,
 			u.photo studentPhoto,
-			es.score,
+			es.score studentScore,
 			es.time_out timeout,
 			es.complate,
 			es.remark,
@@ -240,6 +240,7 @@
 			es.update_id updateid,
 			es.update_date updatedate,
 			es.enable_flag enableflag,
+			es.complate,
 			(
 				SELECT
 					count(id) + 1

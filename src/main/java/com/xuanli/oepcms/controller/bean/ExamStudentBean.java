@@ -27,7 +27,48 @@ public class ExamStudentBean {
 	
 	private String studentPhoto;
 	
+	private String remark;
+	private Integer timeOut;
 	
+	private String complate;
+	
+	
+	/** 
+	 * @return 返回 remark 
+	 */
+	public String getRemark() {
+		return remark;
+	}
+	/** 
+	 * @setParam 设置remark
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/** 
+	 * @return 返回 timeOut 
+	 */
+	public Integer getTimeOut() {
+		return timeOut;
+	}
+	/** 
+	 * @setParam 设置timeOut
+	 */
+	public void setTimeOut(Integer timeOut) {
+		this.timeOut = timeOut;
+	}
+	/** 
+	 * @return 返回 complate 
+	 */
+	public String getComplate() {
+		return complate;
+	}
+	/** 
+	 * @setParam 设置complate
+	 */
+	public void setComplate(String complate) {
+		this.complate = complate;
+	}
 	/** 
 	 * @return 返回 studentPhoto 
 	 */
