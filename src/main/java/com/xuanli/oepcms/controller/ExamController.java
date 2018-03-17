@@ -148,6 +148,16 @@ public class ExamController extends BaseController {
 		return ok(pageBean);
 	}
 
+	// 教师查看学生考试详情
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "studentId", value = "学生Id", required = true, dataType = "Long") 
+	})
+	@RequestMapping(value = "findStudentExamDetailByTeacher.do", method = RequestMethod.GET)
+	public RestResult<Map<String, Object>> findStudentExamDetailByTeacher(Long examId,Long studentId) {
+		return examService.findStudentExamDetail(examId, studentId);
+	}
+	
 	// 查看学生考试详情
 	@ApiIgnore
 	@RequestMapping(value = "findStudentExamDetail.do", method = RequestMethod.GET)
