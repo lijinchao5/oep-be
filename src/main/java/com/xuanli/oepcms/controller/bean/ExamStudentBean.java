@@ -25,7 +25,21 @@ public class ExamStudentBean {
 	
 	private Integer studentRank;
 	
+	private String studentPhoto;
 	
+	
+	/** 
+	 * @return 返回 studentPhoto 
+	 */
+	public String getStudentPhoto() {
+		return studentPhoto;
+	}
+	/** 
+	 * @setParam 设置studentPhoto
+	 */
+	public void setStudentPhoto(String studentPhoto) {
+		this.studentPhoto = studentPhoto;
+	}
 	public Long getId() {
 		return id;
 	}
