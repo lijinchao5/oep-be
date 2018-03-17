@@ -254,6 +254,7 @@
 			xl_exam_student es
 		LEFT JOIN xl_user u ON u.id = es.student_id
 	    where es.exam_id = #{examId,jdbcType=BIGINT}
+	    order by student_rank
   	</select>
   	<select id="getStudentExamScore" parameterType="com.xuanli.oepcms.controller.bean.ExamStudentBean" resultType="com.xuanli.oepcms.controller.bean.ExamStudentBean">
   		SELECT
