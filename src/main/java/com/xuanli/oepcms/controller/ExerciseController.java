@@ -76,7 +76,6 @@ public class ExerciseController extends BaseController {
 		try {
 			Long studentId = getCurrentUser().getId();
 			return exerciseService.doExercise(studentId, articleId, sentenceId, file);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("练习出现异常", e);
@@ -110,5 +109,12 @@ public class ExerciseController extends BaseController {
 		PageBean pageBean = initPageBean(page, rows);
 		exerciseService.getExerciseRead(studentId, pageBean);
 		return ok(pageBean);
+	}
+
+	@ApiOperation(value = "练习报告", notes = "练习报告")
+	@RequestMapping(value = "getStudentExerciseResult.do", method = RequestMethod.GET)
+	public RestResult<List<Map<String, Object>>> getStudentExerciseResult() {
+		Long studentId = getCurrentUser().getId();
+		return exerciseService.getStudentExerciseResult(studentId);
 	}
 }

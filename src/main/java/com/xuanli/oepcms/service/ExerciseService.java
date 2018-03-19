@@ -242,4 +242,15 @@ public class ExerciseService extends BaseService {
 		List<Map<String, Object>> findExercisePage = exerciseDao.findExercisePage(exerciseEntity);
 		pageBean.setRows(findExercisePage);
 	}
+
+	/**
+	 * Title: getStudentExerciseResult 
+	 * Description:  
+	 * @date 2018年3月19日 下午4:08:45
+	 * @param studentId
+	 */
+	public RestResult<List<Map<String, Object>>> getStudentExerciseResult(Long studentId) {
+		List<Map<String, Object>> studentExerciseResult = exerciseDao.getStudentExerciseResult(studentId);
+		return ok(studentExerciseResult);
+	}
 }

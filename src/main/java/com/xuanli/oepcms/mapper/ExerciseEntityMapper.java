@@ -70,4 +70,13 @@ public interface ExerciseEntityMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> findExercisePage(ExerciseEntity exerciseEntity);
+
+	/**
+	 * Title: getStudentExerciseResult 
+	 * Description:  
+	 * @date 2018年3月19日 下午4:07:59
+	 * @param studentId
+	 * @return
+	 */
+	List<Map<String, Object>> getStudentExerciseResult(Long studentId);
 }

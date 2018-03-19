@@ -222,4 +222,18 @@
 		student_id = #{studentId}
 	AND read_article_id = #{readArticleId}
   </select>
+  
+  <select id="getStudentExerciseResult" parameterType="java.lang.Long" resultType="java.util.Map">
+	SELECT COUNT(id) word_num ,'1' type FROM xl_exercise xe
+	WHERE xe.student_id = 486 
+	UNION All
+	SELECT SUM(xrs.word_num) sum_num ,'2' type FROM xl_exercise_detail xed
+	LEFT JOIN xl_read_sentence xrs ON xrs.id = xed.read_sentence_id
+	WHERE student_id = #{studentId}
+	UNION All
+	SELECT AVG(score) score ,'3' type FROM xl_exercise WHERE student_id = 486 
+	UNION All
+	select   (SELECT count(score) FROM xl_exercise WHERE student_id = 486 and score>60)
+	/(SELECT count(score) FROM xl_exercise WHERE student_id = 486),'4' type  from DUAL
+  </select>
 </mapper>
