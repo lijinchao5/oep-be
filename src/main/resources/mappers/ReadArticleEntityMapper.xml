@@ -146,10 +146,10 @@
 		where
 			1=1
 		<if test="level != null">
-			and level = #{level,jdbcType=String}
+			and level = #{level,jdbcType=VARCHAR}
 		</if>
 		<if test="type != null">
-			and type = #{type,jdbcType=String}
+			and type = #{type,jdbcType=VARCHAR}
 		</if>
   </select>
   
@@ -177,10 +177,10 @@
 		WHERE
 			1=1
 		<if test="level != null">
-			and xra.level = #{level,jdbcType=String}
+			and xra.level = #{level,jdbcType=VARCHAR}
 		</if>
 		<if test="type != null">
-			and xra.type = #{type,jdbcType=String}
+			and xra.type = #{type,jdbcType=VARCHAR}
 		</if>
 		order by xra.id desc
 		limit #{start},#{end}
