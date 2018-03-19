@@ -14,7 +14,7 @@ public class HomeworkPicScoreBean {
 	private String text;
 	private double score;
 	private double fluency;
-	private double intergrity;
+	private double integrity;
 	private double pronunciation;
 	private String name;
 	
@@ -48,11 +48,12 @@ public class HomeworkPicScoreBean {
 	public void setFluency(double fluency) {
 		this.fluency = fluency;
 	}
-	public double getIntergrity() {
-		return intergrity;
+	
+	public double getIntegrity() {
+		return integrity;
 	}
-	public void setIntergrity(double intergrity) {
-		this.intergrity = intergrity;
+	public void setIntegrity(double integrity) {
+		this.integrity = integrity;
 	}
 	public double getPronunciation() {
 		return pronunciation;

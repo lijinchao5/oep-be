@@ -463,7 +463,7 @@
 		hd.homework_type homeworktype,
 		avg(hss.score) score,
 		avg(hss.fluency) fluency,
-		avg(hss.integrity) intergrity,
+		avg(hss.integrity) integrity,
 		avg(hss.pronunciation) pronunciation
 	FROM
 		(
