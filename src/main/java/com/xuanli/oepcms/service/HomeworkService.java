@@ -254,11 +254,13 @@ public class HomeworkService extends BaseService {
 							homeworkStudentScoreWordEntityDao.deleteHomeworkStudentScoreWord(homeworkStudentScoreWordEntity1);
 							for (YunZhiline line : yunZhilines) {
 								List<YunZhiWords> yunZhiSubWords = line.getWords();
+								List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities = new ArrayList<HomeworkStudentScoreWordEntity>();
+								HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = null;
 								for (YunZhiWords word : yunZhiSubWords) {
 									int type = word.getType();
 									String text1 = word.getText();
 									double score = word.getScore();
-									HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
+									homeworkStudentScoreWordEntity = new HomeworkStudentScoreWordEntity();
 									homeworkStudentScoreWordEntity.setHomeworkId(homeworkId);
 									homeworkStudentScoreWordEntity.setHomeworkDetailId(result.getSectionId());
 									homeworkStudentScoreWordEntity.setStudentId(studentId);
@@ -267,8 +269,9 @@ public class HomeworkService extends BaseService {
 									double sc = score * 10;
 									sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 									homeworkStudentScoreWordEntity.setScore(sc);
-									homeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntity(homeworkStudentScoreWordEntity);
 								}
+								homeworkStudentScoreWordEntities.add(homeworkStudentScoreWordEntity);
+								homeworkStudentScoreWordEntityDao.insertHomeworkStudentScoreWordEntityBatch(homeworkStudentScoreWordEntities);
 							}
 						}
 					} else {
@@ -287,8 +290,10 @@ public class HomeworkService extends BaseService {
 								// 正常读音
 								if (word.getType() == 2) {
 									List<YunZhiSubWords> yunZhiSubWords = word.getSubwords();
+									List<HomeworkStudentScoreSymbolEntity> homeworkStudentScoreSymbolEntities = new ArrayList<HomeworkStudentScoreSymbolEntity>();
+									HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity = null;
 									for (YunZhiSubWords subWord : yunZhiSubWords) {
-										HomeworkStudentScoreSymbolEntity homeworkStudentScoreSymbolEntity = new HomeworkStudentScoreSymbolEntity();
+										homeworkStudentScoreSymbolEntity = new HomeworkStudentScoreSymbolEntity();
 										homeworkStudentScoreSymbolEntity.setHomeworkId(homeworkId);
 										homeworkStudentScoreSymbolEntity.setHomeworkDetailId(result.getSectionId());
 										homeworkStudentScoreSymbolEntity.setStudentId(studentId);
@@ -299,10 +304,11 @@ public class HomeworkService extends BaseService {
 												double sc = subWord.getScore() * 10;
 												sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 												homeworkStudentScoreSymbolEntity.setScore(sc);
-												homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntity(homeworkStudentScoreSymbolEntity);
 											}
 										}
 									}
+									homeworkStudentScoreSymbolEntities.add(homeworkStudentScoreSymbolEntity);
+									homeworkStudentScoreSymbolEntityDao.insertHomeworkStudentScoreSymbolEntityBatch(homeworkStudentScoreSymbolEntities);
 								}
 							}
 						}

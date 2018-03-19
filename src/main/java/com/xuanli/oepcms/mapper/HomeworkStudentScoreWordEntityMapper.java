@@ -31,4 +31,10 @@ public interface HomeworkStudentScoreWordEntityMapper {
 	 * @CreateDate:  2018年3月5日 下午4:01:36
 	 */
 	List<HomeworkStudentScoreWordEntity> getHomeworkStudentScoreWord(HomeworkStudentScoreWordEntity homeworkStudentScoreWordEntity);
+	/**Title: insertHomeworkStudentScoreWordEntityBatch 
+	 * Description:  
+	 * @date 2018年3月19日 下午4:42:43
+	 * @param homeworkStudentScoreWordEntities  
+	 */
+	int insertHomeworkStudentScoreWordEntityBatch(List<HomeworkStudentScoreWordEntity> homeworkStudentScoreWordEntities);
 }
