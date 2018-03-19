@@ -224,4 +224,22 @@ public class ExerciseService extends BaseService {
 		Map<String, Object> result = readArticleDao.findArtcileEntityById(readArticleEntity);
 		return ok(result);
 	}
+
+	/**
+	 * Title: findArtcileEntityById 
+	 * Description:  
+	 * @date 2018年3月19日 下午2:24:03
+	 * @param artId
+	 * @return
+	 */
+	public void getExerciseRead(Long studentId, PageBean pageBean) {
+		int findExercisePageTotal = exerciseDao.findExercisePageTotal(studentId);
+		pageBean.setTotal(findExercisePageTotal);
+		ExerciseEntity exerciseEntity = new ExerciseEntity();
+		exerciseEntity.setStart(pageBean.getRowFrom());
+		exerciseEntity.setEnd(pageBean.getPageSize());
+		exerciseEntity.setStudentId(studentId);
+		List<Map<String, Object>> findExercisePage = exerciseDao.findExercisePage(exerciseEntity);
+		pageBean.setRows(findExercisePage);
+	}
 }

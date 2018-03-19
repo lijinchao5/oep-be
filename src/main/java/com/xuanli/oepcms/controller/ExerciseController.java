@@ -37,11 +37,10 @@ public class ExerciseController extends BaseController {
 	@ApiOperation(value = "文章列表", notes = "文章列表")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "level", value = "级别:A,B,C", required = false, dataType = "String"),
 			@ApiImplicitParam(name = "type", value = "类型", required = false, dataType = "String"),
-			@ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
 	@RequestMapping(value = "findExercisePage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findExercisePage(String level, String type, Long studentId, Integer rows, Integer page) {
+	public RestResult<PageBean> findExercisePage(String level, String type, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		ReadArticleEntity readArticleEntity = new ReadArticleEntity();
 		readArticleEntity.setType(type);
@@ -100,5 +99,16 @@ public class ExerciseController extends BaseController {
 			logger.error("提交练习出现异常", e);
 			return failed(ExceptionCode.UNKNOW_CODE, "提交练习出现异常");
 		}
+	}
+
+	@ApiOperation(value = "书架列表", notes = "书架列表")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
+	@RequestMapping(value = "getArtcileRead.do", method = RequestMethod.GET)
+	public RestResult<PageBean> getArtcileRead(Integer rows, Integer page) {
+		Long studentId = getCurrentUser().getId();
+		PageBean pageBean = initPageBean(page, rows);
+		exerciseService.getExerciseRead(studentId, pageBean);
+		return ok(pageBean);
 	}
 }

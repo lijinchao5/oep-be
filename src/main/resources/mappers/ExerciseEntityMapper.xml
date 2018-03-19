@@ -177,46 +177,40 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="findHomeworkPageTotal" parameterType="com.xuanli.oepcms.entity.ExerciseEntity" resultType="java.lang.Integer">
+  <select id="findExercisePageTotal" parameterType="java.lang.Long" resultType="java.lang.Integer">
 		SELECT
 			count(*)
 		FROM
 			xl_exercise e
-		where
-			1=1
-		<if test="level != null">
-			and level = #{level,jdbcType=String}
-		</if>
-		<if test="type != null">
-			and type = #{type,jdbcType=String}
-		</if>
+		where student_id = #{studentId}
   </select>
   
-  <select id="findHomeworkPage" parameterType="com.xuanli.oepcms.entity.ExerciseEntity" resultType="com.xuanli.oepcms.entity.ExerciseEntity">
+  <select id="findExercisePage" parameterType="com.xuanli.oepcms.entity.ExerciseEntity" resultType="java.util.Map">
 		SELECT
-			xe.id,
-			xe.student_id studentid,
-			xe.read_article_id articleid,
-			xe.create_id createid,
-			xe.create_date createdate,
-			xe.update_id updateid,
-			xe.update_date updatedate,
-			xra.word_num wordnum,
-			xra.type type,
-			xra. LEVEL level,
-			xra. NAME name
+			xra.id,
+			xra. NAME NAME,
+			xra.word_num wordNum,
+			xra.picture_path picturePath,
+			xra.type,
+			xra. LEVEL LEVEL,
+			xra.create_id createId,
+			xra.create_date createDate,
+			xra.update_id updateId,
+			xra.update_date updateDate,
+			xra.enable_flag enableFlag,
+			xe.score,
+			xe.update_date,
+			dd. NAME levelName,
+			dd1. NAME typeName
 		FROM
-			xl_exercise xe
-		LEFT JOIN xl_read_article xra ON xe.id = xra.id
-		WHERE
-			1=1
-		<if test="level != null">
-			and level = #{level,jdbcType=String}
-		</if>
-		<if test="type != null">
-			and type = #{type,jdbcType=String}
-		</if>
-		order by xe.id desc
+			xl_exercise xe 
+		LEFT JOIN xl_read_article xra ON xe.read_article_id = xra.id
+		LEFT JOIN xl_dic_detail dd ON dd.dic_id = 15
+		AND dd.name_val = xra.`level`
+		LEFT JOIN xl_dic_detail dd1 ON dd1.dic_id = 16
+		AND dd1.name_val = xra.type
+		WHERE xe.student_id = #{studentId}
+		order by xra.id desc
 		limit #{start},#{end}
   </select>
   <select id="selectExerciseEntity" resultType="com.xuanli.oepcms.entity.ExerciseEntity">
