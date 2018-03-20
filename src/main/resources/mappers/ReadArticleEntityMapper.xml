@@ -148,8 +148,8 @@
 		<if test="level != null">
 			and level = #{level,jdbcType=VARCHAR}
 		</if>
-		<if test="type != null">
-			and type = #{type,jdbcType=VARCHAR}
+		<if test="type != null and type != ''" >
+			and type in(${type}) 
 		</if>
   </select>
   
@@ -179,8 +179,8 @@
 		<if test="level != null">
 			and xra.level = #{level,jdbcType=VARCHAR}
 		</if>
-		<if test="type != null">
-			and xra.type = #{type,jdbcType=VARCHAR}
+		<if test="type != null and type != ''" >
+			and xra.type in(${type}) 
 		</if>
 		order by xra.id desc
 		limit #{start},#{end}

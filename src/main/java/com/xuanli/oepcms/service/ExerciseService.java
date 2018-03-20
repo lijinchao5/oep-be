@@ -30,6 +30,7 @@ import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiBean;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiWords;
 import com.xuanli.oepcms.thirdapp.sdk.yunzhi.bean.YunZhiline;
 import com.xuanli.oepcms.util.PageBean;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 /**
@@ -59,6 +60,17 @@ public class ExerciseService extends BaseService {
 	 * @param pageBean
 	 */
 	public void findReadArticlePage(ReadArticleEntity readArticleEntity, PageBean pageBean) {
+		if (StringUtil.isNotEmpty(readArticleEntity.getType())) {
+			String[] types = readArticleEntity.getType().split(",");
+			String type = "";
+			for (String result : types) {
+				type += "'" + result + "',";
+			}
+			if (type.length() > 0) {
+				type = type.substring(0, type.length() - 1);
+			}
+			readArticleEntity.setType(type);
+		}
 		int findReadArticlePageTotal = readArticleDao.findReadArticlePageTotal(readArticleEntity);
 		pageBean.setTotal(findReadArticlePageTotal);
 		readArticleEntity.setStart(pageBean.getRowFrom());
