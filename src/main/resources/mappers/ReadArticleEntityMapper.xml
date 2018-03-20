@@ -149,7 +149,7 @@
 			and level = #{level,jdbcType=VARCHAR}
 		</if>
 		<if test="type != null and type != ''" >
-			and xra.type in(${type}) 
+			and type in(${type}) 
 		</if>
   </select>
   
