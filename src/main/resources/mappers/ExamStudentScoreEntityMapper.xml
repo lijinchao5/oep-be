@@ -246,7 +246,8 @@
 			AVG(ess.integrity) integrity,
 			AVG(ess.fluency) fluency,
 			AVG(ess.pronunciation) pronunciation,
-			psd.id subjectDetailId
+			psd.id subjectDetailId,
+			avg(ess.percent_score) avgNum
 		FROM
 			xl_exam_student_score ess
 		LEFT JOIN xl_paper_subject_detail psd ON ess.subject_detail_id = psd.id
