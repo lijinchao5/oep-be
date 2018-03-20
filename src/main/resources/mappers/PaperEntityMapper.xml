@@ -467,7 +467,8 @@
 			po.result,
 			po.point_result pointResult,
 			po.correct_result correntResult,
-			psd.repeat_count repeatCount
+			psd.repeat_count repeatCount,
+			psd.type detailType
 		FROM
 			xl_paper p
 		LEFT JOIN xl_paper_subject ps ON ps.paper_id = p.id
