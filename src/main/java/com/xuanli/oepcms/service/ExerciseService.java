@@ -60,7 +60,7 @@ public class ExerciseService extends BaseService {
 	 * @param pageBean
 	 */
 	public void findReadArticlePage(ReadArticleEntity readArticleEntity, PageBean pageBean) {
-		if (StringUtil.isEmpty(readArticleEntity.getType())) {
+		if (StringUtil.isNotEmpty(readArticleEntity.getType())) {
 			String[] types = readArticleEntity.getType().split(",");
 			String type = "";
 			for (String result : types) {
