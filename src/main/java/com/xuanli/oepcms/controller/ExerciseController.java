@@ -39,7 +39,7 @@ public class ExerciseController extends BaseController {
 			@ApiImplicitParam(name = "type", value = "类型", required = false, dataType = "String"),
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
-	@RequestMapping(value = "findExercisePage.do", method = RequestMethod.GET)
+	@RequestMapping(value = "findExercisePage.do", method = RequestMethod.POST)
 	public RestResult<PageBean> findExercisePage(String level, String type, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
 		ReadArticleEntity readArticleEntity = new ReadArticleEntity();
