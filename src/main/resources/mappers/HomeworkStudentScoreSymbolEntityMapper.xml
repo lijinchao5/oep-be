@@ -129,11 +129,11 @@
         and student_id = #{studentId,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insertHomeworkStudentScoreSymbolEntityBatch" parameterType="list">
+  <insert id="insertHomeworkStudentScoreSymbolEntityBatch" parameterType="java.util.List">
   	insert into xl_homework_student_score_symbol 
   	(homework_id, homework_detail_id,student_id,score,symbol)
   	VALUES
-  	<foreach collection="java.util.List" item="word" separator=",">
+  	<foreach collection="list" item="word" separator=",">
   		(#{word.homeworkId},#{word.homeworkDetailId},#{word.studentId},#{word.score},#{word.symbol})
   	</foreach>
   </insert>

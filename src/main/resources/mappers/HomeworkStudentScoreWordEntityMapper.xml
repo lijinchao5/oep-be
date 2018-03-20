@@ -124,11 +124,11 @@
       order by id
   </select>
   
-  <insert id="insertHomeworkStudentScoreWordEntityBatch" parameterType="list">
+  <insert id="insertHomeworkStudentScoreWordEntityBatch" parameterType="java.util.List">
   	insert into xl_homework_student_score_word 
   	(homework_id, homework_detail_id, student_id, score, type, text)
   	VALUES
-  	<foreach collection="java.util.List" item="word" separator=",">
+  	<foreach collection="list" item="word" separator=",">
   		(#{word.homeworkId}, #{word.homeworkDetailId}, #{word.studentId}, #{word.score}, #{word.type}, #{word.text})
   	</foreach>
   </insert>
