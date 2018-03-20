@@ -148,6 +148,7 @@ public class ExerciseService extends BaseService {
 				exerciseDetailWordEntity.setSentenceId(sentenceId);
 				exerciseDetailWordDao.deleteDetailWordEntity(exerciseDetailWordEntity);
 				for (YunZhiline line : yunZhilines) {
+					List<ExerciseDetailWordEntity> exerciseDetailWordEntities = new ArrayList<ExerciseDetailWordEntity>();
 					List<YunZhiWords> yunZhiSubWords = line.getWords();
 					for (YunZhiWords word : yunZhiSubWords) {
 						double score = word.getScore();
@@ -161,8 +162,9 @@ public class ExerciseService extends BaseService {
 						double sc = score * 10;
 						sc = new BigDecimal(sc).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 						detailWordEntity.setScore(sc);
-						exerciseDetailWordDao.insertExerciseDetailWordEntity(detailWordEntity);
+						exerciseDetailWordEntities.add(detailWordEntity);
 					}
+					exerciseDetailWordDao.insertExerciseDetailWordEntityBatch(exerciseDetailWordEntities);
 				}
 			}
 		}

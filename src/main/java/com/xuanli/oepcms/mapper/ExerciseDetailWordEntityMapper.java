@@ -61,4 +61,11 @@ public interface ExerciseDetailWordEntityMapper {
 	 * @return
 	 */
 	List<ExerciseDetailWordEntity> getExerciseDetailWord(ExerciseDetailWordEntity exerciseDetailWordEntity);
+
+	/**Title: insertExerciseDetailWordEntityBatch 
+	 * Description:  
+	 * @date 2018年3月20日 上午11:36:26
+	 * @param exerciseDetailWordEntities  
+	 */
+	int insertExerciseDetailWordEntityBatch(List<ExerciseDetailWordEntity> exerciseDetailWordEntities);
 }

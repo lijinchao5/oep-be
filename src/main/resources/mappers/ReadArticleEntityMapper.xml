@@ -208,6 +208,6 @@
 		LEFT JOIN xl_dic_detail dd1 ON dd1.dic_id = 16
 		AND dd1.name_val = xra.type
 		WHERE
-			xra.id = #{id,jdbcType=VARCHAR}
+			xra.id = #{id}
   </select>
 </mapper>
