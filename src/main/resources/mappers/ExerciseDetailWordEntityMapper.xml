@@ -175,7 +175,7 @@
   </select>
   <insert id="insertExerciseDetailWordEntityBatch" parameterType="java.util.List" >
   	INSERT INTO xl_exercise_detail_word
-  	(article_id, sentenceId, studentId, detail_id, word, score)
+  	(article_id, sentence_id, student_id, detail_id, word, score)
   	VALUES
   	<foreach collection="list" item="edw" index="index" separator=",">
   		(#{edw.articleId}, #{edw.sentenceId}, #{edw.studentId}, #{edw.detailId}, #{edw.word}, #{edw.score})
