@@ -56,6 +56,8 @@ public class ExceptionCode {
 	public static final Integer SYNC_ARTICLE_ERROR = 2003;
 	/** 同步试题库错误 */
 	public static final Integer SYNC_QUESTION_ERROR = 2004;
+	/** 同步链接错误 */
+	public static final Integer SYNC_OTHER_LINK_ERROR = 2005;
 
 	/** 学生答题超时 */
 	public static final Integer HOME_WORK_TIME_OUT = 3001;

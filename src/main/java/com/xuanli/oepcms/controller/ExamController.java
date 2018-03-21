@@ -48,8 +48,7 @@ public class ExamController extends BaseController {
 			@ApiImplicitParam(name = "endTime", value = "作业完成时间 格式 yyyy-MM-dd HH:mm:ss", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "paperId", value = "作业列表", required = true, dataType = "Long") })
 	@RequestMapping(value = "genteratorExam.do", method = RequestMethod.POST)
-	public RestResult<String> genteratorExam(String name, String notice, String classIds, Date startTime, Date endTime,
-			Long paperId) {
+	public RestResult<String> genteratorExam(String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
 		try {
 			Long userId = getCurrentUser().getId();
 			return examService.genteratorExam(userId, name, notice, classIds, startTime, endTime, paperId);
@@ -65,8 +64,7 @@ public class ExamController extends BaseController {
 			@ApiImplicitParam(name = "answers", value = " 格式: [{\"key\":1,\"value\":\"A\"},{\"key\":2,\"value\":\"B\"}] key:subjectDetailId value:答案", dataType = "String"),
 			@ApiImplicitParam(name = "timeOut", value = "剩余时间", required = true, dataType = "Integer") })
 	@RequestMapping(value = "submitExam.do", method = RequestMethod.POST)
-	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String answers,
-			@RequestParam Integer timeOut) {
+	public RestResult<String> submitExam(@RequestParam Long examId, @RequestParam String answers, @RequestParam Integer timeOut) {
 		try {
 			List<ExamAnswerBean> answerBeans = JSONArray.parseArray(answers, ExamAnswerBean.class);
 			Long studentId = getCurrentUser().getId();
@@ -140,31 +138,29 @@ public class ExamController extends BaseController {
 	// 学生模拟考试列表
 	@ApiIgnore
 	@RequestMapping(value = "findStudentExamByPage.do", method = RequestMethod.GET)
-	public RestResult<PageBean> findStudentExamByPage(Integer rows, Integer page) {
+	public RestResult<PageBean> findStudentExamByPage(Integer rows, Integer page, String state) {
 		PageBean pageBean = initPageBean(page, rows);
 		// 保证这个班是这个老师创建的
 		Long userId = getCurrentUser().getId();
-		examService.findStudentExamByPage(userId, pageBean);
+		examService.findStudentExamByPage(userId, pageBean, state);
 		return ok(pageBean);
 	}
 
 	// 教师查看学生考试详情
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
-		@ApiImplicitParam(name = "studentId", value = "学生Id", required = true, dataType = "Long") 
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "examId", value = "考试id", required = true, dataType = "Long"),
+			@ApiImplicitParam(name = "studentId", value = "学生Id", required = true, dataType = "Long") })
 	@RequestMapping(value = "findStudentExamDetailByTeacher.do", method = RequestMethod.GET)
-	public RestResult<Map<String, Object>> findStudentExamDetailByTeacher(Long examId,Long studentId) {
+	public RestResult<Map<String, Object>> findStudentExamDetailByTeacher(Long examId, Long studentId) {
 		return examService.getStudentExamReport(examId, studentId);
 	}
-	
+
 	// 查看学生考试详情
 	@ApiIgnore
 	@RequestMapping(value = "findStudentExamDetail.do", method = RequestMethod.GET)
 	public RestResult<Map<String, Object>> findStudentExamDetail(Long examId) {
 		return examService.findStudentExamDetail(examId, getCurrentUser().getId());
 	}
-	
+
 	/**
 	 * 学生报告信息
 	 * @CreateName:  QiaoYu[www.codelion.cn]
