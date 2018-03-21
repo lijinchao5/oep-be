@@ -74,14 +74,15 @@ public class HomeworkController extends BaseController {
 	@RequestMapping(value = "makeHomeWork.do", method = RequestMethod.POST)
 	public RestResult<String> makeHomeWork(@RequestParam String name, @RequestParam String classId, @RequestParam Date endTime, @RequestParam String remark,
 			@RequestParam String homeworkBeans) {
+		Date now = new Date();
 		if (StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请填写作业名称");
 		}
 		if (StringUtil.isEmpty(classId)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请选择班级");
 		}
-		if (null == endTime) {
-			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请选择结束时间");
+		if (null == endTime || endTime.getTime() < now.getTime()) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "结束时间早于当前时间!");
 		}
 		if (StringUtil.isEmpty(name)) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "请填写作业名称");
