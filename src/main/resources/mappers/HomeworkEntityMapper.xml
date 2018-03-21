@@ -226,6 +226,14 @@
 		LEFT JOIN xl_homework_student hs ON xh.id = hs.homework_id
 		WHERE
 			hs.student_id = #{studentId}
+		<if test="over != null">
+			<if test='over == "F"'>
+				and xh.end_time > NOW()
+			</if>
+			<if test='over == "T"'>
+				and NOW() > xh.end_time
+			</if>
+		</if>
 	</select>
 	<select id="findStudentHomeworkByPage" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT
@@ -262,11 +270,11 @@
 		WHERE
 			hs.student_id = #{studentId}
 		<if test="over != null">
-			<if test="over == F">
-				and h.end_time > NOW()
+			<if test='over == "F"'>
+				and xh.end_time > NOW()
 			</if>
-			<if test="over == T">
-				and NOW() > h.end_time
+			<if test='over == "T"'>
+				and NOW() > xh.end_time
 			</if>
 		</if>
 		order by xh.create_date desc
