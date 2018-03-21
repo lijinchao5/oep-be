@@ -310,6 +310,18 @@
 		where 
 			es.student_id = #{studentId}
 		AND h.type = 1
+		<if test="state !=null and state !=''">
+			<if test="state == 0">
+				AND h.start_time > NOW()
+			</if>
+			<if test="state == 1">
+				AND NOW() > h.start_time
+				AND h.end_time > NOW()
+			</if>
+			<if test="state == 2">
+				AND NOW() > h.end_time
+			</if>
+		</if>
   </select>
   <select id="findStudentExamByPage" parameterType="map" resultType="map">
   		SELECT
@@ -357,6 +369,18 @@
 		WHERE
 			es.student_id = #{studentId}
 		AND h.type = 1
+		<if test="state !=null and state !=''">
+			<if test="state == 0">
+				AND h.start_time > NOW()
+			</if>
+			<if test="state == 1">
+				AND NOW() > h.start_time
+				AND h.end_time > NOW()
+			</if>
+			<if test="state == 2">
+				AND NOW() > h.end_time
+			</if>
+		</if>
 		order by h.create_date desc
 		limit #{start},#{end}
   </select>

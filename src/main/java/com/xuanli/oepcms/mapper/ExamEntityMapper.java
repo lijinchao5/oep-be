@@ -72,7 +72,7 @@ public interface ExamEntityMapper {
 	 * @CreateName: codelion[QiaoYu]
 	 * @CreateDate: 2018年3月7日 下午3:41:09
 	 */
-	int findStudentExamByPageTotal(Long studentId);
+	int findStudentExamByPageTotal(Map<String, Object> requiredMap);
 
 	/**
 	 * @Description: TODO

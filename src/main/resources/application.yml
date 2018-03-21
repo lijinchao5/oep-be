@@ -119,7 +119,8 @@ systemconfig:
     paper_content: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncPaperContent.do
     article_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncReads.do
     sentence_content_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncReadContent.do
-    question_content_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncQusetionContent.do
+#    question_content_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncQusetionContent.do
+    other_link_url: http://39.104.76.67:8088/oep-be-cms/resourceSync/syncLinks.do
 # 日志输出
 logging:
   level: 
