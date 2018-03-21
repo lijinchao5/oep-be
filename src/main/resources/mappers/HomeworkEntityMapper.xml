@@ -261,6 +261,14 @@
 		LEFT JOIN xl_homework_student hs ON xh.id = hs.homework_id
 		WHERE
 			hs.student_id = #{studentId}
+		<if test="over != null">
+			<if test="status == F">
+				and h.end_time > NOW()
+			</if>
+			<if test="over == T">
+				and NOW() > h.end_time
+			</if>
+		</if>
 		order by xh.create_date desc
 		limit #{start},#{end}
 	</select>
