@@ -44,12 +44,10 @@ public class HomeworkController extends BaseController {
 	private HomeworkService homeworkService;
 
 	@ApiOperation(value = "教师作业列表", notes = "教师作业列表")
-	@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "status", value = "状态 1:进行中,2:已完成", required = true, dataType = "String"),
+	@ApiImplicitParams({ @ApiImplicitParam(name = "status", value = "状态 1:进行中,2:已完成", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "clasId", value = "班级ids 使用,隔开", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") 
-	})
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String") })
 	@RequestMapping(value = "findHomeworkPage.do", method = RequestMethod.GET)
 	public RestResult<PageBean> findHomeworkPage(String status, Long clasId, Integer rows, Integer page) {
 		PageBean pageBean = initPageBean(page, rows);
@@ -93,7 +91,7 @@ public class HomeworkController extends BaseController {
 		}
 		try {
 			Long createId = getCurrentUser().getId();
-			List<HomeworkBean> hbBeans = JSONArray.parseArray(homeworkBeans,HomeworkBean.class);
+			List<HomeworkBean> hbBeans = JSONArray.parseArray(homeworkBeans, HomeworkBean.class);
 			homeworkService.makeHomeWork(name, classId, endTime, remark, hbBeans, createId);
 			return okNoResult("成功.");
 		} catch (Exception e) {
@@ -103,11 +101,8 @@ public class HomeworkController extends BaseController {
 		}
 	}
 
-	
 	@ApiOperation(value = "学生提交作业", notes = "学生提交作业方法")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long") })
 	@RequestMapping(value = "submitHomework.do", method = RequestMethod.POST)
 	public RestResult<String> doHomeWork(Long homeworkId) {
 		try {
@@ -119,7 +114,7 @@ public class HomeworkController extends BaseController {
 			return failed(ExceptionCode.UNKNOW_CODE, "学生提交作业出现异常");
 		}
 	}
-	
+
 	/**
 	 * 学生做作业
 	 * 
@@ -133,7 +128,8 @@ public class HomeworkController extends BaseController {
 			@ApiImplicitParam(name = "audioFile", value = "学生音频文件类答案", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "text", value = "学生文本类答案", required = true, dataType = "String"), })
 	@RequestMapping(value = "doHomeWork.do", method = RequestMethod.POST)
-	public RestResult<Map<String, Object>> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required=false) String file, @RequestParam(required=false) String text) {
+	public RestResult<Map<String, Object>> doHomeWork(@RequestParam Long sectionId, @RequestParam Long homeworkId, @RequestParam(required = false) String file,
+			@RequestParam(required = false) String text) {
 		try {
 			Long studentId = getCurrentUser().getId();
 			return homeworkService.doHomeWork(studentId, sectionId, homeworkId, file, text, request);
@@ -169,54 +165,45 @@ public class HomeworkController extends BaseController {
 	}
 
 	@ApiOperation(value = "查看学生作业详情", notes = "查看学生作业详情方法")
-	@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
+	@ApiImplicitParams({ @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "studentId", value = "学生id", required = true, dataType = "Long"),
 			@ApiImplicitParam(name = "homeworkType", value = "作业类型", required = true, dataType = "String") })
 	@RequestMapping(value = "studentHomeWorkDetail.do", method = RequestMethod.GET)
 	public RestResult<List<HomeworkScoreBean>> studentHomeworkDetail(@RequestParam Long homeworkId, @RequestParam Long studentId, @RequestParam Integer homeworkType) {
 		return ok(homeworkService.getStudentHomework(homeworkId, studentId, homeworkType));
 	}
-	
+
 	@ApiOperation(value = "作业报告学生详情", notes = "查看作业报告学生详情")
-	@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long") })
 	@RequestMapping(value = "selectStudentEntity.do", method = RequestMethod.GET)
 	public RestResult<List<HomeworkStudentEntity>> selectStudentEntity(Long homeworkId) {
-		if(null==homeworkId) {
+		if (null == homeworkId) {
 			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "作业id不能为空");
 		}
 		return ok(homeworkService.selectStudentEntity(homeworkId));
 	}
-	
+
 	@ApiOperation(value = "查看布置作业详情", notes = "查看布置作业详情")
-	@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long")
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "homeworkId", value = "作业id", required = true, dataType = "Long") })
 	@RequestMapping(value = "getHomeworkDetail.do", method = RequestMethod.GET)
-	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId){
+	public RestResult<Map<String, Object>> getHomeworkDetail(Long homeworkId) {
 		Long studentId = getCurrentUser().getId();
-		return homeworkService.getHomeworkDetail(homeworkId,studentId);
+		return homeworkService.getHomeworkDetail(homeworkId, studentId);
 	}
 
-	
 	@ApiOperation(value = "查看布置作业详情", notes = "查看布置作业详情")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
-		@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") 
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "rows", value = "每页显示条数", required = true, dataType = "Integer"),
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer") })
 	@RequestMapping(value = "getStudentHomeWorkList.do", method = RequestMethod.GET)
-	public RestResult<PageBean> getStudentHomeWorkList(Integer rows,Integer page,Long homeworkId){
+	public RestResult<PageBean> getStudentHomeWorkList(Integer rows, Integer page, Long homeworkId, String over) {
 		PageBean pageBean = initPageBean(page, rows);
 		Map<String, Object> requestMap = new HashMap<String, Object>();
 		Map<String, String[]> requestMap1 = request.getParameterMap();
 		requestMap = requestParamToMap(requestMap1);
 		requestMap.put("studentId", getCurrentUser().getId());
+		requestMap.put("over", over);
 		homeworkService.getStudentHomeWorkList(requestMap, pageBean);
 		return ok(pageBean);
 	}
-	
-	
-	
+
 }
