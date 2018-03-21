@@ -122,12 +122,12 @@ public class LoginController extends BaseController {
 	
 	@RequestMapping(value = "logout.do", method = RequestMethod.GET)
 	@ApiOperation(value = "登出方法", notes = "用户登出")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "tokenId", value = "用户登录标识", required = false, dataType = "String"),
-	})
-	public RestResult<String> logout(String tokenId){
+	public RestResult<String> logout(){
 		try {
-			sessionUtil.removeSessionUser(tokenId);
+			String tokenId = getTokenId();
+			if (StringUtil.isNotEmpty(tokenId)) {
+				sessionUtil.removeSessionUser(tokenId);
+			}
 			return okNoResult("成功登出");
 		}catch(Exception e) {
 			return okNoResult("成功登出");

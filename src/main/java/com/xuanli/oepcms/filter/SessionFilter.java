@@ -74,6 +74,7 @@ public class SessionFilter implements Filter {
 		notFilter.add("/paper");
 		notFilter.add("/resourceSync");
 		notFilter.add("/job");
+		notFilter.add("/studentWebSocketServer");
 		
 		String uri = request.getRequestURI();
 		boolean doFilter = true;

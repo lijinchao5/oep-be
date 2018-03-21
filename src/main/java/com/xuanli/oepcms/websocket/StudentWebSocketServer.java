@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  * @author QiaoYu
  */
 @Component
-@ServerEndpoint(value = "/studentWebSocketServer/{userId}")
+@ServerEndpoint(value = "/studentWebSocketServer/{userId}/start.do")
 public class StudentWebSocketServer {
 	private Long userId;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
