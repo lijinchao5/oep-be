@@ -262,7 +262,7 @@
 		WHERE
 			hs.student_id = #{studentId}
 		<if test="over != null">
-			<if test="status == F">
+			<if test="over == F">
 				and h.end_time > NOW()
 			</if>
 			<if test="over == T">
