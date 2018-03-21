@@ -197,16 +197,18 @@ public class ExamService extends BaseService {
 			} else if (paperSubjectDetailEntity.getType().intValue() == 3) {
 				// 传入的为填空题的答案
 				String textStr = answer.getValue();
-				if (null == textStr || textStr.trim().equals("")) {
+				if (StringUtil.isEmpty(textStr)) {
 					score = 0.00;
 				} else {
-					if (paperOptionEntity.getCorrectResult().trim().equalsIgnoreCase(textStr.trim())) {
-						score = 100.00;
-					} else {
-						score = 0.00;
+					String[] rStrings = paperOptionEntity.getCorrectResult().split("\\|\\|");
+					score = 0.00;
+					for (String r : rStrings) {
+						if (r.trim().equalsIgnoreCase(textStr.trim())) {
+							score = 100.00;
+							break;
+						}
 					}
 				}
-
 				double realScore = score;
 				score = score * paperSubjectDetailEntity.getScore() / 100;
 				examStudentScoreEntity.setPercentScore(realScore);
