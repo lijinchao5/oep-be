@@ -11,9 +11,10 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.TextMessage;
 
 import com.xuanli.oepcms.service.UserService;
-import com.xuanli.oepcms.websocket.StudentWebSocketServer;
+import com.xuanli.oepcms.websocket.StudentWebSocketHandler;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -24,7 +25,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping(value = "/test/")
 public class TestController {
 	@Autowired
-	StudentWebSocketServer studentWebSocketServer;
+	StudentWebSocketHandler studentWebSocketHandler;
 	@Autowired
 	UserService userService;
 	
@@ -32,9 +33,9 @@ public class TestController {
 	@RequestMapping(value = "testWebSocket.do")
 	public String testwebSocket() {
 		try {
-			studentWebSocketServer.sendInfo("群体发送消息", null);
+			studentWebSocketHandler.sendMessageToUsers(new TextMessage("12341321321"));
 			return "success";
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
