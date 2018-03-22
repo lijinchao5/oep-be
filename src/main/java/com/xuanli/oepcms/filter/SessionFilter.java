@@ -77,7 +77,6 @@ public class SessionFilter implements Filter {
 		notFilter.add("/studentWebSocketServer");
 		notFilter.add("/studentWebSocket");
 		notFilter.add("/otherLink");
-		
 		String uri = request.getRequestURI();
 		boolean doFilter = true;
 		if (uri.indexOf(".do") != -1) {

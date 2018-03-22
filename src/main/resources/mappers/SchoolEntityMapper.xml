@@ -186,7 +186,7 @@
   </update>
   	<select id="getUserSchoolInfo" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
 		SELECT
-		xs.id, xs.school_id, xs.name, xs.address_province, xs.address_city, xs.address_area, xs.create_id, xs.create_date, 
+		xs.id, xs.school_id, xs.name, xs.create_id, xs.create_date, 
     	xs.update_id, xs.update_date, xs.enable_flag,
 			(
 				SELECT

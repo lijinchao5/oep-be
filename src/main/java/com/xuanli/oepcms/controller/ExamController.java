@@ -50,8 +50,8 @@ public class ExamController extends BaseController {
 	@RequestMapping(value = "genteratorExam.do", method = RequestMethod.POST)
 	public RestResult<String> genteratorExam(String name, String notice, String classIds, Date startTime, Date endTime, Long paperId) {
 		Date now = new Date();
-		if (startTime.getTime() < now.getTime() && startTime.getTime() > endTime.getTime()) {
-			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "开始时间应大于当前时间并小于结束时间!");
+		if (startTime.getTime() < now.getTime() || startTime.getTime() > endTime.getTime()) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "开始时间不能小于当前时间");
 		}
 		try {
 			Long userId = getCurrentUser().getId();
