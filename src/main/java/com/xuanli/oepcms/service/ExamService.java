@@ -104,8 +104,8 @@ public class ExamService extends BaseService {
 			record.setDetailId(detailId);
 			PaperOptionEntity paperOptionEntity = paperOptionEntityMapper.selectByDetailId(record);
 			// 获取考试详情
-			ExamEntity examEntity = examEntityMapper.selectById(examId);
-			double pointScore = examEntity.getPointScore().doubleValue();
+			// ExamEntity examEntity = examEntityMapper.selectById(examId);
+			// double pointScore = examEntity.getPointScore().doubleValue();
 			ExamStudentScoreEntity examStudentScoreEntity = new ExamStudentScoreEntity();
 			examStudentScoreEntity.setSubjectDetailId(detailId);
 			examStudentScoreEntity.setExamId(examId);
@@ -122,51 +122,21 @@ public class ExamService extends BaseService {
 				try {
 					// 计算分数
 					// 获取本地答案的详细信息
-					double realScore1 = 0.00;
-					double realScore2 = 0.00;
-					double cScore = 0.00;
 					double qScore = paperSubjectDetailEntity.getScore();
 					String correnctResult = paperOptionEntity.getCorrectResult();
-					if (StringUtil.isNotEmpty(correnctResult)) {
-						String correncts[] = correnctResult.split("\\|\\|");
-						for (String correnct : correncts) {
-							String json = yunZhiSDK.generatorStudentExamScore(fileId, correnct, "A");
-							if (null == json || json.trim().equals("")) {
-								System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
-							} else {
-								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-								if (yunZhiBean.getScore() * qScore > cScore) {
-									cScore = yunZhiBean.getScore() * qScore;
-									realScore1 = yunZhiBean.getScore();
-								}
-							}
-						}
-					}
-					double pScore = 0.00;
-					// 获取该题的分数
 					String pointResult = paperOptionEntity.getPointResult();
-					if (StringUtil.isNotEmpty(pointResult)) {
-						String pointResults[] = pointResult.split("@@");
-						double picScore = qScore / pointResults.length;
-						for (String pt : pointResults) {
-							String json = yunZhiSDK.generatorStudentExamScore(fileId, pt, "A");
-							if (null == json || json.trim().equals("")) {
-								System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
-							} else {
-								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-								if (yunZhiBean.getScore() * pointScore * picScore > pScore) {
-									pScore = pScore + (yunZhiBean.getScore() * pointScore * picScore);
-									realScore2 = realScore2 + (yunZhiBean.getScore() / pointResults.length);
-								}
-							}
-						}
+					String json = yunZhiSDK.generatorStudentExamScoreJSGF(fileId, pointResult, correnctResult, "A");
+					if (null == json || json.trim().equals("")) {
+						System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
+					} else {
+						YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
+						score = yunZhiBean.getScore();
 					}
-					score = cScore > pScore ? cScore : qScore;
-					realScore = realScore1 > realScore2 ? realScore1 : realScore2;
+					realScore = score;
+					score = score * qScore / 100;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				score = score / 100;
 				examStudentScoreEntity.setScore(score);
 				examStudentScoreEntity.setPercentScore(realScore);
 				examStudentScoreEntity.setAudioPath(fileId);
@@ -220,82 +190,23 @@ public class ExamService extends BaseService {
 				examStudentScoreEntityMapper.insertExamStudentScoreEntity(examStudentScoreEntity);
 				// 听后转述---- type --4(听后转述)
 			} else if (paperSubjectDetailEntity.getType().intValue() == 4) {
-				// // 听后转述是有音频的
-				// try {
-				// // 计算分数 //按照比例去计算分数
-				// double thisScore = 0.00;
-				// double realScore = 0.00;
-				// String correnctResult = paperOptionEntity.getCorrectResult();
-				// if (StringUtil.isNotEmpty(correnctResult)) {
-				// String correncts[] = correnctResult.split("\\|\\|");
-				// double picScore = paperSubjectDetailEntity.getScore() / correncts.length;
-				// for (String correnct : correncts) {
-				// String json = yunZhiSDK.generatorStudentExamScore(fileId, correnct, "A");
-				// if (null == json || json.trim().equals("")) {
-				// System.out.println(paperSubjectDetailEntity.getId() + "---出现问题,不能计算");
-				// } else {
-				// YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-				// thisScore = thisScore + (yunZhiBean.getScore() * picScore / 100);
-				// realScore = realScore + yunZhiBean.getScore();
-				// }
-				// }
-				// examStudentScoreEntity.setScore(thisScore);
-				// examStudentScoreEntity.setPercentScore(realScore);
-				// }
-				// } catch (Exception e) {
-				// e.printStackTrace();
-				// }
-				// examStudentScoreEntity.setAudioPath(fileId);
-				// examStudentScoreEntity.setText(text);
-				// examStudentScoreEntity.setEnableFlag("T");
-				// examStudentScoreEntity.setCreateDate(new Date());
-				// examStudentScoreEntity.setCreateId(studentId);
-				// examStudentScoreEntityMapper.insertExamStudentScoreEntity(examStudentScoreEntity);
 				double realScore = 0.00;
 				try {
 					// 计算分数
 					// 获取本地答案的详细信息
-					double realScore1 = 0.00;
-					double realScore2 = 0.00;
-					double cScore = 0.00;
 					double qScore = paperSubjectDetailEntity.getScore();
 					String correnctResult = paperOptionEntity.getCorrectResult();
-					if (StringUtil.isNotEmpty(correnctResult)) {
-						String correncts[] = correnctResult.split("\\|\\|");
-						for (String correnct : correncts) {
-							String json = yunZhiSDK.generatorStudentExamScore(fileId, correnct, "A");
-							if (null == json || json.trim().equals("")) {
-								System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
-							} else {
-								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-								if (yunZhiBean.getScore() * qScore > cScore) {
-									cScore = yunZhiBean.getScore() * qScore;
-									realScore1 = yunZhiBean.getScore();
-								}
-							}
-						}
-					}
-					double pScore = 0.00;
-					// 获取该题的分数
 					String pointResult = paperOptionEntity.getPointResult();
-					if (StringUtil.isNotEmpty(pointResult)) {
-						String pointResults[] = pointResult.split("@@");
-						double picScore = qScore / pointResults.length;
-						for (String pt : pointResults) {
-							String json = yunZhiSDK.generatorStudentExamScore(fileId, pt, "A");
-							if (null == json || json.trim().equals("")) {
-								System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
-							} else {
-								YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
-								if (yunZhiBean.getScore() * pointScore * picScore > pScore) {
-									pScore = pScore + (yunZhiBean.getScore() * pointScore * picScore);
-									realScore2 = realScore2 + (yunZhiBean.getScore() / pointResults.length);
-								}
-							}
-						}
+					String json = yunZhiSDK.generatorStudentExamScoreJSGF(fileId, pointResult, correnctResult, "A");
+					;
+					if (null == json || json.trim().equals("")) {
+						System.out.println(paperOptionEntity.getId() + "---出现问题,不能计算");
+					} else {
+						YunZhiBean yunZhiBean = JSONObject.parseObject(json, YunZhiBean.class);
+						score = yunZhiBean.getScore();
 					}
-					score = cScore > pScore ? cScore : qScore;
-					realScore = realScore1 > realScore2 ? realScore1 : realScore2;
+					realScore = score;
+					score = score * qScore / 100;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
