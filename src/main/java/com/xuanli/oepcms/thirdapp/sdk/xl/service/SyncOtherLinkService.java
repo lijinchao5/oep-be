@@ -16,6 +16,7 @@ import com.xuanli.oepcms.mapper.OtherLinkEntityMapper;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.OtherLinkBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncOtherLinkBean;
 import com.xuanli.oepcms.util.SyncUtil;
+import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
 /**
  * @author lijinchao
@@ -28,6 +29,8 @@ public class SyncOtherLinkService {
 	SystemConfig systemConfig;
 	@Autowired
 	OtherLinkEntityMapper otherLinkDao;
+	@Autowired
+	ThirdAliOSSUtil thirdAliOSSUtil;
 
 	@Transactional(readOnly = false)
 	public String SyncOtherLink() {
@@ -58,19 +61,27 @@ public class SyncOtherLinkService {
 					otherLinkEntity.setEnableFlag(otherLinkBean.getEnableFlag());
 					OtherLinkEntity syncOtherLinkEntity = otherLinkDao.selectById(otherLinkBean.getId());
 					if (null != syncOtherLinkEntity) {
+						if (!otherLinkBean.getPic1().equals(syncOtherLinkEntity.getPic1())) {
+							thirdAliOSSUtil.converterFile(otherLinkBean.getPic1());
+						}
+						if (!otherLinkBean.getPic2().equals(syncOtherLinkEntity.getPic2())) {
+							thirdAliOSSUtil.converterFile(otherLinkBean.getPic2());
+						}
+						if (!otherLinkBean.getPic3().equals(syncOtherLinkEntity.getPic3())) {
+							thirdAliOSSUtil.converterFile(otherLinkBean.getPic3());
+						}
 						otherLinkDao.updateOtherLinkEntity(syncOtherLinkEntity);
 					} else {
 						otherLinkDao.insertOtherLinkEntity(otherLinkEntity);
 					}
 				}
-				return "1";
 			} else {
 				System.out.println("syncOtherLinkBean是空的!");
 			}
+			return "1";
 		} else {
 			// 链接获取内容失败
 			return "0";
 		}
-		return null;
 	}
 }

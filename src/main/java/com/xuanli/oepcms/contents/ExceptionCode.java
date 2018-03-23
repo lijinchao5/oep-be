@@ -37,6 +37,8 @@ public class ExceptionCode {
 	public static final int UPDATE_BATCH_REMARK_ERROR = 1009;
 	/** 完善用户信息错误 */
 	public static final int PERFECT_USERINFO_ERROR = 1010;
+	/** 修改密码失败 **/
+	public static final int UPDATE_PASSWORD_ERROR = 1011;
 
 	/** 参数验证错误 */
 	public static final int PARAMETER_VALIDATE_ERROR_CODE = 7001;

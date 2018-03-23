@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.entity.SchoolEntity;
 import com.xuanli.oepcms.entity.UserClasEntity;
@@ -282,7 +283,7 @@ public class UserService extends BaseService {
 				userEntity.setRoleId(new Integer(4));
 				userEntity.setEnableFlag("T");
 				userEntity.setPassword(PasswordUtil.generate("888888"));
-				userEntity.setUserBatch(1);//是批量生成的账号
+				userEntity.setUserBatch(1);// 是批量生成的账号
 				userDao.insertUserEntity(userEntity);
 				UserClasEntity userClasEntity = new UserClasEntity();
 				userClasEntity.setClasId(clasId);
@@ -368,7 +369,7 @@ public class UserService extends BaseService {
 	 * @CreateName: QiaoYu
 	 * @CreateDate: 2018年2月9日 下午4:09:27
 	 */
-	public void pushMsgByClass(Long classId, Long homeworkId,String content, String type) {
+	public void pushMsgByClass(Long classId, Long homeworkId, String content, String type) {
 		logger.info("发送消息" + classId);
 	}
 
@@ -425,5 +426,45 @@ public class UserService extends BaseService {
 	 */
 	public void pushMsgByExam(Long examId, String content, String type) {
 		logger.info("发送消息" + examId);
+	}
+
+	/**
+	 * Title: forgetPwd 
+	 * Description:  
+	 * @date 2018年3月22日 下午3:47:00
+	 * @param mobile
+	 * @param randomStr
+	 * @param password
+	 * @param mobileRandomStr
+	 * @param randomKey
+	 * @param userId
+	 * @return
+	 */
+	public RestResult<String> forgetPwd(String mobile, String password, String mobileRandomStr, String randomKey) {
+		if (StringUtil.isEmpty(randomKey)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "随机验证码关键Key不能为空");
+		}
+		if (StringUtil.isEmpty(mobile)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "手机号不能为空");
+		}
+		if (StringUtil.isEmpty(password)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "密码不能为空");
+		}
+		if (StringUtil.isEmpty(mobileRandomStr)) {
+			return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "手机短信验证码不能为空");
+		}
+		logger.debug("对比手机短信验证码:" + mobileRandomStr + "===" + sessionUtil.getMobileMessageRandomNum(randomKey));
+		if (!mobileRandomStr.equalsIgnoreCase(sessionUtil.getMobileMessageRandomNum(randomKey))) {
+			return failed(ExceptionCode.MOBILE_MESSAGE_ERROR_CODE, "手机短信验证码错误.");
+		}
+		UserEntity userEntity = new UserEntity();
+		userEntity.setMobile(mobile);
+		userEntity.setPassword(PasswordUtil.generate(password));
+		int result = userDao.forgetPwd(userEntity);
+		if (result > 0) {
+			return okNoResult("修改密码成功");
+		} else {
+			return failed(ExceptionCode.UPDATE_PASSWORD_ERROR, "修改密码失败");
+		}
 	}
 }

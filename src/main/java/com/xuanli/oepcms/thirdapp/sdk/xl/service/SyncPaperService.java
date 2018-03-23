@@ -26,6 +26,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.PaperSubjectDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncPaperBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncPaperDetailBean;
 import com.xuanli.oepcms.util.SyncUtil;
+import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
 /**
  * @author lijinchao
@@ -44,6 +45,8 @@ public class SyncPaperService {
 	PaperSubjectDetailEntityMapper PaperSubjectDetailDao;
 	@Autowired
 	PaperOptionEntityMapper PaperOptionDao;
+	@Autowired
+	ThirdAliOSSUtil thirdAliOSSUtil;
 
 	@Transactional(readOnly = false)
 	public String syncPapers() {
@@ -78,10 +81,8 @@ public class SyncPaperService {
 					} else {
 						paperDao.insertPaperEntity(paperEntity);
 					}
-					String paperDetailJson = SyncUtil.sendPostUTF8(
-							systemConfig.PAPER_CONTENT + "?paperId=" + paperBean.getId().longValue(), null);
-					SyncPaperDetailBean syncPaperDetailBean = JSONObject.parseObject(paperDetailJson,
-							SyncPaperDetailBean.class);
+					String paperDetailJson = SyncUtil.sendPostUTF8(systemConfig.PAPER_CONTENT + "?paperId=" + paperBean.getId().longValue(), null);
+					SyncPaperDetailBean syncPaperDetailBean = JSONObject.parseObject(paperDetailJson, SyncPaperDetailBean.class);
 					if (null != syncPaperDetailBean && syncPaperDetailBean.getCode() == 0) {
 						for (PaperSubjectBean paperSubjectBean : syncPaperDetailBean.getResult().getSubjects()) {
 							PaperSubjectEntity paperSubject = new PaperSubjectEntity();
@@ -97,18 +98,18 @@ public class SyncPaperService {
 							paperSubject.setUpdateId(paperSubjectBean.getUpdateId());
 							paperSubject.setUpdateDate(paperSubjectBean.getUpdateDate());
 							paperSubject.setEnableFlag(paperSubjectBean.getEnableFlag());
-							PaperSubjectEntity SyncPaperSubjectEntity = PaperSubjectDao
-									.selectByCmsId(paperSubjectBean.getId());
+							PaperSubjectEntity SyncPaperSubjectEntity = PaperSubjectDao.selectByCmsId(paperSubjectBean.getId());
 							if (null != SyncPaperSubjectEntity) {
+								if (!paperSubjectBean.getAudio().equals(SyncPaperSubjectEntity.getAudio())) {
+									thirdAliOSSUtil.converterFile(paperSubjectBean.getAudio());
+								}
 								PaperSubjectDao.updateSyncPaperSubjectEntity(paperSubject);
 							} else {
 								PaperSubjectDao.insertPaperSubjectEntity(paperSubject);
 							}
-							for (PaperSubjectDetailBean subjectDetailBean : syncPaperDetailBean.getResult()
-									.getDetails()) {
+							for (PaperSubjectDetailBean subjectDetailBean : syncPaperDetailBean.getResult().getDetails()) {
 								if (null != subjectDetailBean.getSubjectId() && null != paperSubjectBean.getId()
-										&& subjectDetailBean.getSubjectId().longValue() == paperSubjectBean.getId()
-												.longValue()) {
+										&& subjectDetailBean.getSubjectId().longValue() == paperSubjectBean.getId().longValue()) {
 									PaperSubjectDetailEntity subjectDetail = new PaperSubjectDetailEntity();
 									subjectDetail.setCmsId(subjectDetailBean.getId());
 									subjectDetail.setSubjectId(paperSubject.getId());
@@ -128,17 +129,20 @@ public class SyncPaperService {
 									subjectDetail.setEnableFlag(subjectDetailBean.getEnableFlag());
 									subjectDetail.setQuestionNo(subjectDetailBean.getQuestionNo());
 									subjectDetail.setRepeatCount(subjectDetailBean.getRepeatCount());
-									PaperSubjectDetailEntity SyncPaperSubjectDetailEntity = PaperSubjectDetailDao
-											.selectByCmsId(subjectDetailBean.getId());
+									PaperSubjectDetailEntity SyncPaperSubjectDetailEntity = PaperSubjectDetailDao.selectByCmsId(subjectDetailBean.getId());
 									if (null != SyncPaperSubjectDetailEntity) {
+										if (!subjectDetailBean.getGuideAudio().equals(SyncPaperSubjectDetailEntity.getGuideAudio())) {
+											thirdAliOSSUtil.converterFile(subjectDetailBean.getGuideAudio());
+										}
+										if (!subjectDetailBean.getQuestionAudio().equals(SyncPaperSubjectDetailEntity.getQuestionAudio())) {
+											thirdAliOSSUtil.converterFile(subjectDetailBean.getQuestionAudio());
+										}
 										PaperSubjectDetailDao.updateSyncPaperSubjectDetailEntity(subjectDetail);
 									} else {
 										PaperSubjectDetailDao.insertPaperSubjectDetailEntity(subjectDetail);
 									}
-									for (PaperOptionBean paperOptionBean : syncPaperDetailBean.getResult()
-											.getOptions()) {
-										if (subjectDetailBean.getId().longValue() == paperOptionBean.getDetailId()
-												.longValue()) {
+									for (PaperOptionBean paperOptionBean : syncPaperDetailBean.getResult().getOptions()) {
+										if (subjectDetailBean.getId().longValue() == paperOptionBean.getDetailId().longValue()) {
 											PaperOptionEntity paperOption = new PaperOptionEntity();
 											paperOption.setCmsId(paperOptionBean.getId());
 											paperOption.setDetailId(subjectDetail.getId());
@@ -150,8 +154,7 @@ public class SyncPaperService {
 											paperOption.setUpdateId(paperOptionBean.getUpdateId());
 											paperOption.setUpdateDate(paperOptionBean.getUpdateDate());
 											paperOption.setEnableFlag(paperOptionBean.getEnableFlag());
-											PaperOptionEntity SyncPaperOption = PaperOptionDao
-													.selectByCmsId(paperOptionBean.getId());
+											PaperOptionEntity SyncPaperOption = PaperOptionDao.selectByCmsId(paperOptionBean.getId());
 											if (null != SyncPaperOption) {
 												PaperOptionDao.updateSyncPaperOptionEntity(paperOption);
 											} else {
@@ -164,12 +167,10 @@ public class SyncPaperService {
 						}
 					} else {
 						System.out.println("paperDetailBean是空的!");
-						return "3";
 					}
 				}
 			} else {
 				System.out.println("paperBean是空的!");
-				return "2";
 			}
 			return "1";
 		} else {

@@ -20,6 +20,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.QuestionSubjectBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.QuestionSubjectDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncQuestionSubjectDetailBean;
 import com.xuanli.oepcms.util.SyncUtil;
+import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
 /**
  * @author lijinchao
@@ -36,11 +37,12 @@ public class SyncQuestionService {
 	QuestionSubjectDetailEntityMapper QuestionSubjectDetailDao;
 	@Autowired
 	QuestionOptionEntityMapper QuestionOptionDao;
+	@Autowired
+	ThirdAliOSSUtil thirdAliOSSUtil;
 
 	public String SyncQusetions() {
 		String questionJson = SyncUtil.sendPostUTF8(systemConfig.QUESTION_CONTENT_URL, null);
-		SyncQuestionSubjectDetailBean syncQuestionSubjectDetailBean = JSONObject.parseObject(questionJson,
-				SyncQuestionSubjectDetailBean.class);
+		SyncQuestionSubjectDetailBean syncQuestionSubjectDetailBean = JSONObject.parseObject(questionJson, SyncQuestionSubjectDetailBean.class);
 		if (null != syncQuestionSubjectDetailBean && syncQuestionSubjectDetailBean.getCode() == 0) {
 			for (QuestionSubjectBean questionSubjectBean : syncQuestionSubjectDetailBean.getResult().getSubjects()) {
 				QuestionSubjectEntity questionSubjectEntity = new QuestionSubjectEntity();
@@ -61,15 +63,16 @@ public class SyncQuestionService {
 				questionSubjectEntity.setUpdateId(questionSubjectBean.getUpdateId());
 				QuestionSubjectEntity subjectEntity = QuestionSubjectDao.selectByCmsId(questionSubjectBean.getId());
 				if (null != subjectEntity) {
+					if (!questionSubjectBean.getAudio().equals(subjectEntity.getAudio())) {
+						thirdAliOSSUtil.converterFile(questionSubjectBean.getAudio());
+					}
 					QuestionSubjectDao.updateSyncQuestionSubjectEntity(questionSubjectEntity);
 				} else {
 					QuestionSubjectDao.insertQuestionSubjectEntity(questionSubjectEntity);
 				}
-				for (QuestionSubjectDetailBean questionSubjectDetailBean : syncQuestionSubjectDetailBean.getResult()
-						.getDetails()) {
+				for (QuestionSubjectDetailBean questionSubjectDetailBean : syncQuestionSubjectDetailBean.getResult().getDetails()) {
 					if (null != questionSubjectDetailBean.getSubjectId() && null != questionSubjectBean.getId()
-							&& questionSubjectDetailBean.getSubjectId().longValue() == questionSubjectBean.getId()
-									.longValue()) {
+							&& questionSubjectDetailBean.getSubjectId().longValue() == questionSubjectBean.getId().longValue()) {
 						QuestionSubjectDetailEntity questionSubjectDetailEntity = new QuestionSubjectDetailEntity();
 						questionSubjectDetailEntity.setCmsId(questionSubjectDetailBean.getId());
 						questionSubjectDetailEntity.setCreateDate(questionSubjectDetailBean.getCreateDate());
@@ -89,18 +92,15 @@ public class SyncQuestionService {
 						questionSubjectDetailEntity.setUpdateDate(questionSubjectDetailBean.getUpdateDate());
 						questionSubjectDetailEntity.setUpdateId(questionSubjectDetailBean.getUpdateId());
 						questionSubjectDetailEntity.setWriteTime(questionSubjectDetailBean.getWriteTime());
-						QuestionSubjectDetailEntity subjectDetailEntity = QuestionSubjectDetailDao
-								.selectByCmsId(questionSubjectDetailBean.getId());
+						QuestionSubjectDetailEntity subjectDetailEntity = QuestionSubjectDetailDao.selectByCmsId(questionSubjectDetailBean.getId());
 						if (null != subjectDetailEntity) {
 							QuestionSubjectDetailDao.updateSyncQuestionSubjectDetailEntity(questionSubjectDetailEntity);
 						} else {
 							QuestionSubjectDetailDao.insertQuestionSubjectDetailEntity(questionSubjectDetailEntity);
 						}
-						for (QuestionOptionBean questionOptionBean : syncQuestionSubjectDetailBean.getResult()
-								.getOptions()) {
+						for (QuestionOptionBean questionOptionBean : syncQuestionSubjectDetailBean.getResult().getOptions()) {
 							if (null != questionOptionBean.getDetailId() && null != questionSubjectDetailEntity.getId()
-									&& questionOptionBean.getDetailId().longValue() == questionSubjectDetailEntity
-											.getId().longValue()) {
+									&& questionOptionBean.getDetailId().longValue() == questionSubjectDetailEntity.getId().longValue()) {
 								QuestionOptionEntity questionOptionEntity = new QuestionOptionEntity();
 								questionOptionEntity.setCmsId(questionOptionBean.getId());
 								questionOptionEntity.setCorrectResult(questionOptionBean.getCorrectResult());
@@ -112,8 +112,7 @@ public class SyncQuestionService {
 								questionOptionEntity.setResult(questionOptionBean.getResult());
 								questionOptionEntity.setUpdateDate(questionOptionBean.getUpdateDate());
 								questionOptionEntity.setUpdateId(questionOptionBean.getUpdateId());
-								QuestionOptionEntity optionEntity = QuestionOptionDao
-										.selectCmsById(questionOptionBean.getId());
+								QuestionOptionEntity optionEntity = QuestionOptionDao.selectCmsById(questionOptionBean.getId());
 								if (null != optionEntity) {
 									QuestionOptionDao.updateSyncQuestionOptionEntity(questionOptionEntity);
 								} else {

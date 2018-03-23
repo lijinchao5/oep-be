@@ -537,6 +537,11 @@
 		limit #{start},#{end}
   </select>
   
-  
+  <update id="forgetPwd" parameterType="com.xuanli.oepcms.entity.UserEntity">
+	UPDATE xl_user
+	SET `password` = #{password}
+	WHERE
+		mobile = #{mobile}
+  </update>
   
 </mapper>

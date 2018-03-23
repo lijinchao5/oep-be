@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xuanli.oepcms.config.SystemConfig;
-import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.BookEntity;
 import com.xuanli.oepcms.entity.SectionDetail;
 import com.xuanli.oepcms.entity.SectionEntity;
@@ -28,6 +27,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncBookBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncBookDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.UnitBean;
 import com.xuanli.oepcms.util.SyncUtil;
+import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
 /**
  * @author lijinchao
@@ -46,6 +46,8 @@ public class SyncBookService extends BaseService {
 	SectionEntityMapper sectionEntityDao;
 	@Autowired
 	SectionDetailMapper sectionDetailDao;
+	@Autowired
+	ThirdAliOSSUtil thirdAliOSSUtil;
 
 	/**
 	 * Title: getBookBean Description:
@@ -79,10 +81,8 @@ public class SyncBookService extends BaseService {
 					} else {
 						bookDao.insertBookEntity(bookEntity);
 					}
-					String bookDetailJson = SyncUtil
-							.sendPostUTF8(systemConfig.BOOK_CONTENT + "?bookId=" + bookBean.getId().longValue(), null);
-					SyncBookDetailBean syncBookDetailBean = JSONObject.parseObject(bookDetailJson,
-							SyncBookDetailBean.class);
+					String bookDetailJson = SyncUtil.sendPostUTF8(systemConfig.BOOK_CONTENT + "?bookId=" + bookBean.getId().longValue(), null);
+					SyncBookDetailBean syncBookDetailBean = JSONObject.parseObject(bookDetailJson, SyncBookDetailBean.class);
 					if (null != syncBookDetailBean && syncBookDetailBean.getCode() == 0) {
 						// 更新unit内容
 						for (UnitBean unitBean : syncBookDetailBean.getResult().getUnits()) {
@@ -144,6 +144,15 @@ public class SyncBookService extends BaseService {
 							sectionDetail.setDialogNum(sectionDetailBean.getDialogNum());
 							SectionDetail syncSectionDetail = sectionDetailDao.selectById(sectionDetailBean.getId());
 							if (null != syncSectionDetail) {
+								if (!sectionDetailBean.getAudioPath().equals(syncSectionDetail.getAudioPath())) {
+									thirdAliOSSUtil.converterFile(sectionDetailBean.getAudioPath());
+								}
+								if (!sectionDetailBean.getmAudioPath().equals(syncSectionDetail.getmAudioPath())) {
+									thirdAliOSSUtil.converterFile(sectionDetailBean.getmAudioPath());
+								}
+								if (!sectionDetailBean.getwAudioPath().equals(syncSectionDetail.getwAudioPath())) {
+									thirdAliOSSUtil.converterFile(sectionDetailBean.getwAudioPath());
+								}
 								sectionDetailDao.updateSectionDetail(sectionDetail);
 							} else {
 								sectionDetailDao.insertSectionDetailEntity(sectionDetail);
@@ -153,12 +162,17 @@ public class SyncBookService extends BaseService {
 				}
 			} else {
 				// System.out.println("bookBean是空的!");
-				return "2";
 			}
 			return "1";
 		} else {
 			// 失败
 			return "0";
 		}
+	}
+
+	public static void main(String[] args) {
+		Integer i = null;
+		boolean equals = i.equals(null);
+		System.out.println(equals);
 	}
 }

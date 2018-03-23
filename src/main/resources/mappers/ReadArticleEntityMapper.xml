@@ -144,7 +144,7 @@
 		FROM
 			xl_read_article 
 		where
-			1=1
+			enable_flag = 'T'
 		<if test="level != null">
 			and level = #{level,jdbcType=VARCHAR}
 		</if>
@@ -175,7 +175,7 @@
 		LEFT JOIN xl_dic_detail dd1 ON dd1.dic_id = 16
 		AND dd1.name_val = xra.type
 		WHERE
-			1=1
+			xra.enable_flag = 'T'
 		<if test="level != null">
 			and xra.level = #{level,jdbcType=VARCHAR}
 		</if>

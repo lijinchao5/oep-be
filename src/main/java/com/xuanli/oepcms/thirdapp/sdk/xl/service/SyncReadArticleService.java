@@ -20,6 +20,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.ReadSentenceBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncReadArticleBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncReadSentenceBean;
 import com.xuanli.oepcms.util.SyncUtil;
+import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
 /**
  * @author lijinchao
@@ -34,6 +35,8 @@ public class SyncReadArticleService {
 	ReadArticleEntityMapper readArticleDao;
 	@Autowired
 	ReadSentenceEntityMapper readSentenceDao;
+	@Autowired
+	ThirdAliOSSUtil thirdAliOSSUtil;
 
 	@Transactional(readOnly = false)
 	public String syncReadArticle() {
@@ -57,6 +60,9 @@ public class SyncReadArticleService {
 					readArticleEntity.setEnableFlag(readArticleBean.getEnableFlag());
 					ReadArticleEntity resultArticleEntity = readArticleDao.selectById(readArticleBean.getId());
 					if (null != resultArticleEntity) {
+						if (null != readArticleBean.getPicturePath() && !readArticleBean.getPicturePath().equals(resultArticleEntity.getPicturePath())) {
+							thirdAliOSSUtil.converterFile(readArticleBean.getPicturePath());
+						}
 						readArticleDao.updateReadArticleEntity(readArticleEntity);
 					} else {
 						readArticleDao.insertReadArticleEntity(readArticleEntity);
@@ -83,6 +89,12 @@ public class SyncReadArticleService {
 							readSentenceEntity.setWordNum(readSentenceBean.getWordNum());
 							ReadSentenceEntity resultSentenceEntity = readSentenceDao.selectById(readSentenceBean.getId());
 							if (null != resultSentenceEntity) {
+								if (null != readSentenceBean.getPicturePath() && !readSentenceBean.getPicturePath().equals(resultSentenceEntity.getPicturePath())) {
+									thirdAliOSSUtil.converterFile(readSentenceBean.getPicturePath());
+								}
+								if (null != readSentenceBean.getAudioPath() && !readSentenceBean.getAudioPath().equals(resultSentenceEntity.getAudioPath())) {
+									thirdAliOSSUtil.converterFile(readSentenceBean.getAudioPath());
+								}
 								readSentenceDao.updateReadSentenceEntity(readSentenceEntity);
 							} else {
 								readSentenceDao.insertReadSentenceEntity(readSentenceEntity);
@@ -94,7 +106,6 @@ public class SyncReadArticleService {
 				}
 			} else {
 				System.out.println("readArticleBean是空的");
-				return "2";
 			}
 			return "1";
 		} else {
