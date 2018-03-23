@@ -35,7 +35,7 @@ public class FileController extends BaseController {
 	@RequestMapping(value = "download.do", method = RequestMethod.GET)
 	public void download(String type, String id) {
 		if (null == id || id.trim().equals("")) {
-		}else{
+		} else {
 			String filename = UUID.randomUUID().toString().replace("-", "");
 			if (type.equals("mp3")) {
 				filename = filename + ".mp3";
@@ -58,35 +58,30 @@ public class FileController extends BaseController {
 				} catch (IOException e) {
 					e.printStackTrace();
 					logger.error("下载文件出现错误!");
-				}finally {
+				} finally {
 					try {
-						if (null!=outputStream) {
+						if (null != outputStream) {
 							outputStream.close();
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-			}else {
+			} else {
 				logger.info("文件id不能为空!");
 			}
 		}
-		
-		
+
 	}
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "uploadAudio.do", method = RequestMethod.POST)
 	public RestResult<String> uploadAudio(@RequestParam("file") MultipartFile file) {
-		
+
 		try {
-			if (null!=file && !file.isEmpty()) {
+			if (null != file && !file.isEmpty()) {
 				String uuid = thirdAliOSSUtil.uploadFile(file.getInputStream(), "studentaudio", "mp3");
 				return ok(uuid);
-			}else {
+			} else {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "文件不能为空");
 			}
 		} catch (Exception e) {
@@ -95,5 +90,4 @@ public class FileController extends BaseController {
 		}
 	}
 
-	
 }
