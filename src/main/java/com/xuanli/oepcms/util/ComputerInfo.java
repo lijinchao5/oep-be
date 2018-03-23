@@ -115,7 +115,22 @@ public class ComputerInfo {
         if (os.startsWith("Windows")) {
         	return InetAddress.getLocalHost().getHostAddress().toString();
         } else if (os.startsWith("Linux")) {
-        	String command1[]  = {"/sbin/ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1'"};
+//        	Process process = null;  
+//            List<String> processList = new ArrayList<String>();  
+//            try {  
+//                process = Runtime.getRuntime().exec("ps -aux");  
+//                BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));  
+//                String line = "";  
+//                while ((line = input.readLine()) != null) {  
+//                    processList.add(line);  
+//                }  
+//                input.close();  
+//            } catch (IOException e) {  
+//                e.printStackTrace();  
+//            }  
+        	
+        	
+        	String command1  = "/sbin/ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1'";
         	// 执行命令
             final Process process = Runtime.getRuntime().exec(command1);
             String ip="";
