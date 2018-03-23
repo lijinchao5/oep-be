@@ -61,6 +61,7 @@ public class SessionFilter implements Filter {
 		// String[] notFilter = new String[] { };
 
 		List<String> notFilter = new ArrayList<String>();
+		notFilter.add("index.do");
 		notFilter.add("login.do");
 		notFilter.add("logout.do");
 		notFilter.add("teacher_regist.do");
