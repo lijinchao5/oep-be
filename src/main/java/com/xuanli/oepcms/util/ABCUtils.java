@@ -99,21 +99,8 @@ public class ABCUtils {
 	
 	public static String m(){
 		try{
-			InetAddress localHost= InetAddress.getLocalHost();
-			byte[] df = NetworkInterface.getByInetAddress(localHost).getHardwareAddress();
 			StringBuffer sb = new StringBuffer("");
-			for(int i=0; i<df.length; i++) {
-				if(i!=0) {
-					sb.append("-");
-				}
-				int temp = df[i]&0xff;
-				String str = Integer.toHexString(temp);
-				if(str.length()==1) {
-					sb.append("0"+str);
-				}else {
-					sb.append(str);
-				}
-			}
+			sb.append(ComputerInfo.getMacAddress());
 			String d="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3XYYFw2CfTL1K+CnKhalVz4WwqlW32zmhnn7/L7mK0eCgjpnpn5NtsjDJfKpJ+4VAkJ9WmNW0yACLEWM6VnbIist55YHGNyy3a4LRJPgNXZiryGIpQKUjC2T7CMUz1K9kUFQXPrO1NOY/GoC2zxVWh4D+Uh1jJxOJh0FSU0oCTQIDAQAB";
 			KeyFactory kf = KeyFactory.getInstance(new String(new BASE64Decoder().decodeBuffer("UlNB")));
 			PublicKey publicKey = kf.generatePublic(new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(d)));
