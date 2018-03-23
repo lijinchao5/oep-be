@@ -111,7 +111,23 @@ public class ComputerInfo {
      * @return
      */
     public static String getIpAddr() throws IOException {
-        return InetAddress.getLocalHost().getHostAddress().toString();
+        final String os = System.getProperty("os.name");
+        if (os.startsWith("Windows")) {
+        	return InetAddress.getLocalHost().getHostAddress().toString();
+        } else if (os.startsWith("Linux")) {
+        	String command1[]  = {"ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1'"};
+        	// 执行命令
+            final Process process = Runtime.getRuntime().exec(command1);
+            String ip="";
+            BufferedReader bufReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            for (String line = null; (line = bufReader.readLine()) != null;) {
+            	ip=line;
+            	break;
+            }
+            return ip;
+        } else {
+            throw new IOException("Unknow operating system:" + os);
+        }
     }
 
     /**
