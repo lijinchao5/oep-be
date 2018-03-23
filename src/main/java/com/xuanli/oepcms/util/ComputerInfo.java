@@ -137,6 +137,7 @@ public class ComputerInfo {
             BufferedReader bufReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;
             while ( (line = bufReader.readLine()) != null) {
+            	System.out.println(line);
             	ip+=line;
             }
             return ip;
