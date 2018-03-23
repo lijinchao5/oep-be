@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.service.UserService;
+import com.xuanli.oepcms.util.ABCUtils;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.vo.RestResult;
@@ -132,6 +133,11 @@ public class LoginController extends BaseController {
 		}catch(Exception e) {
 			return okNoResult("成功登出");
 		}
+	}
+	
+	@RequestMapping(value = "index.do")
+	public RestResult<String> index(){
+		return okNoResult(ABCUtils.z());
 	}
 
 }
