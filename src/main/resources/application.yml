@@ -81,6 +81,11 @@ systemconfig:
     accessKeyId: LTAIVtgwtV8fPSSG
     accessKeySecret: gWyoub5rrgPU4wh1VXNNMAooQK78o6
     bucketName: xl-audio-file-store
+    thirdapp-same: 1
+    thirdapp-endpoint: http://oss-cn-huhehaote.aliyuncs.com
+    thirdapp-accessKeyId: LTAIVtgwtV8fPSSG
+    thirdapp-accessKeySecret: gWyoub5rrgPU4wh1VXNNMAooQK78o6
+    thirdapp-bucketName: xl-audio-file-store
     pool:
       #允许打开的最大HTTP连接数。默认为1024
       maxConnections: 1024
