@@ -49,7 +49,7 @@ public class ThirdAliOSSPool implements EnvironmentAware {
 	public String SAME = "";
 	@PostConstruct
 	public void initMethod() {
-		BUCKET_NAME = propertyResolver.getProperty("third-bucketName");
+		BUCKET_NAME = propertyResolver.getProperty("thirdapp-bucketName");
 		SAME = propertyResolver.getProperty("thirdapp-same");
 		String endpoint = propertyResolver.getProperty("thirdapp-endpoint");
 		String accessKeyId = propertyResolver.getProperty("thirdapp-accessKeyId");

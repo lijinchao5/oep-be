@@ -30,25 +30,28 @@ public class ThirdAliOSSUtil {
 	AliOSSPool aliOSSPool;
 	@Autowired
 	ThirdAliOSSPool thirdAliOSSPool;
+
 	/**
 	 * 上传文件
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月2日 上午10:01:09
+	 * 
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月2日 上午10:01:09
 	 */
 	public String uploadFile(InputStream is, String path, String suffix) {
 		String uuid = path + "_" + UUID.randomUUID().toString().replace("-", "") + "." + suffix;
 		OSSClient ossClient = aliOSSPool.ossClient;
 		ossClient.putObject(new PutObjectRequest(aliOSSPool.BUCKET_NAME, uuid, is));
-		logger.debug("阿里oss文件服务上传成功"+uuid);
+		logger.debug("阿里oss文件服务上传成功" + uuid);
 		return uuid;
 	}
-	
+
 	/**
 	 * 下载文件
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月2日 上午10:01:14
+	 * 
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月2日 上午10:01:14
 	 */
 	public InputStream downloadFile(String osId) {
 		OSSClient ossClient = thirdAliOSSPool.ossClient;
@@ -58,7 +61,7 @@ public class ThirdAliOSSUtil {
 			OSSObject object = ossClient.getObject(thirdAliOSSPool.BUCKET_NAME, osId);
 			InputStream is = object.getObjectContent();
 			try {
-				logger.info("文件OSID:[" + osId + "]文件Content-Type:" + object.getObjectMetadata().getContentType()+"文件大小为:"+is.available());
+				logger.info("文件OSID:[" + osId + "]文件Content-Type:" + object.getObjectMetadata().getContentType() + "文件大小为:" + is.available());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -68,42 +71,48 @@ public class ThirdAliOSSUtil {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 转换文件
-	 * @Description:  TODO
-	 * @CreateName:  QiaoYu 
-	 * @CreateDate:  2018年2月2日 上午10:01:09
+	 * 
+	 * @Description: TODO
+	 * @CreateName: QiaoYu
+	 * @CreateDate: 2018年2月2日 上午10:01:09
 	 */
 	public void converterFile(String source) {
-		if (thirdAliOSSPool.SAME.equals("1")) {
-			logger.error("文件OSID:[" + source + "]在同一个oss服务,不需要重新上传!");
-		}else {
-			logger.info("文件OSID:[" + source + "]从玄历科技oss同步到第三方的oss");
-			OSSClient ossClient = aliOSSPool.ossClient;
-			boolean exists = ossClient.doesObjectExist(aliOSSPool.BUCKET_NAME, source);
-			InputStream is = null;
-			if (exists) {
-				try {
-					OSSObject object = ossClient.getObject(aliOSSPool.BUCKET_NAME, source);
-					is = object.getObjectContent();
-					OSSClient thirdClient = thirdAliOSSPool.ossClient;
-					thirdClient.putObject(new PutObjectRequest(thirdAliOSSPool.BUCKET_NAME, source, is));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}finally {
-					if (null!=is) {
-						try {
-							is.close();
-						} catch (IOException e) {
-							e.printStackTrace();
+		if (StringUtil.isEmpty(source)) {
+			logger.error("文件OSID是空的,不需要上传!");
+		} else {
+			if (thirdAliOSSPool.SAME.equals("1")) {
+				logger.error("文件OSID:[" + source + "]在同一个oss服务,不需要重新上传!");
+			} else {
+				logger.info("文件OSID:[" + source + "]从玄历科技oss同步到第三方的oss");
+				OSSClient ossClient = aliOSSPool.ossClient;
+				boolean exists = ossClient.doesObjectExist(aliOSSPool.BUCKET_NAME, source);
+				InputStream is = null;
+				if (exists) {
+					try {
+						OSSObject object = ossClient.getObject(aliOSSPool.BUCKET_NAME, source);
+						is = object.getObjectContent();
+						OSSClient thirdClient = thirdAliOSSPool.ossClient;
+						thirdClient.putObject(new PutObjectRequest(thirdAliOSSPool.BUCKET_NAME, source, is));
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						if (null != is) {
+							try {
+								is.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						}
 					}
+				} else {
+					logger.error("文件OSID:[" + source + "]文件不存在");
 				}
-			} else {
-				logger.error("文件OSID:[" + source + "]文件不存在");
 			}
 		}
+
 	}
 
 }

@@ -32,7 +32,6 @@ public class SyncOtherLinkService {
 	OtherLinkEntityMapper otherLinkDao;
 	@Autowired
 	ThirdAliOSSUtil thirdAliOSSUtil;
-
 	@Transactional(readOnly = false)
 	public String SyncOtherLink() {
 		String otherLinkJson = SyncUtil.sendPostUTF8(systemConfig.OTHER_LINK_URL, null);
@@ -74,6 +73,9 @@ public class SyncOtherLinkService {
 
 						otherLinkDao.updateOtherLinkEntity(syncOtherLinkEntity);
 					} else {
+						thirdAliOSSUtil.converterFile(otherLinkBean.getPic1());
+						thirdAliOSSUtil.converterFile(otherLinkBean.getPic2());
+						thirdAliOSSUtil.converterFile(otherLinkBean.getPic3());
 						otherLinkDao.insertOtherLinkEntity(otherLinkEntity);
 					}
 				}

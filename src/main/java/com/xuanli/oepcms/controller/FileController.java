@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xuanli.oepcms.contents.ExceptionCode;
-import com.xuanli.oepcms.util.AliOSSUtil;
 import com.xuanli.oepcms.util.StringUtil;
+import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 /**
@@ -30,7 +30,7 @@ import com.xuanli.oepcms.vo.RestResult;
 @RequestMapping(value = "/file/")
 public class FileController extends BaseController {
 	@Autowired
-	AliOSSUtil aliOSSUtil;
+	ThirdAliOSSUtil thirdAliOSSUtil;
 
 	@RequestMapping(value = "download.do", method = RequestMethod.GET)
 	public void download(String type, String id) {
@@ -45,7 +45,7 @@ public class FileController extends BaseController {
 				response.setContentType("image/jpeg");
 			}
 			if (StringUtil.isNotNullUnDefined(id)) {
-				InputStream inputStream = aliOSSUtil.downloadFile(id);
+				InputStream inputStream = thirdAliOSSUtil.downloadFile(id);
 				OutputStream outputStream = null;
 				try {
 					outputStream = response.getOutputStream();
@@ -84,7 +84,7 @@ public class FileController extends BaseController {
 		
 		try {
 			if (null!=file && !file.isEmpty()) {
-				String uuid = aliOSSUtil.uploadFile(file.getInputStream(), "studentaudio", "mp3");
+				String uuid = thirdAliOSSUtil.uploadFile(file.getInputStream(), "studentaudio", "mp3");
 				return ok(uuid);
 			}else {
 				return failed(ExceptionCode.PARAMETER_VALIDATE_ERROR_CODE, "文件不能为空");
