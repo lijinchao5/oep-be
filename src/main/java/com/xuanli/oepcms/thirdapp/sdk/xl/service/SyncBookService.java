@@ -156,6 +156,9 @@ public class SyncBookService extends BaseService {
 								}
 								sectionDetailDao.updateSectionDetail(sectionDetail);
 							} else {
+								thirdAliOSSUtil.converterFile(sectionDetailBean.getAudioPath());
+								thirdAliOSSUtil.converterFile(sectionDetailBean.getmAudioPath());
+								thirdAliOSSUtil.converterFile(sectionDetailBean.getwAudioPath());
 								sectionDetailDao.insertSectionDetailEntity(sectionDetail);
 							}
 						}

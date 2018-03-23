@@ -66,6 +66,7 @@ public class SyncReadArticleService {
 						}
 						readArticleDao.updateReadArticleEntity(readArticleEntity);
 					} else {
+						thirdAliOSSUtil.converterFile(readArticleBean.getPicturePath());
 						readArticleDao.insertReadArticleEntity(readArticleEntity);
 					}
 					String ReadSentenceJson = SyncUtil.sendPostUTF8(systemConfig.SENTENCE_CONTENT_URL + "?readId=" + readArticleBean.getId().longValue(), null);
@@ -98,6 +99,8 @@ public class SyncReadArticleService {
 								}
 								readSentenceDao.updateReadSentenceEntity(readSentenceEntity);
 							} else {
+								thirdAliOSSUtil.converterFile(readSentenceBean.getPicturePath());
+								thirdAliOSSUtil.converterFile(readSentenceBean.getAudioPath());
 								readSentenceDao.insertReadSentenceEntity(readSentenceEntity);
 							}
 						}
