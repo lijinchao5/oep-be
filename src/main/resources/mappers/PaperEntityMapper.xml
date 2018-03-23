@@ -21,11 +21,12 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
     <result column="cms_id" jdbcType="BIGINT" property="cmsId" />
+    <result column="paper_province" jdbcType="VARCHAR" property="paperProvince" />
   </resultMap>
   <sql id="Base_Column_List">
     id, paper_num, name, notice, total_score, total_time, study_section_id, grade_level_id, 
     address_province, term, paper_type, exam_type, question_type, create_id, create_date, update_id, 
-    update_date, enable_flag,cms_id
+    update_date, enable_flag,cms_id,paper_province
   </sql>
   <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -98,6 +99,9 @@
       <if test="cmsId != null">
         cms_id,
       </if>
+      <if test="paperProvince != null">
+        paper_province,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -156,6 +160,9 @@
       </if>
       <if test="cmsId != null">
         #{cmsId,jdbcType=BIGINT},
+      </if>
+      <if test="paperProvince != null">
+        #{paperProvince,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -216,6 +223,9 @@
       <if test="cmsId != null">
         cms_id = #{cmsId,jdbcType=BIGINT},
       </if>
+      <if test="paperProvince != null">
+        paper_province = #{paperProvince,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -273,6 +283,9 @@
       <if test="enableFlag != null">
         enable_flag = #{enableFlag,jdbcType=VARCHAR},
       </if>
+      <if test="paperProvince != null">
+        paper_province = #{paperProvince,jdbcType=VARCHAR},
+      </if>
     </set>
     where cms_id = #{cmsId,jdbcType=BIGINT}
   </update>
@@ -320,12 +333,15 @@
       <if test="questionType != null">
         and question_type = #{questionType,jdbcType=INTEGER}
       </if>
+      <if test="paperProvince != null">
+        and paper_province = #{paperProvince,jdbcType=VARCHAR},
+      </if>
   </select>
   <select id="findPaperByPage" parameterType="map" resultType="map">
     select 
     	 id, paper_num paperNum, name, notice, total_score totalScore, total_time totalTime, study_section_id, grade_level_id, 
 	    address_province, term, paper_type, exam_type, question_type questionType, create_id, create_date, update_id, 
-	    update_date, enable_flag
+	    update_date, enable_flag, paper_province
     from
     	 (
 		SELECT
@@ -377,6 +393,9 @@
       </if>
       <if test="questionType != null">
         and question_type = #{questionType,jdbcType=INTEGER}
+      </if>
+      <if test="paperProvince != null">
+        and paper_province LIKE #{paperProvince,jdbcType=VARCHAR},
       </if>
       <if test="ob!=null">
       	order by ${ob}

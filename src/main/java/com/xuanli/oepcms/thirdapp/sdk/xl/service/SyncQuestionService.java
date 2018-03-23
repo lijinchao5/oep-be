@@ -19,6 +19,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.QuestionOptionBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.QuestionSubjectBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.QuestionSubjectDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncQuestionSubjectDetailBean;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.util.SyncUtil;
 import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
@@ -63,7 +64,7 @@ public class SyncQuestionService {
 				questionSubjectEntity.setUpdateId(questionSubjectBean.getUpdateId());
 				QuestionSubjectEntity subjectEntity = QuestionSubjectDao.selectByCmsId(questionSubjectBean.getId());
 				if (null != subjectEntity) {
-					if (!questionSubjectBean.getAudio().equals(subjectEntity.getAudio())) {
+					if (StringUtil.compareStr(questionSubjectBean.getAudio(), subjectEntity.getAudio())) {
 						thirdAliOSSUtil.converterFile(questionSubjectBean.getAudio());
 					}
 					QuestionSubjectDao.updateSyncQuestionSubjectEntity(questionSubjectEntity);

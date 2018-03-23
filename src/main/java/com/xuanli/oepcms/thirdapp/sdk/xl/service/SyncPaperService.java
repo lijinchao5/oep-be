@@ -25,6 +25,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.PaperSubjectBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.PaperSubjectDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncPaperBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncPaperDetailBean;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.util.SyncUtil;
 import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
@@ -100,7 +101,7 @@ public class SyncPaperService {
 							paperSubject.setEnableFlag(paperSubjectBean.getEnableFlag());
 							PaperSubjectEntity SyncPaperSubjectEntity = PaperSubjectDao.selectByCmsId(paperSubjectBean.getId());
 							if (null != SyncPaperSubjectEntity) {
-								if (!paperSubjectBean.getAudio().equals(SyncPaperSubjectEntity.getAudio())) {
+								if (StringUtil.compareStr(paperSubjectBean.getAudio(), SyncPaperSubjectEntity.getAudio())) {
 									thirdAliOSSUtil.converterFile(paperSubjectBean.getAudio());
 								}
 								PaperSubjectDao.updateSyncPaperSubjectEntity(paperSubject);
@@ -131,10 +132,10 @@ public class SyncPaperService {
 									subjectDetail.setRepeatCount(subjectDetailBean.getRepeatCount());
 									PaperSubjectDetailEntity SyncPaperSubjectDetailEntity = PaperSubjectDetailDao.selectByCmsId(subjectDetailBean.getId());
 									if (null != SyncPaperSubjectDetailEntity) {
-										if (!subjectDetailBean.getGuideAudio().equals(SyncPaperSubjectDetailEntity.getGuideAudio())) {
+										if (StringUtil.compareStr(subjectDetailBean.getGuideAudio(), SyncPaperSubjectDetailEntity.getGuideAudio())) {
 											thirdAliOSSUtil.converterFile(subjectDetailBean.getGuideAudio());
 										}
-										if (!subjectDetailBean.getQuestionAudio().equals(SyncPaperSubjectDetailEntity.getQuestionAudio())) {
+										if (StringUtil.compareStr(subjectDetailBean.getQuestionAudio(), SyncPaperSubjectDetailEntity.getQuestionAudio())) {
 											thirdAliOSSUtil.converterFile(subjectDetailBean.getQuestionAudio());
 										}
 										PaperSubjectDetailDao.updateSyncPaperSubjectDetailEntity(subjectDetail);

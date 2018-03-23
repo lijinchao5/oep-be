@@ -148,10 +148,10 @@ public class SyncBookService extends BaseService {
 								if (StringUtil.compareStr(sectionDetailBean.getAudioPath(), syncSectionDetail.getAudioPath())) {
 									thirdAliOSSUtil.converterFile(sectionDetailBean.getAudioPath());
 								}
-								if (!sectionDetailBean.getmAudioPath().equals(syncSectionDetail.getmAudioPath())) {
+								if (StringUtil.compareStr(sectionDetailBean.getmAudioPath(), syncSectionDetail.getmAudioPath())) {
 									thirdAliOSSUtil.converterFile(sectionDetailBean.getmAudioPath());
 								}
-								if (!sectionDetailBean.getwAudioPath().equals(syncSectionDetail.getwAudioPath())) {
+								if (StringUtil.compareStr(sectionDetailBean.getwAudioPath(), syncSectionDetail.getwAudioPath())) {
 									thirdAliOSSUtil.converterFile(sectionDetailBean.getwAudioPath());
 								}
 								sectionDetailDao.updateSectionDetail(sectionDetail);

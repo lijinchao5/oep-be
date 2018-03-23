@@ -15,6 +15,7 @@ import com.xuanli.oepcms.entity.OtherLinkEntity;
 import com.xuanli.oepcms.mapper.OtherLinkEntityMapper;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.OtherLinkBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncOtherLinkBean;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.util.SyncUtil;
 import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
@@ -61,15 +62,16 @@ public class SyncOtherLinkService {
 					otherLinkEntity.setEnableFlag(otherLinkBean.getEnableFlag());
 					OtherLinkEntity syncOtherLinkEntity = otherLinkDao.selectById(otherLinkBean.getId());
 					if (null != syncOtherLinkEntity) {
-						if (!otherLinkBean.getPic1().equals(syncOtherLinkEntity.getPic1())) {
+						if (StringUtil.compareStr(otherLinkBean.getPic1(), syncOtherLinkEntity.getPic1())) {
 							thirdAliOSSUtil.converterFile(otherLinkBean.getPic1());
 						}
-						if (!otherLinkBean.getPic2().equals(syncOtherLinkEntity.getPic2())) {
+						if (StringUtil.compareStr(otherLinkBean.getPic2(), syncOtherLinkEntity.getPic2())) {
 							thirdAliOSSUtil.converterFile(otherLinkBean.getPic2());
 						}
-						if (!otherLinkBean.getPic3().equals(syncOtherLinkEntity.getPic3())) {
+						if (StringUtil.compareStr(otherLinkBean.getPic3(), syncOtherLinkEntity.getPic3())) {
 							thirdAliOSSUtil.converterFile(otherLinkBean.getPic3());
 						}
+
 						otherLinkDao.updateOtherLinkEntity(syncOtherLinkEntity);
 					} else {
 						otherLinkDao.insertOtherLinkEntity(otherLinkEntity);
