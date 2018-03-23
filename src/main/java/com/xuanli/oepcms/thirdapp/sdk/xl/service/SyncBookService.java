@@ -154,11 +154,15 @@ public class SyncBookService extends BaseService {
 								if (StringUtil.compareStr(sectionDetailBean.getwAudioPath(), syncSectionDetail.getwAudioPath())) {
 									thirdAliOSSUtil.converterFile(sectionDetailBean.getwAudioPath());
 								}
+								if (StringUtil.compareStr(sectionDetailBean.getPicturePath(), syncSectionDetail.getPicturePath())) {
+									thirdAliOSSUtil.converterFile(sectionDetailBean.getPicturePath());
+								}
 								sectionDetailDao.updateSectionDetail(sectionDetail);
 							} else {
 								thirdAliOSSUtil.converterFile(sectionDetailBean.getAudioPath());
 								thirdAliOSSUtil.converterFile(sectionDetailBean.getmAudioPath());
 								thirdAliOSSUtil.converterFile(sectionDetailBean.getwAudioPath());
+								thirdAliOSSUtil.converterFile(sectionDetailBean.getPicturePath());
 								sectionDetailDao.insertSectionDetailEntity(sectionDetail);
 							}
 						}
