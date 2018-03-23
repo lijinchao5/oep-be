@@ -108,6 +108,7 @@
 		xl_area
 	WHERE
 		level_type = 1
+	order by code
   </select>
   
 </mapper>
