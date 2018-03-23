@@ -358,7 +358,7 @@
 	) a
     where 
     	enable_flag = 'T' 
-    <if test="paperNum != null">
+      <if test="paperNum != null">
         and paper_num = #{paperNum,jdbcType=VARCHAR}
       </if>
       <if test="name != null">
@@ -394,8 +394,8 @@
       <if test="questionType != null">
         and question_type = #{questionType,jdbcType=INTEGER}
       </if>
-      <if test="paperProvince != null">
-        and paper_province LIKE #{paperProvince,jdbcType=VARCHAR},
+      <if test="addressArea != null">
+        and paper_province LIKE CONCAT(CONCAT('%',#{addressArea}),'%')
       </if>
       <if test="ob!=null">
       	order by ${ob}
