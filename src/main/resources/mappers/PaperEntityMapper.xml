@@ -333,8 +333,8 @@
       <if test="questionType != null">
         and question_type = #{questionType,jdbcType=INTEGER}
       </if>
-      <if test="paperProvince != null">
-        and paper_province = #{paperProvince,jdbcType=VARCHAR},
+      <if test="addressArea != null">
+        and paper_province LIKE CONCAT(CONCAT('%',#{addressArea}),'%')
       </if>
   </select>
   <select id="findPaperByPage" parameterType="map" resultType="map">
