@@ -143,6 +143,7 @@ public class ComputerInfo {
         System.out.println(ComputerInfo.getComputerName());
         System.out.println(ComputerInfo.getIpAddr());
         System.out.println(ComputerInfo.getIpAddrAndName());
+        System.out.println(ComputerInfo.getComputerID());
     }
 
 }
