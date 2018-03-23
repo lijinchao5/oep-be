@@ -103,7 +103,7 @@
   <select id="findDicByType9" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.DicEntity" >
     SELECT
 		texts name,
-		code name_value
+		code name_val
 	FROM
 		xl_area
 	WHERE
