@@ -101,22 +101,16 @@ public class ABCUtils {
 		try{
 			StringBuffer sb = new StringBuffer("");
 			sb.append(ComputerInfo.getMacAddress());
-			System.out.println(InetAddress.getLocalHost().getHostAddress()+new String(new BASE64Decoder().decodeBuffer("IyNAQCMj"))+sb);
 			String d="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3XYYFw2CfTL1K+CnKhalVz4WwqlW32zmhnn7/L7mK0eCgjpnpn5NtsjDJfKpJ+4VAkJ9WmNW0yACLEWM6VnbIist55YHGNyy3a4LRJPgNXZiryGIpQKUjC2T7CMUz1K9kUFQXPrO1NOY/GoC2zxVWh4D+Uh1jJxOJh0FSU0oCTQIDAQAB";
 			KeyFactory kf = KeyFactory.getInstance(new String(new BASE64Decoder().decodeBuffer("UlNB")));
 			PublicKey publicKey = kf.generatePublic(new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(d)));
 			Cipher cipher = Cipher.getInstance(new String(new BASE64Decoder().decodeBuffer("UlNB")));
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			return new BASE64Encoder().encode(cipher.doFinal((InetAddress.getLocalHost().getHostAddress()+new String(new BASE64Decoder().decodeBuffer("IyNAQCMj"))+sb).getBytes())).replaceAll("\n", "").replaceAll("\r", "");
+			return new BASE64Encoder().encode(cipher.doFinal((InetAddress.getLocalHost().getHostAddress()+new String(new BASE64Decoder().decodeBuffer("IyNAQCMj"))+sb).getBytes())).replaceAll("\\n", "").replaceAll("\\r", "");
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
-	}
-	
-	public static void main(String[] args) {
-		String m = m();
-		System.out.println(m);
 	}
 	
 	public static boolean j(String str) {
