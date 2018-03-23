@@ -107,6 +107,7 @@ public class SyncPaperService {
 								}
 								PaperSubjectDao.updateSyncPaperSubjectEntity(paperSubject);
 							} else {
+								thirdAliOSSUtil.converterFile(paperSubjectBean.getAudio());
 								PaperSubjectDao.insertPaperSubjectEntity(paperSubject);
 							}
 							for (PaperSubjectDetailBean subjectDetailBean : syncPaperDetailBean.getResult().getDetails()) {
@@ -141,6 +142,8 @@ public class SyncPaperService {
 										}
 										PaperSubjectDetailDao.updateSyncPaperSubjectDetailEntity(subjectDetail);
 									} else {
+										thirdAliOSSUtil.converterFile(subjectDetailBean.getGuideAudio());
+										thirdAliOSSUtil.converterFile(subjectDetailBean.getQuestionAudio());
 										PaperSubjectDetailDao.insertPaperSubjectDetailEntity(subjectDetail);
 									}
 									for (PaperOptionBean paperOptionBean : syncPaperDetailBean.getResult().getOptions()) {

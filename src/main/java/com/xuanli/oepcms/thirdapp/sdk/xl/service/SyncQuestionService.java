@@ -69,6 +69,7 @@ public class SyncQuestionService {
 					}
 					QuestionSubjectDao.updateSyncQuestionSubjectEntity(questionSubjectEntity);
 				} else {
+					thirdAliOSSUtil.converterFile(questionSubjectBean.getAudio());
 					QuestionSubjectDao.insertQuestionSubjectEntity(questionSubjectEntity);
 				}
 				for (QuestionSubjectDetailBean questionSubjectDetailBean : syncQuestionSubjectDetailBean.getResult().getDetails()) {
