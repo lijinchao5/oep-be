@@ -135,9 +135,9 @@ public class ComputerInfo {
             final Process process = Runtime.getRuntime().exec(command1);
             String ip="";
             BufferedReader bufReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            for (String line = null; (line = bufReader.readLine()) != null;) {
-            	ip=line;
-            	break;
+            String line = null;
+            while ( (line = bufReader.readLine()) != null) {
+            	ip+=line;
             }
             return ip;
         } else {
