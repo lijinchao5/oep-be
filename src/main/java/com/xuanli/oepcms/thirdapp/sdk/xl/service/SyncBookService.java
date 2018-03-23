@@ -26,6 +26,7 @@ import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SectionDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncBookBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.SyncBookDetailBean;
 import com.xuanli.oepcms.thirdapp.sdk.xl.bean.UnitBean;
+import com.xuanli.oepcms.util.StringUtil;
 import com.xuanli.oepcms.util.SyncUtil;
 import com.xuanli.oepcms.util.ThirdAliOSSUtil;
 
@@ -144,7 +145,7 @@ public class SyncBookService extends BaseService {
 							sectionDetail.setDialogNum(sectionDetailBean.getDialogNum());
 							SectionDetail syncSectionDetail = sectionDetailDao.selectById(sectionDetailBean.getId());
 							if (null != syncSectionDetail) {
-								if (!sectionDetailBean.getAudioPath().equals(syncSectionDetail.getAudioPath())) {
+								if (StringUtil.compareStr(sectionDetailBean.getAudioPath(), syncSectionDetail.getAudioPath())) {
 									thirdAliOSSUtil.converterFile(sectionDetailBean.getAudioPath());
 								}
 								if (!sectionDetailBean.getmAudioPath().equals(syncSectionDetail.getmAudioPath())) {
@@ -168,11 +169,5 @@ public class SyncBookService extends BaseService {
 			// 失败
 			return "0";
 		}
-	}
-
-	public static void main(String[] args) {
-		Integer i = null;
-		boolean equals = i.equals(null);
-		System.out.println(equals);
 	}
 }

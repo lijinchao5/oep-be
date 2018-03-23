@@ -1,7 +1,5 @@
 package com.xuanli.oepcms.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -88,6 +86,18 @@ public class StringUtil {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public static boolean compareStr(String source,String target) {
+		if (isEmpty(source) || isEmpty(target)) {
+			return true;
+		}else {
+			if (source.equals(target)) {
+				return false;
+			}else {
+				return true;
+			}
 		}
 	}
 }
