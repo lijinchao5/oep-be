@@ -15,5 +15,7 @@ public interface DicDetailEntityMapper {
 	 * @CreateDate:  2018年1月30日 上午9:48:49
 	 */
 	public List<DicDetailEntity> findDicByType(DicEntity dicEntity);
+
+	public List<DicDetailEntity> findDicByType9(DicEntity dicEntity);
 	
 }

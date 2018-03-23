@@ -32,6 +32,11 @@ public class DicService {
 	public List<DicDetailEntity> findDicByType(String type) {
 		DicEntity dicEntity = new DicEntity();
 		dicEntity.setType(type);
+		
+		if (type.endsWith("9")) {
+			return dicDetailEntityMapper.findDicByType9(dicEntity);
+		}
+		
 		return dicDetailEntityMapper.findDicByType(dicEntity);
 	}
 	

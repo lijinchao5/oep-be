@@ -100,5 +100,15 @@
 	WHERE
 		d.type = #{type,jdbcType=VARCHAR}
   </select>
+  <select id="findDicByType9" resultMap="BaseResultMap" parameterType="com.xuanli.oepcms.entity.DicEntity" >
+    SELECT
+		texts name,
+		code name_val
+	FROM
+		xl_area
+	WHERE
+		level_type = 1
+	order by code
+  </select>
   
 </mapper>
