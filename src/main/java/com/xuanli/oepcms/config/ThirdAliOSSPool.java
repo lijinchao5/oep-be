@@ -51,9 +51,9 @@ public class ThirdAliOSSPool implements EnvironmentAware {
 	public void initMethod() {
 		BUCKET_NAME = propertyResolver.getProperty("third-bucketName");
 		SAME = propertyResolver.getProperty("thirdapp-same");
-		String endpoint = propertyResolver.getProperty("third-endpoint");
-		String accessKeyId = propertyResolver.getProperty("third-accessKeyId");
-		String accessKeySecret = propertyResolver.getProperty("third-accessKeySecret");
+		String endpoint = propertyResolver.getProperty("thirdapp-endpoint");
+		String accessKeyId = propertyResolver.getProperty("thirdapp-accessKeyId");
+		String accessKeySecret = propertyResolver.getProperty("thirdapp-accessKeySecret");
 		CredentialsProvider credsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 		ClientConfiguration config = new ClientConfiguration();
 		config.setMaxConnections(propertyResolver.getProperty("pool.maxConnections", Integer.class));
