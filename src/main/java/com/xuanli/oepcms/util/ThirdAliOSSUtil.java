@@ -40,8 +40,8 @@ public class ThirdAliOSSUtil {
 	 */
 	public String uploadFile(InputStream is, String path, String suffix) {
 		String uuid = path + "_" + UUID.randomUUID().toString().replace("-", "") + "." + suffix;
-		OSSClient ossClient = aliOSSPool.ossClient;
-		ossClient.putObject(new PutObjectRequest(aliOSSPool.BUCKET_NAME, uuid, is));
+		OSSClient ossClient = thirdAliOSSPool.ossClient;
+		ossClient.putObject(new PutObjectRequest(thirdAliOSSPool.BUCKET_NAME, uuid, is));
 		logger.debug("阿里oss文件服务上传成功" + uuid);
 		return uuid;
 	}
