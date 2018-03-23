@@ -13,51 +13,53 @@ import com.xuanli.oepcms.entity.PaperSubjectEntity;
  * @date 2018年3月5日 下午12:38:27
  */
 public class PaperBeans {
-    private Long id;
+	private Long id;
 
-    private String paperNum;
+	private String paperNum;
 
-    private String name;
+	private String name;
 
-    private String notice;
+	private String notice;
 
-    private Double totalScore;
+	private Double totalScore;
 
-    private Integer totalTime;
+	private Integer totalTime;
 
-    private Integer gradeLevelId;
+	private Integer gradeLevelId;
 
-    private Integer addressProvince;
+	private Integer addressProvince;
 
-    private Integer term;
+	private Integer term;
 
-    private Integer paperType;
+	private Integer paperType;
 
-    private Integer questionType;
+	private Integer questionType;
 
-    private Long createId;
+	private Long createId;
 
-    private Date createDate;
+	private Date createDate;
 
-    private Long updateId;
+	private Long updateId;
 
-    private Date updateDate;
+	private Date updateDate;
 
-    private String enableFlag;
-    
-    private Integer addressCity;
-    
-    private Integer addressArea;
+	private String enableFlag;
 
-    private String addressProvinceName;
-    
-    private String paperTypeName;
-    
-    private String questionTypeName;
-    
-    private String gradeName;
-    
-    private List<PaperSubjectEntity> list;
+	private Integer addressCity;
+
+	private Integer addressArea;
+
+	private String addressProvinceName;
+
+	private String paperTypeName;
+
+	private String questionTypeName;
+
+	private String gradeName;
+
+	private String paperProvince;
+
+	private List<PaperSubjectEntity> list;
 
 	public Long getId() {
 		return id;
@@ -65,6 +67,14 @@ public class PaperBeans {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getPaperProvince() {
+		return paperProvince;
+	}
+
+	public void setPaperProvince(String paperProvince) {
+		this.paperProvince = paperProvince;
 	}
 
 	public String getPaperNum() {

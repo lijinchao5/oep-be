@@ -76,6 +76,7 @@ public class SyncPaperService {
 					paperEntity.setEnableFlag(paperBean.getEnableFlag());
 					paperEntity.setAddressCity(paperBean.getAddressCity());
 					paperEntity.setAddressArea(paperBean.getAddressArea());
+					paperEntity.setPaperProvince(paperBean.getPaperProvince());
 					PaperEntity resultPaperEntity = paperDao.selectByCmsId(paperBean.getId());
 					if (null != resultPaperEntity) {
 						paperDao.updateSyncPaperEntity(paperEntity);
