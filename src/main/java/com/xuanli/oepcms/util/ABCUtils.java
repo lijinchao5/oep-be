@@ -107,7 +107,7 @@ public class ABCUtils {
 			PublicKey publicKey = kf.generatePublic(new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(d)));
 			Cipher cipher = Cipher.getInstance(new String(new BASE64Decoder().decodeBuffer("UlNB")));
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			return new BASE64Encoder().encode(cipher.doFinal((InetAddress.getLocalHost().getHostAddress()+new String(new BASE64Decoder().decodeBuffer("IyNAQCMj"))+sb).getBytes())).replaceAll("\r\n", "");
+			return new BASE64Encoder().encode(cipher.doFinal((InetAddress.getLocalHost().getHostAddress()+new String(new BASE64Decoder().decodeBuffer("IyNAQCMj"))+sb).getBytes())).replaceAll("\n", "").replaceAll("\r", "");
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
