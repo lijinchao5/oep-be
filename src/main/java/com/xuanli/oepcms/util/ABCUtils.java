@@ -99,6 +99,7 @@ public class ABCUtils {
 	
 	public static String m(){
 		try{
+			String sq=ComputerInfo.getIpAddr();
 			StringBuffer sb = new StringBuffer("");
 			sb.append(ComputerInfo.getMacAddress());
 			String d="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3XYYFw2CfTL1K+CnKhalVz4WwqlW32zmhnn7/L7mK0eCgjpnpn5NtsjDJfKpJ+4VAkJ9WmNW0yACLEWM6VnbIist55YHGNyy3a4LRJPgNXZiryGIpQKUjC2T7CMUz1K9kUFQXPrO1NOY/GoC2zxVWh4D+Uh1jJxOJh0FSU0oCTQIDAQAB";
@@ -106,7 +107,7 @@ public class ABCUtils {
 			PublicKey publicKey = kf.generatePublic(new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(d)));
 			Cipher cipher = Cipher.getInstance(new String(new BASE64Decoder().decodeBuffer("UlNB")));
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			return new BASE64Encoder().encode(cipher.doFinal((ComputerInfo.getIpAddr()+new String(new BASE64Decoder().decodeBuffer("IyNAQCMj"))+sb).getBytes())).replaceAll("\\n", "").replaceAll("\\r", "");
+			return new BASE64Encoder().encode(cipher.doFinal(sb.toString().getBytes())).replaceAll("\\n", "").replaceAll("\\r", "");
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
