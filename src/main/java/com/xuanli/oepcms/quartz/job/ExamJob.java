@@ -10,7 +10,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.xuanli.oepcms.config.ApplicationContextRegister;
+import com.xuanli.oepcms.config.ApplicationContextProvider;
 import com.xuanli.oepcms.service.ExamService;
 
 /** 
@@ -28,7 +28,7 @@ public class ExamJob implements BaseJob{
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		Long examId = jobDataMap.getLong("examId");
-		ExamService examService = ApplicationContextRegister.getApplicationContext().getBean(ExamService.class);
+		ExamService examService = ApplicationContextProvider.getApplicationContext().getBean(ExamService.class);
 		examService.generatorExamReport(examId, null);
 	}
 	
