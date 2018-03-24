@@ -13,6 +13,6 @@ public class MainJob implements BaseJob{
 	}
 
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		logger.info("主要的定时任务!");
+		logger.trace("主要的定时任务!");
 	}
 }
