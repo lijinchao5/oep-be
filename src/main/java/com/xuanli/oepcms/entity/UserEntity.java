@@ -53,6 +53,16 @@ public class UserEntity extends BasePageBean{
     
     private Integer userUsed;
     
+	private Date enddate;
+
+	public Date getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
+
 	public String getSchoolid() {
 		return schoolid;
 	}

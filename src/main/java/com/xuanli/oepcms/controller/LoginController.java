@@ -68,6 +68,9 @@ public class LoginController extends BaseController {
 					} else if (result.equals("3")) {
 						// 用户名//或者密码错误
 						return failed(ExceptionCode.USERINFO_NOUSE_ERROR, "用户被禁用,请联系管理员.");
+					} else if (result.equals("4")) {
+						// 用户使用到期
+						return failed(ExceptionCode.USERINFO_NOUSE_ERROR, "已超出使用期限,请联系管理员.");
 					} else {
 						return ok(result);
 					}

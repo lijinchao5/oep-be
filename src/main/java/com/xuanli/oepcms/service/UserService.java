@@ -27,6 +27,7 @@ import com.xuanli.oepcms.util.PasswordUtil;
 import com.xuanli.oepcms.util.RanNumUtil;
 import com.xuanli.oepcms.util.SessionUtil;
 import com.xuanli.oepcms.util.StringUtil;
+import com.xuanli.oepcms.util.UsableUtil;
 import com.xuanli.oepcms.vo.RestResult;
 
 @Service
@@ -43,6 +44,8 @@ public class UserService extends BaseService {
 	SessionUtil sessionUtil;
 	@Autowired
 	FileUtil fileUtil;
+	@Autowired
+	UsableUtil usableUtil;
 
 	/**
 	 * @Description: TODO
@@ -57,8 +60,23 @@ public class UserService extends BaseService {
 			UserEntity result = userEntities.get(0);
 			if (result.getEnableFlag().equalsIgnoreCase("T")) {
 				if (PasswordUtil.verify(password, result.getPassword())) {
-
-
+					String roleId = result.getRoleId() + "";
+					System.out.println("roleId:" + roleId);
+					if (roleId.equals("5") || roleId.equals("6") || roleId.equals("7")) {
+						if (!usableUtil.getEndDateByAreaId(result.getAreaid())) {
+							return "4";
+						}
+					}
+					if (roleId.equals("3") || roleId.equals("8")) {
+						if (!usableUtil.getEndDateBySchoolId(result.getId())) {
+							return "4";
+						}
+					}
+					if (roleId.equals("4")) {
+						if (!usableUtil.getEndDateByUserId(result.getId())) {
+							return "4";
+						}
+					}
 					UserEntity up = new UserEntity();
 					up.setUpdateDate(new Date());
 					up.setId(result.getId());

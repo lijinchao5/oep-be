@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.xuanli.oepcms.entity.SchoolEntity;
+import com.xuanli.oepcms.entity.UserSchoolEntity;
 @Mapper
 public interface SchoolEntityMapper {
     /**
@@ -55,5 +56,12 @@ public interface SchoolEntityMapper {
 	 */
 	SchoolEntity getUserSchoolInfo(Long id);
 
-	SchoolEntity getEndDateBySchoolId(Long userId);
+	/**
+	 * Title: getEndDateBySchoolId 
+	 * Description:  
+	 * @date 2018年3月26日 下午3:31:04
+	 * @param userId
+	 * @return
+	 */
+	List<UserSchoolEntity> getEndDateBySchoolId(Long userId);
 }

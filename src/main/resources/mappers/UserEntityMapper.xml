@@ -553,5 +553,14 @@
 	WHERE
 		mobile = #{mobile}
   </update>
-  
+  <select id="getEndDateByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	SELECT
+		enddate
+	FROM
+		xl_user xu
+	LEFT JOIN xl_user_clas xuc ON xu.id = xuc.user_id
+	LEFT JOIN xl_clas xc ON xc.id = xuc.clas_id
+	LEFT JOIN xl_school xs ON xs.id = xc.school_id
+	WHERE xu.id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>

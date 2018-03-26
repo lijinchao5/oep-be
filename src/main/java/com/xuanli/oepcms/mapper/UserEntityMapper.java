@@ -147,4 +147,13 @@ public interface UserEntityMapper {
 	 * @param userId  
 	 */
 	int forgetPwd(UserEntity userEntity);
+
+	/**
+	 * Title: getEndDateByUserId 
+	 * Description:  
+	 * @date 2018年3月26日 下午12:33:53
+	 * @param userId
+	 * @return
+	 */
+	UserEntity getEndDateByUserId(Long userId);
 }
