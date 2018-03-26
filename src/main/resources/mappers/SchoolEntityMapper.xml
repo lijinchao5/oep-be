@@ -223,4 +223,15 @@
 	<delete id="deleteUserSchool" parameterType="com.xuanli.oepcms.entity.SchoolEntity">
 		delete from xl_user_school where user_id = #{createId}
 	</delete>
+  
+  <select id="getEndDateBySchoolId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	SELECT
+		id, school_id, name, address_province, address_city, address_area, create_id, create_date, 
+    update_id, update_date, enable_flag
+	FROM
+		xl_school xs
+	LEFT JOIN xl_user_school xus ON xus.school_id = xs.id
+	WHERE
+		xus.user_id = #{userId}
+  </select>
 </mapper>

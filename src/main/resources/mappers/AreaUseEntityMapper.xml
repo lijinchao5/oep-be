@@ -76,4 +76,10 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="getEndDateByAreaId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT 
+  		id, startdate, enddate, updateid, updatedate
+  	FROM xl_area_use WHERE id = #{id}
+  </select>
 </mapper>

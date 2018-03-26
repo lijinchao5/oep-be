@@ -38,4 +38,5 @@ public interface AreaUseEntityMapper {
      */
     int updateAreaUseEntity(AreaUseEntity record);
 
+	AreaUseEntity getEndDateByAreaId(String areaId);
 }

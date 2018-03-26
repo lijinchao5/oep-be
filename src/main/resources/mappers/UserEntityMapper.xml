@@ -21,11 +21,12 @@
     <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
     <result column="cms_id" property="cmsId" jdbcType="VARCHAR" />
+    <result column="schoolid" property="schoolid" jdbcType="VARCHAR" />
     <result column="areaid" property="areaid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, mobile, password, sex, birth_date, study_section_id, grade__level_id, book_version_id, 
-    role_id, name_num, remark, photo,create_id, create_date, update_id, update_date, enable_flag,cms_id,areaid
+    role_id, name_num, remark, photo,create_id, create_date, update_id, update_date, enable_flag,cms_id,schoolid,areaid
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -118,6 +119,9 @@
       <if test="cmsId != null" >
         cms_id,
       </if>
+      <if test="schoolid != null" >
+        schoolid,
+      </if>
       <if test="areaid != null" >
         areaid,
       </if>
@@ -183,6 +187,9 @@
       <if test="cmsId != null" >
         #{cmsId,jdbcType=VARCHAR},
       </if>
+      <if test="schoolid != null" >
+        #{schoolid,jdbcType=VARCHAR},
+      </if>
       <if test="areaid != null" >
         #{areaid,jdbcType=VARCHAR},
       </if>
@@ -247,6 +254,9 @@
       </if>
       <if test="cmsId != null" >
         cms_id = #{cmsId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null" >
+        schoolid = #{schoolid,jdbcType=VARCHAR},
       </if>
       <if test="areaid != null" >
         areaid = #{areaid,jdbcType=VARCHAR},

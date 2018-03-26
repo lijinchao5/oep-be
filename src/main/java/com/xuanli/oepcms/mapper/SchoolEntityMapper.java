@@ -54,4 +54,6 @@ public interface SchoolEntityMapper {
 	 * @CreateDate:  2018年2月8日 下午3:36:38
 	 */
 	SchoolEntity getUserSchoolInfo(Long id);
+
+	SchoolEntity getEndDateBySchoolId(Long userId);
 }

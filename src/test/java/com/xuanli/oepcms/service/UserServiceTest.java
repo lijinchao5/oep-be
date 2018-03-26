@@ -1,26 +1,9 @@
 package com.xuanli.oepcms.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.apache.commons.beanutils.converters.CalendarConverter;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xuanli.oepcms.BaseTest;
-import com.xuanli.oepcms.entity.User;
-import com.xuanli.oepcms.entity.UserEntity;
-import com.xuanli.oepcms.util.PasswordUtil;
 
 public class UserServiceTest extends BaseTest {
     @Autowired

@@ -57,6 +57,8 @@ public class UserService extends BaseService {
 			UserEntity result = userEntities.get(0);
 			if (result.getEnableFlag().equalsIgnoreCase("T")) {
 				if (PasswordUtil.verify(password, result.getPassword())) {
+
+
 					UserEntity up = new UserEntity();
 					up.setUpdateDate(new Date());
 					up.setId(result.getId());
