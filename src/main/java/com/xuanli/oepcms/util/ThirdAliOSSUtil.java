@@ -14,7 +14,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.xuanli.oepcms.config.AliOSSPool;
@@ -39,11 +41,27 @@ public class ThirdAliOSSUtil {
 	 * @CreateDate: 2018年2月2日 上午10:01:09
 	 */
 	public String uploadFile(InputStream is, String path, String suffix) {
-		String uuid = path + "_" + UUID.randomUUID().toString().replace("-", "") + "." + suffix;
-		OSSClient ossClient = thirdAliOSSPool.ossClient;
-		ossClient.putObject(new PutObjectRequest(thirdAliOSSPool.BUCKET_NAME, uuid, is));
-		logger.debug("阿里oss文件服务上传成功" + uuid);
-		return uuid;
+		try {
+			String uuid = path + "_" + UUID.randomUUID().toString().replace("-", "") + "." + suffix;
+			OSSClient ossClient = thirdAliOSSPool.ossClient;
+			ossClient.putObject(new PutObjectRequest(thirdAliOSSPool.BUCKET_NAME, uuid, is));
+			logger.debug("阿里oss文件服务上传成功" + uuid);
+			return uuid;
+		} catch (OSSException e) {
+			e.printStackTrace();
+			return "";
+		} catch (ClientException e) {
+			e.printStackTrace();
+			return "";
+		} finally {
+			if (null!=is) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**

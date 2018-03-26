@@ -45,10 +45,11 @@ public class FileController extends BaseController {
 				response.setContentType("image/jpeg");
 			}
 			if (StringUtil.isNotNullUnDefined(id)) {
-				InputStream inputStream = thirdAliOSSUtil.downloadFile(id);
+				InputStream inputStream = null;
 				OutputStream outputStream = null;
 				try {
 					outputStream = response.getOutputStream();
+					inputStream = thirdAliOSSUtil.downloadFile(id);
 					int read = 0;
 					byte[] bytes = new byte[1024];
 					while ((read = inputStream.read(bytes)) != -1) {
@@ -62,6 +63,9 @@ public class FileController extends BaseController {
 					try {
 						if (null != outputStream) {
 							outputStream.close();
+						}
+						if (null != inputStream) {
+							inputStream.close();
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
