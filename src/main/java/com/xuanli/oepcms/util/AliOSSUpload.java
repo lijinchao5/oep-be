@@ -11,10 +11,10 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectRequest;
 
 public class AliOSSUpload {
-	private static String endpoint = "http://oss-cn-huhehaote.aliyuncs.com";
-	private static String accessKeyId = "LTAIVtgwtV8fPSSG";
-	private static String accessKeySecret = "gWyoub5rrgPU4wh1VXNNMAooQK78o6";
-	private static String bucketName = "xl-audio-file-store";
+	private static String endpoint = "http://oss-cn-beijing.aliyuncs.com";
+	private static String accessKeyId = "LTAINbwOMw6UaaK3";
+	private static String accessKeySecret = "CxOkyQD24n8d0kOzg3MYcQlopBUeDY";
+	private static String bucketName = "xl-oss-pro1";
 
 	public static void main(String[] args) {
 		List<String> list=new ArrayList<String>();
@@ -31,13 +31,14 @@ public class AliOSSUpload {
 		list.add("tip_fdfc77f12df04e08a46e404cb02a89ee.mp3");
 		list.add("tip_e79aa3a6-3d35-4bce-b4d9-622872b04fcd.mp3");
 		list.add("tip_8797c58a-2a33-469d-84ca-34159bde5f66.mp3");
+		list.add("unit3lookatme!_mainscene_f42a259b62604342adab0f4fb09588f2.mp3");
 		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 		try {
 			for (String string : list) {
 				File file = new File("C:\\workspace\\workspace10\\xl\\oep-be\\src\\main\\webapp\\map3\\"+string);
 				ossClient.putObject(new PutObjectRequest(bucketName, string, file));
 				boolean exists = ossClient.doesObjectExist(bucketName, string);
-				System.out.println(string);
+				System.out.println(string+" "+exists);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
