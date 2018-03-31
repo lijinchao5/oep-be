@@ -607,4 +607,15 @@ public class ExamService extends BaseService {
 			return "0";
 		}
 	}
+
+	/**
+	 * Title: getExamStudent 
+	 * Description:  
+	 * @date 2018年3月30日 下午5:13:34
+	 * @param examId
+	 * @return
+	 */
+	public String getExamStudent(Long examId) {
+		return examEntityMapper.getExamStudent(examId);
+	}
 }

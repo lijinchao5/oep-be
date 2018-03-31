@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xuanli.oepcms.activemq.Service.StudentMqService;
+import com.xuanli.oepcms.activemq.bean.ActivemqMsgBean;
 import com.xuanli.oepcms.contents.ExceptionCode;
 import com.xuanli.oepcms.entity.ClasEntity;
 import com.xuanli.oepcms.entity.SchoolEntity;
@@ -46,6 +48,12 @@ public class UserService extends BaseService {
 	FileUtil fileUtil;
 	@Autowired
 	UsableUtil usableUtil;
+	@Autowired
+	HomeworkService homeworkService;
+	@Autowired
+	ExamService examService;
+	@Autowired
+	StudentMqService studentMqService;
 
 	/**
 	 * @Description: TODO
@@ -390,7 +398,13 @@ public class UserService extends BaseService {
 	 * @CreateDate: 2018年2月9日 下午4:09:27
 	 */
 	public void pushMsgByClass(Long classId, Long homeworkId, String content, String type) {
-		logger.info("发送消息" + classId);
+		String studentId = homeworkService.getHomeworkStudent(homeworkId);
+		ActivemqMsgBean activemqMsgBean = new ActivemqMsgBean();
+		activemqMsgBean.setId("1");
+		activemqMsgBean.setType("1");
+		activemqMsgBean.setUsers(studentId);
+		activemqMsgBean.setMsg("老师开始催收作业了,请同学们尽快完成提交作业!");
+		studentMqService.sendMsg(activemqMsgBean);
 	}
 
 	/**
@@ -445,7 +459,13 @@ public class UserService extends BaseService {
 	 * @CreateDate:  2018年3月17日 上午11:42:21
 	 */
 	public void pushMsgByExam(Long examId, String content, String type) {
-		logger.info("发送消息" + examId);
+		String studentId = examService.getExamStudent(examId);
+		ActivemqMsgBean activemqMsgBean = new ActivemqMsgBean();
+		activemqMsgBean.setId("1");
+		activemqMsgBean.setType("2");
+		activemqMsgBean.setUsers(studentId);
+		activemqMsgBean.setMsg("老师开始催收模拟考试了,请同学们尽快完成模拟考试并提交!");
+		studentMqService.sendMsg(activemqMsgBean);
 	}
 
 	/**

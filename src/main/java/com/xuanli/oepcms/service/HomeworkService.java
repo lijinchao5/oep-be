@@ -682,4 +682,15 @@ public class HomeworkService extends BaseService {
 
 		return okNoResult("");
 	}
+
+	/**
+	 * Title: getHomeworkStudent 
+	 * Description:  
+	 * @date 2018年3月30日 下午5:14:13
+	 * @param homeworkId
+	 * @return
+	 */
+	public String getHomeworkStudent(Long homeworkId) {
+		return homeworkDao.getHomeworkStudent(homeworkId);
+	}
 }

@@ -53,4 +53,13 @@ public interface HomeworkEntityMapper {
 	 * @return
 	 */
 	int getTimeOutCount(Long homeworkId);
+
+	/**
+	 * Title: getHomeworkStudent 
+	 * Description:  
+	 * @date 2018年3月30日 下午5:12:30
+	 * @param homeworkId
+	 * @return
+	 */
+	String getHomeworkStudent(Long homeworkId);
 }
