@@ -27,7 +27,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 		registry.addHandler(systemWebSocketHandler(), "/studentWebSocket.do").addInterceptors(new SocketHandshakeInterceptor()).setAllowedOrigins("*");
 		registry.addHandler(systemWebSocketHandler(), "/studentWebSocket/js.do").addInterceptors(new SocketHandshakeInterceptor()).setAllowedOrigins("*").withSockJS();
 	}
-
 	@Bean
 	public WebSocketHandler systemWebSocketHandler() {
 		return new StudentWebSocketHandler();
