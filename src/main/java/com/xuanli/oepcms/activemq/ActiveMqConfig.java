@@ -26,6 +26,7 @@ public class ActiveMqConfig {
 		factory.setConnectionFactory(connectionFactory);
 		factory.setPubSubDomain(true);
 		logger.info("初始化Activemq的订阅模式.........");
+		
 		return factory;
 	}
 }
