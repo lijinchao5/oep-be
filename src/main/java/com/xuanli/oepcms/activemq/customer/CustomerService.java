@@ -34,10 +34,9 @@ public class CustomerService {
 			ActivemqMsgBean activemqMsgBean = JSONObject.parseObject(text, ActivemqMsgBean.class);
 			logger.info("客户端接收到topic为[student.jydenglish.topic]内容为:" + text);
 			if (StringUtil.isEmpty(activemqMsgBean.getType()) || activemqMsgBean.getType().equals("1")) {
-				logger.info("作业考试推送");
 				studentWebSocketHandler.sendMessageToUsers(activemqMsgBean.getUsers(), activemqMsgBean.getMsg());
 			} else {
-				logger.info("模拟考试推送");
+				studentWebSocketHandler.sendMessageToUsers(activemqMsgBean.getUsers(), activemqMsgBean.getMsg());
 			}
 			message.acknowledge();
 		} catch (JMSException e) {
