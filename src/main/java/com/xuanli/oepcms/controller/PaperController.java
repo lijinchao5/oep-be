@@ -48,6 +48,7 @@ public class PaperController extends BaseController {
 		Map<String, Object> requestMap = new HashMap<String, Object>();
 		Map<String, String[]> requestMap1 = request.getParameterMap();
 		requestMap = requestParamToMap(requestMap1);
+		requestMap.put("createId", getCurrentUser().getId());
 		// requestMap.put("gradeLevelId", gradeLevelId);
 		// requestMap.put("term", term);
 		// requestMap.put("addressArea", addressArea);
