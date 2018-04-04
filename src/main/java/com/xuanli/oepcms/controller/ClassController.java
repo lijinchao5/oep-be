@@ -136,16 +136,18 @@ public class ClassController extends BaseController {
 	@ApiOperation(value = "修改班级名称", notes = "修改班级名称")
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "Long"),
-		@ApiImplicitParam(name = "className", value = "班级名称", required = true, dataType = "String")
+		@ApiImplicitParam(name = "className", value = "班级名称", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "gradeId", value = "年级Id", required = false, dataType = "String")
 	})
 	@RequestMapping(value = "updateClassName.do", method = RequestMethod.POST)
-	public RestResult<String> updateClassName(@RequestParam(required=true) Long classId,@RequestParam(required=true) String className) {
+	public RestResult<String> updateClassName(@RequestParam(required=true) Long classId,@RequestParam(required=true) String className,String gradeId) {
 		try {
 			ClasEntity clasEntity = new ClasEntity();
 			clasEntity.setUpdateDate(new Date());
 			clasEntity.setUpdateId(getCurrentUser().getId().toString());
 			clasEntity.setName(className);
 			clasEntity.setId(classId);
+			clasEntity.setGrade(gradeId);
 			clasService.updateClasEntity(clasEntity);
 			return okNoResult("操作成功");
 		} catch (Exception e) {
