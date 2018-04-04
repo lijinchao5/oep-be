@@ -232,7 +232,7 @@
 				FROM
 					xl_exam_student es
 				WHERE
-					complate IN ('T', 'S')
+					complate IN ('T', 'S','E')
 				AND es.exam_id = e.id
 			) complateStudent,
 			CASE

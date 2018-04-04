@@ -198,6 +198,14 @@
 		) totalHomework,
 		(
 			SELECT
+				count(h.id)
+			FROM
+				xl_exam h
+			WHERE
+				h.class_id = c.id and h.type = 1
+		) totalVExam,
+		(
+			SELECT
 				count(u.id)
 			FROM
 				xl_user u
