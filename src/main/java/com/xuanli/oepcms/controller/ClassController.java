@@ -6,6 +6,8 @@
  */
 package com.xuanli.oepcms.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -128,6 +130,27 @@ public class ClassController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("更换班级失败.", e);
+			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
+		}
+	}
+	@ApiOperation(value = "修改班级名称", notes = "修改班级名称")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "classId", value = "班级id", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "className", value = "班级名称", required = true, dataType = "String")
+	})
+	@RequestMapping(value = "updateClassName.do", method = RequestMethod.POST)
+	public RestResult<String> updateClassName(@RequestParam(required=true) Long classId,@RequestParam(required=true) String className) {
+		try {
+			ClasEntity clasEntity = new ClasEntity();
+			clasEntity.setUpdateDate(new Date());
+			clasEntity.setUpdateId(getCurrentUser().getId().toString());
+			clasEntity.setName(className);
+			clasEntity.setId(classId);
+			clasService.updateClasEntity(clasEntity);
+			return okNoResult("操作成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("修改班级名称出现异常", e);
 			return failed(ExceptionCode.UNKNOW_CODE, e.getMessage());
 		}
 	}

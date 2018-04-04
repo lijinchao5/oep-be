@@ -96,4 +96,11 @@ public class ClasService {
 	public ClasEntity selectByClassId(String clasId) {
 		return clasDao.selectByClassId(clasId);
 	}
+	/**
+	 * @CreateName:  QiaoYu[www.codelion.cn]
+	 * @CreateDate:  2018年4月4日 上午11:02:00
+	 */
+	public void updateClasEntity(ClasEntity clasEntity) {
+		clasDao.updateById(clasEntity);
+	}
 }
