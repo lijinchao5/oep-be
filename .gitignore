@@ -22,3 +22,9 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### jrebel ###
+./src/rebel.xml
+rebel.xml
+
+
