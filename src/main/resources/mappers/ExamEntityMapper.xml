@@ -394,7 +394,7 @@
 		id = #{value}
 		AND end_time > now()
 	</select>
-		<select id="getExamStudent" parameterType="java.lang.Long" resultType="java.lang.String">
+	<select id="getExamStudent" parameterType="java.lang.Long" resultType="java.lang.String">
 		SELECT
 			GROUP_CONCAT(student_id) studentId
 		FROM
@@ -403,5 +403,34 @@
 			exam_id = #{value}
 		GROUP BY
 			exam_id
+	</select>
+	<select id="getExamDetail" parameterType="java.lang.Long" resultMap="BaseResultMap">
+	  SELECT
+		id,NAME,notice,start_time,end_time,class_id,STATUS,type,point_score,create_id,
+		create_date,update_id,update_date,enable_flag,paper_id,
+		CONCAT(
+			(
+				SELECT
+					xdc.`name`
+				FROM
+					xl_clas xc
+				LEFT JOIN xl_dic_detail xdc ON xdc.dic_id = 2
+				AND xdc.name_val = xc.grade
+				WHERE
+					xc.id = class_id
+			),
+			(
+				SELECT
+					xc.`name`
+				FROM
+					xl_clas xc
+				WHERE
+					xc.id = class_id
+			)
+		) className
+	FROM
+		xl_exam
+	WHERE
+		id = #{id}
 	</select>
 </mapper>
