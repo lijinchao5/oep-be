@@ -95,4 +95,12 @@ public interface ExamEntityMapper {
 	 * @CreateDate:  2018年3月28日 下午3:47:21
 	 */
 	String getExamStudent(Long examId);
+
+	/**Title: getExamDetail 
+	 * Description:  获取考试详情
+	 * @date 2018年4月8日 下午3:16:08
+	 * @param examId
+	 * @return  
+	 */
+	ExamEntity getExamDetail(Long examId);
 }
